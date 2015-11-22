@@ -194,7 +194,7 @@ void fitB(bool ispPb=false,TString infname="",bool doweight = 1)
     inputmc="/data/bmeson/MC/nt_2015251_PYTHIA6_BuJpsiK_pp_PAL1DoubleMu0_HighQ_v1.root";
 
     luminosity=5400*1e-3;
-    outputname="../ResultsBplus_pp/SigmaBplus.root";
+    outputname="ResultsBplus_pp/SigmaBplus.root";
     cut="Blxy>0.02";
   }
   
