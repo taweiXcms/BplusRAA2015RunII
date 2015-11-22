@@ -173,7 +173,7 @@ TF1 *fit(TTree *nt,TTree *ntMC,double ptmin,double ptmax, bool ispPb){
    return mass;
 }
 
-void fitB(bool ispPb=true,TString infname="",bool doweight = 1)
+void fitB(bool ispPb=false,TString infname="",bool doweight = 1)
 {
 
   
@@ -190,7 +190,7 @@ void fitB(bool ispPb=true,TString infname="",bool doweight = 1)
   
     //inputdata="/data/bmeson/data//nt_20141022_PPMuon_Run2013A_PromptReco_v1_resub20141126.root";
     //inputmc="/afs/cern.ch/work/w/wangj/public/nt_20140801_mixed_fromQMBFinder_Kp.root";
-    inputdata="/data/bmeson/data/nt_20141022_PPMuon_Run2013A_PromptReco_v1_resub20141126_HLT_PAL1DoubleMu0_HighQ_v1.root";
+    inputdata="/data/yjlee/bmeson/2015//ntB_BigMergeExpressHiForest_run262163-run262252_match.root";
     inputmc="/data/bmeson/MC/nt_2015251_PYTHIA6_BuJpsiK_pp_PAL1DoubleMu0_HighQ_v1.root";
 
     luminosity=5400*1e-3;
