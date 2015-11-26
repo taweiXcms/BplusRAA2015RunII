@@ -179,7 +179,7 @@ void fitB(bool ispPb=false,TString infname="",bool doweight = 1)
   
   if(ispPb==true){
   
-    inputdata="/afs/cern.ch/work/w/wangj/public/nt_20140727_PAMuon_HIRun2013_Merged_y24_Using03090319Bfinder.root";
+    inputdata="/data/wangj/Data2015/Bntuple/ntB_HiForestExpress_baobab.root";
     inputmc="/afs/cern.ch/work/w/wangj/public/nt_20140801_mixed_fromQMBFinder_Kp.root";
     luminosity=34.6*1e-3;
     outputname="../ResultsBplus/SigmaBplus.root";
@@ -190,7 +190,7 @@ void fitB(bool ispPb=false,TString infname="",bool doweight = 1)
   
     //inputdata="/data/bmeson/data//nt_20141022_PPMuon_Run2013A_PromptReco_v1_resub20141126.root";
     //inputmc="/afs/cern.ch/work/w/wangj/public/nt_20140801_mixed_fromQMBFinder_Kp.root";
-    inputdata="/data/yjlee/bmeson/2015//ntB_BigMergeExpressHiForest_run262163-run262252_match.root";
+    inputdata="/data/wangj/Data2015/Bntuple/ntB_HiForestExpress_baobab.root";
     inputmc="/data/bmeson/MC/nt_2015251_PYTHIA6_BuJpsiK_pp_PAL1DoubleMu0_HighQ_v1.root";
 
     luminosity=5400*1e-3;
