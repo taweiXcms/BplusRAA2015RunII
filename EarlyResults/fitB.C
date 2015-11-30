@@ -125,10 +125,11 @@ TF1 *fit(TTree *nt,TTree *ntMC,double ptmin,double ptmax, bool ispPb){
    h->Draw("e");
    h->SetXTitle("M_{B} (GeV/c^{2})");
    h->SetYTitle("Entries / (20 MeV/c^{2})");
+   h->GetYaxis()->SetTitleOffset(1.2);
    h->GetXaxis()->CenterTitle();
    h->GetYaxis()->CenterTitle();
-   h->SetTitleOffset(1.5,"Y");
-   h->SetAxisRange(0,h->GetMaximum()*1.2,"Y");
+   //h->SetTitleOffset(1.5,"Y");
+   h->SetAxisRange(0,h->GetMaximum()*1.6,"Y");
    Bkpi->Draw("same");
    background->Draw("same");   
    mass->SetRange(5,6);
@@ -140,27 +141,66 @@ TF1 *fit(TTree *nt,TTree *ntMC,double ptmin,double ptmax, bool ispPb){
 
    double yield = mass->Integral(5,6)/0.02;
    double yieldErr = mass->Integral(5,6)/0.02*mass->GetParError(0)/mass->GetParameter(0);
+/*
 
-
-   // Draw the legend:)   
-   TLegend *leg = myLegend(0.50,0.5,0.86,0.89);
-   leg->AddEntry(h,"CMS Preliminary","");
-   leg->AddEntry(h,"pp #sqrt{s_{NN}} = 5.02 TeV","");
-   leg->AddEntry(h,Form("%.0f < p_{T}^{B} < %.0f GeV/c",ptmin,ptmax),"");
+  TLegend* leg = new TLegend(0.63,0.58,0.80,0.88,NULL,"brNDC");
+  leg->SetBorderSize(0);
+  leg->SetTextSize(0.04);
+  leg->SetTextFont(42);
+  leg->SetFillStyle(0);
+  leg->AddEntry(h,"Data","pl");
+  leg->AddEntry(f,"Fit","l");
+  leg->AddEntry(mass,"B^{+}+B^{-} Signal","f");
+  leg->AddEntry(background,"Combinatorial","l");
+  leg->Draw("same");
+  */
+    TLegend *leg = myLegend(0.4647651,0.4125874,0.9161074,0.6258741);
+   //leg->AddEntry(h,"CMS Preliminary","");
+   //leg->AddEntry(h,"pp #sqrt{s_{NN}} = 5.02 TeV","");
+   leg->SetTextSize(0.04);
    leg->AddEntry(h,"Data","pl");
    leg->AddEntry(f,"Fit","l");
    leg->AddEntry(mass,"Signal","f");
-   leg->AddEntry(background,"Combinatorial Background","l");
+   leg->AddEntry(background,"Comb. Background","l");
    leg->AddEntry(Bkpi,"Non-prompt J/#psi","f");
-   leg->Draw();
-   TLegend *leg2 = myLegend(0.44,0.33,0.89,0.50);
-   leg2->AddEntry(h,"B meson","");
-   leg2->AddEntry(h,Form("M_{B} = %.2f #pm %.2f MeV/c^{2}",mass->GetParameter(1)*1000.,mass->GetParError(1)*1000.),"");
-   leg2->AddEntry(h,Form("N_{B} = %.0f #pm %.0f", yield, yieldErr),"");
-   leg2->Draw();
+   leg->Draw(); 
+   //TLegend *leg2 = myLegend(0.44,0.33,0.89,0.50);
+   //leg2->AddEntry(h,"B meson","");
+   //leg2->AddEntry(h,Form("M_{B} = %.2f #pm %.2f MeV/c^{2}",mass->GetParameter(1)*1000.,mass->GetParError(1)*1000.),"");
+   //leg2->AddEntry(h,Form("N_{B} = %.0f #pm %.0f", yield, yieldErr),"");
+   //leg2->Draw();
 
-   if(ispPb)c->SaveAs(Form("../ResultsBplus/BMass-%d.pdf",count));
-   else c->SaveAs(Form("../ResultsBplus_pp/BMass-%d.pdf",count));
+
+  TLatex Tl;
+  Tl.SetNDC();
+  Tl.SetTextAlign(12);
+  Tl.SetTextSize(0.04);
+  Tl.SetTextFont(42);
+  Tl.DrawLatex(0.20,0.89, "#scale[1.25]{CMS} Preliminary");
+  Tl.DrawLatex(0.63,0.89, "pp #sqrt{s} = 5.02 TeV");
+
+  TLatex* tex;
+
+  //tex = new TLatex(0.22,0.76,Form("%.1f < p_{T} < %.1f GeV/c",ptmin,ptmax));
+  tex = new TLatex(0.22,0.76,"p_{T} > 5 GeV/c");
+  tex->SetNDC();
+  tex->SetTextFont(42);
+  tex->SetTextSize(0.04);
+  tex->SetLineWidth(2);
+  tex->Draw();
+
+  tex = new TLatex(0.22,0.81,"|y| < 2.4");
+  tex->SetNDC();
+  tex->SetTextFont(42);
+  tex->SetTextSize(0.04);
+  tex->SetLineWidth(2);
+  tex->Draw(); 
+
+   if(ispPb)c->SaveAs(Form("ResultsBplus/BMass-%d.pdf",count));
+   else c->SaveAs(Form("ResultsBplus_pp/BMass-%d.pdf",count));
+
+  
+ 
 
    h->Write();
    hMC->Write();
