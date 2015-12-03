@@ -19,6 +19,12 @@ void fitX(TString infname="/data/twang/BfinderRun2/DoubleMu/BfinderData_pp_20151
    TCanvas *c = new TCanvas("c","",750,600);
     ntmix->Draw("Bmass>>h",cutTotal);
 
+    
+    TFile*output=new TFile("histoX.root","recreate");
+    output->cd();
+    h->Write();
+    output->Close();
+
    h->Sumw2();
    TF1 *f = new TF1("f","[0]+[1]*x+[2]*x*x+[8]*x*x*x+[9]*x*x*x*x+[3]*Gaus(x,[4],[5])+[6]*Gaus(x,[7],[5])");
    f->SetLineColor(4);
