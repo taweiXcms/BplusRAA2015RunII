@@ -42,25 +42,33 @@ void SimpleFitter()
    f2->SetParameter(6,f->GetParameter(6));
    f2->SetParameter(7,f->GetParameter(7));
    f2->SetParameter(8,f->GetParameter(8));
-   TF1 *f3 = new TF1("f3","[0]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2])+[3]*Gaus(x,[4],[5])/(sqrt(2*3.14159)*[5])");
+   TF1 *f3 = new TF1("f3","[0]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2])");
    f3->SetParameter(0,f->GetParameter(0));
    f3->SetParameter(1,f->GetParameter(1));
    f3->SetParameter(2,f->GetParameter(2));
-   f3->SetParameter(3,f->GetParameter(3));
-   f3->SetParameter(4,f->GetParameter(4));
-   f3->SetParameter(5,f->GetParameter(5));
-   
+
+   TF1 *f4 = new TF1("f4","[3]*Gaus(x,[4],[5])/(sqrt(2*3.14159)*[5])");
+   f4->SetParameter(3,f->GetParameter(3));
+   f4->SetParameter(4,f->GetParameter(4));
+   f4->SetParameter(5,f->GetParameter(5));
+      
    f->SetLineColor(4);
    f2->SetLineColor(4);
    f3->SetRange(3.65,3.94);
+   f4->SetRange(3.65,3.94);
    f2->SetRange(3.65,3.94);
    f2->SetLineStyle(2);
    f3->SetLineStyle(2);
+   f4->SetLineStyle(2);
    f2->Draw("same");
    f3->SetLineColor(2);
    f3->SetFillStyle(3004);
    f3->SetFillColor(2);
    f3->Draw("same");
+   f4->SetLineColor(2);
+   f4->SetFillStyle(3004);
+   f4->SetFillColor(2);
+   f4->Draw("same");
 
    TLatex *l = new TLatex(3.7,70./80*h->GetMaximum(),"#psi(2S)");
    l->Draw();
@@ -69,6 +77,15 @@ void SimpleFitter()
    TLatex *l3 = new TLatex(3.812,70./80*h->GetMaximum(),"CMS Preliminary");
    l3->Draw();
    TLatex *l4 = new TLatex(3.78,60./80*h->GetMaximum(),"pp #sqrt{s_{NN}}=5.02 TeV");
-  l4->Draw();
+   l4->Draw();
    
+   cout<<"********************* SIGNIFICANCE *********************"<<endl;
+   double mean=f4->GetParameter(4);
+   double sigma=f4->GetParameter(5);
+   
+   double signal=f4->Integral(mean-3*sigma,mean+3*sigma)/h->GetBinWidth(0);
+   double bkg=f2->Integral(mean-3*sigma,mean+3*sigma)/h->GetBinWidth(0);
+   double significance=signal/TMath::Sqrt(signal+bkg);
+   cout<<"significance="<<significance<<endl;
+      
 }
