@@ -18,7 +18,8 @@ void fitX(TString infname="/data/twang/BfinderRun2/DoubleMu/BfinderData_pp_20151
    TCanvas *c = new TCanvas("c","",750,600);
   
 //   ntmix->Draw("Bmass>>h","Btype==7&&Bpt>5&&abs(Beta)<1.5&&Btrk1highPurity==1&&Btrk2highPurity==1&&Bd0/Bd0Err>0.&&Btrk1Pt>0.2&&Btrk2Pt>0.2&&abs(Btrk1Eta)<1.5&&abs(Btrk2Eta)<1.5&&Bchi2cl>0.3&&abs(Bmumumass-3.096916)<0.20"&&cutTrk,"");
-   ntmix->Draw("Bmass>>h","Btype==7&&Bpt>10&&abs(Beta)<1.5&&Btrk1highPurity==1&&Btrk2highPurity==1&&Bd0/Bd0Err>0.&&Btrk1Pt>0.2&&Btrk2Pt>0.2&&abs(Btrk1Eta)<1.5&&abs(Btrk2Eta)<1.5&&Bchi2cl>0.3&&abs(Bmumumass-3.096916)<0.20"&&cutTrk,"");
+   //ntmix->Draw("Bmass>>h","Btype==7&&Bpt>10&&abs(Beta)<1.5&&Btrk1highPurity==1&&Btrk2highPurity==1&&Bd0/Bd0Err>0.&&Btrk1Pt>0.2&&Btrk2Pt>0.2&&abs(Btrk1Eta)<1.5&&abs(Btrk2Eta)<1.5&&Bchi2cl>0.3&&abs(Bmumumass-3.096916)<0.20"&&cutTrk,"");
+   ntmix->Draw("Bmass>>h","Btype==7&&Bpt>10.&&abs(Beta)<10. "&&cutTrk,"");
    h->Sumw2();
    TF1 *f = new TF1("f","[0]+[1]*x+[2]*x*x+[3]*Gaus(x,[4],[5])+[6]*Gaus(x,[7],[5])");
 //  TF1 *f = new TF1("f","[0]+[1]*x+[2]*x*x+[8]*x*x*x+[9]*x*x*x*x+[3]*Gaus(x,[4],[5])+[6]*Gaus(x,[7],[5])");
