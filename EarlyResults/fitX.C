@@ -12,14 +12,14 @@ void fitX(TString infname="/data/twang/BfinderRun2/DoubleMu/BfinderData_pp_20151
    TFile *inf = new TFile(infname.Data());
    TTree *ntmix = (TTree*) inf->Get("Bfinder/ntmix");
    TH1D *h = new TH1D("h","",40,3.6,4);
-   //TCut cutTrk = "Btrk1PixelHit>=2&&Btrk1StripHit>=5&&Btrk1Chi2ndf<5&&Btrk2PixelHit>=2&&Btrk2StripHit>=5&&Btrk2Chi2ndf<5";
-   TCut cutTrk = "1";
-   
+   //TCut cutTrk = "1";   //original YJ
+   TCut cutTrk = "Btrk1PixelHit>=2&&Btrk1StripHit>=7&&Btrk1Chi2ndf<5&&Btrk2PixelHit>=2&&Btrk2StripHit>=7&&Btrk2Chi2ndf<5";
+
    TCanvas *c = new TCanvas("c","",750,600);
   
-//   ntmix->Draw("Bmass>>h","Btype==7&&Bpt>5&&abs(Beta)<1.5&&Btrk1highPurity==1&&Btrk2highPurity==1&&Bd0/Bd0Err>0.&&Btrk1Pt>0.2&&Btrk2Pt>0.2&&abs(Btrk1Eta)<1.5&&abs(Btrk2Eta)<1.5&&Bchi2cl>0.3&&abs(Bmumumass-3.096916)<0.20"&&cutTrk,"");
-   //ntmix->Draw("Bmass>>h","Btype==7&&Bpt>10&&abs(Beta)<1.5&&Btrk1highPurity==1&&Btrk2highPurity==1&&Bd0/Bd0Err>0.&&Btrk1Pt>0.2&&Btrk2Pt>0.2&&abs(Btrk1Eta)<1.5&&abs(Btrk2Eta)<1.5&&Bchi2cl>0.3&&abs(Bmumumass-3.096916)<0.20"&&cutTrk,"");
-   ntmix->Draw("Bmass>>h","Btype==7&&Bpt>10.&&abs(Beta)<10. "&&cutTrk,"");
+   //ntmix->Draw("Bmass>>h","Btype==7&&Bpt>10.&&abs(Beta)<10. "&&cutTrk,"");    //original YJ
+    ntmix->Draw("Bmass>>h","Btype==7&&Bpt>10&&abs(Beta)<10&&sqrt((Bmumueta-Btrk1Eta)*(Bmumueta-Btrk1Eta)+(Bmumuphi-Btrk1Phi)*(Bmumuphi-Btrk1Phi))<1."&&cutTrk,"");
+
    h->Sumw2();
    TF1 *f = new TF1("f","[0]+[1]*x+[2]*x*x+[3]*Gaus(x,[4],[5])+[6]*Gaus(x,[7],[5])");
 //  TF1 *f = new TF1("f","[0]+[1]*x+[2]*x*x+[8]*x*x*x+[9]*x*x*x*x+[3]*Gaus(x,[4],[5])+[6]*Gaus(x,[7],[5])");
