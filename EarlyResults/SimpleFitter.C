@@ -13,9 +13,9 @@ void SimpleFitter()
    TH1D*h=(TH1D*)output->Get("h");
 
    h->Sumw2();
-   TF1 *f = new TF1("f","[0]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2]) +[3]*Gaus(x,[4],[5])/(sqrt(2*3.14159)*[5])+[6]+[7]*x+[8]*x*x");
+   TF1 *f = new TF1("f","[0]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2]) +[3]*Gaus(x,[4],[5])/(sqrt(2*3.14159)*[5])+[6]+[7]*x+[8]*x*x+[9]*x*x*x");
    f->SetLineColor(4);
-   f->SetParameters(21,3.68,0.0057,1.34714e+00,3.86,0.006,-2.21334e+04,1.01661e+04,-1.05364e+03);
+   f->SetParameters(21,3.68,0.0057,1.34714e+00,3.86,0.006,-2.21334e+04,1.01661e+04,-1.05364e+03,1.95474e+04);
    f->FixParameter(1,3.686);
    f->FixParameter(2,0.00357);
    f->FixParameter(4,3.8725);
@@ -38,10 +38,11 @@ void SimpleFitter()
    h->SetStats(0);
 
    h->SetAxisRange(0,h->GetMaximum()*1.3	,"Y");
-   TF1 *f2 = new TF1("f2","[6]+[7]*x+[8]*x*x");
+   TF1 *f2 = new TF1("f2","[6]+[7]*x+[8]*x*x+[9]*x*x*x");
    f2->SetParameter(6,f->GetParameter(6));
    f2->SetParameter(7,f->GetParameter(7));
    f2->SetParameter(8,f->GetParameter(8));
+   f2->SetParameter(9,f->GetParameter(9));
    TF1 *f3 = new TF1("f3","[0]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2])");
    f3->SetParameter(0,f->GetParameter(0));
    f3->SetParameter(1,f->GetParameter(1));
@@ -80,12 +81,30 @@ void SimpleFitter()
    l4->Draw();
    
    cout<<"********************* SIGNIFICANCE *********************"<<endl;
-   double mean=f4->GetParameter(4);
-   double sigma=f4->GetParameter(5);
    
-   double signal=f4->Integral(mean-3*sigma,mean+3*sigma)/h->GetBinWidth(0);
-   double bkg=f2->Integral(mean-3*sigma,mean+3*sigma)/h->GetBinWidth(0);
-   double significance=signal/TMath::Sqrt(signal+bkg);
-   cout<<"significance="<<significance<<endl;
+   double meanX=f4->GetParameter(4);
+   double sigmaX=f4->GetParameter(5);
+   double signalX=f4->Integral(meanX-3*sigmaX,meanX+3*sigmaX)/h->GetBinWidth(0);
+   double bkgX=f2->Integral(meanX-3*sigmaX,meanX+3*sigmaX)/h->GetBinWidth(0);
+   double signalpsi2=f4->Integral(meanX-3*sigmaX,meanX+3*sigmaX)/h->GetBinWidth(0);
+   double bkgpsi2=f2->Integral(meanX-3*sigmaX,meanX+3*sigmaX)/h->GetBinWidth(0);
+   double significanceX=signalX/TMath::Sqrt(signalX+bkgX);   
+   
+   double meanpsi2=f3->GetParameter(1);
+   double sigmapsi2=f3->GetParameter(2);
+   double signalpsi2=f3->Integral(meanpsi2-3*sigmapsi2,meanpsi2+3*sigmapsi2)/h->GetBinWidth(0);
+   double bkgpsi2=f2->Integral(meanpsi2-3*sigmapsi2,meanpsi2+3*sigmapsi2)/h->GetBinWidth(0);
+   double signalpsi2=f3->Integral(meanpsi2-3*sigmapsi2,meanpsi2+3*sigmapsi2)/h->GetBinWidth(0);
+   double bkgpsi2=f2->Integral(meanpsi2-3*sigmapsi2,meanpsi2+3*sigmapsi2)/h->GetBinWidth(0);
+   double significancepsi2=signalpsi2/TMath::Sqrt(signalpsi2+bkgpsi2);
+
+
+   cout<<"significance X ="<<significanceX<<endl;
+   cout<<"significance psi(2S)="<<significancepsi2<<endl;
+   
+   cout<<"yield X="<<signalX<<endl;
+   cout<<"yield 2S="<<signalpsi2<<endl;
+   cout<<"yield X/yield 2S="<<signalX/signalpsi2<<endl;
+
       
 }
