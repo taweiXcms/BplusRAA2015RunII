@@ -14,14 +14,12 @@ void fitX(TString infname="/data/twang/BfinderRun2/DoubleMu/BfinderData_pp_20151
    TH1D *h = new TH1D("h","",40,3.6,4);
    TCut cutTrk = "1";   //original YJ
    //TCut cutTrk = "Btrk1PixelHit>=2&&Btrk1StripHit>=7&&Btrk1Chi2ndf<5&&Btrk2PixelHit>=2&&Btrk2StripHit>=7&&Btrk2Chi2ndf<5";
+   TCut cutTotal="Btype==7&&Bpt>10&&abs(Beta)<10&&sqrt((Bmumueta-Btrk1Eta)*(Bmumueta-Btrk1Eta)+(Bmumuphi-Btrk1Phi)*(Bmumuphi-Btrk1Phi))<9999"&&cutTrk;
 
    TCanvas *c = new TCanvas("c","",750,600);
-  
-   //ntmix->Draw("Bmass>>h","Btype==7&&Bpt>10.&&abs(Beta)<10. "&&cutTrk,"");    //original YJ
-    ntmix->Draw("Bmass>>h","Btype==7&&Bpt>10&&abs(Beta)<10&&sqrt((Bmumueta-Btrk1Eta)*(Bmumueta-Btrk1Eta)+(Bmumuphi-Btrk1Phi)*(Bmumuphi-Btrk1Phi))<9999"&&cutTrk,"");
+    ntmix->Draw("Bmass>>h",cutTotal);
 
    h->Sumw2();
-   //TF1 *f = new TF1("f","[0]+[1]*x+[2]*x*x+[3]*Gaus(x,[4],[5])+[6]*Gaus(x,[7],[5])");
    TF1 *f = new TF1("f","[0]+[1]*x+[2]*x*x+[8]*x*x*x+[9]*x*x*x*x+[3]*Gaus(x,[4],[5])+[6]*Gaus(x,[7],[5])");
    f->SetLineColor(4);
    f->SetParameters(-2.2597e4,1.326e4,-1.727e3,50,3.686,0.00357,1,3.8725,0.0054);
