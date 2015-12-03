@@ -11,15 +11,17 @@ void fitX(TString infname="/data/twang/BfinderRun2/DoubleMu/BfinderData_pp_20151
    
    TFile *inf = new TFile(infname.Data());
    TTree *ntmix = (TTree*) inf->Get("Bfinder/ntmix");
-   TH1D *h = new TH1D("h","",50,3.6,4);
+   TH1D *h = new TH1D("h","",40,3.6,4);
    //TCut cutTrk = "Btrk1PixelHit>=2&&Btrk1StripHit>=5&&Btrk1Chi2ndf<5&&Btrk2PixelHit>=2&&Btrk2StripHit>=5&&Btrk2Chi2ndf<5";
    TCut cutTrk = "1";
    
    TCanvas *c = new TCanvas("c","",750,600);
   
-   ntmix->Draw("Bmass>>h","Btype==7&&Bpt>5&&abs(Beta)<1.5&&Btrk1highPurity==1&&Btrk2highPurity==1&&Bd0/Bd0Err>0.&&Btrk1Pt>0.2&&Btrk2Pt>0.2&&abs(Btrk1Eta)<1.5&&abs(Btrk2Eta)<1.5&&Bchi2cl>0.3&&abs(Bmumumass-3.096916)<0.20"&&cutTrk,"");
+//   ntmix->Draw("Bmass>>h","Btype==7&&Bpt>5&&abs(Beta)<1.5&&Btrk1highPurity==1&&Btrk2highPurity==1&&Bd0/Bd0Err>0.&&Btrk1Pt>0.2&&Btrk2Pt>0.2&&abs(Btrk1Eta)<1.5&&abs(Btrk2Eta)<1.5&&Bchi2cl>0.3&&abs(Bmumumass-3.096916)<0.20"&&cutTrk,"");
+   ntmix->Draw("Bmass>>h","Btype==7&&Bpt>10&&abs(Beta)<1.5&&Btrk1highPurity==1&&Btrk2highPurity==1&&Bd0/Bd0Err>0.&&Btrk1Pt>0.2&&Btrk2Pt>0.2&&abs(Btrk1Eta)<1.5&&abs(Btrk2Eta)<1.5&&Bchi2cl>0.3&&abs(Bmumumass-3.096916)<0.20"&&cutTrk,"");
    h->Sumw2();
    TF1 *f = new TF1("f","[0]+[1]*x+[2]*x*x+[3]*Gaus(x,[4],[5])+[6]*Gaus(x,[7],[5])");
+//  TF1 *f = new TF1("f","[0]+[1]*x+[2]*x*x+[8]*x*x*x+[9]*x*x*x*x+[3]*Gaus(x,[4],[5])+[6]*Gaus(x,[7],[5])");
    f->SetLineColor(4);
    f->SetParameters(-2.2597e4,1.326e4,-1.727e3,50,3.686,0.00357,1,3.8725,0.0054);
    f->FixParameter(4,3.686);
@@ -28,16 +30,16 @@ void fitX(TString infname="/data/twang/BfinderRun2/DoubleMu/BfinderData_pp_20151
    h->Fit("f","LL");
    h->Fit("f","");
    h->Fit("f","LL");
-   h->Fit("f","LL");
-   h->Fit("f","LL");
+   h->Fit("f","LL","",3.65,3.94);
+   h->Fit("f","LL","",3.65,3.94);
    f->ReleaseParameter(4);
    f->ReleaseParameter(5);
    f->ReleaseParameter(7);
-   h->Fit("f","LL");
+   h->Fit("f","LL","",3.65,3.94);
    h->SetXTitle("m(J/#psi#pi^{+}#pi^{-}) [GeV]");
    h->SetYTitle("Entries");
    h->SetStats(0);
-   h->SetAxisRange(1,1500,"Y");
+   h->SetAxisRange(0,h->GetMaximum()*1.3	,"Y");
    TF1 *f2 = new TF1("f2","[0]+[1]*x+[2]*x*x+0*Gaus(x,[4],[5])+0*Gaus(x,[7],[5])");
    f2->SetParameter(0,f->GetParameter(0));
    f2->SetParameter(1,f->GetParameter(1));
@@ -52,8 +54,8 @@ void fitX(TString infname="/data/twang/BfinderRun2/DoubleMu/BfinderData_pp_20151
 
    f->SetLineColor(4);
    f2->SetLineColor(4);
-   f3->SetRange(3.6,4.0);
-   f2->SetRange(3.6,4.0);
+   f3->SetRange(3.65,3.94);
+   f2->SetRange(3.65,3.94);
    f2->SetLineStyle(2);
    f3->SetLineStyle(2);
    f2->Draw("same");
@@ -61,14 +63,14 @@ void fitX(TString infname="/data/twang/BfinderRun2/DoubleMu/BfinderData_pp_20151
    f3->SetFillStyle(3004);
    f3->SetFillColor(2);
    f3->Draw("same");
-   TLatex *l = new TLatex(3.7,235,"#psi(2S)");
+   TLatex *l = new TLatex(3.7,70./80*h->GetMaximum(),"#psi(2S)");
    l->Draw();
-   TLatex *l2 = new TLatex(3.875,190,"X(3872)");
+   TLatex *l2 = new TLatex(3.875,50./80*h->GetMaximum(),"X(3872)");
    l2->Draw();
-   TLatex *l3 = new TLatex(3.812,235.,"CMS Preliminary");
+   TLatex *l3 = new TLatex(3.812,70./80*h->GetMaximum(),"CMS Preliminary");
    l3->Draw();
-   TLatex *l4 = new TLatex(3.78,210,"pp #sqrt{s_{NN}}=5.02 TeV");
-   l4->Draw();
+   TLatex *l4 = new TLatex(3.78,60./80*h->GetMaximum(),"pp #sqrt{s_{NN}}=5.02 TeV");
+  l4->Draw();
    cout<<ntmix->GetEntries()<<endl;
    
    TH1D *hProj = (TH1D*)h->Clone("hProj");
