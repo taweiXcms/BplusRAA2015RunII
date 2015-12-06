@@ -7,7 +7,7 @@ Double_t setparam3=0.03;
 Double_t fixparam1=5.279;
 
 //TString inputdata = "/data/wangj/Data2015/Bntuple/ntB_DoubleMu_pp_20151130_bPt0jpsiPt0tkPt0p5.root"; Bool_t isMC = false; TString tMC = "Data";
-TString inputdata = "/data/wangj/MC2015/Bntuple/ntB_Pythia8_BuToJpsiK_TuneCUEP8M1_5020GeV_BPHMod_filter_GEN_SIM_PU_20151105.root"; Bool_t isMC = true; TString tMC = "MC";
+TString inputdata = "/data/twang/BfinderRun2/DoubleMu/BfinderData_pp_20151204_bPt0jpsiPt0tkPt0p5/finder_pp_merged.root"; Bool_t isMC = true; TString tMC = "MC";
 TString inputmc = "/data/wangj/MC2015/Bntuple/ntB_Pythia8_BuToJpsiK_TuneCUEP8M1_5020GeV_BPHMod_filter_GEN_SIM_PU_20151105.root";
 TString weight = "1";
 
@@ -18,7 +18,7 @@ TString selmc = Form("%s",cut.Data());
 TString selmcgen = "TMath::Abs(Gy)<2.4&&abs(GpdgId)==521&&GisSignal==1";
 
 //const Int_t nBins = 1; Double_t ptBins[nBins+1] = {5,100};
-const Int_t nBins = 4; Double_t ptBins[nBins+1] = {5,7,10,20,50};
+const Int_t nBins = 5; Double_t ptBins[nBins+1] = {5,10,20,30,40,100};
 
 void fitB(TString infname="", Bool_t doweight=false)
 {
@@ -27,7 +27,7 @@ void fitB(TString infname="", Bool_t doweight=false)
 
   if (!doweight) weight="1";
   TFile* inf = new TFile(inputdata.Data());
-  TTree* nt = (TTree*) inf->Get("ntKp");
+  TTree* nt = (TTree*) inf->Get("Bfinder/ntKp");
   TFile* infMC = new TFile(inputmc.Data());
   TTree* ntMC = (TTree*)infMC->Get("ntKp");
   TTree* ntGen = (TTree*)infMC->Get("ntGen");
