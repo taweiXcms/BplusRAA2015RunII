@@ -18,7 +18,7 @@ const int REBINp =REBIN+1;
 const int HMIN=2;
 const int HMAX=200;
 const double binsize=((double)(HMAX)-(double)(HMIN))/(double)(BIN_NUM);
-double rebin[REBINp] = {5,10,20,30,40,100};
+double rebin[REBINp] = {10,15,20,30,40,100};
 //double rebin[REBINp] = {50,55,60,65,70,80,100,150};
 
 
