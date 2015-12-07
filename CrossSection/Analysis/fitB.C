@@ -84,7 +84,7 @@ void fitB(TString infname="", Bool_t doweight=false)
   hPtSigma->Draw();
   cSigma->SaveAs(Form("../plots/pp/ResultsBplus/c%s_cSigma.pdf",tMC.Data()));
 
-  TFile *outf = new TFile(Form("../files/pp/f%s_outputBplus.root",tMC.Data()),"recreate");
+  TFile *outf = new TFile("../ResultsBplus_pp/PtSigmaBplus.root","recreate");
   outf->cd();
   hPt->Write();
   hEff->Write();
