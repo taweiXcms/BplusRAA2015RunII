@@ -147,16 +147,16 @@ void Bplusdsigmadpt5TeV(TString input="pp_Bmeson5_5TeV_2p4",double norm=0.401)
   gaeSigma->SetFillColor(2);
   gaeSigma->SetFillStyle(3001);
 
-  TGraphAsymmErrors* gaeSigmaDzero=(TGraphAsymmErrors*)gaeSigma->Clone();
-  gaeSigmaDzero->SetName("gaeSigmaDzero");
-  gaeSigmaDzero->SetFillColor(2);
-  gaeSigmaDzero->SetFillStyle(3001); 
-  gaeSigmaDzero->SetTitle(";p_{T}(GeV/c);d#sigma/dp_{T} (B^{+}) (pb GeV-1c)");
+  TGraphAsymmErrors* gaeSigmaBplus=(TGraphAsymmErrors*)gaeSigma->Clone();
+  gaeSigmaBplus->SetName("gaeSigmaBplus");
+  gaeSigmaBplus->SetFillColor(2);
+  gaeSigmaBplus->SetFillStyle(3001); 
+  gaeSigmaBplus->SetTitle(";p_{T}(GeV/c);d#sigma/dp_{T} (B^{+}) (pb GeV-1c)");
   
-  for (int i=0;i<gaeSigmaDzero->GetN();i++){
-    gaeSigmaDzero->GetY()[i] *= norm;
-    gaeSigmaDzero->SetPointEYhigh(i,gaeSigmaDzero->GetErrorYhigh(i)*norm);
-    gaeSigmaDzero->SetPointEYlow(i,gaeSigmaDzero->GetErrorYlow(i)*norm); 
+  for (int i=0;i<gaeSigmaBplus->GetN();i++){
+    gaeSigmaBplus->GetY()[i] *= norm;
+    gaeSigmaBplus->SetPointEYhigh(i,gaeSigmaBplus->GetErrorYhigh(i)*norm);
+    gaeSigmaBplus->SetPointEYlow(i,gaeSigmaBplus->GetErrorYlow(i)*norm); 
   }
      
   TCanvas* cr = new TCanvas("cr","cr",600,500);
@@ -183,9 +183,9 @@ void Bplusdsigmadpt5TeV(TString input="pp_Bmeson5_5TeV_2p4",double norm=0.401)
   hpt->Draw("same");
   gaeSigma->SetLineWidth(3);
   gaeSigma->Draw("psame");
-  gaeSigmaDzero->SetLineWidth(3);
-  gaeSigmaDzero->SetLineColor(2);
-  gaeSigmaDzero->Draw("psame");
+  gaeSigmaBplus->SetLineWidth(3);
+  gaeSigmaBplus->SetLineColor(2);
+  gaeSigmaBplus->Draw("psame");
 
   TLatex * tlatex=new TLatex(0.18,0.85,"pp collisions at 5.5 from FONLL, |y|<2.4");
   tlatex->SetNDC();
@@ -219,17 +219,17 @@ void Bplusdsigmadpt5TeV(TString input="pp_Bmeson5_5TeV_2p4",double norm=0.401)
   leg->SetFillColor(0);
   TLegendEntry* ent_gaeSigma=leg->AddEntry(gaeSigma,"Frag.Fraction=1.0 (pure FONLL)","PL");
   ent_gaeSigma->SetTextColor(gaeSigma->GetMarkerColor());
-  TLegendEntry* ent_gaeSigmaDzero=leg->AddEntry(gaeSigmaDzero,"Multiplied by Frag. Fraction=0.401","PL");
-  ent_gaeSigmaDzero->SetTextColor(gaeSigmaDzero->GetMarkerColor());
+  TLegendEntry* ent_gaeSigmaBplus=leg->AddEntry(gaeSigmaBplus,"Multiplied by Frag. Fraction=0.401","PL");
+  ent_gaeSigmaBplus->SetTextColor(gaeSigmaBplus->GetMarkerColor());
   leg->Draw();
 
   gaeSigma->SetName("gaeSigma");
-  gaeSigmaDzero->SetName("gaeSigmaDzero");
+  gaeSigmaBplus->SetName("gaeSigmaBplus");
   cr->SaveAs(Form("canvas_%s.pdf",input.Data()));
   cr->SaveAs(Form("canvas_%s.eps",input.Data()));
   
   TFile*foutput=new TFile(Form("../Results/output_%s.root",input.Data()),"recreate");
   foutput->cd();
-  gaeSigmaDzero->Write();
+  gaeSigmaBplus->Write();
   
 }
