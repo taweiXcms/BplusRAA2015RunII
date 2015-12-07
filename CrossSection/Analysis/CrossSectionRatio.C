@@ -9,7 +9,7 @@ void CrossSectionRatio(TString particle="Bplus")
 
   TFile*filePPReference=new TFile("../../FONLL/Results/output_pp_Bmeson5_5TeV_2p4.root");  
   TGraphAsymmErrors*gaeBplusReference=(TGraphAsymmErrors*)filePPReference->Get(Form("gaeSigma%s",particle.Data()));
-  TFile*filepPb=new TFile(Form("../ResultsBplus_pp/PtSigma%s.root",particle.Data()));
+  TFile*filepPb=new TFile(Form("ResultsBplus_pp/PtSigma%s.root",particle.Data()));
   TH1F*hSigmapPbStat=(TH1F*)filepPb->Get("hPtSigma");    
 
   Double_t x,y;

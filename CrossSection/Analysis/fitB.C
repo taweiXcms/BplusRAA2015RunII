@@ -17,7 +17,6 @@ TString seldata = Form("%s",cut.Data());
 TString selmc = Form("%s",cut.Data());
 TString selmcgen = "TMath::Abs(Gy)<2.4&&abs(GpdgId)==521&&GisSignal==1";
 
-//const Int_t nBins = 1; Double_t ptBins[nBins+1] = {5,100};
 const Int_t nBins = 5; Double_t ptBins[nBins+1] = {10,15,20,30,40,100};
 
 void fitB(TString infname="", Bool_t doweight=false)
@@ -52,7 +51,6 @@ void fitB(TString infname="", Bool_t doweight=false)
   hPt->SetYTitle("Uncorrected B^{+} dN/dp_{T}");
   hPt->Sumw2();
   hPt->Draw();
-  c->SaveAs(Form("../plots/pp/ResultsBplus/c%s_cResult.pdf",tMC.Data()));
 
   ntMC->Project("hPtRecoTruth","Bpt",TCut(seldata.Data())&&"Bgen==23333");
   ntGen->Project("hPtGen","Gpt",TCut(weight)*TCut(selmcgen.Data()));
@@ -73,7 +71,6 @@ void fitB(TString infname="", Bool_t doweight=false)
   hPtCor->SetYTitle("Corrected B^{+} dN/dp_{T}");
   hPtCor->Draw();
   if(isMC) hPtGenDraw->Draw("same hist");
-  cCor->SaveAs(Form("../plots/pp/ResultsBplus/c%s_cCor.pdf",tMC.Data()));
 
   TH1D* hPtSigma = (TH1D*)hPtCor->Clone("hPtSigma");
   Double_t BRchain = 6.09604e-5;
@@ -82,9 +79,8 @@ void fitB(TString infname="", Bool_t doweight=false)
   TCanvas *cSigma=  new TCanvas("cSigma","",600,600);
   cSigma->SetLogy();
   hPtSigma->Draw();
-  cSigma->SaveAs(Form("../plots/pp/ResultsBplus/c%s_cSigma.pdf",tMC.Data()));
 
-  TFile *outf = new TFile("../ResultsBplus_pp/PtSigmaBplus.root","recreate");
+  TFile *outf = new TFile("ResultsBplus_pp/PtSigmaBplus.root","recreate");
   outf->cd();
   hPt->Write();
   hEff->Write();
@@ -224,7 +220,8 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax)
    leg3->AddEntry(h,Form("N_{B}=%.0f #pm %.0f", yield, yieldErr),"");
    leg3->Draw();
 
-   c->SaveAs(Form("../plots/pp/ResultsBplus/c%s_BMass-%d.pdf",tMC.Data(),count));
+  if(nBins==1) c->SaveAs("ResultsBplus_pp/DMass-inclusive.pdf");
+  else c->SaveAs(Form("ResultsBplus_pp/DMass-%d.pdf",count));
    return mass;
 }
 
