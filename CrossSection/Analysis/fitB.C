@@ -18,7 +18,7 @@ TString selmc = Form("%s",cut.Data());
 TString selmcgen = "TMath::Abs(Gy)<2.4&&abs(GpdgId)==521&&GisSignal==1";
 
 //const Int_t nBins = 1; Double_t ptBins[nBins+1] = {5,100};
-const Int_t nBins = 5; Double_t ptBins[nBins+1] = {5,10,20,30,40,100};
+const Int_t nBins = 5; Double_t ptBins[nBins+1] = {10,15,20,30,40,100};
 
 void fitB(TString infname="", Bool_t doweight=false)
 {
