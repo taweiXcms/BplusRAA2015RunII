@@ -910,9 +910,9 @@ void setHltBranch(TTree* hltroot)
 }
 
 //hiEvtInfo
-Int_t           Bf_HiTree_Run;
-Int_t           Bf_HiTree_Evt;
-Int_t           Bf_HiTree_Lumi;
+unsigned int       Bf_HiTree_Run;
+unsigned long long Bf_HiTree_Evt;
+unsigned int       Bf_HiTree_Lumi;
 void setHiTreeBranch(TTree* hitreeroot)
 {
   hitreeroot->SetBranchAddress("run",&Bf_HiTree_Run);

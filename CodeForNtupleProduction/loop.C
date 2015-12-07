@@ -4,6 +4,7 @@ Bool_t iseos = true;
 int loop(TString infile="/store/group/phys_heavyions/velicanu/forest/HIRun2015/HIExpressPhysics/Merged/HIForestExpress_run262620-v6.root",
 	 TString outfile="/data/wangj/Data2015/Bntuple/example/ntB_HIForestExpress_run262620.root", Bool_t REAL=true, Bool_t isPbPb=true, Int_t startEntries=0, Int_t endEntries=-1, Bool_t skim=false, Bool_t gskim=true, Bool_t checkMatching=false)
 {
+  void fillTreeEvt();
   void fillTree(TVector3* bP, TVector3* bVtx, TLorentzVector* b4P, Int_t j, Int_t typesize, Double_t track_mass1, Double_t track_mass2, Bool_t REAL);
   bool signalGen(Int_t Btype, Int_t j);
 
@@ -71,13 +72,14 @@ int loop(TString infile="/store/group/phys_heavyions/velicanu/forest/HIRun2015/H
       if(i%100000==0) cout<<setw(8)<<i<<" / "<<(endEntries-startEntries)<<endl;
       if(checkMatching)
 	{
-	  if((Int_t)Bf_HLT_Event!=EvtInfo_EvtNo||Bf_HLT_Run!=EvtInfo_RunNo||Bf_HLT_LumiBlock!=EvtInfo_LumiNo || (isPbPb&&(Bf_HiTree_Evt!=EvtInfo_EvtNo||Bf_HiTree_Run!=EvtInfo_RunNo||Bf_HiTree_Lumi!=EvtInfo_LumiNo)))
+	  if((Int_t)Bf_HLT_Event!=EvtInfo_EvtNo||(Int_t)Bf_HLT_Run!=EvtInfo_RunNo||(Int_t)Bf_HLT_LumiBlock!=EvtInfo_LumiNo || (isPbPb&&((Int_t)Bf_HiTree_Evt!=EvtInfo_EvtNo||(Int_t)Bf_HiTree_Run!=EvtInfo_RunNo||(Int_t)Bf_HiTree_Lumi!=EvtInfo_LumiNo)))
 	    {
 	      cout<<"Error: not matched "<<i<<" | ";
 	      cout<<"EvtNo("<<Bf_HLT_Event<<","<<EvtInfo_EvtNo<<") RunNo("<<Bf_HLT_Run<<","<<EvtInfo_RunNo<<") LumiNo("<<Bf_HLT_LumiBlock<<","<<EvtInfo_LumiNo<<") | EvtNo("<<Bf_HiTree_Evt<<","<<EvtInfo_EvtNo<<") RunNo("<<Bf_HiTree_Run<<","<<EvtInfo_RunNo<<") LumiNo("<<Bf_HiTree_Lumi<<","<<EvtInfo_LumiNo<<")"<<endl;
 	      continue;
 	    }
 	}
+      fillTreeEvt();
       Int_t Btypesize[7]={0,0,0,0,0,0,0};
       Int_t ptflag=-1,ptMatchedflag=-1,probflag=-1,probMatchedflag=-1,tktkflag=-1,tktkMatchedflag=-1;
       Double_t pttem=0,ptMatchedtem=0,probtem=0,probMatchedtem=0,tktktem=0,tktkMatchedtem=0;
@@ -87,7 +89,6 @@ int loop(TString infile="/store/group/phys_heavyions/velicanu/forest/HIRun2015/H
 	  if(t!=4)
 	    {
 	      tidx = t;
-	      Bsize = 0;
 	      ptflag = -1;
 	      pttem = 0;
 	      ptMatchedflag = -1;
@@ -100,11 +101,16 @@ int loop(TString infile="/store/group/phys_heavyions/velicanu/forest/HIRun2015/H
 	      tktktem = 1000000.;
 	      tktkMatchedflag = -1;
 	      tktkMatchedtem = 1000000.;
+	      Bsize = 0;
 	    }
 	  if(ifchannel[t]==1)
 	    {
 	      for(int j=0;j<BInfo_size;j++)
 		{
+                  if(skim)
+                    {
+                      if(BInfo_pt[j]<3.) continue;
+                    }
 		  if(BInfo_type[j]==(t+1))
 		    {
 		      fillTree(bP,bVtx,b4P,j,Btypesize[tidx],tk1mass[t],tk2mass[t],REAL);
@@ -188,9 +194,9 @@ int loop(TString infile="/store/group/phys_heavyions/velicanu/forest/HIRun2015/H
 	      Gy[gsize] = bGen->Rapidity();
 	      sigtype=0;
 	      for(gt=1;gt<8;gt++)
-		{
-		  if(signalGen(gt,j))
-		    {
+                {
+                  if(signalGen(gt,j))
+                    {
 		      sigtype=gt;
 		      break;
 		    }
@@ -254,15 +260,12 @@ int loop(TString infile="/store/group/phys_heavyions/velicanu/forest/HIRun2015/H
   return 1;
 }
 
-
-void fillTree(TVector3* bP, TVector3* bVtx, TLorentzVector* b4P, Int_t j, Int_t typesize, Double_t track_mass1, Double_t track_mass2, Bool_t REAL)
+void fillTreeEvt()
 {
-
   //Event Info
   RunNo = EvtInfo_RunNo;
   EvtNo = EvtInfo_EvtNo;
   LumiNo = EvtInfo_LumiNo;
-  Bsize = typesize+1;
   PVx = EvtInfo_PVx;
   PVy = EvtInfo_PVy;
   PVz = EvtInfo_PVz;
@@ -285,6 +288,12 @@ void fillTree(TVector3* bP, TVector3* bVtx, TLorentzVector* b4P, Int_t j, Int_t 
   BSWidthXErr = EvtInfo_BSWidthXErr;
   BSWidthY = EvtInfo_BSWidthY;
   BSWidthYErr = EvtInfo_BSWidthYErr;
+}
+
+void fillTree(TVector3* bP, TVector3* bVtx, TLorentzVector* b4P, Int_t j, Int_t typesize, Double_t track_mass1, Double_t track_mass2, Bool_t REAL)
+{
+  Bsize = typesize+1;
+
   bP->SetPtEtaPhi(BInfo_pt[j],BInfo_eta[j]*0,BInfo_phi[j]);
   bVtx->SetXYZ(BInfo_vtxX[j]-EvtInfo_PVx,
 	       BInfo_vtxY[j]-EvtInfo_PVy,
