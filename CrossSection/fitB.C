@@ -105,10 +105,10 @@ void fitB(int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp/ntB_
       hPt->SetBinContent(i+1,yield/(ptBins[i+1]-ptBins[i]));
       hPt->SetBinError(i+1,yieldErr/(ptBins[i+1]-ptBins[i]));
     }  
-     /* 
-  ntMC->Project("hPtMC","Bpt",TCut(weight)*(TCut(selmceff.Data())&&"(Dgen==23333)"));
+
+  ntMC->Project("hPtMC","Bpt",TCut(weight)*(TCut(selmceff.Data())&&"(Bgen==23333)"));
   divideBinWidth(hPtMC);
-  ntMC->Project("hPtRecoTruth","Bpt",TCut(selmceff.Data())&&"(Dgen==23333)");
+  ntMC->Project("hPtRecoTruth","Bpt",TCut(selmceff.Data())&&"(Bgen==23333)");
   divideBinWidth(hPtRecoTruth);
   ntGen->Project("hPtGen","Gpt",TCut(weightgen)*(TCut(selmcgen.Data())));
   divideBinWidth(hPtGen);
@@ -166,7 +166,7 @@ void fitB(int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp/ntB_
   hPtCor->Write();
   hPtSigma->Write();
   outf->Close();
-  */
+
 }
 
 void clean0(TH1D* h)
