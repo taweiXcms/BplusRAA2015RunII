@@ -8,7 +8,8 @@ void draw(){
 //	TFile *inf = new TFile("/data/wangj/Data2015/Bntuple/PbPb/Bntuple_BfinderData_PbPb_20160406_bPt5jpsiPt0tkPt0p8_BpB0BsX_skimhlt.root");
 //	TFile *inf = new TFile("/data/HeavyFlavourRun2/Data2015/Bntuple/Bntuple20160605_BfinderData_PbPb_20160406_bPt5jpsiPt0tkPt0p8_BpB0BsX.root");//pbpb
 //	TFile *inf = new TFile("/data/wangj/Data2015/Bntuple/pp/ntB_EvtBase_20160420_BfinderData_pp_20160419_bPt0jpsiPt0tkPt0p5.root");//pp
-	TFile *inf = new TFile("/data/HeavyFlavourRun2/MC2015/Bntuple/PbPb/Bntuple20160606_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root");//pbpb mc
+	TFile *inf = new TFile("/data/HeavyFlavourRun2/Data2015/Bntuple/Bntuple20160608_crab_BfinderData_pp_20160606_bPt0jpsiPt0tkPt0p5_Bp.root");//pp
+//	TFile *inf = new TFile("/data/HeavyFlavourRun2/MC2015/Bntuple/PbPb/Bntuple20160606_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root");//pbpb mc
 //	TFile *inf = new TFile("/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160606_pp_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root");//pp mc
     TTree* nt = (TTree*) inf->Get("ntKp");
     TTree* HltTree= (TTree*) inf->Get("ntHlt");
@@ -33,6 +34,7 @@ void draw(){
 
 //	TString cut = Form("%s && Bmumupt>3 && Btrk1Pt>1 && Bmass>5&&Bmass<6 && abs(By)<2.4 && abs(Bmumumass-3.096916)<0.15 && Bisbestchi2 && Bchi2cl > 0.004345 && cos(Bdtheta) > 0.256418 && Bd0/Bd0Err > 6.679356 && Bpt > 10 && Bpt < 60 && Btrk1highPurity && (BsvpvDistance/BsvpvDisErr)>5", muID.Data());//2011
 	TString cut = Form("%s && (BsvpvDistance/BsvpvDisErr)>5. && Bmumupt>3 && Btrk1Pt>1. && Bpt > 10 && Bpt < 15 && abs(By) < 2.4 && Bchi2cl > 0.005 && cos(Bdtheta) > 0.2 && Btrk1highPurity && abs(Btrk1Eta)<2.4", muID.Data());
+//	TString cut = Form("%s && (BsvpvDistance/BsvpvDisErr)>5. && Bmumupt>3 && Btrk1Pt>1. && Bpt > 10 && Bpt < 15 && abs(By) < 2.4 && Bchi2cl > 0.005 && cos(Bdtheta) > 0.2 && Btrk1highPurity && abs(Btrk1Eta)<2.4 && Bmass_unfitted>5. && Bmass_unfitted<6.", muID.Data());
 //	TString cut = Form("%s && (BsvpvDistance/BsvpvDisErr)>5. && Bmumupt>3 && Btrk1Pt>1.5 && Bpt > 15 && Bpt < 20 && abs(By) < 2.4 && Bchi2cl > 0.005 && cos(Bdtheta) > 0.2 && Btrk1highPurity && abs(Btrk1Eta)<2.4", muID.Data());
 //	TString cut = Form("%s && (BsvpvDistance/BsvpvDisErr)>4. && Bmumupt>3 && Btrk1Pt>1.5 && Bpt > 20 && Bpt < 100 && abs(By) < 2.4 && Bchi2cl > 0.005 && cos(Bdtheta) > 0.2 && Btrk1highPurity && abs(Btrk1Eta)<2.4", muID.Data());
 
