@@ -1,5 +1,5 @@
-const int nBins=4;
-double ptBins[nBins+1] = {10,20,30,50,100};
+const int nBins=3;
+double ptBins[nBins+1] = {10.,15.,20.,100.};
 
 const int BIN_NUM= 1196;
 const int HMIN=1;
