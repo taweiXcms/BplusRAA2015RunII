@@ -189,10 +189,6 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
    TString iNP="7.26667e+00*Gaus(x,5.10472e+00,2.63158e-02)/(sqrt(2*3.14159)*2.63158e-02)+4.99089e+01*Gaus(x,4.96473e+00,9.56645e-02)/(sqrt(2*3.14159)*9.56645e-02)+3.94417e-01*(3.74282e+01*Gaus(x,5.34796e+00,3.11510e-02)+1.14713e+01*Gaus(x,5.42190e+00,1.00544e-01))";
    TF1* f = new TF1(Form("f%d",count),"[0]*([7]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2])+(1-[7])*Gaus(x,[1],[8])/(sqrt(2*3.14159)*[8]))+[3]+[4]*x+[5]*("+iNP+")");
 
-   cout<<"CUT SELECTAIOm="<<seldata.Data()<<endl;
-   cout<<"ptmin="<<ptmin<<endl;
-   cout<<"ptmax="<<ptmax<<endl;
-
    if(isMC==1) nt->Project(Form("h-%d",count),"Bmass",Form("%s*(%s&&Bpt>%f&&Bpt<%f)","1",seldata.Data(),ptmin,ptmax));   
    else nt->Project(Form("h-%d",count),"Bmass",Form("(%s&&Bpt>%f&&Bpt<%f)",seldata.Data(),ptmin,ptmax));   
 
@@ -244,7 +240,6 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
    h->Fit(Form("f%d",count),"L m","",minhisto,maxhisto);
    h->SetMarkerSize(0.8);
    h->SetMarkerStyle(20);
-   cout <<h->GetEntries()<<endl;
 
    TF1 *background = new TF1(Form("background%d",count),"[0]+[1]*x");
    background->SetParameter(0,f->GetParameter(3));
