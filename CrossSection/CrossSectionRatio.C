@@ -22,7 +22,7 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
   TFile* fileeff = new TFile(efficiency.Data());
   TH1F* hEff = (TH1F*)fileeff->Get("hEff");
   
-  TH1F* hPtSigma = (TH1F*)file->Get("hPtSigma");
+  TH1F* hPtSigma = (TH1F*)file->Get("hPt");
    hPtSigma->Divide(hEff);
    hPtSigma->Scale(1./(2*lumi*BRchain));
    hPtSigma->SetName("hPtSigma");
