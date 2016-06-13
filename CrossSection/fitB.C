@@ -100,6 +100,8 @@ void fitB(int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp/ntB_
   for(int i=0;i<nBins;i++)
     {
       TF1* f = fit(nt,ntMC,ptBins[i],ptBins[i+1],isMC,isPbPb, totalmass,centmin, centmax);
+      hMean->SetBinContent(i+1,f->GetParameter(1));
+      hMean->SetBinError(i+1,f->GetParError(1));  
       double yield = f->Integral(minhisto,maxhisto)/binwidthmass;
       double yieldErr = f->Integral(minhisto,maxhisto)/binwidthmass*f->GetParError(0)/f->GetParameter(0);
       hPt->SetBinContent(i+1,yield/(ptBins[i+1]-ptBins[i]));
@@ -119,7 +121,7 @@ void fitB(int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp/ntB_
   hPt->SetYTitle("Uncorrected dN(D^{0})/dp_{T}");
   hPt->Sumw2();
   hPt->Draw();
-  if(isMC)
+  if(isMC==1)
     {
       hPtMC->Draw("same hist");
       TLegend* legPt = myLegend(0.55,0.80,0.90,0.94);
@@ -141,7 +143,7 @@ void fitB(int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp/ntB_
   TCanvas* cPtCor=  new TCanvas("cCorResult","",600,600);
   cPtCor->SetLogy();
   hPtCor->Draw();
-  if(isMC)
+  if(isMC==1)
     {
       hPtGen->Draw("same hist");
       TLegend* legPtCor = myLegend(0.55,0.80,0.90,0.94);
@@ -161,6 +163,7 @@ void fitB(int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp/ntB_
   outf->cd();
   hPt->Write();
   hEff->Write();
+  hMean->Write();
   hPtGen->Write();
   hPtMC->Write();
   hPtCor->Write();
@@ -354,9 +357,19 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
      
    total=f;
    
-  if(!isPbPb) c->SaveAs(Form("plotFits/BMass%s_%d.pdf",collisionsystem.Data(),count));
-  else c->SaveAs(Form("plotFits/BMass%s_%.0f_%.0f_%d.pdf",collisionsystem.Data(),centMin,centMax,count));
-   return mass;
+  //if(!isPbPb) c->SaveAs(Form("plotFits/BMass%s_%d.pdf",collisionsystem.Data(),count));
+  //else c->SaveAs(Form("plotFits/BMass%s_%.0f_%.0f_%d.pdf",collisionsystem.Data(),centMin,centMax,count));
+
+  if(isPbPb && isMC==0) 
+      c->SaveAs(Form("allFits/data_PbPb_%d.pdf",count));
+  else if(isPbPb && isMC==1) 
+      c->SaveAs(Form("allFits/mc_PbPb_%d.pdf",count));
+  else if(!isPbPb && isMC==0) 
+      c->SaveAs(Form("allFits/data_pp_%d.pdf",count));
+  else 
+      c->SaveAs(Form("allFits/mc_pp_%d.pdf",count));
+
+  return mass;
 }
 
 
