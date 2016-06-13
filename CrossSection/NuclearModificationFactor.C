@@ -3,7 +3,7 @@
 #include "TLegendEntry.h"
 //#include "../Systematics/systematics.C"
 
-void NuclearModificationFactor(TString inputPP="ROOTfiles/hPtSpectrumBplusPP.root", TString inputPbPb="ROOTfiles/hPtSpectrumBplusPbPb.root",TString label="",TString outputfile="test.root", Float_t centMin=0., Float_t centMax=100.)
+void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", TString inputPbPb="ROOTfiles/CrossSectionPbPb.root",TString label="PbPb",TString outputfile="RAAfile.root", Float_t centMin=0., Float_t centMax=100.)
 {
   gStyle->SetOptTitle(0);
   gStyle->SetOptStat(0);
@@ -38,7 +38,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/hPtSpectrumBplusPP.roo
   {
     yr[i] = hNuclearModification->GetBinContent(i+1);
     //double systematic=0.01*systematicsForRAA(hNuclearModification->GetBinCenter(i+1),centMin,centMax,0.,0.);
-    double systematic=0.0;
+	double systematic=0.;
     yrlow[i] = hNuclearModification->GetBinContent(i+1)*systematic;
     yrhigh[i] =hNuclearModification->GetBinContent(i+1)*systematic;
   }
@@ -52,10 +52,10 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/hPtSpectrumBplusPP.roo
   TCanvas*canvasRAA=new TCanvas("canvasRAA","canvasRAA",550,500);
   canvasRAA->cd();
   canvasRAA->SetLogx();
-  TH2F* hemptyEff=new TH2F("hemptyEff","",50,0.,120.,10.,0,1.5);  
+  TH2F* hemptyEff=new TH2F("hemptyEff","",50,ptBins[0]-5.,ptBins[nBins]+5.,10.,0,1.5);  
   hemptyEff->GetXaxis()->CenterTitle();
   hemptyEff->GetYaxis()->CenterTitle();
-  hemptyEff->GetYaxis()->SetTitle("D^{0} R_{AA}");
+  hemptyEff->GetYaxis()->SetTitle("B^{+} R_{AA}");
   hemptyEff->GetXaxis()->SetTitle("p_{T} (GeV/c)");
   hemptyEff->GetXaxis()->SetTitleOffset(0.9);
   hemptyEff->GetYaxis()->SetTitleOffset(1.);
@@ -90,7 +90,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/hPtSpectrumBplusPP.roo
   tlatexeff2->SetTextFont(42);
   tlatexeff2->SetTextSize(0.038);
   tlatexeff2->Draw();
-  TLatex * tlatexeff3=new TLatex(0.1612903,0.7325793,"L^{PbPb}_{int} = 404.4 #mub^{-1}");
+  TLatex * tlatexeff3=new TLatex(0.1612903,0.7325793,"L^{PbPb}_{int} = 350.68 #mub^{-1}");
   tlatexeff3->SetNDC();
   tlatexeff3->SetTextColor(1);
   tlatexeff3->SetTextFont(42);
@@ -110,6 +110,14 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/hPtSpectrumBplusPP.roo
   ent_SigmaPP->SetLineColor(1);
   ent_SigmaPP->SetMarkerColor(1);
   ent_SigmaPP->SetTextSize(0.03);
+
+
+  TLegendEntry *ent_Sigmapp=legendSigma->AddEntry(gNuclearModification,"R_{AA} syst. (arbitrary 20%)","f");
+  ent_Sigmapp->SetTextFont(42);
+  ent_Sigmapp->SetLineColor(5);
+  ent_Sigmapp->SetMarkerColor(1);
+  ent_Sigmapp->SetTextSize(0.03);
+
   legendSigma->Draw("same");
 
   canvasRAA->SaveAs(Form("plotRAA/canvasRAA%s_%.0f_%.0f.pdf",label.Data(),centMin,centMax));

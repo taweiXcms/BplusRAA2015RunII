@@ -168,7 +168,7 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
   texCent->SetTextSize(0.04);
   if(isPbPb) texCent->Draw();
 
-  TLatex* texY = new TLatex(0.53,0.77,"|y| < 1.0");
+  TLatex* texY = new TLatex(0.53,0.77,"|y| < 2.4");
   texY->SetNDC();
   texY->SetTextFont(42);
   texY->SetTextSize(0.04);
