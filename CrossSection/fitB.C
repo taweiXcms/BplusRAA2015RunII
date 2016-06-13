@@ -265,7 +265,7 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
    mass->SetParError(8,f->GetParError(8));
    mass->SetLineColor(2);
 
-  h->SetXTitle("m_{#piK} (GeV/c^{2})");
+  h->SetXTitle("m_{#mu#muK} (GeV/c^{2})");
   h->SetYTitle("Entries / (5 MeV/c^{2})");
   h->GetXaxis()->CenterTitle();
   h->GetYaxis()->CenterTitle();
@@ -317,7 +317,7 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
   texCms->Draw();
 
   TLatex* texCol;
-  if(collisionsystem=="PP"||collisionsystem=="PPMB") texCol= new TLatex(0.96,0.93, Form("%s #sqrt{s_{NN}} = 5.02 TeV","pp"));
+  if(collisionsystem=="pp"||collisionsystem=="PP") texCol= new TLatex(0.96,0.93, Form("%s #sqrt{s_{NN}} = 5.02 TeV","pp"));
   else texCol= new TLatex(0.96,0.93, Form("%s #sqrt{s_{NN}} = 5.02 TeV","PbPb"));
   texCol->SetNDC();
   texCol->SetTextAlign(32);
@@ -345,7 +345,7 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
   tex->Draw();
   }
 
-  tex = new TLatex(0.22,0.83,"|y| < 1.0");
+  tex = new TLatex(0.22,0.83,"|y| < 2.4");
   tex->SetNDC();
   tex->SetTextFont(42);
   tex->SetTextSize(0.04);
