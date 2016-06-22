@@ -17,7 +17,7 @@ DOANALYSISPbPb_MCSTUDY=0
 DOANALYSISPP_MCSTUDYCombine=0
 DOANALYSISPbPb_MCSTUDYCombine=0
 
-DORAA=0
+DORAA=1
 
 #systematic section
 DOCOMPARE=0
@@ -76,6 +76,7 @@ fi
 if [ $DOANALYSISPP_MCSTUDY -eq 1 ]; then      
 g++ MCefficiency.C $(root-config --cflags --libs) -g -o MCefficiency.exe 
 ./MCefficiency.exe  0 "$INPUTMCPP"  "$SELGENPP" "$SELGENPPACCPP"  "$RECOONLYPP" "$CUTPP"  "$LABELPP" "$OUTPUTFILEMCSTUDYPP" "$ISDOWEIGHTPP" "$CENTPbPbMIN" "$CENTPbPbMAX"
+rm MCefficiency.exe
 fi
 
 if [ $DOANALYSISPP_CROSS -eq 1 ]; then      
@@ -115,6 +116,7 @@ fi
 if [ $DOANALYSISPbPb_MCSTUDY -eq 1 ]; then      
 g++ MCefficiency.C $(root-config --cflags --libs) -g -o MCefficiency.exe 
 ./MCefficiency.exe 1 "$INPUTMCPbPb"  "$SELGENPbPb" "$SELGENPbPbACCPbPb"  "$RECOONLYPbPb" "$CUTPbPb"  "$LABELPbPb" "$OUTPUTFILEMCSTUDYPbPb" "$ISDOWEIGHTPbPb" "$CENTPbPbMIN" "$CENTPbPbMAX"
+rm MCefficiency.exe
 fi
 
 if [ $DOANALYSISPbPb_CROSS -eq 1 ]; then      
