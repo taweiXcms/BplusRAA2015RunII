@@ -221,8 +221,8 @@ TString label = "pp")
 
   gaeSigma->SetName("gaeSigma");
   gaeSigmaBplus->SetName("gaeSigmaBplus");
-  cr->SaveAs(Form("canvas_%s_%s.pdf",inputFONLLdat.Data(),label.Data()));
-  cr->SaveAs(Form("canvas_%s_%s.eps",inputFONLLdat.Data(),label.Data()));
+  cr->SaveAs(Form("plotFONLL/canvas_%s_%s.pdf",inputFONLLdat.Data(),label.Data()));
+  cr->SaveAs(Form("plotFONLL/canvas_%s_%s.eps",inputFONLLdat.Data(),label.Data()));
   
   TFile*foutput=new TFile(outputFONLL.Data(),"recreate");
   foutput->cd();
