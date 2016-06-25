@@ -23,7 +23,7 @@ DORAA=0
 
 #systematic section
 DOCOMPARE=0
-
+DOClosure=0
 
 ## PP MONTE CARLO
 INPUTMCPP="/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160606_pp_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root" 
@@ -151,6 +151,12 @@ rm NuclearModificationFactor.exe
 fi
 
 
+
+
+
+
+
+
 # ALL FITS FOR MEAN COMPARISON (comment out to save time)
 
 if [ $DOCOMPARE -eq 1 ]; then
@@ -173,4 +179,35 @@ rm fitB.exe
 g++ comparison.C $(root-config --cflags --libs) -g -o comparison.exe 
 ./comparison.exe 
 rm comparison.exe
+fi
+
+
+if [ $DOClosure -eq 1 ]; then      
+
+OUTPUTFILEPPMCClosure="ROOTfiles/hPtSpectrumBplusPPMCClosure.root"
+OUTPUTFILEPbPbMCClosure="ROOTfiles/hPtSpectrumBplusPbPbMCClosure.root"
+LUMIPPMCClosure=1
+ISMCPPMCClosure=1
+ISDOWEIGHTPPMCClosure=0
+TRGPPMCClosure="1"
+LABELPPMCClosure="PPMCClosure"
+
+g++ fitB.C $(root-config --cflags --libs) -g -o fitB.exe 
+./fitB.exe 0 "$INPUTMCPP"  "$INPUTMCPP"  "$TRGPPMCClosure" "$CUTPP"   "$SELGENPP"   "$ISMCPPMCClosure"   "$LUMIPPMCClosure"   "$ISDOWEIGHTPPMCClosure"   "$LABELPPMCClosure"  "$OUTPUTFILEPPMCClosure" "$OUTPUTFILEPbPb_NP"
+g++ ClosureTest.C $(root-config --cflags --libs) -g -o ClosureTest.exe 
+./ClosureTest.exe "$OUTPUTFILEPPMCClosure" "$LABELPP"
+
+OUTPUTFILEPbPbMCClosure="ROOTfiles/hPtSpectrumBplusPbPbMCClosure.root"
+OUTPUTFILEPbPbMCClosure="ROOTfiles/hPtSpectrumBplusPbPbMCClosure.root"
+LUMIPbPbMCClosure=1
+ISMCPbPbMCClosure=1
+ISDOWEIGHTPbPbMCClosure=0
+TRGPbPbMCClosure="1"
+LABELPbPbMCClosure="PbPbMCClosure"
+
+g++ fitB.C $(root-config --cflags --libs) -g -o fitB.exe 
+./fitB.exe 1 "$INPUTMCPbPb"  "$INPUTMCPbPb"  "$TRGPbPbMCClosure" "$CUTPbPb"   "$SELGENPbPb"   "$ISMCPbPbMCClosure"   "$LUMIPbPbMCClosure"   "$ISDOWEIGHTPbPbMCClosure"   "$LABELPbPbMCClosure"  "$OUTPUTFILEPbPbMCClosure" "$OUTPUTFILEPbPb_NP"
+g++ ClosureTest.C $(root-config --cflags --libs) -g -o ClosureTest.exe 
+./ClosureTest.exe "$OUTPUTFILEPbPbMCClosure" "$LABELPbPb"
+
 fi
