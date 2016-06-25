@@ -1,5 +1,5 @@
 #include "uti.h"
-#include "config/parametersLowpt.h"
+#include "parameters.h"
 
 TString weightfunctiongen = "1";
 TString weightfunctionreco = "1";
@@ -61,7 +61,7 @@ std::cout<<"weight="<<par0<<"+PVz*("<<par1<<")+PVz*PVz*("<<par2<<")+PVz*PVz*PVz*
 void weightPPFONLL(int minfit=2,int maxfit=100,TString pthat="pthatall")
 {
   TString label;
-  TString selmcgen="((GisSignal==1||GisSignal==2)&&(Gy>-1&&Gy<1))";
+  TString selmcgen="TMath::Abs(Gy)<2.4&&abs(GpdgId)==521&&GisSignal==1";
   TString myweightfunctiongen,myweightfunctionreco;
 
   
@@ -70,18 +70,18 @@ void weightPPFONLL(int minfit=2,int maxfit=100,TString pthat="pthatall")
   gStyle->SetEndErrorSize(0);
   gStyle->SetMarkerStyle(20);
  
-  TFile*infMC=new TFile("/data/HeavyFlavourRun2/MC2015/Dntuple/pp/ntD_EvtBase_20160513_DfinderMC_pp_20160502_dPt0tkPt0p5_D0Dstar_prompt_Dpt2Dy1p1tkPt0p7tkEta2Decay2p9Dalpha0p14Skim_pthatweight.root");
+  TFile*infMC=new TFile("/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160606_pp_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root");
   TTree* ntGen = (TTree*)infMC->Get("ntGen");
   TTree *ntHiMC = (TTree*)infMC->Get("ntHi");
   ntGen->AddFriend(ntHiMC);
-  
+    
   TH1D* hPtGenFONLL = new TH1D("hPtGenFONLL","",nBinsReweight,ptBinsReweight);
-  ntGen->Project("hPtGenFONLL","Gpt",(TCut(selmcgen.Data())*TCut("pthatweight")));
+  ntGen->Project("hPtGenFONLL","Gpt",TCut(selmcgen.Data()));
   divideBinWidth(hPtGenFONLL);
     
-  TString fonll="/afs/cern.ch/work/g/ginnocen/public/output_pp_d0meson_5TeV_y1.root";
+  TString fonll="/afs/cern.ch/user/c/cdozen/public/For_GIAN/fonllOutput_pp_Bplus_5p03TeV_y2p4.root";
   TFile* filePPReference = new TFile(fonll.Data());  
-  TGraphAsymmErrors* gaeBplusReference = (TGraphAsymmErrors*)filePPReference->Get("gaeSigmaDzero");
+  TGraphAsymmErrors* gaeBplusReference = (TGraphAsymmErrors*)filePPReference->Get("gaeSigmaBplus");
 
   TH1D* hFONLL = new TH1D("hFONLL","",nBinsReweight,ptBinsReweight);
   double x,y;
@@ -127,10 +127,11 @@ void weightPPFONLL(int minfit=2,int maxfit=100,TString pthat="pthatall")
   hFONLL->GetYaxis()->SetTitleOffset(1.4);
   hFONLL->Draw();
   canvasPtReweight->cd(3);
-  hFONLLOverPt->SetXTitle("Gen p_{T}");
+  gPad->SetLogy();
+    hFONLLOverPt->SetXTitle("Gen p_{T}");
   hFONLLOverPt->SetYTitle("FONLL/PYTHIA ");
-  hFONLLOverPt->SetMinimum(0.01);  
-  hFONLLOverPt->SetMaximum(10.);  
+  hFONLLOverPt->SetMinimum(1e-5);  
+  hFONLLOverPt->SetMaximum(1e5);  
   hFONLLOverPt->GetYaxis()->SetTitleOffset(1.4);
   hFONLLOverPt->Draw();
 

@@ -1,5 +1,5 @@
 #include "uti.h"
-#include "config/parametersLowpt.h"
+#include "parameters.h"
 
 TString weightfunctiongen = "1";
 TString weightfunctionreco = "1";
@@ -46,13 +46,13 @@ hpzMC->SetLineColor(2);
 hpzMC->Draw();
 hpzData->Draw("same");
 cRatioVtx->cd(2);
-TH1D*hRatioVertex=(TH1D*)hpzData->Clone("hRatioVertex");
-hRatioVertex->Divide(hpzMC);
-hRatioVertex->Draw();
+TH1D*hRatio=(TH1D*)hpzData->Clone("hRatio");
+hRatio->Divide(hpzMC);
+hRatio->Draw();
 
 
 TF1 *myfit = new TF1("myfit","[0]+[1]*x+x*x*[2]+x*x*x*[3]+x*x*x*x*[4]", -15, 15);  
-hRatioVertex->Fit("myfit","","",-15,15);
+hRatio->Fit("myfit","","",-15,15);
 double par0=myfit->GetParameter(0);
 double par1=myfit->GetParameter(1);
 double par2=myfit->GetParameter(2);
@@ -247,15 +247,15 @@ void weightPbPbFONLLpthat(int minfit=2,int maxfit=100,TString pthat="pthatall")
 
 void weightPbPbCentrality(){
 
-TFile*fMC=new TFile("/data/HeavyFlavourRun2/MC2015/Dntuple/PbPb/ntD_EvtBase_20160513_DfinderMC_PbPb_20160502_dPt1tkPt0p5_D0_prompt_Dpt2Dy1p1tkPt0p7tkEta2Decay2p9Dalpha0p14Skim_pthatweight.root");
-TTree *ntDkpiMC = (TTree*)fMC->Get("ntDkpi");
+TFile*fMC=new TFile("/data/HeavyFlavourRun2/MC2015/Bntuple/PbPb/Bntuple20160606_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root");
+TTree *ntDkpiMC = (TTree*)fMC->Get("ntKp");
 TTree *ntSkimMC = (TTree*)fMC->Get("ntSkim");
 TTree *ntHiMC = (TTree*)fMC->Get("ntHi");
 ntDkpiMC->AddFriend(ntSkimMC);
 ntDkpiMC->AddFriend(ntHiMC);
 
-TFile*fData=new TFile("/data/jisun/PbPb2015/HF2and_ncand_skim_Dntuple_crab_PbPb_HIMinimumBias1to7_ForestAOD_D0y1p1_tkpt0p7eta1p5_goldenjson_EvtPlaneCali_03182015.root");
-TTree *ntDkpiData = (TTree*)fData->Get("ntDkpi");
+TFile*fData=new TFile("/data/HeavyFlavourRun2/Data2015/Bntuple/Bntuple20160610_crab_BfinderData_PbPb_20160607_bPt5jpsiPt0tkPt0p8_Bp.root");
+TTree *ntDkpiData = (TTree*)fData->Get("ntKp");
 TTree *ntSkimData = (TTree*)fData->Get("ntSkim");
 TTree *ntHiData = (TTree*)fData->Get("ntHi");
 TTree *ntHltData = (TTree*)fData->Get("ntHlt");
@@ -269,7 +269,7 @@ TH1F*hCenMC=new TH1F("hCenMC","hCenMC",200,0,200);
 //TCut weighpthat="6.14981+hiBin*(-0.156513)+hiBin*hiBin*(0.00149127)+hiBin*hiBin*hiBin*(-6.29087e-06)+hiBin*hiBin*hiBin*hiBin*(9.90029e-09)";
 TCut weighpthat="1";
 TString cut="abs(PVz)<15&&pclusterCompatibilityFilter&&pprimaryVertexFilter&&phfCoincFilter3";
-TString hlt="HLT_HIL1MinimumBiasHF2AND_part1_v1||HLT_HIL1MinimumBiasHF2AND_part2_v1||HLT_HIL1MinimumBiasHF2AND_part3_v1";
+TString hlt="(HLT_HIL1DoubleMu0_v1 || HLT_HIL1DoubleMu0_part1_v1 || HLT_HIL1DoubleMu0_part2_v1 || HLT_HIL1DoubleMu0_part3_v1)";
 
 ntDkpiMC->Project("hCenMC","hiBin",TCut(weighpthat)*(TCut(cut.Data())));
 ntDkpiData->Project("hCenData","hiBin",(TCut(cut.Data())*TCut(hlt.Data())));
@@ -277,19 +277,75 @@ ntDkpiData->Project("hCenData","hiBin",(TCut(cut.Data())*TCut(hlt.Data())));
 hCenMC->Scale(1./hCenMC->Integral(hCenMC->FindBin(0.),hCenMC->FindBin(200)));
 hCenData->Scale(1./hCenData->Integral(hCenMC->FindBin(0.),hCenMC->FindBin(200)));
 
-TCanvas*cRatioVtx=new TCanvas("cRatioVtx","cRatioVtx",500,500);
-cRatioVtx->Divide(2,1);
-cRatioVtx->cd(1);
+TH2F* hempty1=new TH2F("hempty1","",50,0.,200.,10,0,0.05);  
+hempty1->GetXaxis()->CenterTitle();
+hempty1->GetYaxis()->CenterTitle();
+hempty1->GetYaxis()->SetTitle("Entries");
+hempty1->GetXaxis()->SetTitle("Centrality (HiBin)");
+hempty1->GetXaxis()->SetTitleOffset(0.9);
+hempty1->GetYaxis()->SetTitleOffset(1.5);
+hempty1->GetXaxis()->SetTitleSize(0.05);
+hempty1->GetYaxis()->SetTitleSize(0.05);
+hempty1->GetXaxis()->SetTitleFont(42);
+hempty1->GetYaxis()->SetTitleFont(42);
+hempty1->GetXaxis()->SetLabelFont(42);
+hempty1->GetYaxis()->SetLabelFont(42);
+hempty1->GetXaxis()->SetLabelSize(0.035);
+hempty1->GetYaxis()->SetLabelSize(0.035);  
+
+TH2F* hempty2=new TH2F("hempty2","",50,0.,200.,10,0,10);  
+hempty2->GetXaxis()->CenterTitle();
+hempty2->GetYaxis()->CenterTitle();
+hempty2->GetYaxis()->SetTitle("Ratio Data/MC");
+hempty2->GetXaxis()->SetTitle("Centrality (HiBin)");
+hempty2->GetXaxis()->SetTitleOffset(0.9);
+hempty2->GetYaxis()->SetTitleOffset(1.5);
+hempty2->GetXaxis()->SetTitleSize(0.05);
+hempty2->GetYaxis()->SetTitleSize(0.05);
+hempty2->GetXaxis()->SetTitleFont(42);
+hempty2->GetYaxis()->SetTitleFont(42);
+hempty2->GetXaxis()->SetLabelFont(42);
+hempty2->GetYaxis()->SetLabelFont(42);
+hempty2->GetXaxis()->SetLabelSize(0.035);
+hempty2->GetYaxis()->SetLabelSize(0.035);  
+
+TLegend *legendSigma=new TLegend(0.5100806,0.5168644,0.8084677,0.6605932,"");
+legendSigma->SetBorderSize(0);
+legendSigma->SetLineColor(0);
+legendSigma->SetFillColor(0);
+legendSigma->SetFillStyle(1001);
+legendSigma->SetTextFont(42);
+legendSigma->SetTextSize(0.045);
+
+TLegendEntry *ent_SigmaPP=legendSigma->AddEntry(hCenMC,"Monte Carlo.","pf");
+ent_SigmaPP->SetTextFont(42);
+ent_SigmaPP->SetLineColor(2);
+ent_SigmaPP->SetMarkerColor(2);
+ent_SigmaPP->SetTextSize(0.03);
+
+TLegendEntry *ent_Sigmapp=legendSigma->AddEntry(hCenData,"Data","f");
+ent_Sigmapp->SetTextFont(42);
+ent_Sigmapp->SetLineColor(1);
+ent_Sigmapp->SetMarkerColor(1);
+ent_Sigmapp->SetTextSize(0.03);
+
+TCanvas*canvas=new TCanvas("canvas","canvas",1000,500);
+canvas->Divide(2,1);
+canvas->cd(1);
+hempty1->Draw();
 hCenMC->SetLineColor(2);
-hCenMC->Draw();
+hCenMC->SetMarkerColor(2);
+hCenMC->Draw("same");
 hCenData->Draw("same");
-cRatioVtx->cd(2);
-TH1D*hRatioVertex=(TH1D*)hCenData->Clone("hRatioVertex");
-hRatioVertex->Divide(hCenMC);
-hRatioVertex->Draw();
+legendSigma->Draw();
+canvas->cd(2);
+TH1D*hRatio=(TH1D*)hCenData->Clone("hRatio");
+hRatio->Divide(hCenMC);
+hempty2->Draw();
+hRatio->Draw("same");
 
 TF1 *myfit = new TF1("myfit","[0]+[1]*x+x*x*[2]+x*x*x*[3]+x*x*x*x*[4]", 0, 200);  
-hRatioVertex->Fit("myfit","","",0, 200);
+hRatio->Fit("myfit","","",0, 200);
 double par0=myfit->GetParameter(0);
 double par1=myfit->GetParameter(1);
 double par2=myfit->GetParameter(2);
@@ -298,4 +354,5 @@ double par4=myfit->GetParameter(4);
 
 TString myweight;
 std::cout<<"weight="<<par0<<"+hiBin*("<<par1<<")+hiBin*hiBin*("<<par2<<")+hiBin*hiBin*hiBin*("<<par3<<")"<<"+hiBin*hiBin*hiBin*hiBin*("<<par4<<")"<<endl;
+canvas->SaveAs("CentralityWeight.pdf");
 }
