@@ -8,7 +8,6 @@ rm *.exe
 rm an.log
 
 rm ROOTfiles/*.*
-rm ROOTfilesCent10/*.*
 
 rm Fits/*.*
 rm FitsVariables/*.*
@@ -17,5 +16,7 @@ git checkout ROOTfiles
 git checkout plotCrossSection 
 git checkout plotFits 
 git checkout plotOthers 
+git checkout plotFONLL
+git checkout plotNP
 git checkout plotEff
-
+git checkout plotRAA
