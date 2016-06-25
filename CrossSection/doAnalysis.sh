@@ -23,7 +23,7 @@ DORAA=0
 
 #systematic section
 DOCOMPARE=0
-DOClosure=0
+DOClosure=1
 
 ## PP MONTE CARLO
 INPUTMCPP="/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160606_pp_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root" 
@@ -185,7 +185,6 @@ fi
 if [ $DOClosure -eq 1 ]; then      
 
 OUTPUTFILEPPMCClosure="ROOTfiles/hPtSpectrumBplusPPMCClosure.root"
-OUTPUTFILEPbPbMCClosure="ROOTfiles/hPtSpectrumBplusPbPbMCClosure.root"
 LUMIPPMCClosure=1
 ISMCPPMCClosure=1
 ISDOWEIGHTPPMCClosure=0
@@ -198,7 +197,6 @@ g++ ClosureTest.C $(root-config --cflags --libs) -g -o ClosureTest.exe
 ./ClosureTest.exe "$OUTPUTFILEPPMCClosure" "$LABELPP"
 
 OUTPUTFILEPbPbMCClosure="ROOTfiles/hPtSpectrumBplusPbPbMCClosure.root"
-OUTPUTFILEPbPbMCClosure="ROOTfiles/hPtSpectrumBplusPbPbMCClosure.root"
 LUMIPbPbMCClosure=1
 ISMCPbPbMCClosure=1
 ISDOWEIGHTPbPbMCClosure=0
@@ -206,7 +204,7 @@ TRGPbPbMCClosure="1"
 LABELPbPbMCClosure="PbPbMCClosure"
 
 g++ fitB.C $(root-config --cflags --libs) -g -o fitB.exe 
-./fitB.exe 1 "$INPUTMCPbPb"  "$INPUTMCPbPb"  "$TRGPbPbMCClosure" "$CUTPbPb"   "$SELGENPbPb"   "$ISMCPbPbMCClosure"   "$LUMIPbPbMCClosure"   "$ISDOWEIGHTPbPbMCClosure"   "$LABELPbPbMCClosure"  "$OUTPUTFILEPbPbMCClosure" "$OUTPUTFILEPbPb_NP"
+./fitB.exe 1 "$INPUTMCPbPb"  "$INPUTMCPbPb"  "$TRGPbPbMCClosure" "$CUTPbPb"   "$SELGENPbPb"   "$ISMCPbPbMCClosure"   "$LUMIPbPbMCClosure"   "$ISDOWEIGHTPbPbMCClosure"   "$LABELPbPbMCClosure"  "$OUTPUTFILEPbPbMCClosure" "$OUTPUTFILEPbPb_NP" "$CENTPbPbMIN" "$CENTPbPbMAX"
 g++ ClosureTest.C $(root-config --cflags --libs) -g -o ClosureTest.exe 
 ./ClosureTest.exe "$OUTPUTFILEPbPbMCClosure" "$LABELPbPb"
 
