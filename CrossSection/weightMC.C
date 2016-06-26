@@ -108,7 +108,7 @@ void weightPPFONLL(int minfit=2,int maxfit=100,TString pthat="pthatall")
   cout<<"myweightfunctiongen="<<myweightfunctiongen<<endl;
   cout<<"myweightfunctionreco="<<myweightfunctionreco<<endl;
   
-  TCanvas*canvasPtReweight=new TCanvas("canvasPtReweight","canvasPtReweight",1000.,500.); 
+  TCanvas*canvasPtReweight=new TCanvas("canvasPtReweight","canvasPtReweight",1300.,500.); 
   canvasPtReweight->Divide(3,1);
   canvasPtReweight->cd(1);
   gPad->SetLogy();
@@ -134,6 +134,7 @@ void weightPPFONLL(int minfit=2,int maxfit=100,TString pthat="pthatall")
   hFONLLOverPt->SetMaximum(1e5);  
   hFONLLOverPt->GetYaxis()->SetTitleOffset(1.4);
   hFONLLOverPt->Draw();
+  canvasPtReweight->SaveAs("canvasPtReweightPP.pdf");
 
 }
 
