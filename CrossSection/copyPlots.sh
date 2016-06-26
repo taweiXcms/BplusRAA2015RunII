@@ -12,6 +12,8 @@ cd notes/AN-15-155/trunk
 cp "$MYPWD"/canvasClosurepp.pdf Plots/Efficiency/.
 cp "$MYPWD"/canvasClosurePbPb.pdf Plots/Efficiency/.
 cp "$MYPWD"/CentralityWeight.pdf Plots/Efficiency/.
+cp "$MYPWD"/canvasPtReweightPP.pdf Plots/Efficiency/.
+cp "$MYPWD"/canvasPtReweightPbPb.pdf Plots/Efficiency/.
 
 #tdr --style=an b AN-15-308 
 
