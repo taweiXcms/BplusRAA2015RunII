@@ -23,7 +23,10 @@ DORAA=0
 
 #systematic section
 DOCOMPARE=0
-DOClosure=1
+DOSAVEHISTPP=0
+DOSAVEHISTPbPb=0
+DOVARIATION=1
+DOClosure=0
 
 ## PP MONTE CARLO
 INPUTMCPP="/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160606_pp_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root" 
@@ -151,13 +154,7 @@ rm NuclearModificationFactor.exe
 fi
 
 
-
-
-
-
-
-
-# ALL FITS FOR MEAN COMPARISON (comment out to save time)
+#MEAN COMPARISON
 
 if [ $DOCOMPARE -eq 1 ]; then
 g++ fitB.C $(root-config --cflags --libs) -g -o fitB.exe 
@@ -180,6 +177,32 @@ g++ comparison.C $(root-config --cflags --libs) -g -o comparison.exe
 ./comparison.exe 
 rm comparison.exe
 fi
+
+
+#FIT VARIATION
+
+if [ $DOSAVEHISTPP -eq 1 ]; then
+g++ savehisto.C $(root-config --cflags --libs) -g -o savehisto.exe 
+./savehisto.exe "$INPUTDATAPP" "$INPUTMCPP" "$TRGPP" "$CUTPP" "$ISMCPP" "$ISDOWEIGHTPP" "$LABELPP"
+rm savehisto.exe
+fi
+
+if [ $DOSAVEHISTPbPb -eq 1 ]; then
+g++ savehisto.C $(root-config --cflags --libs) -g -o savehisto.exe 
+./savehisto.exe "$INPUTDATAPbPb" "$INPUTMCPbPb" "$TRGPbPb" "$CUTPbPb" "$ISMCPbPb" "$ISDOWEIGHTPbPb" "$LABELPbPb" "$CENTPbPbMIN" "$CENTPbPbMAX"
+rm savehisto.exe
+fi
+
+if [ $DOVARIATION -eq 1 ]; then
+g++ fitBvar.C $(root-config --cflags --libs) -g -o fitBvar.exe 
+./fitBvar.exe "$LABELPP" "$OUTPUTFILEPP_NP"
+rm fitBvar.exe
+
+g++ fitBvar.C $(root-config --cflags --libs) -g -o fitBvar.exe 
+./fitBvar.exe "$LABELPbPb" "$OUTPUTFILEPbPb_NP" "$CENTPbPbMIN" "$CENTPbPbMAX"
+rm fitBvar.exe
+fi
+
 
 
 if [ $DOClosure -eq 1 ]; then      

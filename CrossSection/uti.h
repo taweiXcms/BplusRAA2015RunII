@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <iomanip>
 #include <utility>
 #include <TFile.h>
@@ -10,6 +11,7 @@
 #include <TH1F.h>
 #include <TH2F.h>
 #include <TGraph.h>
+#include <TGraphErrors.h>
 #include <TGraphAsymmErrors.h>
 #include <TF1.h>
 #include <TCanvas.h>
@@ -25,6 +27,7 @@
 #include <TROOT.h>
 #include <TStyle.h>
 #include <TProfile.h>
+#include <TEfficiency.h>
 
 // Remove error
 void removeError(TH1F* h)
