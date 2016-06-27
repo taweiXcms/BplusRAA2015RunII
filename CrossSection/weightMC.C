@@ -152,8 +152,8 @@ void weightPPFONLL(int minfit=2,int maxfit=100,TString pthat="pthatall")
   gPad->SetLogy();
   hFONLLOverPt->SetXTitle("Gen p_{T}");
   hFONLLOverPt->SetYTitle("FONLL/PYTHIA ");
-  hFONLLOverPt->SetMinimum(1e-5);  
-  hFONLLOverPt->SetMaximum(1e5);  
+  hFONLLOverPt->SetMinimum(1e-2);  
+  hFONLLOverPt->SetMaximum(1e7);  
   hFONLLOverPt->GetYaxis()->SetTitleOffset(1.4);
   hFONLLOverPt->GetYaxis()->CenterTitle();
   hFONLLOverPt->GetXaxis()->CenterTitle();
