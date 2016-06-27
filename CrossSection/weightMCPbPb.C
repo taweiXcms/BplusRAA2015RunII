@@ -75,7 +75,12 @@ void weightPbPbFONLL(int minfit=2,int maxfit=100,TString pthat="pthatall")
   gStyle->SetOptStat(111111);
   gStyle->SetEndErrorSize(0);
   gStyle->SetMarkerStyle(20);
- 
+
+  gStyle->SetStatX(0.9);
+  gStyle->SetStatY(0.9);
+  gStyle->SetStatW(0.19);
+  gStyle->SetStatH(0.10);
+  gStyle->SetStatFontSize(0.02); 
   //TFile*infMC=new TFile("/data/HeavyFlavourRun2/MC2015/Dntuple/PbPb/ntD_EvtBase_20160513_DfinderMC_PbPb_20160502_dPt1tkPt0p5_D0_prompt_Dpt2Dy1p1tkPt0p7tkEta2Decay2p9Dalpha0p14Skim_pthatweight.root");
 TFile*infMC=new TFile("/data/HeavyFlavourRun2/MC2015/Bntuple/PbPb/Bntuple20160606_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root");
   TTree* ntGen = (TTree*)infMC->Get("ntGen");
@@ -86,7 +91,7 @@ TFile*infMC=new TFile("/data/HeavyFlavourRun2/MC2015/Bntuple/PbPb/Bntuple2016060
   ntGen->Project("hPtGenFONLL","Gpt",(TCut(weighpthat)*TCut(selmcgen.Data())));
   divideBinWidth(hPtGenFONLL);
     
-  TString fonll="/afs/cern.ch/user/c/cdozen/public/For_GIAN/fonllOutput_pp_Bplus_5p03TeV_y2p4.root";
+  TString fonll="/afs/cern.ch/work/c/cdozen/BRUNII/CMSSW_7_5_5_patch4/src/BntupleRunII/CrossSecti    on/ROOTfiles/fonllOutput_pp_Bplus_5p03TeV_y2p4.root";
   TFile* filePPReference = new TFile(fonll.Data());  
   TGraphAsymmErrors* gaeBplusReference = (TGraphAsymmErrors*)filePPReference->Get("gaeSigmaBplus");
 
@@ -125,6 +130,7 @@ TFile*infMC=new TFile("/data/HeavyFlavourRun2/MC2015/Bntuple/PbPb/Bntuple2016060
    
    TCanvas*c1=new TCanvas("c1","c1",800.,500.);
     c1->cd();
+    gPad->SetLogy();
     hFONLLOverPt->Fit("myfit","","",minfit,maxfit);
     TLegend* leg0 = myLegend(0.13,0.80,0.52,0.88);
     leg0->AddEntry(hFONLLOverPt,"Pythia8 MC_2015 B^{+}","");
@@ -146,23 +152,25 @@ TFile*infMC=new TFile("/data/HeavyFlavourRun2/MC2015/Bntuple/PbPb/Bntuple2016060
    std::cout<<"myweightfunctiongen="<<myweightfunctiongen<<std::endl;
    std::cout<<"myweightfunctionreco="<<myweightfunctionreco<<std::endl;
 
-  TCanvas*canvasPtReweight=new TCanvas("canvasPtReweight","canvasPtReweight_PbPb_MC_B+",1300.,500.); 
+  TCanvas*canvasPtReweight=new TCanvas("canvasPtReweight","canvasPtReweight_PbPb_MC_B+",800.,600.); 
   canvasPtReweight->Divide(3,1);
   canvasPtReweight->cd(1);
   gPad->SetLogy();
   hPtGenFONLL->SetXTitle("Gen p_{T}(GeV)");
-  hPtGenFONLL->SetYTitle("#entries");
+  hPtGenFONLL->SetYTitle("PYTHIA, #entries");
   hPtGenFONLL->SetMinimum(1e-4);  
   hPtGenFONLL->SetMaximum(1e11);  
   hPtGenFONLL->GetYaxis()->SetTitleOffset(1.4);
   hPtGenFONLL->Draw();
   canvasPtReweight->cd(2);
   gPad->SetLogy();
-  hFONLL->SetXTitle("p_{T}(GeV)");
+  hFONLL->SetXTitle("Gen, p_{T}(GeV)");
   hFONLL->SetYTitle("FONLL_PbPb, #entries");
   hFONLL->SetMinimum(1e-4);  
   hFONLL->SetMaximum(1e11);  
   hFONLL->GetYaxis()->SetTitleOffset(1.4);
+  hFONLL->GetYaxis()->CenterTitle();
+  hFONLL->GetXaxis()->CenterTitle();
   hFONLL->Draw();
   canvasPtReweight->cd(3);
   gPad->SetLogy();
@@ -171,10 +179,10 @@ TFile*infMC=new TFile("/data/HeavyFlavourRun2/MC2015/Bntuple/PbPb/Bntuple2016060
  // hFONLLOverPt->SetMinimum(0.01);  
  // hFONLLOverPt->SetMaximum(10.);  
   hFONLLOverPt->GetYaxis()->SetTitleOffset(1.4);
+  hFONLL->GetYaxis()->CenterTitle();
+  hFONLL->GetXaxis()->CenterTitle();
   hFONLLOverPt->Draw();
   canvasPtReweight->SaveAs("canvasPtReweightPbPb.pdf");
-
-
 }
 
 
