@@ -41,7 +41,7 @@ TString bkg_new[nbkg] = {"[0]+[1]*x",
 		    "[0]+[1]*x+[2]*x*x+[3]*x*x*x",
 		    "[0]*exp([1]*x)"};
 
-TString name[nbkg] = {"linear","quadratic","cubic","exp"};
+TString name[nbkg] = {"Linear","Quadratic","Cubic","Exponential"};
 
 void clean0(TH1D* h)
 {
@@ -113,27 +113,13 @@ void fitBvar(TString collsyst="PbPb", TString npfile="ROOTfiles/NPFitPbPb.root",
   leg->SetTextFont(42);
   leg->SetFillStyle(0);
 
-  TFile* data_pp = new TFile("/afs/cern.ch/user/a/aturner/B_Meson/CMSSW_7_5_5_patch4/src/BntupleRunII/CrossSection/ROOTfiles/data_pp.root");
-  TFile* data_PP = new TFile("/afs/cern.ch/user/a/aturner/B_Meson/CMSSW_7_5_5_patch4/src/BntupleRunII/CrossSection/ROOTfiles/data_PbPb.root");
-
-  TH1D* h_pp = (TH1D*)data_pp->Get("hPt");
-  TH1D* h_PP = (TH1D*)data_PP->Get("hPt");
-
-  double pp_y;
-  double PP_y;
-  double pp_err;
-  double PP_err;
-  double y;
-  double err;
-  double y_fr;
-  double err_fr;
-  TF1* f;
-
     getNPFnPar(npfile, NPpar);
     std::cout<<"NP parameter 0: "<<NPpar[0]<<std::endl;
     std::cout<<"NP parameter 1: "<<NPpar[1]<<std::endl;
 
- 
+    TFile* data = new TFile(Form("/afs/cern.ch/user/a/aturner/B_Meson/CMSSW_7_5_5_patch4/src/BntupleRunII/CrossSection/ROOTfiles/data_%s.root",collisionsystem.Data()));  
+    TH1D* h_def = (TH1D*)data->Get("hPt"); 
+     
     for(int j=0;j<nbkg;j++)
     {
 
@@ -141,25 +127,21 @@ void fitBvar(TString collsyst="PbPb", TString npfile="ROOTfiles/NPFitPbPb.root",
 
       for(int i=0;i<nBins;i++)
 	{
-	  pp_y = h_pp->GetBinContent(i+1);
-	  PP_y = h_PP->GetBinContent(i+1);
-	  pp_err = h_pp->GetBinError(i+1);
-	  PP_err = h_PP->GetBinError(i+1);
+	  double def_y = h_def->GetBinContent(i+1);
+	  double def_err = h_def->GetBinError(i+1);
 	 
-	  f = fit(ptBins[i],ptBins[i+1],j,0,2);
+	  TF1* f0 = fit(ptBins[i],ptBins[i+1],j,0,2);
 	  cout<<"YIELD / YIELDERR:  "<< yield <<" "<< yieldErr << endl;
-	  y = yield/(ptBins[i+1]-ptBins[i]);
-	  err = yieldErr/(ptBins[i+1]-ptBins[i]);
-	  y_fr = 0;
-	  err_fr = 0;
+	  cout << "DEF YIELD:  "<< def_y*(ptBins[i+1]-ptBins[i]) <<endl;
+	  double y0 = yield/(ptBins[i+1]-ptBins[i]);
+	  double err0 = yieldErr/(ptBins[i+1]-ptBins[i]);
 
-	  if(collisionsystem == "PbPb") y_fr = y/PP_y;
-	  else y_fr = y/pp_y;
-	  if(collisionsystem == "PbPb") err_fr = sqrt(pow(err/PP_y,2)+pow(PP_err*y/(PP_y*PP_y),2));
-	  else err_fr = sqrt(pow(err/pp_y,2)+pow(pp_err*y/(pp_y*pp_y),2));
+	  double y0_fr = y0/def_y;
+	  cout << "YIELD FRACTION: " << y0_fr << endl;
+	  double err0_fr = sqrt(pow(err0/def_y,2)+pow(def_err*y0/(def_y*def_y),2));
 
-	  hvar->SetBinContent(i+1,y_fr);
-	  hvar->SetBinError(i+1,err_fr);
+	  hvar->SetBinContent(i+1,y0_fr);
+	  hvar->SetBinError(i+1,err0_fr);
 	  hvar->SetMarkerStyle(8);
 	  hvar->SetMarkerColor(2+j);
 
@@ -175,42 +157,36 @@ void fitBvar(TString collsyst="PbPb", TString npfile="ROOTfiles/NPFitPbPb.root",
 
       for(int i=0;i<nBins;i++)
 	{
-	  pp_y = h_pp->GetBinContent(i+1);
-	  PP_y = h_PP->GetBinContent(i+1);
-	  pp_err = h_pp->GetBinError(i+1);
-	  PP_err = h_PP->GetBinError(i+1);
+	  double def_y = h_def->GetBinContent(i+1);
+	  double def_err = h_def->GetBinError(i+1);
 	 
-	  f = fit(ptBins[i],ptBins[i+1],0,0,1);
+	  TF1* f1 = fit(ptBins[i],ptBins[i+1],0,0,1);
 	  cout<<"YIELD / YIELDERR:  "<< yield <<" "<< yieldErr << endl;
-	  y = yield/(ptBins[i+1]-ptBins[i]);
-	  err = yieldErr/(ptBins[i+1]-ptBins[i]);
-	  y_fr = 0;
-	  err_fr = 0;
+	  cout << "DEF YIELD:  "<< def_y*(ptBins[i+1]-ptBins[i]) <<endl;
+	  double y1 = yield/(ptBins[i+1]-ptBins[i]);
+	  double err1 = yieldErr/(ptBins[i+1]-ptBins[i]);
 
-	  if(collisionsystem == "PbPb") y_fr = y/PP_y;
-	  else y_fr = y/pp_y;
-	  if(collisionsystem == "PbPb") err_fr = sqrt(pow(err/PP_y,2)+pow(PP_err*y/(PP_y*PP_y),2));
-	  else err_fr = sqrt(pow(err/pp_y,2)+pow(pp_err*y/(pp_y*pp_y),2));
+	  double y1_fr = y1/def_y;
+	  cout << "YIELD FRACTION: " << y1_fr << endl;
+	  double err1_fr = sqrt(pow(err1/def_y,2)+pow(def_err*y1/(def_y*def_y),2));
 
-	  hwidvar->SetBinContent(i+1,y_fr);
-	  hwidvar->SetBinError(i+1,err_fr);
-	  hwidvar->SetMarkerStyle(24);
+	  hsigvar->SetBinContent(i+1,y1_fr);
+	  hsigvar->SetBinError(i+1,err1_fr);
+	  hsigvar->SetMarkerStyle(24);
 
-	  f = fit(ptBins[i],ptBins[i+1],0,1,2);
+	  TF1* f2 = fit(ptBins[i],ptBins[i+1],0,1,2);
 	  cout<<"YIELD / YIELDERR:  "<< yield <<" "<< yieldErr << endl;
-	  y = yield/(ptBins[i+1]-ptBins[i]);
-	  err = yieldErr/(ptBins[i+1]-ptBins[i]);
-	  y_fr = 0;
-	  err_fr = 0;
+	  cout << "DEF YIELD:  "<< def_y*(ptBins[i+1]-ptBins[i]) <<endl;
+	  double y2 = yield/(ptBins[i+1]-ptBins[i]);
+	  double err2 = yieldErr/(ptBins[i+1]-ptBins[i]);
 
-	  if(collisionsystem == "PbPb") y_fr = y/PP_y;
-	  else y_fr = y/pp_y;
-	  if(collisionsystem == "PbPb") err_fr = sqrt(pow(err/PP_y,2)+pow(PP_err*y/(PP_y*PP_y),2));
-	  else err_fr = sqrt(pow(err/pp_y,2)+pow(pp_err*y/(pp_y*pp_y),2));
+	  double y2_fr = y2/def_y;
+	  cout << "YIELD FRACTION: " << y2_fr << endl;
+	  double err2_fr = sqrt(pow(err2/def_y,2)+pow(def_err*y2/(def_y*def_y),2));
 
-	  hsigvar->SetBinContent(i+1,y_fr);
-	  hsigvar->SetBinError(i+1,err_fr);
-	  hsigvar->SetMarkerStyle(25);
+	  hwidvar->SetBinContent(i+1,y2_fr);
+	  hwidvar->SetBinError(i+1,err2_fr);
+	  hwidvar->SetMarkerStyle(25);
 
 	  c->cd();
 	  hwidvar->Draw("Same");
@@ -263,7 +239,7 @@ TF1* fit(float ptmin, float ptmax, int j, int widVar, int nGaus)
 	f->FixParameter(5,NPpar[1]);
 	f->FixParameter(6,0);
 
-	if(name[j] == "linear")
+	if(name[j] == "Linear")
 	{
 	    f->SetParLimits(7,0,havg*6);
 	    f->SetParLimits(8,-hmax,0);
@@ -294,7 +270,7 @@ TF1* fit(float ptmin, float ptmax, int j, int widVar, int nGaus)
 	f->FixParameter(2,f->GetParameter(2)); 
      
 	f->ReleaseParameter(10);
-	if(name[j] == "linear")
+	if(name[j] == "Linear")
 	{
 	    f->SetParLimits(8,-hmax,0);
 	}
@@ -352,7 +328,7 @@ TF1* fit(float ptmin, float ptmax, int j, int widVar, int nGaus)
 	f->FixParameter(4,NPpar[0]);
 	f->FixParameter(5,NPpar[1]);
 
-	if(name[j] == "linear")
+	if(name[j] == "Linear")
 	{
 	    f->SetParLimits(9,0,hmax*6);
 	    f->SetParLimits(10,-hmax,0);
@@ -364,9 +340,9 @@ TF1* fit(float ptmin, float ptmax, int j, int widVar, int nGaus)
 	f->SetParameter(8,0.03);
 
 	f->FixParameter(1,5.279);
-	if(name[j] != "linear") f->FixParameter(10,0);
-	if(name[j]=="quadratic" || name[j]=="cubic") f->FixParameter(11,0);
-	if(name[j]=="cubic") f->FixParameter(12,0);
+	if(name[j] != "Linear") f->FixParameter(10,0);
+	if(name[j]=="Quadratic" || name[j]=="Cubic") f->FixParameter(11,0);
+	if(name[j]=="Cubic") f->FixParameter(12,0);
 
 	f->FixParameter(6,0);
 	f->FixParameter(3,0);
@@ -387,14 +363,14 @@ TF1* fit(float ptmin, float ptmax, int j, int widVar, int nGaus)
 	f->FixParameter(7,f->GetParameter(7)); 
 	f->FixParameter(8,f->GetParameter(8));
      
-	if(name[j] != "linear")f->ReleaseParameter(10);
-	if(name[j] == "linear")
+	if(name[j] != "Linear")f->ReleaseParameter(10);
+	if(name[j] == "Linear")
 	{
 	    f->SetParLimits(10,-hmax,0);
 	}
 
-	if(name[j]=="quadratic" || name[j]=="cubic") f->ReleaseParameter(11);
-	if(name[j]=="cubic") f->ReleaseParameter(12);
+	if(name[j]=="Quadratic" || name[j]=="Cubic") f->ReleaseParameter(11);
+	if(name[j]=="Cubic") f->ReleaseParameter(12);
 	
 	if(widVar == 1)
 	{
@@ -474,7 +450,7 @@ TF1* fit(float ptmin, float ptmax, int j, int widVar, int nGaus)
     yield = mass->Integral(minhisto,maxhisto)/binwidthmass;
     yieldErr = mass->Integral(minhisto,maxhisto)/binwidthmass*mass->GetParError(0)/mass->GetParameter(0);
 
-    TLegend* leg = new TLegend(0.65,0.58,0.82,0.88,NULL,"brNDC");
+    TLegend* leg = new TLegend(0.65,0.54,0.82,0.84,NULL,"brNDC");
     leg->SetBorderSize(0);
     leg->SetTextSize(0.04);
     leg->SetTextFont(42);
@@ -492,6 +468,9 @@ TF1* fit(float ptmin, float ptmax, int j, int widVar, int nGaus)
     texCms->SetTextFont(42);
     texCms->Draw();
 
+    TString ordinal[3] = {"Zero","Single","Double"};
+    TString widname[2] = {""," (Floating Width)"};
+
     TLatex* texCol;
     if(collisionsystem=="pp"||collisionsystem=="PP") texCol= new TLatex(0.96,0.93, Form("%s #sqrt{s_{NN}} = 5.02 TeV","pp"));
     else texCol= new TLatex(0.96,0.93, Form("%s #sqrt{s_{NN}} = 5.02 TeV","PbPb"));
@@ -503,7 +482,7 @@ TF1* fit(float ptmin, float ptmax, int j, int widVar, int nGaus)
 
     TLatex* tex;
 
-    tex = new TLatex(0.22,0.78,Form("%.1f < p_{T} < %.1f GeV/c",ptmin,ptmax));
+    tex = new TLatex(0.22,0.74,Form("%.1f < p_{T} < %.1f GeV/c",ptmin,ptmax));
     tex->SetNDC();
     tex->SetTextFont(42);
     tex->SetTextSize(0.04);
@@ -512,16 +491,24 @@ TF1* fit(float ptmin, float ptmax, int j, int widVar, int nGaus)
 
     if(collisionsystem == "PbPb"){
     TString texper="%";
-    tex = new TLatex(0.22,0.71,Form("Centrality %.0f-%.0f%s",centmin,centmax,texper.Data()));//0.2612903,0.8425793
+    tex = new TLatex(0.65,0.49,Form("Centrality %.0f-%.0f%s",centmin,centmax,texper.Data()));//0.2612903,0.8425793
     tex->SetNDC();
     tex->SetTextColor(1);
     tex->SetTextFont(42);
-    tex->SetTextSize(0.045);
+    tex->SetTextSize(0.04);
     tex->SetLineWidth(2);
     tex->Draw();
     }
 
-    tex = new TLatex(0.22,0.83,"|y| < 2.4");
+    tex = new TLatex(0.21,0.85,Form("%s Gaussian Signal%s / %s Background",ordinal[nGaus].Data(),widname[widVar].Data(),name[j].Data()));//0.2612903,0.8425793
+    tex->SetNDC();
+    tex->SetTextColor(1);
+    tex->SetTextFont(42);
+    tex->SetTextSize(0.03);
+    tex->SetLineWidth(2);
+    tex->Draw();
+
+    tex = new TLatex(0.22,0.79,"|y| < 2.4");
     tex->SetNDC();
     tex->SetTextFont(42);
     tex->SetTextSize(0.04);
