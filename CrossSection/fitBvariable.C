@@ -22,7 +22,7 @@ TString selmcgen;
 TString collisionsystem;
 Float_t hiBinMin,hiBinMax,centMin,centMax;
 
-void fitBvariable(TString variable="DsvpvDistance/DsvpvDisErr",TString variableplot="d_{xy}/#sigma(d_{xy})", int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp/ntB_EvtBase_20160420_BfinderData_pp_20160419_bPt0jpsiPt0tkPt0p5.root" , TString inputmc="/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160606_pp_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root", TString trgselection="1",  TString cut="TMath::Abs(By)<2.4&&TMath::Abs(Bmumumass-3.096916)<0.15&&Bmass>5&&Bmass<6&&Btrk1Pt>0.9&&Bchi2cl>1.32e-02&&(Bd0/Bd0Err)>3.41&&cos(Bdtheta)>-3.46e-01&&Bmu1pt>1.5&&Bmu2pt>1.5&&Blxy>0.025", TString cutmcgen="TMath::Abs(Gy)<2.4&&abs(GpdgId)==521&&GisSignal==1", int isMC=0, Double_t luminosity=1., int doweight=0, TString collsyst="PP", TString outputfile="ROOTfiles/mytest.root", TString npfile="ROOTfiles/NPFitPP.root", Float_t centmin=0., Float_t centmax=0.)
+void fitBvariable(TString variable="BsvpvDistance/BsvpvDisErr",TString variableplot="d_{xy}/#sigma(d_{xy})", int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp/ntB_EvtBase_20160420_BfinderData_pp_20160419_bPt0jpsiPt0tkPt0p5.root" , TString inputmc="/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160606_pp_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root", TString trgselection="HLT_HIL1DoubleMu0_v1",  TString cut="abs(PVz)<15&&pBeamScrapingFilter&&pPAprimaryVertexFilter&&TMath::Abs(By)<2.4&&TMath::Abs(Bmumumass-3.096916)<0.15&&Bmass>5&&Bmass<6&& ((abs(Bmu1eta)<1.2 && Bmu1pt>3.5) || (abs(Bmu1eta)>1.2 && abs(Bmu1eta)<2.1 && Bmu1pt>(5.77-1.8*abs(Bmu1eta))) || (abs(Bmu1eta)>2.1 && abs(Bmu1eta)<2.4 && Bmu1pt>1.8)) && ((abs(Bmu2eta)<1.2 && Bmu2pt>3.5) || (abs(Bmu2eta)>1.2 && abs(Bmu2eta)<2.1 && Bmu2pt>(5.77-1.8*abs(Bmu2eta))) || (abs(Bmu2eta)>2.1 && abs(Bmu2eta)<2.4 && Bmu2pt>1.8)) && Bmu1TMOneStationTight && Bmu2TMOneStationTight && Bmu1InPixelLayer > 0 && (Bmu1InPixelLayer+Bmu1InStripLayer) > 5 && Bmu2InPixelLayer > 0 && (Bmu2InPixelLayer+Bmu2InStripLayer) > 5 && Bmu1dxyPV< 0.3 && Bmu2dxyPV< 0.3 && Bmu1dzPV<20 && Bmu2dzPV<20 && Bmu1isGlobalMuon && Bmu2isGlobalMuon && Btrk1Pt>1. && abs(Beta) < 2.4 && Bchi2cl > 0.005 && Btrk1highPurity && abs(Btrk1Eta)<2.4 && cos(Bdtheta) > 0.2 && (BsvpvDistance/BsvpvDisErr)>4.&&Bpt>20&&Bpt<30", TString cutmcgen="TMath::Abs(Gy)<2.4&&abs(GpdgId)==521&&GisSignal==1", int isMC=0, Double_t luminosity=1., int doweight=0, TString collsyst="PP", TString outputfile="ROOTfiles/mytest.root", TString npfile="ROOTfiles/NPFitPP.root", Float_t centmin=0., Float_t centmax=0.)
 {
   collisionsystem=collsyst;
   hiBinMin = centmin*2;
@@ -60,7 +60,7 @@ void fitBvariable(TString variable="DsvpvDistance/DsvpvDisErr",TString variablep
 
   void clean0 (TH1D* h);
   void getNPFnPar(TString npfname, float par[]);
-  TF1* fit (TTree* nt, TTree* ntMC, double ptmin, double ptmax, int isMC,bool, TF1* &total,Float_t centmin, Float_t centmax, float NPpar[]);
+  TF1* fit (TString variable, TString variableplot, TTree* nt, TTree* ntMC, double ptmin, double ptmax, int isMC,bool, TF1* &total,Float_t centmin, Float_t centmax, float NPpar[]);
   float NPpar[2];
   getNPFnPar(npfile, NPpar);
   std::cout<<"NP parameter 0: "<<NPpar[0]<<std::endl;
@@ -104,7 +104,7 @@ void fitBvariable(TString variable="DsvpvDistance/DsvpvDisErr",TString variablep
 
   for(int i=0;i<nBins;i++)
     {
-      TF1* f = fit(nt,ntMC,ptBins[i],ptBins[i+1],isMC,isPbPb, totalmass,centmin, centmax, NPpar);
+      TF1* f = fit(variable,variableplot,nt,ntMC,ptBins[i],ptBins[i+1],isMC,isPbPb, totalmass,centmin, centmax, NPpar);
       hMean->SetBinContent(i+1,f->GetParameter(1));
       hMean->SetBinError(i+1,f->GetParError(1));  
       double yield = f->Integral(minhisto,maxhisto)/binwidthmass;
@@ -113,17 +113,17 @@ void fitBvariable(TString variable="DsvpvDistance/DsvpvDisErr",TString variablep
       hPt->SetBinError(i+1,yieldErr/(ptBins[i+1]-ptBins[i]));
     }  
 
-  ntMC->Project("hPtMC","Bpt",TCut(weight)*(TCut(selmceff.Data())&&"(Bgen==23333)"));
+  ntMC->Project("hPtMC",variable.Data(),TCut(weight)*(TCut(selmceff.Data())&&"(Bgen==23333)"));
   divideBinWidth(hPtMC);
-  ntMC->Project("hPtRecoTruth","Bpt",TCut(selmceff.Data())&&"(Bgen==23333)");
+  ntMC->Project("hPtRecoTruth",variable.Data(),TCut(selmceff.Data())&&"(Bgen==23333)");
   divideBinWidth(hPtRecoTruth);
   ntGen->Project("hPtGen","Gpt",TCut(weightgen)*(TCut(selmcgen.Data())));
   divideBinWidth(hPtGen);
 
   TCanvas* cPt =  new TCanvas("cPt","",600,600);
   cPt->SetLogy();
-  hPt->SetXTitle("D^{0} p_{T} (GeV/c)");
-  hPt->SetYTitle("Uncorrected dN(D^{0})/dp_{T}");
+  hPt->SetXTitle(Form("B^{+} %s",variable.Data()));
+  hPt->SetYTitle("Uncorrected dN(B^{+})/dp_{T}");
   hPt->Sumw2();
   hPt->Draw();
   if(isMC==1)
@@ -136,14 +136,14 @@ void fitBvariable(TString variable="DsvpvDistance/DsvpvDisErr",TString variablep
     }
   hPtMC->Sumw2();
   TH1D* hEff = (TH1D*)hPtMC->Clone("hEff");
-  hEff->SetTitle(";B^{+} p_{T} (GeV/c);Efficiency");
+  hEff->SetTitle(Form(";B^{+} %s",variable.Data()));
   hEff->Sumw2();
   hEff->Divide(hPtGen);
   TCanvas* cEff = new TCanvas("cEff","",600,600);
   hEff->Draw();
   
   TH1D* hPtCor = (TH1D*)hPt->Clone("hPtCor");
-  hPtCor->SetTitle(";B^{+} p_{T} (GeV/c);Corrected dN(B^{+})/dp_{T}");
+  hPtCor->SetTitle(Form(";B^{+} %s;Corrected dN(B^{+})/dp_{T}",variable.Data()));
   hPtCor->Divide(hEff);
   TCanvas* cPtCor=  new TCanvas("cCorResult","",600,600);
   cPtCor->SetLogy();
@@ -158,7 +158,7 @@ void fitBvariable(TString variable="DsvpvDistance/DsvpvDisErr",TString variablep
     }
 
   TH1D* hPtSigma= (TH1D*)hPtCor->Clone("hPtSigma");
-  hPtSigma->SetTitle(";B^{+} p_{T} (GeV/c);d#sigma(B^{+})/dp_{T} (pb/GeV)");
+  hPtSigma->SetTitle(Form(";B^{+} %s;d#sigma(B^{+})/d%s (pb/{units})",variable.Data(),variable.Data()));
   hPtSigma->Scale(1./(2*luminosity*BRchain));
   TCanvas* cPtSigma=  new TCanvas("cPtSigma","",600,600);
   cPtSigma->SetLogy();
@@ -192,7 +192,7 @@ void getNPFnPar(TString npfname, float par[]){
 	par[1] = f->GetParameter(2);
 }
 
-TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool isPbPb,TF1* &total,Float_t centmin, Float_t centmax, float NPpar[])
+TF1 *fit(TString variable, TString variableplot, TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool isPbPb,TF1* &total,Float_t centmin, Float_t centmax, float NPpar[])
 {
    //cout<<cut.Data()<<endl;
    static Int_t count=0;
@@ -205,11 +205,11 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 
    TString iNP=Form("TMath::Erf((x-%f)/%f)+1", NPpar[0], NPpar[1]);
    TF1* f = new TF1(Form("f%d",count),"[0]*([7]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2])+(1-[7])*Gaus(x,[1],[8])/(sqrt(2*3.14159)*[8]))+[3]+[4]*x+[5]*("+iNP+")");
+   TString mycut=Form("(%s&&(%s)>%f&&(%s)<%f)",seldata.Data(),variable.Data(),ptmin,variable.Data(),ptmax);
+   if(isMC==1) nt->Project(Form("h-%d",count),"Bmass",TCut(weight)*TCut(mycut));   
+   else nt->Project(Form("h-%d",count),"Bmass",Form("(%s&&(%s)>%f&&(%s)<%f)",seldata.Data(),variable.Data(),ptmin,variable.Data(),ptmax));   
+   ntMC->Project(Form("hMCSignal-%d",count),"Bmass",Form("%s*(%s&&(%s)>%f&&(%s)<%f&&(Bgen==23333))",weight.Data(),selmc.Data(),variable.Data(),ptmin,variable.Data(),ptmax));   
 
-   if(isMC==1) nt->Project(Form("h-%d",count),"Bmass",Form("%s*(%s&&Bpt>%f&&Bpt<%f)","1",seldata.Data(),ptmin,ptmax));   
-   else nt->Project(Form("h-%d",count),"Bmass",Form("(%s&&Bpt>%f&&Bpt<%f)",seldata.Data(),ptmin,ptmax));   
-
-   ntMC->Project(Form("hMCSignal-%d",count),"Bmass",Form("%s&&Bpt>%f&&Bpt<%f",Form("%s&&Bgen==23333",selmc.Data()),ptmin,ptmax));
    clean0(h);
 /*
    TFile*fout=new TFile("testout.root","recreate");
@@ -344,7 +344,7 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 
   TLatex* tex;
 
-  tex = new TLatex(0.22,0.78,Form("%.1f < p_{T} < %.1f GeV/c",ptmin,ptmax));
+  tex = new TLatex(0.22,0.78,Form("%.1f < %s  < %.1f",ptmin,variableplot.Data(),ptmax));
   tex->SetNDC();
   tex->SetTextFont(42);
   tex->SetTextSize(0.04);
@@ -375,13 +375,13 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
   //else c->SaveAs(Form("plotFits/BMass%s_%.0f_%.0f_%d.pdf",collisionsystem.Data(),centMin,centMax,count));
 
   if(isPbPb && isMC==0) 
-      c->SaveAs(Form("plotFits/data_PbPb_%d.pdf",count));
+      c->SaveAs(Form("plotFitsVariables/data_PbPb_%d.pdf",count));
   else if(isPbPb && isMC==1) 
-      c->SaveAs(Form("plotFits/mc_PbPb_%d.pdf",count));
+      c->SaveAs(Form("plotFitsVariables/mc_PbPb_%d.pdf",count));
   else if(!isPbPb && isMC==0) 
-      c->SaveAs(Form("plotFits/data_pp_%d.pdf",count));
+      c->SaveAs(Form("plotFitsVariables/data_pp_%d.pdf",count));
   else 
-      c->SaveAs(Form("plotFits/mc_pp_%d.pdf",count));
+      c->SaveAs(Form("plotFitsVariables/mc_pp_%d.pdf",count));
 
   return mass;
 }
