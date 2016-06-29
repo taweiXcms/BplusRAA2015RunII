@@ -1,7 +1,7 @@
 #include "uti.h"
 #include "parameters.h"
 #include "TLegendEntry.h"
-//#include "../Systematics/systematics.C"
+#include "../Systematics/systematics.C"
 
 void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5TeV_y1.root", TString input="ROOTfiles/hPtSpectrumBplusPP.root", TString efficiency="test.root",TString outputplot="myplot.root",int usePbPb=1,TString label="PbPb",double lumi=1.,Float_t centMin=0., Float_t centMax=100.)
 {
@@ -41,8 +41,8 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
       ycross[i] = hPtSigma->GetBinContent(i+1);
       ycrossstat[i] = hPtSigma->GetBinError(i+1);
       double systematic=0.;
-      //if (!isPbPb) systematic=0.01*systematicsPP(xr[i],0.);
-      //else  systematic=0.01*systematicsPbPb(xr[i],centMin,centMax,0.);     
+      if (!isPbPb) systematic=0.01*systematicsPP(xr[i],0.);
+      else  systematic=0.01*systematicsPbPb(xr[i],centMin,centMax,0.);     
       
       ycrosssysthigh[i]= hPtSigma->GetBinContent(i+1)*systematic;
       ycrosssystlow[i]= hPtSigma->GetBinContent(i+1)*systematic;
