@@ -371,17 +371,9 @@ TF1 *fit(TString variable, TString variableplot, TTree *nt, TTree *ntMC, Double_
      
    total=f;
    
-  //if(!isPbPb) c->SaveAs(Form("plotFits/BMass%s_%d.pdf",collisionsystem.Data(),count));
-  //else c->SaveAs(Form("plotFits/BMass%s_%.0f_%.0f_%d.pdf",collisionsystem.Data(),centMin,centMax,count));
 
-  if(isPbPb && isMC==0) 
-      c->SaveAs(Form("plotFitsVariables/data_PbPb_%d.pdf",count));
-  else if(isPbPb && isMC==1) 
-      c->SaveAs(Form("plotFitsVariables/mc_PbPb_%d.pdf",count));
-  else if(!isPbPb && isMC==0) 
-      c->SaveAs(Form("plotFitsVariables/data_pp_%d.pdf",count));
-  else 
-      c->SaveAs(Form("plotFitsVariables/mc_pp_%d.pdf",count));
+  if(isPbPb==0) c->SaveAs(Form("plotFitsVariables/BMass-inclusive%s_%d_pp.pdf",collisionsystem.Data(),count));
+  if(isPbPb==1) c->SaveAs(Form("plotFitsVariables/BMass-inclusive%s_%d_PbPb.pdf",collisionsystem.Data(),count));
 
   return mass;
 }
