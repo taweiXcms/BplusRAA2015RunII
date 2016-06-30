@@ -4,22 +4,22 @@ CENTPbPbMIN=0
 CENTPbPbMAX=100
 #Central point of the analysis
 
-DOANALYSISPP_FONLL=1
-DOANALYSISPP_FITNP=1
-DOANALYSISPP_FIT=1
+DOANALYSISPP_FONLL=0
+DOANALYSISPP_FITNP=0
+DOANALYSISPP_FIT=0
 DOANALYSISPP_MCSTUDY=1
-DOANALYSISPP_CROSS=1
+DOANALYSISPP_CROSS=0
 
-DOANALYSISPbPb_FONLL=1
-DOANALYSISPbPb_FITNP=1
+DOANALYSISPbPb_FONLL=0
+DOANALYSISPbPb_FITNP=0
 DOANALYSISPbPb_FIT=1
-DOANALYSISPbPb_CROSS=1
-DOANALYSISPbPb_MCSTUDY=1
+DOANALYSISPbPb_CROSS=0
+DOANALYSISPbPb_MCSTUDY=0
 
 DOANALYSISPP_MCSTUDYCombine=0
 DOANALYSISPbPb_MCSTUDYCombine=0
 
-DORAA=1
+DORAA=0
 
 #systematic section
 DOCOMPARE=0
@@ -29,16 +29,16 @@ DOVARIATION=0
 DOClosure=0
 
 ## PP MONTE CARLO
-INPUTMCPP="/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160606_pp_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root" 
+INPUTMCPP="/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160628_Bpt7To10_pp_Pythia8_BuToJpsiK_pthatweight_BDTv20160630.root"
 ## PP DATA 
 #INPUTDATAPP="/data/wangj/Data2015/Bntuple/pp/ntB_EvtBase_20160420_BfinderData_pp_20160419_bPt0jpsiPt0tkPt0p5.root"
-INPUTDATAPP="/data/HeavyFlavourRun2/Data2015/Bntuple/Bntuple20160608_crab_BfinderData_pp_20160606_bPt0jpsiPt0tkPt0p5_Bp.root"
+INPUTDATAPP="/data/HeavyFlavourRun2/Data2015/Bntuple/Bntuple20160628_Bpt7To10_crab_BfinderData_pp_20160606_bPt0jpsiPt0tkPt0p5_Bp_BDTv20160630.root"
 
 ## PbPb MONTE CARLO
-INPUTMCPbPb="/data/HeavyFlavourRun2/MC2015/Bntuple/PbPb/Bntuple20160606_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root" 
+INPUTMCPbPb="/data/HeavyFlavourRun2/MC2015/Bntuple/PbPb/Bntuple20160628_Bpt7To10_Pythia8_BuToJpsiK_pthatweight_BDTv20160630.root" 
 ## PbPb DATA 
 #INPUTDATAPbPb="/data/HeavyFlavourRun2/Data2015/Bntuple/Bntuple20160605_BfinderData_PbPb_20160406_bPt5jpsiPt0tkPt0p8_BpB0BsX.root"
-INPUTDATAPbPb="/data/HeavyFlavourRun2/Data2015/Bntuple/Bntuple20160610_crab_BfinderData_PbPb_20160607_bPt5jpsiPt0tkPt0p8_Bp.root"
+INPUTDATAPbPb="/data/HeavyFlavourRun2/Data2015/Bntuple/Bntuple20160611_Bpt7To10_crab_BfinderData_PbPb_20160607_bPt5jpsiPt0tkPt0p8_Bp_BDTv20160630.root"
 
 ## ANALYSIS PP TRIGGERED
 FONLLDATINPUT="pp_Bplus_5p03TeV_y2p4"

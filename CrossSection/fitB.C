@@ -78,6 +78,7 @@ void fitB(int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp/ntB_
   nt->AddFriend("ntHlt");
   nt->AddFriend("ntHi");
   nt->AddFriend("ntSkim");
+  nt->AddFriend("bdtTree");
 
   TTree* ntGen = (TTree*)infMC->Get("ntGen");
   ntGen->AddFriend("ntHlt");
@@ -87,6 +88,7 @@ void fitB(int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp/ntB_
   ntMC->AddFriend("ntHlt");
   ntMC->AddFriend("ntHi");
   ntMC->AddFriend("ntSkim");
+  ntMC->AddFriend("bdtTree");
   ntMC->AddFriend(ntGen);
   
   TH1D* hPt = new TH1D("hPt","",nBins,ptBins);
