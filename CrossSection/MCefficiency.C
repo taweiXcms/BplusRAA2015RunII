@@ -66,6 +66,12 @@ if(useweight==0) {
     weightfunctionreco="1";
   }
 
+if(useweight==1) {
+    weightfunctiongen="6.08582+hiBin*(-0.155739)+hiBin*hiBin*(0.00149946)+hiBin*hiBin*hiBin*(-6.41629e-06)+hiBin*hiBin*hiBin*hiBin*(1.02726e-08)";
+    weightfunctionreco="6.08582+hiBin*(-0.155739)+hiBin*hiBin*(0.00149946)+hiBin*hiBin*hiBin*(-6.41629e-06)+hiBin*hiBin*hiBin*hiBin*(1.02726e-08)";
+  }
+
+
 
    std::cout<<"fit function parameters="<<weightfunctiongen<<std::endl;
 

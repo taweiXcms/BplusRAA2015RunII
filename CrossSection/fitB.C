@@ -66,11 +66,8 @@ void fitB(int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp/ntB_
   std::cout<<"NP parameter 0: "<<NPpar[0]<<std::endl;
   std::cout<<"NP parameter 1: "<<NPpar[1]<<std::endl;
 
-  if(doweight==0) {
-     weightgen="1";
-     weight="1";
-  }
-  if(doweight<0 || doweight>=1) std::cout<<"ERROR, this weighting option is not defined"<<std::endl;
+  weightgen="1";
+  weight="1";
   
   std::cout<<"we are using weight="<<weight<<std::endl;
   
