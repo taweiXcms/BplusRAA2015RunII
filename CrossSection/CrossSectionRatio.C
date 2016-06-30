@@ -249,6 +249,7 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
   gaeRatioCrossFONLLsyst->Draw("5same");
   l->Draw("same");
   if(!isPbPb) cSigma->SaveAs(Form("plotCrossSection/canvasSigmaBplusRatio%s.pdf",label.Data()));
+  if(!isPbPb) cSigma->SaveAs(Form("plotCrossSection/canvasSigmaBplusRatio%s.C",label.Data()));
   else cSigma->SaveAs(Form("plotCrossSection/canvasSigmaBplusRatio%s_%.0f_%.0f.pdf",label.Data(),centMin,centMax));
   
   

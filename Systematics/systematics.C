@@ -7,8 +7,8 @@
 
 // Yen-Jie: systematics table for B meson
 // Unit: In percentage
-const int nPtBins=3;
-double PtBins[nPtBins+1] = {10.,15.,20.,50};
+const int nPtBins=1;
+double PtBins[nPtBins+1] = {7.,10.};
 
 // =============================================================================================================
 // D meson decay
@@ -54,18 +54,12 @@ void initializationPP()
 {
    ppMesonSelection = new TH1D("ppMesonSelection","",nPtBins,PtBins);
    ppMesonSelection->SetBinContent(1,		4.0);
-   ppMesonSelection->SetBinContent(2,		4.0);
-   ppMesonSelection->SetBinContent(3,		4.0);
 
    ppSignalExtraction = new TH1D("ppSignalExtraction","",nPtBins,PtBins);
    ppSignalExtraction->SetBinContent(1,		5.0);
-   ppSignalExtraction->SetBinContent(2,		5.0);
-   ppSignalExtraction->SetBinContent(3,		5.0);
 
    ppTagAndProbe = new TH1D("ppTagAndProbe","",nPtBins,PtBins);
    ppTagAndProbe->SetBinContent(1,		10.0);
-   ppTagAndProbe->SetBinContent(2,		10.0);
-   ppTagAndProbe->SetBinContent(3,		10.0);
    
    fPPPtShape->SetParameters(0.999265,-0.0458006,-0.181359,0);
    }
@@ -75,19 +69,12 @@ void initializationPbPbCent0100()
 
    PbPbMesonSelection = new TH1D("PbPbMesonSelection","",nPtBins,PtBins);
    PbPbMesonSelection->SetBinContent(1,		10.);
-   PbPbMesonSelection->SetBinContent(2,		10.);
-   PbPbMesonSelection->SetBinContent(3,		10.);
-
 
    PbPbSignalExtraction = new TH1D("PbPbSignalExtraction","",nPtBins,PtBins);
    PbPbSignalExtraction->SetBinContent(1,	10.);
-   PbPbSignalExtraction->SetBinContent(2,	10.);
-   PbPbSignalExtraction->SetBinContent(3,	10.);
 
    PbPbTagAndProbe = new TH1D("PbPbTagAndProbe","",nPtBins,PtBins);
    PbPbTagAndProbe->SetBinContent(1,		10.0);
-   PbPbTagAndProbe->SetBinContent(2,		10.0);
-   PbPbTagAndProbe->SetBinContent(3,		10.0);
 
    fPbPbPtShape->SetParameters(0.984161,0.0593406,-0.3992,0.000271564);
    }
@@ -97,19 +84,13 @@ void initializationPbPbCent010()
 
    PbPbMesonSelection = new TH1D("PbPbMesonSelection","",nPtBins,PtBins);
    PbPbMesonSelection->SetBinContent(1,		0.);
-   PbPbMesonSelection->SetBinContent(2,		0.);
-   PbPbMesonSelection->SetBinContent(3,		0.);
 
 
    PbPbSignalExtraction = new TH1D("PbPbSignalExtraction","",nPtBins,PtBins);
    PbPbSignalExtraction->SetBinContent(1,	0.);
-   PbPbSignalExtraction->SetBinContent(2,	0.);
-   PbPbSignalExtraction->SetBinContent(3,	0.);
    
    PbPbTagAndProbe = new TH1D("PbPbTagAndProbe","",nPtBins,PtBins);
    PbPbTagAndProbe->SetBinContent(1,		10.0);
-   PbPbTagAndProbe->SetBinContent(2,		10.0);
-   PbPbTagAndProbe->SetBinContent(3,		10.0);
     
    fPbPbPtShape->SetParameters(0.984161,0.0593406,-0.3992,0.000271564);
    }
@@ -148,7 +129,7 @@ float systematicsForRAA(double pt,double centL=0,double centH=100, double HLT=0,
 
    double sys=0;
 
-   if (pt<10) return 0;
+   if (pt<7) return 0;
   
    if (stage==1) return sqrt(sys);
    
