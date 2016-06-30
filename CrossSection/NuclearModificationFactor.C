@@ -1,6 +1,7 @@
 #include "uti.h"
 #include "parameters.h"
 #include "TLegendEntry.h"
+#include "TColor.h"
 #include "../Systematics/systematics.C"
 
 void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", TString inputPbPb="ROOTfiles/CrossSectionPbPb.root",TString label="PbPb",TString outputfile="RAAfile.root", Float_t centMin=0., Float_t centMax=100.)
@@ -83,6 +84,86 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
   gNuclearModification->Draw("5same");
   hNuclearModification->SetLineWidth(3);
   hNuclearModification->Draw("same");
+  
+  if(1){
+  
+     Int_t ci;      // for color index setting
+   TColor *color; // for color definition with alpha
+   ci = TColor::GetColor("#000099");
+
+   Double_t gNuclearModification_fx3001[1] = {
+   8.5};
+   Double_t gNuclearModification_fy3001[1] = {
+   0.3527215};
+   Double_t gNuclearModification_felx3001[1] = {
+   1.5};
+   Double_t gNuclearModification_fely3001[1] = {
+   0.07759543};
+   Double_t gNuclearModification_fehx3001[1] = {
+   1.5};
+   Double_t gNuclearModification_fehy3001[1] = {
+   0.07759543};
+   TGraphAsymmErrors *grae = new TGraphAsymmErrors(1,gNuclearModification_fx3001,gNuclearModification_fy3001,gNuclearModification_felx3001,gNuclearModification_fehx3001,gNuclearModification_fely3001,gNuclearModification_fehy3001);
+   grae->SetName("gNuclearModification");
+   grae->SetTitle("Graph");
+   grae->SetFillColor(4);
+   grae->SetFillStyle(0);
+   grae->SetLineColor(4);
+   grae->SetLineWidth(3);
+   grae->SetMarkerStyle(20);
+   grae->SetMarkerSize(0.8);
+   
+   TH1F *Graph_gNuclearModification3001 = new TH1F("Graph_gNuclearModification3001","Graph",100,6.7,10.3);
+   Graph_gNuclearModification3001->SetMinimum(0.259607);
+   Graph_gNuclearModification3001->SetMaximum(0.445836);
+   Graph_gNuclearModification3001->SetDirectory(0);
+   Graph_gNuclearModification3001->SetStats(0);
+
+   ci = TColor::GetColor("#000099");
+   Graph_gNuclearModification3001->SetLineColor(ci);
+   Graph_gNuclearModification3001->SetMarkerStyle(20);
+   Graph_gNuclearModification3001->GetXaxis()->SetLabelFont(42);
+   Graph_gNuclearModification3001->GetXaxis()->SetLabelSize(0.035);
+   Graph_gNuclearModification3001->GetXaxis()->SetTitleSize(0.035);
+   Graph_gNuclearModification3001->GetXaxis()->SetTitleFont(42);
+   Graph_gNuclearModification3001->GetYaxis()->SetLabelFont(42);
+   Graph_gNuclearModification3001->GetYaxis()->SetLabelSize(0.035);
+   Graph_gNuclearModification3001->GetYaxis()->SetTitleSize(0.035);
+   Graph_gNuclearModification3001->GetYaxis()->SetTitleFont(42);
+   Graph_gNuclearModification3001->GetZaxis()->SetLabelFont(42);
+   Graph_gNuclearModification3001->GetZaxis()->SetLabelSize(0.035);
+   Graph_gNuclearModification3001->GetZaxis()->SetTitleSize(0.035);
+   Graph_gNuclearModification3001->GetZaxis()->SetTitleFont(42);
+   grae->SetHistogram(Graph_gNuclearModification3001);
+   
+   grae->Draw("5");
+   Double_t xAxis1[2] = {7, 10}; 
+   
+   TH1D *hNuclearModification2 = new TH1D("hNuclearModification2","",1, xAxis1);
+   hNuclearModification2->SetBinContent(1,0.3527215);
+   hNuclearModification2->SetBinError(1,0.119697);
+   hNuclearModification2->SetEntries(8.683556);
+   hNuclearModification2->SetLineWidth(3);
+   hNuclearModification2->SetMarkerStyle(20);
+   hNuclearModification2->SetMarkerSize(1.2);
+   hNuclearModification2->GetXaxis()->SetTitle("D^{0} p_{T} (GeV/c)");
+   hNuclearModification2->GetXaxis()->SetLabelFont(42);
+   hNuclearModification2->GetXaxis()->SetLabelSize(0.035);
+   hNuclearModification2->GetXaxis()->SetTitleSize(0.035);
+   hNuclearModification2->GetXaxis()->SetTitleFont(42);
+   hNuclearModification2->GetYaxis()->SetTitle("Uncorrected dN(D^{0})/dp_{T}");
+   hNuclearModification2->GetYaxis()->SetLabelFont(42);
+   hNuclearModification2->GetYaxis()->SetLabelSize(0.035);
+   hNuclearModification2->GetYaxis()->SetTitleSize(0.035);
+   hNuclearModification2->GetYaxis()->SetTitleFont(42);
+   hNuclearModification2->GetZaxis()->SetLabelFont(42);
+   hNuclearModification2->GetZaxis()->SetLabelSize(0.035);
+   hNuclearModification2->GetZaxis()->SetTitleSize(0.035);
+   hNuclearModification2->GetZaxis()->SetTitleFont(42);
+   hNuclearModification2->Draw("same");
+   
+}
+
 /*
   TLatex * tlatexeff=new TLatex(0.1612903,0.8525793,"CMS Preliminary     PbPb #sqrt{s}= 5.02 TeV");
   tlatexeff->SetNDC();
@@ -128,7 +209,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
   texpre->Draw();
 
 
-  TLegend *legendSigma=new TLegend(0.40,0.5168644,0.8084677,0.6605932,"");
+  TLegend *legendSigma=new TLegend(0.40,0.6168644,0.8084677,0.7605932,"");
   legendSigma->SetBorderSize(0);
   legendSigma->SetLineColor(0);
   legendSigma->SetFillColor(0);
