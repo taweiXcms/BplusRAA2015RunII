@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<MethodSetup Method="LD::LD">
+  <GeneralInfo>
+    <Info name="TMVA Release" value="4.2.0 [262656]"/>
+    <Info name="ROOT Release" value="6.02/10 [393738]"/>
+    <Info name="Creator" value="yjlee"/>
+    <Info name="Date" value="Thu Jun 30 10:40:47 2016"/>
+    <Info name="Host" value="Linux cmsbuild15.cern.ch 2.6.32-504.23.4.el6.x86_64 #1 SMP Wed Jun 10 07:47:59 CEST 2015 x86_64 x86_64 x86_64 GNU/Linux"/>
+    <Info name="Dir" value="/data/yjlee/photon2015/TMVA-v4.2.0/test"/>
+    <Info name="Training events" value="2420"/>
+    <Info name="TrainingTime" value="2.73609161e-03"/>
+    <Info name="AnalysisType" value="Classification"/>
+  </GeneralInfo>
+  <Options>
+    <Option name="V" modified="Yes">False</Option>
+    <Option name="VerbosityLevel" modified="No">Default</Option>
+    <Option name="VarTransform" modified="Yes">None</Option>
+    <Option name="H" modified="Yes">True</Option>
+    <Option name="CreateMVAPdfs" modified="Yes">True</Option>
+    <Option name="IgnoreNegWeightsInTraining" modified="No">False</Option>
+  </Options>
+  <Variables NVar="7">
+    <Variable VarIndex="0" Expression="(BsvpvDistance/BsvpvDisErr)" Label="(BsvpvDistance/BsvpvDisErr)" Title="(BsvpvDistance/BsvpvDisErr)" Unit="" Internal="_BsvpvDistance_D_BsvpvDisErr_" Type="F" Min="6.00192785e+00" Max="9.52796249e+01"/>
+    <Variable VarIndex="1" Expression="Bmumupt" Label="Bmumupt" Title="Bmumupt" Unit="" Internal="Bmumupt" Type="F" Min="2.96689725e+00" Max="9.83949852e+00"/>
+    <Variable VarIndex="2" Expression="Btrk1Pt" Label="Btrk1Pt" Title="Btrk1Pt" Unit="" Internal="Btrk1Pt" Type="F" Min="1.00001192e+00" Max="5.79110527e+00"/>
+    <Variable VarIndex="3" Expression="abs(By)" Label="abs(By)" Title="abs(By)" Unit="" Internal="abs_By_" Type="F" Min="3.52558156e-04" Max="2.29456472e+00"/>
+    <Variable VarIndex="4" Expression="abs(Btrk1Eta)" Label="abs(Btrk1Eta)" Title="abs(Btrk1Eta)" Unit="" Internal="abs_Btrk1Eta_" Type="F" Min="9.51668248e-04" Max="2.39999008e+00"/>
+    <Variable VarIndex="5" Expression="Bchi2cl" Label="Bchi2cl" Title="Bchi2cl" Unit="" Internal="Bchi2cl" Type="F" Min="1.00150639e-02" Max="9.86331642e-01"/>
+    <Variable VarIndex="6" Expression="(cos(Bdtheta))" Label="(cos(Bdtheta))" Title="(cos(Bdtheta))" Unit="" Internal="_cos_Bdtheta__" Type="F" Min="2.84082908e-03" Max="1.00000000e+00"/>
+  </Variables>
+  <Spectators NSpec="2">
+    <Spectator SpecIndex="0" Expression="Bmass" Label="Bmass" Title="Spectator 2" Unit="units" Internal="Bmass" Type="F" Min="5.19544172e+00" Max="5.99982786e+00"/>
+    <Spectator SpecIndex="1" Expression="Bpt" Label="Bpt" Title="Spectator 2" Unit="units" Internal="Bpt" Type="F" Min="7.00323772e+00" Max="9.99973965e+00"/>
+  </Spectators>
+  <Classes NClass="2">
+    <Class Name="Signal" Index="0"/>
+    <Class Name="Background" Index="1"/>
+  </Classes>
+  <Transformations NTransformations="0"/>
+  <MVAPdfs>
+    <PDF Name="LD_PDFSig" MinNSmooth="10" MaxNSmooth="10" InterpolMethod="2" KDE_type="1" KDE_iter="1" KDE_border="1" KDE_finefactor="1.0000000000000000e+00">
+      <Histogram Name="LD_tr_S_original" NBins="50" XMin="-5.3996201604604721e-02" XMax="2.0192260742187500e+00" HasEquidistantBins="1">
+        0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 3.47007877e-01 5.20511815e-01 0.00000000e+00 1.04102363e+00 3.47007877e-01 1.21452757e+00 1.90854332e+00 1.90854332e+00 2.42905514e+00 2.25555120e+00 2.42905514e+00 1.21452757e+00 1.56153545e+00 1.04102363e+00 3.47007877e-01 1.04102363e+00 6.94015754e-01 5.20511815e-01 3.47007877e-01 3.47007877e-01 1.73503938e-01 6.94015754e-01 0.00000000e+00 1.73503938e-01 1.73503938e-01 1.73503938e-01 1.73503938e-01 0.00000000e+00 5.20511815e-01 0.00000000e+00 0.00000000e+00 1.73503938e-01 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 1.73503938e-01 1.73503938e-01 
+      </Histogram>
+    </PDF>
+    <PDF Name="LD_PDFBkg" MinNSmooth="10" MaxNSmooth="10" InterpolMethod="2" KDE_type="1" KDE_iter="1" KDE_border="1" KDE_finefactor="1.0000000000000000e+00">
+      <Histogram Name="LD_tr_B_original" NBins="50" XMin="-5.3996201604604721e-02" XMax="2.0192260742187500e+00" HasEquidistantBins="1">
+        1.05776524e-02 0.00000000e+00 2.11553048e-02 2.32708353e-01 2.17899639e+00 5.65904403e+00 5.50037924e+00 3.98777495e+00 2.41170474e+00 1.67126908e+00 1.10007585e+00 5.60615577e-01 4.23106096e-01 1.26931829e-01 7.40435667e-02 5.28882620e-02 4.23106096e-02 1.05776524e-02 2.11553048e-02 0.00000000e+00 1.05776524e-02 0.00000000e+00 1.05776524e-02 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 1.05776524e-02 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 
+      </Histogram>
+    </PDF>
+  </MVAPdfs>
+  <Weights NOut="1" NCoeff="8">
+    <Coefficient IndexOut="0" IndexCoeff="0" Value="-2.6845563239366022e-01"/>
+    <Coefficient IndexOut="0" IndexCoeff="1" Value="1.6845072866473500e-02"/>
+    <Coefficient IndexOut="0" IndexCoeff="2" Value="5.5537639638984643e-03"/>
+    <Coefficient IndexOut="0" IndexCoeff="3" Value="1.0228775657283083e-01"/>
+    <Coefficient IndexOut="0" IndexCoeff="4" Value="5.5961126404028533e-02"/>
+    <Coefficient IndexOut="0" IndexCoeff="5" Value="-7.1389911328323230e-02"/>
+    <Coefficient IndexOut="0" IndexCoeff="6" Value="2.6422658087394324e-01"/>
+    <Coefficient IndexOut="0" IndexCoeff="7" Value="2.1556853691241695e-01"/>
+  </Weights>
+</MethodSetup>
