@@ -49,6 +49,9 @@ void MCefficiency(int isPbPb=0,TString inputmc="/data/wangj/MC2015/Dntuple/pp/re
   TTree* ntMC = (TTree*)infMC->Get("ntKp");
   TTree* ntGen = (TTree*)infMC->Get("ntGen");
   TTree* ntSkim = (TTree*)infMC->Get("ntSkim");
+  TTree* ntbdtTree = (TTree*)infMC->Get("bdtTree");
+
+  ntMC->AddFriend(ntbdtTree);
   ntMC->AddFriend(ntGen);
   ntMC->AddFriend(ntSkim);
   
@@ -89,7 +92,6 @@ if(useweight==0) {
   divideBinWidth(hPtGenAcc);
   std::cout<<"step4"<<std::endl;
 
-
   ntMC->Project("hPthat","pthat","1");
   ntMC->Project("hPthatweight","pthat",TCut("1"));
 
@@ -109,10 +111,11 @@ if(useweight==0) {
   hEffSelection->Sumw2();
   hEffSelection->Divide(hEffSelection,hPtMCrecoonly,1,1,"b");
 
-  TH2F* hemptyEff=new TH2F("hemptyEff","",50,ptBins[0]-5.,ptBins[nBins]+5.,10.,0,1.5);  
+  TH2F* hemptyEff=new TH2F("hemptyEff","",50,ptBins[0]-5.,ptBins[nBins]+5.,10.,0,1.0);  
   hemptyEff->GetXaxis()->CenterTitle();
   hemptyEff->GetYaxis()->CenterTitle();
-  hemptyEff->GetYaxis()->SetTitle("acceptance x #epsilon_{reco} x #epsilon_{sel} ");
+  //hemptyEff->GetYaxis()->SetTitle("acceptance x #epsilon_{reco} x #epsilon_{sel} ");
+  hemptyEff->GetYaxis()->SetTitle("#alpha x #epsilon");
   hemptyEff->GetXaxis()->SetTitle("p_{T} (GeV/c)");
   hemptyEff->GetXaxis()->SetTitleOffset(0.9);
   hemptyEff->GetYaxis()->SetTitleOffset(0.95);

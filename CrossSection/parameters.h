@@ -1,14 +1,7 @@
-/*
-const int nBins=3;
-double ptBins[nBins+1] = {10.,15.,20.,50};
+const int nBins=5;
+double ptBins[nBins+1] = {7.,10.,15.,20.,30,50};
 const int nBinsReweight=5;
 double ptBinsReweight[nBinsReweight+1]={10.,15.,25.,30.,35.,50};
-*/
-
-const int nBins=4;
-double ptBins[nBins+1] = {7.,10.,15.,20.,50};
-const int nBinsReweight=6;
-double ptBinsReweight[nBinsReweight+1]={7.,10.,15.,25.,30.,35.,50};
 
 const int BIN_NUM= 1196;
 const int HMIN=1;
