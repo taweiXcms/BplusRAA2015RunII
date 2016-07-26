@@ -1,14 +1,17 @@
 #include <TF1.h>
-#include <TH1D.h>
+#include <TH1.h>
+#include <TH2.h>
 #include <TCanvas.h>
 #include <TLine.h>
 #include <TLegend.h>
+#include <TLatex.h>
 
 
 // Yen-Jie: systematics table for B meson
 // Unit: In percentage
 const int nPtBins=1;
-double PtBins[nPtBins+1] = {7.,10.};
+//double PtBins[nPtBins+1] = {7.,10.};
+double PtBins[nPtBins+1] = {7.,50.+1};//add a margin so that "FindBin" can work at the bin end
 
 // =============================================================================================================
 // D meson decay
@@ -59,7 +62,7 @@ void initializationPP()
    ppSignalExtraction->SetBinContent(1,		5.0);
 
    ppTagAndProbe = new TH1D("ppTagAndProbe","",nPtBins,PtBins);
-   ppTagAndProbe->SetBinContent(1,		10.0);
+   ppTagAndProbe->SetBinContent(1,		11.0);
    
    fPPPtShape->SetParameters(0.999265,-0.0458006,-0.181359,0);
    }
@@ -74,7 +77,7 @@ void initializationPbPbCent0100()
    PbPbSignalExtraction->SetBinContent(1,	10.);
 
    PbPbTagAndProbe = new TH1D("PbPbTagAndProbe","",nPtBins,PtBins);
-   PbPbTagAndProbe->SetBinContent(1,		10.0);
+   PbPbTagAndProbe->SetBinContent(1,		12.0);
 
    fPbPbPtShape->SetParameters(0.984161,0.0593406,-0.3992,0.000271564);
    }
@@ -200,6 +203,7 @@ float systematicsPP(double pt, double HLT=0,int stage=0)
 
    if (stage==2) return sqrt(sys);
 
+   sys+=fPPPtShape->Eval(pt)*fPPPtShape->Eval(pt);
    sys+=(ppTrackingEfficiency)*(ppTrackingEfficiency);
    sys+= ppMesonSelection->GetBinContent(ppMesonSelection->FindBin(pt))* 
          ppMesonSelection->GetBinContent(ppMesonSelection->FindBin(pt));
@@ -239,7 +243,7 @@ float systematicsPbPb(double pt, double centL=0,double centH=100, double HLT=0)
    
    // pp tracking eff uncertainty used for the moment
    sys+=(PbPbTrackingEfficiency)*(PbPbTrackingEfficiency);
-   sys+=PbPbNMBUncertainty*PbPbNMBUncertainty;
+   //sys+=PbPbNMBUncertainty*PbPbNMBUncertainty;
    
    sys+=TAAUncertainty0to100*TAAUncertainty0to100;
    sys+= PbPbMesonSelection->GetBinContent(PbPbMesonSelection->FindBin(pt))* 
@@ -307,15 +311,16 @@ void plotSystematicsRAA(double centL=0,double centH=100)
   hempty->GetXaxis()->SetLabelOffset(0.01);
   hempty->Draw();
 
-   drawSys(9,0, 9,normalizationUncertaintyForRAA(centL,centH),2);
-   drawSys(9,normalizationUncertaintyForRAA(centL,centH), 9.5,normalizationUncertaintyForRAA(centL,centH),2);
-   drawSys(9.5,0, 9.5,normalizationUncertaintyForRAA(centL,centH),2);
+   drawSys(6,0, 6,normalizationUncertaintyForRAA(centL,centH),2);
+   drawSys(6,normalizationUncertaintyForRAA(centL,centH), 6.5,normalizationUncertaintyForRAA(centL,centH),2);
+   drawSys(6.5,0, 6.5,normalizationUncertaintyForRAA(centL,centH),2);
 
 
-   drawSys(10,0, 10,systematicsForRAA(10,centL,centH,0,0),1);
+   drawSys(7,0, 7,systematicsForRAA(7,centL,centH,0,0),1);
+   drawSys(50,0, 50,systematicsForRAA(50,centL,centH,0,0),1);
 
 
-   for (double i=10;i<50;i+=0.1)
+   for (double i=7;i<50;i+=0.1)
    {      
       drawSys(i,systematicsForRAA(i,centL,centH,0,0), i+0.1,systematicsForRAA(i+0.1,centL,centH,0,0),1);
       drawSys(i,sqrt((systematicsForRAA(i,centL,centH,0,2)*systematicsForRAA(i,centL,centH,0,2))-(systematicsForRAA(i,centL,centH,0,1)*systematicsForRAA(i,centL,centH,0,1))),
@@ -386,7 +391,7 @@ void plotSystematicsRAA(double centL=0,double centH=100)
    leg->AddEntry(h2,"Overall Normalization (N_{MB}, Lumi)","l");
    leg->AddEntry(h1,"Total Systematics","l");
    leg->AddEntry(h4,"Signal Extraction","l");
-   leg->AddEntry(h5,"D Meson Selection and Correction","l");
+   leg->AddEntry(h5,"B Meson Selection and Correction","l");
    leg->AddEntry(h6,"Tag and Probe","l");
    leg->Draw();
    canvas->SaveAs(Form("SystematicSummaryPbPb_Cent%d.pdf",(int)centH));
@@ -429,17 +434,17 @@ void plotSystematicsPP()
   hempty->GetXaxis()->SetLabelOffset(0.01);
   hempty->Draw();
 
-   drawSys(9,0, 9,normalizationUncertaintyForPP(),2);
-   drawSys(9,normalizationUncertaintyForPP(), 9.5,normalizationUncertaintyForPP(),2);
-   drawSys(9.5,0, 9.5,normalizationUncertaintyForPP(),2);
+   drawSys(6,0, 6,normalizationUncertaintyForPP(),2);
+   drawSys(6,normalizationUncertaintyForPP(), 6.5,normalizationUncertaintyForPP(),2);
+   drawSys(6.5,0, 6.5,normalizationUncertaintyForPP(),2);
 
 
-   drawSys(10,0, 10,systematicsPP(10),1);
+   drawSys(7,0, 7,systematicsPP(7),1);
+   drawSys(50,0, 50,systematicsPP(50),1);
 
-   for (double i=10;i<50;i+=0.1)
+   for (double i=7;i<50;i+=0.1)
    {      
       drawSys(i,systematicsPP(i,0,0), i+0.1,systematicsPP(i+0.1,0,0),1);
-//      drawSys(i,systematicsPP(i,0,1), i+0.1,systematicsPP(i+0.1,0,1),2);
       drawSys(i,sqrt((systematicsPP(i,0,2)*systematicsPP(i,0,2))-(systematicsPP(i,0,1)*systematicsPP(i,0,1))),
               i+0.1,sqrt((systematicsPP(i+0.1,0,2)*systematicsPP(i+0.1,0,2))-(systematicsPP(i+0.1,0,1)*systematicsPP(i+0.1,0,1))),4);
       drawSys(i,sqrt((systematicsPP(i,0,3)*systematicsPP(i,0,3))-(systematicsPP(i,0,2)*systematicsPP(i,0,2))),
@@ -496,7 +501,7 @@ void plotSystematicsPP()
    leg->AddEntry(h2,"Overall Normalization (Lumi + BR)","l");
    leg->AddEntry(h1,"Total Systematics","l");
    leg->AddEntry(h4,"Signal Extraction","l");
-   leg->AddEntry(h5,"D Meson Selection and Correction","l");
+   leg->AddEntry(h5,"B Meson Selection and Correction","l");
    leg->AddEntry(h6,"Tag and Probe","l");
    leg->Draw();
 
