@@ -1,7 +1,7 @@
 #include "uti.h"
 #include "parameters.h"
 #include "TLegendEntry.h"
-//#include "../Systematics/systematics.C"
+#include "../Systematics/systematics.C"
 
 void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", TString inputPbPb="ROOTfiles/CrossSectionPbPb.root",TString label="PbPb",TString outputfile="RAAfile.root", Float_t centMin=0., Float_t centMax=100.)
 {
@@ -44,8 +44,8 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
   for(int i=0;i<nBins;i++)
   {
     yr[i] = hNuclearModification->GetBinContent(i+1);
-    //double systematic=0.01*systematicsForRAA(hNuclearModification->GetBinCenter(i+1),centMin,centMax,0.,0.);
-	double systematic=0.;
+    double systematic=0.01*systematicsForRAA(hNuclearModification->GetBinCenter(i+1),centMin,centMax,0.,0.);
+	//double systematic=0.;
     yrlow[i] = hNuclearModification->GetBinContent(i+1)*systematic;
     yrhigh[i] =hNuclearModification->GetBinContent(i+1)*systematic;
   }
@@ -59,7 +59,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
   TCanvas*canvasRAA=new TCanvas("canvasRAA","canvasRAA",600,600);
   canvasRAA->cd();
   canvasRAA->SetLogx();
-  TH2F* hemptyEff=new TH2F("hemptyEff","",50,ptBins[0]-5.,ptBins[nBins]+5.,10.,0,1.5);  
+  TH2F* hemptyEff=new TH2F("hemptyEff","",50,ptBins[0]-2.,ptBins[nBins]+5.,10.,0,1.5);  
   hemptyEff->GetXaxis()->CenterTitle();
   hemptyEff->GetYaxis()->CenterTitle();
   hemptyEff->GetYaxis()->SetTitle("B^{+} R_{AA}");
@@ -144,7 +144,8 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
   ent_SigmaPP->SetTextSize(0.045);
 
 
-  TLegendEntry *ent_Sigmapp=legendSigma->AddEntry(gNuclearModification,"R_{AA} syst. (arbitrary 20%)","f");
+  //TLegendEntry *ent_Sigmapp=legendSigma->AddEntry(gNuclearModification,"R_{AA} syst. (arbitrary 20%)","f");
+  TLegendEntry *ent_Sigmapp=legendSigma->AddEntry(gNuclearModification,"R_{AA} syst.","f");
   ent_Sigmapp->SetTextFont(42);
   ent_Sigmapp->SetLineColor(5);
   ent_Sigmapp->SetMarkerColor(1);
