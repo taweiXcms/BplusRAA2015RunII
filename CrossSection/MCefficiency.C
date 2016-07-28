@@ -28,10 +28,10 @@ void MCefficiency(int isPbPb=0,TString inputmc="/data/wangj/MC2015/Dntuple/pp/re
   
   if(isPbPb==1)
     {
-      selmcgen = selmcgen+Form("&&hiBin>=%f&&hiBin<%f",hiBinMin,hiBinMax);
-      selmcgenacceptance=selmcgenacceptance+Form("&&hiBin>=%f&&hiBin<%f",hiBinMin,hiBinMax);
-      cut_recoonly=cut_recoonly+Form("&&hiBin>=%f&&hiBin<%f",hiBinMin,hiBinMax);
-      cut=cut+Form("&&hiBin>=%f&&hiBin<%f",hiBinMin,hiBinMax);
+      selmcgen = selmcgen+Form("&&hiBin>=%f&&hiBin<=%f",hiBinMin,hiBinMax);
+      selmcgenacceptance=selmcgenacceptance+Form("&&hiBin>=%f&&hiBin<=%f",hiBinMin,hiBinMax);
+      cut_recoonly=cut_recoonly+Form("&&hiBin>=%f&&hiBin<=%f",hiBinMin,hiBinMax);
+      cut=cut+Form("&&hiBin>=%f&&hiBin<=%f",hiBinMin,hiBinMax);
     }
 
      std::cout<<"selmcgen="<<selmcgen<<std::endl;

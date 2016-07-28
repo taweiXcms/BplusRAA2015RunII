@@ -43,9 +43,9 @@ void fitBvariable(TString variable="BsvpvDistance/BsvpvDisErr",TString variablep
     }
   else
     {
-      seldata = Form("%s&&%s&&hiBin>%f&&hiBin<%f",trgselection.Data(),cut.Data(),hiBinMin,hiBinMax);
-      selmceff = Form("%s&&hiBin>%f&&hiBin<%f",cut.Data(),hiBinMin,hiBinMax);
-      selmcgen = Form("%s&&hiBin>%f&&hiBin<%f",cutmcgen.Data(),hiBinMin,hiBinMax);
+      seldata = Form("%s&&%s&&hiBin>=%f&&hiBin<=%f",trgselection.Data(),cut.Data(),hiBinMin,hiBinMax);
+      selmceff = Form("%s&&hiBin>=%f&&hiBin<=%f",cut.Data(),hiBinMin,hiBinMax);
+      selmcgen = Form("%s&&hiBin>=%f&&hiBin<=%f",cutmcgen.Data(),hiBinMin,hiBinMax);
     }
 
   selmc = Form("%s",cut.Data());

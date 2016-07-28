@@ -16,8 +16,10 @@ TString infname;
 TString varname;
 TString vartex;
 Int_t isLarger;
-void fitD(TString collsyst="PbPb", TString varname_="", Int_t varbins=10, Float_t varmin=0.5, Float_t varmax=2,TString vartex_="", Int_t isLarger_=1, TString npfile="ROOTfiles/NPFitPP.root", TString outputfile="outfMasshisto/mass")
+TString _nominalcut = "";
+void fitD(TString collsyst="PbPb",TString nominalcut="", TString varname_="", Int_t varbins=10, Float_t varmin=0.5, Float_t varmax=2,TString vartex_="", Int_t isLarger_=1, TString npfile="ROOTfiles/NPFitPP.root", TString outputfile="outfMasshisto/mass")
 {
+  _nominalcut = nominalcut;
   gStyle->SetTextSize(0.05);
   gStyle->SetTextFont(42);
   gStyle->SetPadRightMargin(0.043);
@@ -176,11 +178,16 @@ TF1* fit(Float_t varval, Float_t ibin, Int_t isMC, float NPpar[])
   TString iNP=Form("TMath::Erf((x-%f)/%f)+1", NPpar[0], NPpar[1]);
   TF1* f = new TF1(Form("f_%s_%.0f",tMC.Data(),ibin),"[0]*([7]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2])+(1-[7])*Gaus(x,[1],[8])/(sqrt(2*3.14159)*[8]))+[3]+[4]*x+[5]*("+iNP+")");
 
+  f->SetParLimits(3,0,1e5);
   f->SetParLimits(4,-1000,0);
   f->SetParLimits(2,0.01,0.05);
   f->SetParLimits(8,0.01,0.05);
   f->SetParLimits(7,0,1);
   f->SetParLimits(5,0,1000);
+  if(isMC) {
+    f->SetParLimits(3,0,1e2);
+    f->SetParLimits(4,-100,0);
+  }
 
   f->SetParameter(0,setparam0);
   f->SetParameter(1,setparam1);
@@ -306,7 +313,7 @@ TF1* fit(Float_t varval, Float_t ibin, Int_t isMC, float NPpar[])
       if(isLarger==1) tex = new TLatex(0.22,0.78,Form("%s > %.3f",vartex.Data(),varval));
       else tex = new TLatex(0.22,0.78,Form("%s < %.3f",vartex.Data(),varval));
     }
-  else tex = new TLatex(0.22,0.78,Form("No cut on %s",vartex.Data()));
+  else tex = new TLatex(0.22,0.78,Form("%s",_nominalcut.Data()));
   tex->SetNDC();
   tex->SetTextFont(42);
   tex->SetTextSize(0.04);
@@ -340,14 +347,14 @@ void getNPFnPar(TString npfname, float par[]){
 
 int main(int argc, char *argv[])
 {
-  if(argc!=9)
+  if(argc!=10)
     {
       std::cout << "Wrong number of inputs" << std::endl;
       return 1;
     }
   else
     {
-      fitD(argv[1],argv[2],atoi(argv[3]),atof(argv[4]),atof(argv[5]),argv[6],atoi(argv[7]),argv[8]);
+      fitD(argv[1],argv[2],argv[3],atoi(argv[4]),atof(argv[5]),atof(argv[6]),argv[7],atoi(argv[8]),argv[9]);
       return 0;
     }
 }
