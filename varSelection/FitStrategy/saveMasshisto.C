@@ -18,7 +18,8 @@ int saveMasshisto(TString inputdata="",
                   TString cut="",
                   Int_t isMC=0,
                   TString weightdata="",
-                  TString collsyst="",
+                  TString collsyst="",	
+                  TString nominalcut="",	
                   TString varname="",
                   TString variable="",
                   Int_t varbins=10,
@@ -45,10 +46,12 @@ int saveMasshisto(TString inputdata="",
   nt->AddFriend("ntHlt");
   nt->AddFriend("ntHi");  
   nt->AddFriend("ntSkim");  
+  nt->AddFriend("bdtTree");
   TTree* ntMC = (TTree*)infMC->Get("ntKp");
   ntMC->AddFriend("ntHlt");
   ntMC->AddFriend("ntHi");
   ntMC->AddFriend("ntSkim");
+  ntMC->AddFriend("bdtTree");
   
   cout<<"  -- Variable"<<endl;
   cout<<"     "<<varname<<" "<<variable<<endl;
@@ -84,9 +87,9 @@ int saveMasshisto(TString inputdata="",
         }
       else
         {
-          nt->Project("h","Bmass",Form("%s*(%s&&Bpt>%f)",weight.Data(),seldata.Data(),ptmin));
-          ntMC->Project("hMCSignal","Bmass",Form("%s*(%s&&Bpt>%f&&(Bgen==23333))",weightMC.Data(),selmc.Data(),ptmin));
-          ntMC->Project("hMCSwapped","Bmass",Form("%s*(%s&&Bpt>%f&&(Bgen==23344))",weightMC.Data(),selmc.Data(),ptmin));
+          nt->Project("h","Bmass",Form("%s*(%s&&Bpt>%f&&%s)",weight.Data(),seldata.Data(),ptmin,nominalcut.Data()));
+          ntMC->Project("hMCSignal","Bmass",Form("%s*(%s&&Bpt>%f&&%s&&(Bgen==23333))",weightMC.Data(),selmc.Data(),ptmin,nominalcut.Data()));
+          ntMC->Project("hMCSwapped","Bmass",Form("%s*(%s&&Bpt>%f&&%s&&(Bgen==23344))",weightMC.Data(),selmc.Data(),ptmin,nominalcut.Data()));
         }
       TString tMC;
       if(isMC==1) tMC="MC";
@@ -108,14 +111,14 @@ int saveMasshisto(TString inputdata="",
 
 int main(int argc, char *argv[])
 {
-  if(argc!=15)
+  if(argc!=16)
     {
       std::cout << "Wrong number of inputs" << std::endl;
       return 1;
     }
   else
     {
-      saveMasshisto(argv[1], argv[2], argv[3], argv[4], atoi(argv[5]), argv[6], argv[7], argv[8], argv[9], atoi(argv[10]), atof(argv[11]), atof(argv[12]), atoi(argv[13]), atof(argv[14]));
+      saveMasshisto(argv[1], argv[2], argv[3], argv[4], atoi(argv[5]), argv[6], argv[7], argv[8], argv[9], argv[10], atoi(argv[11]), atof(argv[12]), atof(argv[13]), atoi(argv[14]), atof(argv[15]));
       return 0;
     }
 }
