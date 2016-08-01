@@ -43,9 +43,9 @@ void fitB_comp(int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp
     }
   else
     {
-      seldata = Form("%s&&%s&&hiBin>%f&&hiBin<%f",trgselection.Data(),cut.Data(),hiBinMin,hiBinMax);
-      selmceff = Form("%s&&hiBin>%f&&hiBin<%f",cut.Data(),hiBinMin,hiBinMax);
-      selmcgen = Form("%s&&hiBin>%f&&hiBin<%f",cutmcgen.Data(),hiBinMin,hiBinMax);
+      seldata = Form("%s&&%s&&hiBin>=%f&&hiBin<=%f",trgselection.Data(),cut.Data(),hiBinMin,hiBinMax);
+      selmceff = Form("%s&&hiBin>=%f&&hiBin<=%f",cut.Data(),hiBinMin,hiBinMax);
+      selmcgen = Form("%s&&hiBin>=%f&&hiBin<=%f",cutmcgen.Data(),hiBinMin,hiBinMax);
     }
 
   selmc = Form("%s",cut.Data());
@@ -70,7 +70,8 @@ void fitB_comp(int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp
      weightgen="1";
      weight="1";
   }
-  if(doweight<0 || doweight>=1) std::cout<<"ERROR, this weighting option is not defined"<<std::endl;
+  else if (doweight==1) {weightgen="1"; weight="pow(10,0.069193*Bpt+1.791038+Bpt*Bpt*-0.001178)+pow(10,0.091031*Bpt+-8.663444+Bpt*Bpt*0.000248)"; }
+  //if (doweight<0 || doweight>=1) std::cout<<"ERROR, this weighting option is not defined"<<std::endl;
   
   std::cout<<"we are using weight="<<weight<<std::endl;
   
@@ -215,8 +216,11 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 
    TString iNP=Form("TMath::Erf((x-%f)/%f)", NPpar[0], NPpar[1]);
    TF1* f = new TF1(Form("f%d",count),"[0]*([7]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2])+(1-[7])*Gaus(x,[1],[8])/(sqrt(2*3.14159)*[8]))+[3]+[4]*x+[5]*("+iNP+")+[5]");
-
+/*
    if(isMC==1) nt->Project(Form("h-%d",count),"Bmass",Form("%s*(%s&&%s>%f&&%s<%f)","1",seldata.Data(),compname.Data(),ptmin,compname.Data(),ptmax));   
+   else nt->Project(Form("h-%d",count),"Bmass",Form("(%s&&%s>%f&&%s<%f)",seldata.Data(),compname.Data(),ptmin,compname.Data(),ptmax));   
+*/
+   if(isMC==1) nt->Project(Form("h-%d",count),"Bmass",Form("%s*(%s&&%s>%f&&%s<%f)",weight.Data(),seldata.Data(),compname.Data(),ptmin,compname.Data(),ptmax));   
    else nt->Project(Form("h-%d",count),"Bmass",Form("(%s&&%s>%f&&%s<%f)",seldata.Data(),compname.Data(),ptmin,compname.Data(),ptmax));   
 
    ntMC->Project(Form("hMCSignal-%d",count),"Bmass",Form("%s&&%s>%f&&%s<%f",Form("%s&&Bgen==23333",selmc.Data()),compname.Data(),ptmin,compname.Data(),ptmax));
@@ -354,7 +358,7 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 
   TLatex* tex;
 
-  tex = new TLatex(0.22,0.78,Form("%.1f < %s < %.1f GeV/c",ptmin,compname.Data(),ptmax));
+  tex = new TLatex(0.22,0.78,Form("%.2f < %s < %.2f",ptmin,compname.Data(),ptmax));
   tex->SetNDC();
   tex->SetTextFont(42);
   tex->SetTextSize(0.04);

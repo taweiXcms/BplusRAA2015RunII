@@ -38,7 +38,7 @@ void savehisto(TString inputdata="",
   TFile* infMC = new TFile(inputmc.Data());
 
   if(!isPbPb) seldata = Form("%s&&%s",trgselection.Data(),cut.Data());
-  else seldata = Form("%s&&%s&&hiBin>%f&&hiBin<%f",trgselection.Data(),cut.Data(),hiBinMin,hiBinMax);
+  else seldata = Form("%s&&%s&&hiBin>=%f&&hiBin<=%f",trgselection.Data(),cut.Data(),hiBinMin,hiBinMax);
   selmc = Form("%s",cut.Data());  
   
   TTree* nt = (TTree*) inf->Get("ntKp");
@@ -51,7 +51,7 @@ void savehisto(TString inputdata="",
   ntMC->AddFriend("ntSkim");
 
   if(!isPbPb) seldata = Form("%s&&%s",trgselection.Data(),cut.Data());
-  else seldata = Form("%s&&%s&&hiBin>%f&&hiBin<%f",trgselection.Data(),cut.Data(),hiBinMin,hiBinMax);
+  else seldata = Form("%s&&%s&&hiBin>=%f&&hiBin<=%f",trgselection.Data(),cut.Data(),hiBinMin,hiBinMax);
   selmc = Form("%s",cut.Data());  
   
   cout<<"  -- Filling histograms"<<endl;
@@ -67,7 +67,7 @@ void savehisto(TString inputdata="",
       TH1D* hMCSwapped = new TH1D("hMCSwapped","",nbinsmasshisto,minhisto,maxhisto);
       hMCSwapped->Sumw2(); 
 
-      if(isPbPb) nt->Project("h","Bmass",Form("%s*(%s&&Bpt>%f&&Bpt<%f&&hiBin>%f&&hiBin<%f)",weight.Data(),seldata.Data(),ptBins[i],ptBins[i+1],hiBinMin,hiBinMax));
+      if(isPbPb) nt->Project("h","Bmass",Form("%s*(%s&&Bpt>%f&&Bpt<%f&&hiBin>=%f&&hiBin<=%f)",weight.Data(),seldata.Data(),ptBins[i],ptBins[i+1],hiBinMin,hiBinMax));
       else nt->Project("h","Bmass",Form("%s*(%s&&Bpt>%f&&Bpt<%f)",weight.Data(),seldata.Data(),ptBins[i],ptBins[i+1]));
       ntMC->Project("hMCSignal","Bmass",Form("%s*(%s&&Bpt>%f&&Bpt<%f&&(Bgen==23333))",weightMC.Data(),selmc.Data(),ptBins[i],ptBins[i+1]));   
       ntMC->Project("hMCSwapped","Bmass",Form("%s*(%s&&Bpt>%f&&Bpt<%f&&(Bgen==23344))",weightMC.Data(),selmc.Data(),ptBins[i],ptBins[i+1])); 

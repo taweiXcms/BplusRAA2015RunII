@@ -28,10 +28,10 @@ void MCefficiency(int isPbPb=0,TString inputmc="/data/wangj/MC2015/Dntuple/pp/re
   
   if(isPbPb==1)
     {
-      selmcgen = selmcgen+Form("&&hiBin>=%f&&hiBin<%f",hiBinMin,hiBinMax);
-      selmcgenacceptance=selmcgenacceptance+Form("&&hiBin>=%f&&hiBin<%f",hiBinMin,hiBinMax);
-      cut_recoonly=cut_recoonly+Form("&&hiBin>=%f&&hiBin<%f",hiBinMin,hiBinMax);
-      cut=cut+Form("&&hiBin>=%f&&hiBin<%f",hiBinMin,hiBinMax);
+      selmcgen = selmcgen+Form("&&hiBin>=%f&&hiBin<=%f",hiBinMin,hiBinMax);
+      selmcgenacceptance=selmcgenacceptance+Form("&&hiBin>=%f&&hiBin<=%f",hiBinMin,hiBinMax);
+      cut_recoonly=cut_recoonly+Form("&&hiBin>=%f&&hiBin<=%f",hiBinMin,hiBinMax);
+      cut=cut+Form("&&hiBin>=%f&&hiBin<=%f",hiBinMin,hiBinMax);
     }
 
      std::cout<<"selmcgen="<<selmcgen<<std::endl;
@@ -49,6 +49,9 @@ void MCefficiency(int isPbPb=0,TString inputmc="/data/wangj/MC2015/Dntuple/pp/re
   TTree* ntMC = (TTree*)infMC->Get("ntKp");
   TTree* ntGen = (TTree*)infMC->Get("ntGen");
   TTree* ntSkim = (TTree*)infMC->Get("ntSkim");
+  TTree* ntbdtTree = (TTree*)infMC->Get("bdtTree");
+
+  ntMC->AddFriend(ntbdtTree);
   ntMC->AddFriend(ntGen);
   ntMC->AddFriend(ntSkim);
   
@@ -66,6 +69,11 @@ if(useweight==0) {
     weightfunctionreco="1";
   }
 
+if(useweight==1) {
+    weightfunctiongen="6.08582+hiBin*(-0.155739)+hiBin*hiBin*(0.00149946)+hiBin*hiBin*hiBin*(-6.41629e-06)+hiBin*hiBin*hiBin*hiBin*(1.02726e-08)";
+    weightfunctionreco="6.08582+hiBin*(-0.155739)+hiBin*hiBin*(0.00149946)+hiBin*hiBin*hiBin*(-6.41629e-06)+hiBin*hiBin*hiBin*hiBin*(1.02726e-08)";
+  }
+
 
    std::cout<<"fit function parameters="<<weightfunctiongen<<std::endl;
 
@@ -75,7 +83,7 @@ if(useweight==0) {
   TH1D* hPtGenAcc = new TH1D("hPtGenAcc","",nBins,ptBins);
   TH1D* hPthat = new TH1D("hPthat","",100,0,500);
   TH1D* hPthatweight = new TH1D("hPthatweight","",100,0,500);
-  
+
   ntMC->Project("hPtMC","Bpt",TCut(weightfunctionreco)*(TCut(cut.Data())&&"(Bgen==23333)"));
   divideBinWidth(hPtMC);
   std::cout<<"step1"<<std::endl;
@@ -88,7 +96,6 @@ if(useweight==0) {
   ntGen->Project("hPtGenAcc","Gpt",TCut(weightfunctiongen)*(TCut(selmcgenacceptance.Data())));
   divideBinWidth(hPtGenAcc);
   std::cout<<"step4"<<std::endl;
-
 
   ntMC->Project("hPthat","pthat","1");
   ntMC->Project("hPthatweight","pthat",TCut("1"));
@@ -108,11 +115,12 @@ if(useweight==0) {
   TH1D* hEffSelection = (TH1D*)hPtMC->Clone("hEffSelection");
   hEffSelection->Sumw2();
   hEffSelection->Divide(hEffSelection,hPtMCrecoonly,1,1,"b");
-  
-  TH2F* hemptyEff=new TH2F("hemptyEff","",50,ptBins[0]-5.,ptBins[nBins]+5.,10.,0,1.5);  
+
+  TH2F* hemptyEff=new TH2F("hemptyEff","",50,ptBins[0]-5.,ptBins[nBins]+5.,10.,0,1.0);  
   hemptyEff->GetXaxis()->CenterTitle();
   hemptyEff->GetYaxis()->CenterTitle();
-  hemptyEff->GetYaxis()->SetTitle("acceptance x #epsilon_{reco} x #epsilon_{sel} ");
+  //hemptyEff->GetYaxis()->SetTitle("acceptance x #epsilon_{reco} x #epsilon_{sel} ");
+  hemptyEff->GetYaxis()->SetTitle("#alpha x #epsilon");
   hemptyEff->GetXaxis()->SetTitle("p_{T} (GeV/c)");
   hemptyEff->GetXaxis()->SetTitleOffset(0.9);
   hemptyEff->GetYaxis()->SetTitleOffset(0.95);
@@ -131,7 +139,8 @@ if(useweight==0) {
   TH2F* hemptyEffAcc=(TH2F*)hemptyEff->Clone("hemptyEffAcc");
   TH2F* hemptyEffReco=(TH2F*)hemptyEff->Clone("hemptyEffReco");
   TH2F* hemptyEffSelection=(TH2F*)hemptyEff->Clone("hemptyEffSelection");
-  
+ 
+
   TCanvas*canvasEff=new TCanvas("canvasEff","canvasEff",1000.,500);
   canvasEff->Divide(2,1);
   canvasEff->cd(1);
@@ -193,7 +202,7 @@ if(useweight==0) {
   gPad->SetLogy();
   hemptyPthatWeighted->Draw();
   hPthatweight->Draw("same");
- // canvasPthat->SaveAs(Form("plotEff/canvasPthat_%s.pdf",Form(label.Data())));
+  canvasPthat->SaveAs(Form("plotEff/canvasPthat_%s.pdf",Form(label.Data())));
   
   TCanvas*canvasSpectra=new TCanvas("canvasSpectra","canvasSpectra",1000.,500);
   canvasSpectra->Divide(2,1);
@@ -205,6 +214,92 @@ if(useweight==0) {
   gPad->SetLogy();
   hemptySpectra->Draw();
   hPtGen->Draw("same");
+  canvasSpectra->SaveAs(Form("plotEff/canvasSpectra_%s.pdf",Form(label.Data())));
+
+  //### 1D histogram
+  //hEff = hPtMC / hPtGen
+  //hEffReco = hPtMCrecoonly / hPtGen
+  //hEffAcc = hPtGenAcc / hPtGen
+  //hEffSelection = hPtMC / hPtMCrecoonly
+ 
+/*
+  ntMC->Project("hPtMC","Bpt",TCut(weightfunctionreco)*(TCut(cut.Data())&&"(Bgen==23333)"));
+  ntMC->Project("hPtMCrecoonly","Bpt",TCut(weightfunctionreco)*(TCut(cut_recoonly.Data())&&"(Bgen==23333)"));
+  ntGen->Project("hPtGen","Gpt",TCut(weightfunctiongen)*(TCut(selmcgen.Data())));
+  ntGen->Project("hPtGenAcc","Gpt",TCut(weightfunctiongen)*(TCut(selmcgenacceptance.Data())));
+*/  
+  TCanvas*canvas1D=new TCanvas("canvas1D","",600,600);
+  canvas1D->cd();
+  gPad->SetLogy();
+  hemptySpectra->SetYTitle("Entries of hPtMC");
+  hemptySpectra->Draw(); 
+  hPtMC->Draw("same");
+  canvas1D->SaveAs(Form("plotEff/canvas1DhPtMC_%s.pdf",Form(label.Data())));
+  canvas1D->Clear();
+
+  canvas1D=new TCanvas("canvas1D","",600,600);
+  canvas1D->cd();
+  gPad->SetLogy();
+  hemptySpectra->SetYTitle("Entries of hPtMCrecoonly");
+  hemptySpectra->Draw(); 
+  hPtMCrecoonly->Draw("same");
+  canvas1D->SaveAs(Form("plotEff/canvas1DhPtMCrecoonly_%s.pdf",Form(label.Data())));
+  canvas1D->Clear();
+
+  canvas1D=new TCanvas("canvas1D","",600,600);
+  canvas1D->cd();
+  gPad->SetLogy();
+  hemptySpectra->SetYTitle("Entries of hPtGen");
+  hemptySpectra->Draw(); 
+  hPtGen->Draw("same");
+  canvas1D->SaveAs(Form("plotEff/canvas1DhPtGen_%s.pdf",Form(label.Data())));
+  canvas1D->Clear();
+
+  canvas1D=new TCanvas("canvas1D","",600,600);
+  canvas1D->cd();
+  gPad->SetLogy();
+  hemptySpectra->SetYTitle("Entries of hPtGenAcc");
+  hemptySpectra->Draw(); 
+  hPtGenAcc->Draw("same");
+  canvas1D->SaveAs(Form("plotEff/canvas1DhPtGenAcc_%s.pdf",Form(label.Data())));
+  canvas1D->Clear();
+
+  canvas1D=new TCanvas("canvas1D","",600,600);
+  canvas1D->cd();
+  gPad->SetLogy(0);
+  hemptyEff->SetYTitle("hPtMC / hPtGen");
+  hemptyEff->Draw(); 
+  hEff->Draw("same");
+  canvas1D->SaveAs(Form("plotEff/canvas1DhEff_%s.pdf",Form(label.Data())));
+  canvas1D->Clear();
+
+  canvas1D=new TCanvas("canvas1D","",600,600);
+  canvas1D->cd();
+  hemptyEff->SetYTitle("hPtMCrecoonly / hPtGen");
+  hemptyEff->Draw(); 
+  hEffReco->Draw("same");
+  canvas1D->SaveAs(Form("plotEff/canvas1DhEffReco_%s.pdf",Form(label.Data())));
+  canvas1D->Clear();
+
+  canvas1D=new TCanvas("canvas1D","",600,600);
+  canvas1D->cd();
+  hemptyEff->SetYTitle("hPtGenAcc / hPtGen");
+  hemptyEff->Draw(); 
+  hEffAcc->Draw("same");
+  canvas1D->SaveAs(Form("plotEff/canvas1DhEffAcc_%s.pdf",Form(label.Data())));
+  canvas1D->Clear();
+
+  canvas1D=new TCanvas("canvas1D","",600,600);
+  canvas1D->cd();
+  hemptyEff->SetYTitle("hPtMC / hPtMCrecoonly");
+  hemptyEff->Draw(); 
+  hEffSelection->Draw("same");
+  canvas1D->SaveAs(Form("plotEff/canvas1DhEffSelection_%s.pdf",Form(label.Data())));
+  canvas1D->Clear();
+
+  gStyle->SetPalette(55);
+  TCanvas* canvas2D=new TCanvas("canvas2D","",600,600);
+	
 
   TFile *fout=new TFile(outputfile.Data(),"recreate");
   fout->cd();
