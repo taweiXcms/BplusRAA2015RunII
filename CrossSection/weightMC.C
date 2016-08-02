@@ -77,7 +77,8 @@ void weightPPFONLL(int minfit=2,int maxfit=100,TString pthat="pthatall")
   gStyle->SetStatH(0.10);
   gStyle->SetStatFontSize(0.02);
  
-  TFile*infMC=new TFile("/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160606_pp_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root");
+  //TFile*infMC=new TFile("/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160606_pp_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root");
+  TFile*infMC=new TFile("/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160629_Bpt7svpv5p5Bpt10svpv3p5_pp_Pythia8_BuToJpsiK_Bpt5p0_Pthat5_BDT.root");
   TTree* ntGen = (TTree*)infMC->Get("ntGen");
   TTree *ntHiMC = (TTree*)infMC->Get("ntHi");
   ntGen->AddFriend(ntHiMC);
@@ -101,15 +102,16 @@ void weightPPFONLL(int minfit=2,int maxfit=100,TString pthat="pthatall")
 
   hFONLLOverPt->Divide(hPtGenFONLL);
   
-  TF1 *myfit = new TF1("myfit","pow(10,[0]*x+[1]+x*x*[2])+pow(10,[3]*x+[4]+x*x*[5])", 2, 100);
+  //TF1 *myfit = new TF1("myfit","pow(10,[0]*x+[1]+x*x*[2])+pow(10,[3]*x+[4]+x*x*[5])", 2, 100);
+  TF1 *myfit = new TF1("myfit","pow(10,[0]*x+[1]+x*x*[2])+pow(10,[3]+[4]*x*x*x+[5])", 2, 100);
   TCanvas*c1=new TCanvas("c1","Pythia8 MC_2015_B+ pp 5.02 TeV",800.,500.);
   c1->cd();
   gPad->SetLogy();
   hFONLLOverPt->Fit("myfit","","",minfit,maxfit);
-  TLegend* leg0 = myLegend(0.13,0.80,0.52,0.88);
+  TLegend* leg0 = myLegend(0.13,0.83,0.40,0.89);
   leg0->AddEntry(hFONLLOverPt,"Pythia8 MC_2015 B^{+}","");
   leg0->Draw();
-  TLegend* leg1 = myLegend(0.20,0.68,0.52,0.76);
+  TLegend* leg1 = myLegend(0.15,0.75,0.40,0.88);
   leg1->AddEntry(hFONLLOverPt,"pp #sqrt{s}= 5.02 TeV","");
   leg1->Draw();
 
@@ -121,7 +123,7 @@ void weightPPFONLL(int minfit=2,int maxfit=100,TString pthat="pthatall")
   double par5=myfit->GetParameter(5);
 
   myweightfunctiongen=Form("pow(10,%f*Gpt+%f+Gpt*Gpt*%f)+pow(10,%f*Gpt+%f+Gpt*Gpt*%f)",par0,par1,par2,par3,par4,par5);
-  myweightfunctionreco=Form("pow(10,%f*Dgenpt+%f+Dgenpt*Dgenpt*%f)+pow(10,%f*Dgenpt+%f+Dgenpt*Dgenpt*%f)",par0,par1,par2,par3,par4,par5);
+  myweightfunctionreco=Form("pow(10,%f*Bgenpt+%f+Bgenpt*Bgenpt*%f)+pow(10,%f*Bgenpt+%f+Bgenpt*Bgenpt*%f)",par0,par1,par2,par3,par4,par5);
   cout<<"myweightfunctiongen="<<myweightfunctiongen<<endl;
   cout<<"myweightfunctionreco="<<myweightfunctionreco<<endl;
   
@@ -158,7 +160,7 @@ void weightPPFONLL(int minfit=2,int maxfit=100,TString pthat="pthatall")
   hFONLLOverPt->GetYaxis()->CenterTitle();
   hFONLLOverPt->GetXaxis()->CenterTitle();
   hFONLLOverPt->Draw();
-  canvasPtReweight->SaveAs("canvasPtReweightPP.pdf");
+  canvasPtReweight->SaveAs("Rewightplots/canvasPtReweightPP.pdf");
 
   
 
