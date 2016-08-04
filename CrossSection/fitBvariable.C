@@ -81,6 +81,7 @@ void fitBvariable(TString variable="BsvpvDistance/BsvpvDisErr",TString variablep
   nt->AddFriend("ntHlt");
   nt->AddFriend("ntHi");
   nt->AddFriend("ntSkim");
+  nt->AddFriend("bdtTree");
 
   TTree* ntGen = (TTree*)infMC->Get("ntGen");
   ntGen->AddFriend("ntHlt");
@@ -90,6 +91,7 @@ void fitBvariable(TString variable="BsvpvDistance/BsvpvDisErr",TString variablep
   ntMC->AddFriend("ntHlt");
   ntMC->AddFriend("ntHi");
   ntMC->AddFriend("ntSkim");
+  ntMC->AddFriend("bdtTree");
   ntMC->AddFriend(ntGen);
   
   TH1D* hPt = new TH1D("hPt","",nBins,ptBins);
