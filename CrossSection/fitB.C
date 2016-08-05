@@ -325,6 +325,13 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
   leg->AddEntry(background,"Combinatorial","l");
   leg->Draw("same");
 
+  TLatex* texChi = new TLatex(0.58,0.55, Form("Chi/DOF: %.2f/%d = %.2f", f->GetChisquare(), f->GetNDF(), f->GetChisquare()/f->GetNDF()));
+  texChi->SetNDC();
+  texChi->SetTextAlign(12);
+  texChi->SetTextSize(0.03);
+  texChi->SetTextFont(42);
+  texChi->Draw();
+
   TLatex* texCms = new TLatex(0.18,0.93, "#scale[1.25]{CMS} Preliminary");
   texCms->SetNDC();
   texCms->SetTextAlign(12);

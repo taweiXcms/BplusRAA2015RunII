@@ -3,8 +3,8 @@
 
 VariableOption=$1
 
-INPUTMCPP="/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160606_pp_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root" 
-INPUTDATAPP="/data/HeavyFlavourRun2/Data2015/Bntuple/Bntuple20160608_crab_BfinderData_pp_20160606_bPt0jpsiPt0tkPt0p5_Bp.root"
+INPUTMCPP="/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160629_Bpt7svpv5p5Bpt10svpv3p5_pp_Pythia8_BuToJpsiK_Bpt5p0_Pthat5_BDT.root" 
+INPUTDATAPP="/data/HeavyFlavourRun2/Data2015/Bntuple/Bntuple20160629_Bpt7svpv5p5Bpt10svpv3p5_crab_BfinderData_pp_20160606_bPt0jpsiPt0tkPt0p5_Bp_BDT.root"
 
 OUTPUTFILEPP_NP="ROOTfiles/NPFitPP.root"
 
@@ -53,6 +53,37 @@ LIMITLOW=0.
 LIMITHIGH=1
 fi
 
+if [ $VariableOption -eq 3 ]; then      
+
+cp config/parametersVariablesBDT.h parameters.h 
+
+VARIABLE="BDT"
+VARIABLEPLOT="BDT"
+VARIABLENAME="BDT"
+OUTPUTFILEPPVariablePromptMC="MCCutVariableBDT.root"
+OUTPUTFILEPPVariableData="DataCutVariableBDT.root"
+LABELPPData="BDTData"
+LABELPPMC="BDTMC"
+LIMITLOW=-1
+LIMITHIGH=2
+fi
+
+if [ $VariableOption -eq 4 ]; then      
+
+cp config/parametersVariablesrapidity.h parameters.h 
+
+VARIABLE="By"
+VARIABLEPLOT="rapidity"
+VARIABLENAME="rapidity"
+OUTPUTFILEPPVariablePromptMC="MCCutVariablerapidity.root"
+OUTPUTFILEPPVariableData="DataCutVariablerapidity.root"
+LABELPPData="rapidityData"
+LABELPPMC="rapidityTMC"
+LIMITLOW=-1.5
+LIMITHIGH=1.5
+fi
+
+
 LUMIPP=1
 ISMCPP=0
 ISMCPPData=0
@@ -65,8 +96,8 @@ TRGPPData="HLT_HIL1DoubleMu0_v1"
 
 
 g++ fitBvariable.C $(root-config --cflags --libs) -g -o fitBvariable.exe 
-#./fitBvariable.exe "$VARIABLE" "$VARIABLEPLOT" 0 "$INPUTDATAPP"  "$INPUTMCPP"  "$TRGPPData" "$CUTPP"   "$SELGENPP"   "$ISMCPP"          1   "$ISDOWEIGHTPP"   "$LABELPPData"  "$OUTPUTFILEPPVariableData" "$OUTPUTFILEPP_NP"
-#./fitBvariable.exe "$VARIABLE" "$VARIABLEPLOT" 0 "$INPUTMCPP"      "$INPUTMCPP"  "$TRGPPMC"   "$CUTPP"   "$SELGENPP"   "$ISMCPPData"   1   "$ISDOWEIGHTPP"   "$LABELPPMC"  "$OUTPUTFILEPPVariablePromptMC" "$OUTPUTFILEPP_NP"
+./fitBvariable.exe "$VARIABLE" "$VARIABLEPLOT" 0 "$INPUTDATAPP"  "$INPUTMCPP"  "$TRGPPData" "$CUTPP"   "$SELGENPP"   "$ISMCPP"          1   "$ISDOWEIGHTPP"   "$LABELPPData"  "$OUTPUTFILEPPVariableData" "$OUTPUTFILEPP_NP"
+./fitBvariable.exe "$VARIABLE" "$VARIABLEPLOT" 0 "$INPUTMCPP"      "$INPUTMCPP"  "$TRGPPMC"   "$CUTPP"   "$SELGENPP"   "$ISMCPPData"   1   "$ISDOWEIGHTPP"   "$LABELPPMC"  "$OUTPUTFILEPPVariablePromptMC" "$OUTPUTFILEPP_NP"
 
 g++ compareMCdataVariables.C $(root-config --cflags --libs) -g -o compareMCdataVariables.exe 
 ./compareMCdataVariables.exe "$OUTPUTFILEPPVariablePromptMC" "$OUTPUTFILEPPVariableData" "$VARIABLEPLOT" "$VARIABLENAME" "$LIMITLOW" "$LIMITHIGH"
