@@ -21,6 +21,7 @@
 #include <TLine.h>
 #include <TBox.h>
 #include <TCut.h>
+#include <TColor.h>
 #include <TMath.h>
 #include <TRandom.h>
 #include <TRandom3.h>

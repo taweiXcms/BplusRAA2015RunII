@@ -8,7 +8,7 @@ double nbinsmasshisto=50;
 double binwidthmass=(maxhisto-minhisto)/nbinsmasshisto;
 
 TString weightMC = "1";
-TString weight = "pthatweight";
+TString weight = "1";
 TString seldata;
 TString selmc;
 TString collisionsystem;
@@ -24,6 +24,7 @@ void savehisto(TString inputdata="",
                    float centMax=100,
 	           TString outputfile="outHisto")
 {
+
   collisionsystem=collsyst;
   centmin = centMin;
   centmax = centMax;
@@ -32,7 +33,7 @@ void savehisto(TString inputdata="",
 
   isPbPb = true;
   if(collisionsystem=="pp") isPbPb = false;
-  if(!doweight) weight="1";
+  // if(!doweight) weight="1";
 
   TFile* inf = new TFile(inputdata.Data());
   TFile* infMC = new TFile(inputmc.Data());
@@ -41,14 +42,22 @@ void savehisto(TString inputdata="",
   else seldata = Form("%s&&%s&&hiBin>=%f&&hiBin<=%f",trgselection.Data(),cut.Data(),hiBinMin,hiBinMax);
   selmc = Form("%s",cut.Data());  
   
-  TTree* nt = (TTree*) inf->Get("ntKp");
+  TTree* nt = (TTree*)inf->Get("ntKp");
   nt->AddFriend("ntHlt");
   nt->AddFriend("ntHi");
-  nt->AddFriend("ntSkim"); 
+  nt->AddFriend("ntSkim");
+  nt->AddFriend("bdtTree");
+
+  TTree* ntGen = (TTree*)infMC->Get("ntGen");
+  ntGen->AddFriend("ntHlt");
+  ntGen->AddFriend("ntHi");
+
   TTree* ntMC = (TTree*)infMC->Get("ntKp");
   ntMC->AddFriend("ntHlt");
   ntMC->AddFriend("ntHi");
   ntMC->AddFriend("ntSkim");
+  ntMC->AddFriend("bdtTree");
+  ntMC->AddFriend(ntGen);
 
   if(!isPbPb) seldata = Form("%s&&%s",trgselection.Data(),cut.Data());
   else seldata = Form("%s&&%s&&hiBin>=%f&&hiBin<=%f",trgselection.Data(),cut.Data(),hiBinMin,hiBinMax);
