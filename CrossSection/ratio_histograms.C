@@ -69,7 +69,7 @@ mytext="B+ pp #sqrt{s}= 5.02 TeV";
 
    //TF1 *myfit = new TF1("myfit","pow(10,[0]*x+[1]+x*x*[2])+pow(10,[3]*x+[4]+x*x*[5])", 10, 50);
    //TF1 *myfit = new TF1("myfit","[0]*x+[1]+x*x*[2]+x*x*x*[3]+x*x*x*x*[4]+x*x*x*x*x*[5]+x*x*x*x*x*x*[6]", 2, 100);
-   TF1 *myfit = new TF1("myfit","pow(10,[0]*x+[1]+x*x*[2])+pow(10,[3]*x+[4]+x*x*[5])", 2, 100);
+   TF1 *myfit = new TF1("myfit","pow(10,[0]+[1]*x+x*x*[2])+pow(10,[3]*x*x+[4]*x*x*x+[5])", 2, 100);   
    TCanvas*cFit=new TCanvas("Fit","Fit on Efficiency Ratio",800.,500.);
    cFit->cd();
    h4->Fit("myfit","","",minfit,maxfit);
