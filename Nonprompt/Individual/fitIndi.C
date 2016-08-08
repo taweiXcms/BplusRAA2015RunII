@@ -14,8 +14,8 @@
 double minhisto = 4.9;
 double maxhisto = 6.0;
 
-TString infilepp = "ppMinCut.root";
-TString infilePbPb = "PbPbMinCut.root";
+TString infilepp = "test_pp.root";
+TString infilePbPb = "test_PbPb.root";
 TString histname;
 void fitIndi(){
 	void fit(int fitType, bool ispp);
@@ -97,6 +97,26 @@ void fit(int fitType, bool ispp){
 	h->SetMarkerStyle(20);
 
 	hempty->SetMaximum(h->GetMaximum()*1.4);
+    hempty->SetXTitle("m_{#mu#muK} (GeV/c^{2})");
+    hempty->SetYTitle("Entries / (5 MeV/c^{2})");
+    hempty->GetXaxis()->CenterTitle();
+    hempty->GetYaxis()->CenterTitle();
+    hempty->SetAxisRange(0,h->GetMaximum()*1.4*1.2,"Y");
+    hempty->GetXaxis()->SetTitleOffset(1.3);
+    hempty->GetYaxis()->SetTitleOffset(1.3);
+    hempty->GetXaxis()->SetLabelOffset(0.007);
+    hempty->GetYaxis()->SetLabelOffset(0.007);
+    hempty->GetXaxis()->SetTitleSize(0.045);
+    hempty->GetYaxis()->SetTitleSize(0.045);
+    hempty->GetXaxis()->SetTitleFont(42);
+    hempty->GetYaxis()->SetTitleFont(42);
+    hempty->GetXaxis()->SetLabelFont(42);
+    hempty->GetYaxis()->SetLabelFont(42);
+    hempty->GetXaxis()->SetLabelSize(0.04);
+    hempty->GetYaxis()->SetLabelSize(0.04);
+    hempty->SetMarkerSize(0.01);
+    hempty->SetMarkerStyle(20);
+
 	hempty->Draw();
 	h->Draw("same e");
 	//f->Draw("same");
@@ -110,8 +130,8 @@ void fit(int fitType, bool ispp){
 	if(fitType==2) leg->AddEntry(h,"B^{+} to Jpsi and various K","p");
 	if(fitType==3) leg->AddEntry(h,"B^{0} to Jpsi and various K","p");
 	TLatex * tlatex;
-	if(ispp) tlatex=new TLatex(0.18,0.85,"pp MC");
-	else tlatex=new TLatex(0.18,0.85,"PbPb MC");
+	if(ispp) tlatex=new TLatex(0.48,0.89,"pp MC");
+	else tlatex=new TLatex(0.48,0.89,"PbPb MC");
 	tlatex->SetNDC();
 	tlatex->SetTextColor(1);
 	tlatex->SetTextFont(42);
