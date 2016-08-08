@@ -6,13 +6,13 @@ Bool_t istest = true;
 void printDa(GenInfoBranches *GenInfo, int idx, int space);
 int getBAncestor(GenInfoBranches *GenInfo, int idx, int BancestorId);
 int matcher(BInfoBranches *BInfo, TrackInfoBranches *TrackInfo, MuonInfoBranches *MuonInfo, GenInfoBranches *GenInfo, int j, float BId, float MId, float tk1Id, float tk2Id, bool twoTks);
-int BfinderAna(TString infile="/data/twang/BfinderRun2/DoubleMu/BfinderData_pp_20151130/finder_pp_merged.root", 
+int BfinderAna(
+		TString infile="/data/twang/BfinderRun2/DoubleMu/BfinderData_pp_20151130/finder_pp_merged.root", 
 		TString outfile="test.root", 
 		Bool_t REAL=false, 
 		Bool_t isPbPb=false, 
 		Int_t startEntries=0, 
 		Int_t endEntries=-1,  
-//		Int_t endEntries=100000,  
 		Bool_t skim=true, 
 		Bool_t gskim=true, 
 		Bool_t checkMatching=true, 
@@ -21,7 +21,6 @@ int BfinderAna(TString infile="/data/twang/BfinderRun2/DoubleMu/BfinderData_pp_2
 {
 	if(istest)
 	{
-//		infile="/store/group/phys_heavyions/HeavyFlavourRun2/BfinderRun2/MC/BJpsiMM_5p02TeV_TuneCUETP8M1/crab_BfinderMC_pp_BJpsiMM_5p02TeV_TuneCUETP8M1_20160613_bPt0jpsiPt0tkPt0p5_Bp/160612_195743/0000/finder_pp_62.root";
 //		infile="/data/HeavyFlavourRun2/BfinderRun2/MC/crab_BfinderMC_pp_BJpsiMM_5p02TeV_TuneCUETP8M1_20160613_bPt0jpsiPt0tkPt0p5_Bp.root";
 		infile="/data/HeavyFlavourRun2/BfinderRun2/MC/crab_BfinderMC_PbPb_Pythia8_BJpsiMM_ptJpsi_0_inf_Hydjet_MB_20160613_bPt5jpsiPt0tkPt0p8_Bp.root";
 		outfile="test.root";
@@ -29,7 +28,6 @@ int BfinderAna(TString infile="/data/twang/BfinderRun2/DoubleMu/BfinderData_pp_2
 		isPbPb=false;
 		skim=false;
 		checkMatching=true;
-//		iseos=true;
 		iseos=false;
 	}
 
@@ -78,16 +76,17 @@ int BfinderAna(TString infile="/data/twang/BfinderRun2/DoubleMu/BfinderData_pp_2
 	//
 	double min = 4.6;
 	double max = 6.0;
-	TH1D* Bmass = new TH1D("Bmass","Bmass", 50, min, max);
-	TH1D* Bmass_nosig = new TH1D("Bmass_nosig","Bmass_nosig", 50, min, max);
-	TH1D* BmassBpPi = new TH1D("BmassBpPi","BmassBpPi", 50, min, max);
-	TH1D* BmassBpXPi = new TH1D("BmassBpXPi","BmassBpXPi", 50, min, max);
-	TH1D* BmassBpK = new TH1D("BmassBpK","BmassBpK", 50, min, max);
-	TH1D* BmassB0K = new TH1D("BmassB0K","BmassB0K", 50, min, max);
-	TH1D* BmassBpK_tkmatch = new TH1D("BmassBpK_tkmatch","BmassBpK_tkmatch", 50, min, max);
-	TH1D* BmassB0K_tkmatch = new TH1D("BmassB0K_tkmatch","BmassB0K_tkmatch", 50, min, max);
-	TH1D* BmassBpK_tknotmatch = new TH1D("BmassBpK_tknotmatch","BmassBpK_tknotmatch", 50, min, max);
-	TH1D* BmassB0K_tknotmatch = new TH1D("BmassB0K_tknotmatch","BmassB0K_tknotmatch", 50, min, max);
+	int nbin = (max-min)*50;
+	TH1D* Bmass = new TH1D("Bmass","Bmass", nbin, min, max);
+	TH1D* Bmass_nosig = new TH1D("Bmass_nosig","Bmass_nosig", nbin, min, max);
+	TH1D* BmassBpPi = new TH1D("BmassBpPi","BmassBpPi", nbin, min, max);
+	TH1D* BmassBpXPi = new TH1D("BmassBpXPi","BmassBpXPi", nbin, min, max);
+	TH1D* BmassBpK = new TH1D("BmassBpK","BmassBpK", nbin, min, max);
+	TH1D* BmassB0K = new TH1D("BmassB0K","BmassB0K", nbin, min, max);
+	TH1D* BmassBpK_tkmatch = new TH1D("BmassBpK_tkmatch","BmassBpK_tkmatch", nbin, min, max);
+	TH1D* BmassB0K_tkmatch = new TH1D("BmassB0K_tkmatch","BmassB0K_tkmatch", nbin, min, max);
+	TH1D* BmassBpK_tknotmatch = new TH1D("BmassBpK_tknotmatch","BmassBpK_tknotmatch", nbin, min, max);
+	TH1D* BmassB0K_tknotmatch = new TH1D("BmassB0K_tknotmatch","BmassB0K_tknotmatch", nbin, min, max);
 	Bmass->SetMinimum(0);
 	Bmass_nosig->SetMinimum(0); 
 	BmassBpPi->SetMinimum(0); 
@@ -192,8 +191,8 @@ int BfinderAna(TString infile="/data/twang/BfinderRun2/DoubleMu/BfinderData_pp_2
 //			){
 //				cut = true;
 //			}
-
-			if(!cut) continue;
+//
+//			if(!cut) continue;
 		
 		
 			//identify B sig
