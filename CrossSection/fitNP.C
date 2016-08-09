@@ -40,9 +40,9 @@ void fitNP(int usePbPb=0, TString inputdata="/data/HeavyFlavourRun2/MC2015/Bntup
 	}
 	else
 	{
-		seldata = Form("%s&&%s&&hiBin>=%f&&hiBin<=%f",trgselection.Data(),cut.Data(),hiBinMin,hiBinMax);
-		selmceff = Form("%s&&hiBin>=%f&&hiBin<=%f",cut.Data(),hiBinMin,hiBinMax);
-		selmcgen = Form("%s&&hiBin>=%f&&hiBin<=%f",cutmcgen.Data(),hiBinMin,hiBinMax);
+		seldata = Form("%s&&%s&&hiBin>%f&&hiBin<%f",trgselection.Data(),cut.Data(),hiBinMin,hiBinMax);
+		selmceff = Form("%s&&hiBin>%f&&hiBin<%f",cut.Data(),hiBinMin,hiBinMax);
+		selmcgen = Form("%s&&hiBin>%f&&hiBin<%f",cutmcgen.Data(),hiBinMin,hiBinMax);
 	}
 
 	selmc = Form("%s",cut.Data());
@@ -100,7 +100,9 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 	TCanvas* c= new TCanvas(Form("c%d",count),"",600,600);
 	TH1D* h = new TH1D(Form("h%d",count),"",nbinsmasshisto,minhisto,maxhisto);
 
-	TF1* f = new TF1(Form("f%d",count),"[0]*TMath::Erf((x-[1])/[2]) + [0] + [3]*([4]*Gaus(x,[5],[6])/(sqrt(2*3.14159)*[6])+(1-[4])*Gaus(x,[5],[7])/(sqrt(2*3.14159)*[7])) + [9]+[10]*x ");
+	//   TF1* f = new TF1(Form("f%d",count),"[0]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2]) + [3]*Gaus(x,[4],[5])/(sqrt(2*3.14159)*[5]) + [6]*Gaus(x,[7],[8])/(sqrt(2*3.14159)*[8]) + [9]+[10]*x ");
+	//   TF1* f = new TF1(Form("f%d",count),"[0]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2]) + [3]*Gaus(x,[4],[5])/(sqrt(2*3.14159)*[5]) + [9]+[10]*x ");
+	TF1* f = new TF1(Form("f%d",count),"[0]*TMath::Erf((x-[1])/[2]) + [0] + [9]+[10]*x ");
 
 	if(isMC==1) nt->Project(Form("h%d",count),"Bmass",Form("%s*(%s&&Bpt>%f&&Bpt<%f)","1",seldata.Data(),ptmin,ptmax));   
 	else nt->Project(Form("h%d",count),"Bmass",Form("(%s&&Bpt>%f&&Bpt<%f)",seldata.Data(),ptmin,ptmax));   
@@ -108,15 +110,17 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 	clean0(h);
 
 	h->Draw();
-	f->SetParLimits(0, 1e-3, 1e4);
+	f->SetParLimits(0, 1e-2, 1e4);
 	f->SetParLimits(1, 5.02, 5.06);
 	f->SetParLimits(2, 0.001, 0.1);
 
 	f->SetParLimits(3, 1e-2, 1e4);
-	f->SetParLimits(4, 0, 1);
-	f->SetParLimits(5, 5.3, 5.4);
-	f->SetParLimits(6,0.005,0.05);
-	f->SetParLimits(7,0.005,0.05);
+	f->SetParLimits(4, 5.06, 5.10);
+	f->SetParLimits(5, 0.001, 0.1);
+
+	f->SetParLimits(6, 0, 1e4);
+	f->SetParLimits(7, 5.3, 5.4);
+	f->SetParLimits(8, 0.001, 0.5);
 
 	f->SetParLimits(9, 0, 1e5);
 	f->SetParLimits(10, -500,  100);
@@ -129,11 +133,13 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 	f->SetParameter(1,5.03);
 	f->SetParameter(2,0.05);
 
-	f->SetParameter(3,1e1);
-	f->SetParameter(4,0.5);
-	f->SetParameter(5,5.35);
-	f->SetParameter(6,0.01);
-	f->SetParameter(7,0.01);
+	f->SetParameter(3,1e2);
+	f->SetParameter(4,5.07);
+	f->SetParameter(5,0.05);
+
+	f->SetParameter(6,1e2);
+	f->SetParameter(7,5.35);
+	f->SetParameter(8,0.05);
 
 	f->SetParameter(9,1e3);
 	f->SetParameter(10,-1);
@@ -164,8 +170,12 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 	background->SetRange(minhisto,maxhisto);
 	background->SetLineStyle(2);
 
-	TF1 *mass = new TF1(Form("fmass%d",count),"[0]*TMath::Erf((x-[1])/[2]) + [0] + [3]*([4]*Gaus(x,[5],[6])/(sqrt(2*3.14159)*[6])+(1-[4])*Gaus(x,[5],[7])/(sqrt(2*3.14159)*[7]))");
-	mass->SetParameters(f->GetParameter(0),f->GetParameter(1),f->GetParameter(2), f->GetParameter(3), f->GetParameter(4), f->GetParameter(5), f->GetParameter(6), f->GetParameter(7));
+	//   TF1 *mass = new TF1(Form("fmass%d",count),"[0]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2]) + [3]*Gaus(x,[4],[5])/(sqrt(2*3.14159)*[5]) + [6]*Gaus(x,[7],[8])/(sqrt(2*3.14159)*[8])");
+	//   mass->SetParameters(f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4),f->GetParameter(5),f->GetParameter(6),f->GetParameter(7),f->GetParameter(8));
+	//TF1 *mass = new TF1(Form("fmass%d",count),"[0]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2]) + [3]*Gaus(x,[4],[5])/(sqrt(2*3.14159)*[5])");
+	//mass->SetParameters(f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4),f->GetParameter(5));
+	TF1 *mass = new TF1(Form("fmass%d",count),"[0]*TMath::Erf((x-[1])/[2]) + [0]");
+	mass->SetParameters(f->GetParameter(0),f->GetParameter(1),f->GetParameter(2));
 	//mass->SetParError(0,f->GetParError(0));
 	//mass->SetParError(1,f->GetParError(1));
 	//mass->SetParError(2,f->GetParError(2));

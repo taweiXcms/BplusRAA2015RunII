@@ -17,7 +17,8 @@ TString varname;
 TString vartex;
 Int_t isLarger;
 TString _nominalcut = "";
-void fitD(TString collsyst="PbPb",TString nominalcut="", TString varname_="", Int_t varbins=10, Float_t varmin=0.5, Float_t varmax=2,TString vartex_="", Int_t isLarger_=1, TString npfile="ROOTfiles/NPFitPP.root", TString outputfile="outfMasshisto/mass")
+//void fitD(TString collsyst="PbPb",TString nominalcut="", TString varname_="", Int_t varbins=10, Float_t varmin=0.5, Float_t varmax=2,TString vartex_="", Int_t isLarger_=1, TString npfile="ROOTfiles/NPFitPP.root", TString outputfile="outfMasshisto/mass")
+void fitD(TString collsyst="PbPb",TString nominalcut="", TString varname_="", Int_t varbins=10, Float_t varmin=0.5, Float_t varmax=2,TString vartex_="", Int_t isLarger_=1, TString npfit="0", TString outputfile="outfMasshisto/mass")
 {
   _nominalcut = nominalcut;
   gStyle->SetTextSize(0.05);
@@ -37,12 +38,13 @@ void fitD(TString collsyst="PbPb",TString nominalcut="", TString varname_="", In
   vartex=vartex_;
   isLarger=isLarger_;
 
-  TF1* fit(Float_t varval, Float_t ibin, Int_t isMC, float NPpar[]);
-  void getNPFnPar(TString npfname, float par[]);
-  float NPpar[2];
-  getNPFnPar(npfile, NPpar);
-  std::cout<<"NP parameter 0: "<<NPpar[0]<<std::endl;
-  std::cout<<"NP parameter 1: "<<NPpar[1]<<std::endl;
+  //TF1* fit(Float_t varval, Float_t ibin, Int_t isMC, float NPpar[]);
+  TF1* fit(Float_t varval, Float_t ibin, Int_t isMC, TString npfit);
+  //void getNPFnPar(TString npfname, float par[]);
+  //float NPpar[2];
+  //getNPFnPar(npfile, NPpar);
+  //std::cout<<"NP parameter 0: "<<NPpar[0]<<std::endl;
+  //std::cout<<"NP parameter 1: "<<NPpar[1]<<std::endl;
   
   Float_t varstep;
   if(varbins==1) varstep = 0.5;
@@ -55,7 +57,8 @@ void fitD(TString collsyst="PbPb",TString nominalcut="", TString varname_="", In
     {
       Float_t yield,yieldErr;
       Float_t ivar = varmin+(i-1)*varstep;
-      TF1* fMC = fit(ivar,i,1, NPpar);
+      //TF1* fMC = fit(ivar,i,1, NPpar);
+      TF1* fMC = fit(ivar,i,1, npfit);
       yield = fMC->Integral(minhisto,maxhisto)/binwidthmass;
       yieldErr = fMC->Integral(minhisto,maxhisto)/binwidthmass*fMC->GetParError(0)/fMC->GetParameter(0);
       if(i==0)
@@ -71,7 +74,8 @@ void fitD(TString collsyst="PbPb",TString nominalcut="", TString varname_="", In
           hMCCut->SetBinContent(i,yield);
           hMCCut->SetBinError(i,yieldErr);
         }
-      TF1* fDa = fit(ivar,i,0, NPpar);
+      //TF1* fDa = fit(ivar,i,0, NPpar);
+      TF1* fDa = fit(ivar,i,0, npfit);
       yield = fDa->Integral(minhisto,maxhisto)/binwidthmass;
       yieldErr = fDa->Integral(minhisto,maxhisto)/binwidthmass*fDa->GetParError(0)/fDa->GetParameter(0);
       if(i==0)
@@ -165,7 +169,8 @@ void fitD(TString collsyst="PbPb",TString nominalcut="", TString varname_="", In
   outf->Close();
 }
 
-TF1* fit(Float_t varval, Float_t ibin, Int_t isMC, float NPpar[])
+//TF1* fit(Float_t varval, Float_t ibin, Int_t isMC, float NPpar[])
+TF1* fit(Float_t varval, Float_t ibin, Int_t isMC, TString npfit)
 {
   TString tMC;
   if(isMC==1) tMC="MC";
@@ -175,7 +180,8 @@ TF1* fit(Float_t varval, Float_t ibin, Int_t isMC, float NPpar[])
   TH1D* h = (TH1D*)infile->Get("h");                    h->SetName(Form("h_%s_%.0f",tMC.Data(),ibin));
   TH1D* hMCSignal = (TH1D*)infile->Get("hMCSignal");    hMCSignal->SetName(Form("hMCSignal_%s_%.0f",tMC.Data(),ibin));
 
-  TString iNP=Form("TMath::Erf((x-%f)/%f)+1", NPpar[0], NPpar[1]);
+  //TString iNP=Form("TMath::Erf((x-%f)/%f)+1", NPpar[0], NPpar[1]);
+  TString iNP = npfit;
   TF1* f = new TF1(Form("f_%s_%.0f",tMC.Data(),ibin),"[0]*([7]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2])+(1-[7])*Gaus(x,[1],[8])/(sqrt(2*3.14159)*[8]))+[3]+[4]*x+[5]*("+iNP+")");
 
   f->SetParLimits(3,0,1e5);
