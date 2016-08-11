@@ -7,19 +7,19 @@ CENTPbPbMAX=100
 DOANALYSISPP_FONLL=0
 DOANALYSISPP_FITNP=0
 DOANALYSISPP_FIT=0
-DOANALYSISPP_MCSTUDY=1
-DOANALYSISPP_CROSS=1
+DOANALYSISPP_MCSTUDY=0
+DOANALYSISPP_CROSS=0
 
 DOANALYSISPbPb_FONLL=0
 DOANALYSISPbPb_FITNP=0
 DOANALYSISPbPb_FIT=0
-DOANALYSISPbPb_MCSTUDY=1
-DOANALYSISPbPb_CROSS=1
+DOANALYSISPbPb_MCSTUDY=0
+DOANALYSISPbPb_CROSS=0
 
 DOANALYSISPP_MCSTUDYCombine=0
 DOANALYSISPbPb_MCSTUDYCombine=0
 
-DORAA=1
+DORAA=0
 
 #systematic section
 DOCOMPARE=0
@@ -27,6 +27,10 @@ DOSAVEHISTPP=0
 DOSAVEHISTPbPb=0
 DOVARIATION=0
 DOClosure=0
+SAVEMVAPP=0
+SAVEMVAPbPb=0
+PLOTMVA=1
+
 
 ## PP MONTE CARLO
 INPUTMCPP="/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160629_Bpt7svpv5p5Bpt10svpv3p5_pp_Pythia8_BuToJpsiK_Bpt5p0_Pthat5_BDT.root" 
@@ -210,6 +214,29 @@ g++ fitBvar.C $(root-config --cflags --libs) -g -o fitBvar.exe
 rm fitBvar.exe
 fi
 
+# MVA COMPARISON
+
+if [ $SAVEMVAPP -eq 1 ]; then
+g++ mvahisto.C $(root-config --cflags --libs) -g -o mvahisto.exe 
+./mvahisto.exe "$INPUTDATAPP" "$INPUTMCPP" "$TRGPP" "$CUTPP" "$ISMCPP" "$ISDOWEIGHTPP" "$LABELPP"
+rm mvahisto.exe
+fi
+
+if [ $SAVEMVAPbPb -eq 1 ]; then
+g++ mvahisto.C $(root-config --cflags --libs) -g -o mvahisto.exe 
+./mvahisto.exe "$INPUTDATAPbPb" "$INPUTMCPbPb" "$TRGPbPb" "$CUTPbPb" "$ISMCPbPb" "$ISDOWEIGHTPbPb" "$LABELPbPb" "$CENTPbPbMIN" "$CENTPbPbMAX"
+rm mvahisto.exe
+fi
+
+if [ $PLOTMVA -eq 1 ]; then
+g++ fitBmva.C $(root-config --cflags --libs) -g -o fitBmva.exe 
+./fitBmva.exe "$LABELPP" "$PREFIXPP" "$OUTPUTFILEPP_NP"
+rm fitBmva.exe
+
+g++ fitBmva.C $(root-config --cflags --libs) -g -o fitBmva.exe 
+./fitBmva.exe "$LABELPbPb" "$PREFIXPbPb" "$OUTPUTFILEPbPb_NP" "$CENTPbPbMIN" "$CENTPbPbMAX"
+rm fitBmva.exe
+fi
 
 if [ $DOClosure -eq 1 ]; then      
 

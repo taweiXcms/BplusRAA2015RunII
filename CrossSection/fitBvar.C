@@ -213,8 +213,8 @@ void fitBvar(TString collsyst="PbPb", TString inputfile ="", TString npfile="ROO
   c->cd();
   leg->Draw("Same");
 
-  if(nBins == 1) c->SaveAs(Form("SystPDF_new/total_var_%s.pdf",collisionsystem.Data()));  
-  else c->SaveAs(Form("SystPDF_new/var_%s.pdf",collisionsystem.Data()));  
+  if(nBins == 1) c->SaveAs(Form("SystPDF/total_var_%s.pdf",collisionsystem.Data()));  
+  else c->SaveAs(Form("SystPDF/var_%s.pdf",collisionsystem.Data()));  
 }
 
 TF1* fit(float ptmin, float ptmax, int s, int b, int widVar)
@@ -480,9 +480,9 @@ TF1* fit(float ptmin, float ptmax, int s, int b, int widVar)
   tex->Draw();
 
     if(widVar==0) 
-      c->SaveAs(Form("SystPDF_new/%s_%s_%s_%.0f_%.0f.pdf",collisionsystem.Data(),signame[s].Data(),bkgname[b].Data(),ptmin,ptmax));
+      c->SaveAs(Form("SystPDF/%s_%s_%s_%.0f_%.0f.pdf",collisionsystem.Data(),signame[s].Data(),bkgname[b].Data(),ptmin,ptmax));
     else
-      c->SaveAs(Form("SystPDF_new/%s_%s_%.0f_%.0f.pdf",collisionsystem.Data(),"widvar",ptmin,ptmax));
+      c->SaveAs(Form("SystPDF/%s_%s_%.0f_%.0f.pdf",collisionsystem.Data(),"widvar",ptmin,ptmax));
 
     return mass;
 }
