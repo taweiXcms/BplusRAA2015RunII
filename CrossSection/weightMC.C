@@ -160,7 +160,7 @@ void weightPPFONLL(int minfit=2,int maxfit=100,TString pthat="pthatall")
   hFONLLOverPt->GetYaxis()->CenterTitle();
   hFONLLOverPt->GetXaxis()->CenterTitle();
   hFONLLOverPt->Draw();
-  canvasPtReweight->SaveAs("Rewightplots/canvasPtReweightPP.pdf");
+  canvasPtReweight->SaveAs("Reweightplots/canvasPtReweightPP.pdf");
 
   
 

@@ -65,7 +65,8 @@ std::cout<<"weight="<<par0<<"+PVz*("<<par1<<")+PVz*PVz*("<<par2<<")+PVz*PVz*PVz*
 void weightPbPbFONLL(int minfit=2,int maxfit=100,TString pthat="pthatall")
 {
   TString label;
-  TString selmcgen="((GisSignal==1||GisSignal==2)&&(Gy>-1&&Gy<1))";
+  //TString selmcgen="((GisSignal==1||GisSignal==2)&&(Gy>-1&&Gy<1))";
+  TString selmcgen="TMath::Abs(Gy)<2.4&&abs(GpdgId)==521&&GisSignal==1";
   TString myweightfunctiongen,myweightfunctionreco;
   
   //TCut weighpthat="pow(10,-0.075415*Gpt+1.748668+Gpt*Gpt*0.000388)+pow(10,-0.166406*Gpt+2.887856+Gpt*Gpt*0.000105) +0.003157";
@@ -126,9 +127,9 @@ void weightPbPbFONLL(int minfit=2,int maxfit=100,TString pthat="pthatall")
   std::cout<<"fit function parameters="<<weightfunctiongen<<std::endl;
 */
 
-   TF1 *myfit = new TF1("myfit","pow(10,[0]+[1]*x+x*x*x*[2])+pow(10,[3]*x*x+[4]*x*x*x+x*[5])", 2, 100);
+   TF1 *myfit = new TF1("myfit","pow(10,[0]+[1]*x+x*x*[2])+pow(10,[3]*x*x+[4]*x*x*x+x*[5])", 2, 100);
    
-   TCanvas*c1=new TCanvas("c1","c1",800.,500.);
+   TCanvas*c1=new TCanvas("c1","c1",800.,600.);
     c1->cd();
     gPad->SetLogy();
     gStyle->SetOptStat(111111111);
@@ -154,7 +155,7 @@ void weightPbPbFONLL(int minfit=2,int maxfit=100,TString pthat="pthatall")
    std::cout<<"myweightfunctionreco="<<myweightfunctionreco<<std::endl;
    std::cout<<"fit function parameters="<<weightfunctiongen<<std::endl;
 
-  TCanvas*canvasPtReweight=new TCanvas("canvasPtReweight","canvasPtReweight_PbPb_MC_B+",1000.,800.); 
+  TCanvas*canvasPtReweight=new TCanvas("canvasPtReweight","canvasPtReweight_PbPb_MC_B+",1253.,494.); 
   canvasPtReweight->Divide(3,1);
   canvasPtReweight->cd(1);
   gPad->SetLogy();
@@ -184,7 +185,7 @@ void weightPbPbFONLL(int minfit=2,int maxfit=100,TString pthat="pthatall")
   hFONLLOverPt->GetYaxis()->CenterTitle();
   hFONLLOverPt->GetXaxis()->CenterTitle();
   hFONLLOverPt->Draw();
-  canvasPtReweight->SaveAs("Rewightplots/canvasPtReweightPbPb.pdf");
+  canvasPtReweight->SaveAs("Reweightplots/canvasPtReweightPbPb.pdf");
 }
 
 
