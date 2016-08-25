@@ -58,36 +58,41 @@ double par4=myfit->GetParameter(4);
 std::cout<<"weight="<<par0<<"+PVz*("<<par1<<")+PVz*PVz*("<<par2<<")+PVz*PVz*PVz*("<<par3<<")+PVz*PVz*PVz*PVz*("<<par4<<")"<<endl;
 }
 
-void weightPPFONLL(int minfit=2,int maxfit=100,TString pthat="pthatall")
+
+void weightPPFONLLpthat(int minfit=2,int maxfit=100,TString pthat="pthatall")
 {
   TString label;
+  //TString selmcgen="((GisSignal==1||GisSignal==2)&&(Gy>-1&&Gy<1))";
   TString selmcgen="TMath::Abs(Gy)<2.4&&abs(GpdgId)==521&&GisSignal==1";
   TString myweightfunctiongen,myweightfunctionreco;
-
   
+  //TCut weighpthat="pow(10,-0.075415*Gpt+1.748668+Gpt*Gpt*0.000388)+pow(10,-0.166406*Gpt+2.887856+Gpt*Gpt*0.000105) +0.003157";
+  //TCut weighpthat="1";
+  //TCut weighpthat="pthatweight*(pow(10,-0.094152+0.008102*Gpt+Gpt*Gpt*0.000171+Gpt*Gpt*Gpt*-0.000005+Gpt*Gpt*Gpt*Gpt*-0.000000+Gpt*Gpt*Gpt*Gpt*Gpt*0.000000))";//cross check
+  TCut weighpthat="pthatweight";
+
   gStyle->SetOptTitle(1);
-  gStyle->SetOptStat(1111);
-  gStyle->SetOptFit(1);
+  //gStyle->SetOptStat(111111);
+  gStyle->SetOptStat(0);
+  gStyle->SetOptFit(0);
   gStyle->SetEndErrorSize(0);
   gStyle->SetMarkerStyle(20);
 
   gStyle->SetStatX(0.9);
   gStyle->SetStatY(0.9);
-  gStyle->SetStatW(0.19);
-  gStyle->SetStatH(0.10);
-  gStyle->SetStatFontSize(0.02);
- 
-  //TFile*infMC=new TFile("/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160606_pp_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root");
-  TFile*infMC=new TFile("/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160629_Bpt7svpv5p5Bpt10svpv3p5_pp_Pythia8_BuToJpsiK_Bpt5p0_Pthat5_BDT.root");
+  gStyle->SetStatW(0.30);
+  gStyle->SetStatH(0.04);
+  gStyle->SetStatFontSize(0.03); 
+  TFile*infMC=new TFile("/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160816_Bpt7svpv5p5Bpt10svpv3p5_BfinderMC_pp_Pythia8_BuToJpsiK_TuneCUEP8M1_20160816_bPt0jpsiPt0tkPt0p5_Bp_pthatweight.root");
   TTree* ntGen = (TTree*)infMC->Get("ntGen");
   TTree *ntHiMC = (TTree*)infMC->Get("ntHi");
   ntGen->AddFriend(ntHiMC);
-    
+  
   TH1D* hPtGenFONLL = new TH1D("hPtGenFONLL","",nBinsReweight,ptBinsReweight);
-  ntGen->Project("hPtGenFONLL","Gpt",TCut(selmcgen.Data()));
+  ntGen->Project("hPtGenFONLL","Gpt",(TCut(weighpthat)*TCut(selmcgen.Data())));
   divideBinWidth(hPtGenFONLL);
     
-  TString fonll="/afs/cern.ch/work/c/cdozen/BRUNII/CMSSW_7_5_5_patch4/src/BntupleRunII/CrossSection/ROOTfiles/fonllOutput_pp_Bplus_5p03TeV_y2p4.root";
+  TString fonll="ROOTfiles/fonllOutput_pp_Bplus_5p03TeV_y2p4.root";
   TFile* filePPReference = new TFile(fonll.Data());  
   TGraphAsymmErrors* gaeBplusReference = (TGraphAsymmErrors*)filePPReference->Get("gaeSigmaBplus");
 
@@ -99,20 +104,31 @@ void weightPPFONLL(int minfit=2,int maxfit=100,TString pthat="pthatall")
   }
   TH1D* hFONLLOverPt=(TH1D*)hFONLL->Clone("hFONLLOverPt");
   TH1D* hFONLLOverPtWeight=(TH1D*)hFONLL->Clone("hFONLLOverPtWeight");
-
+  
+  hFONLL->Sumw2();
+  hPtGenFONLL->Sumw2();
+  hFONLLOverPt->Sumw2();
+  hFONLL->Scale(1/hFONLL->Integral());
+  hFONLLOverPt->Scale(1/hFONLLOverPt->Integral());
+  hPtGenFONLL->Scale(1/hPtGenFONLL->Integral());
   hFONLLOverPt->Divide(hPtGenFONLL);
   
-  //TF1 *myfit = new TF1("myfit","pow(10,[0]*x+[1]+x*x*[2])+pow(10,[3]*x+[4]+x*x*[5])", 2, 100);
-  TF1 *myfit = new TF1("myfit","pow(10,[0]*x+[1]+x*x*[2])+pow(10,[3]+[4]*x*x*x+[5])", 2, 100);
-  TCanvas*c1=new TCanvas("c1","Pythia8 MC_2015_B+ pp 5.02 TeV",800.,500.);
+  //TF1 *myfit = new TF1("myfit","pow(10,[0]+[1]*x+x*x*[2])+pow(10,[3]*x*x+[4]*x*x*x+x*[5])", 2, 100);
+  TF1 *myfit = new TF1("myfit","pow(10,[0]+[1]*x+x*x*[2]+x*x*x*[3]+x*x*x*x*[4]+x*x*x*x*x*[5])",0, 100);  
+  //TF1 *myfit = new TF1("myfit","pow(10,[0]+[1]*x+x*x*[2]+x*x*x*[3])",0, 100);  
+  //TF1 *myfit = new TF1("myfit","[0]+[1]*x+x*x*[2]+x*x*x*[3]+x*x*x*x*[4]+x*x*x*x*x*[5]",0, 100);  
+   
+  TCanvas*c1=new TCanvas("c1","c1",1000.,600.);
   c1->cd();
   gPad->SetLogy();
+  gStyle->SetOptStat(111111111);
   hFONLLOverPt->Fit("myfit","","",minfit,maxfit);
+  hFONLLOverPt->Fit("myfit","L m","",minfit,maxfit);
   TLegend* leg0 = myLegend(0.13,0.83,0.40,0.89);
   leg0->AddEntry(hFONLLOverPt,"Pythia8 MC_2015 B^{+}","");
   leg0->Draw();
   TLegend* leg1 = myLegend(0.15,0.75,0.40,0.88);
-  leg1->AddEntry(hFONLLOverPt,"pp #sqrt{s}= 5.02 TeV","");
+  leg1->AddEntry(hFONLLOverPt,"PbPb #sqrt{s}= 5.02 TeV","");
   leg1->Draw();
 
   double par0=myfit->GetParameter(0);
@@ -121,131 +137,49 @@ void weightPPFONLL(int minfit=2,int maxfit=100,TString pthat="pthatall")
   double par3=myfit->GetParameter(3);
   double par4=myfit->GetParameter(4);
   double par5=myfit->GetParameter(5);
+  //double par6=myfit->GetParameter(6);
 
-  myweightfunctiongen=Form("pow(10,%f*Gpt+%f+Gpt*Gpt*%f)+pow(10,%f*Gpt+%f+Gpt*Gpt*%f)",par0,par1,par2,par3,par4,par5);
-  myweightfunctionreco=Form("pow(10,%f*Bgenpt+%f+Bgenpt*Bgenpt*%f)+pow(10,%f*Bgenpt+%f+Bgenpt*Bgenpt*%f)",par0,par1,par2,par3,par4,par5);
-  cout<<"myweightfunctiongen="<<myweightfunctiongen<<endl;
-  cout<<"myweightfunctionreco="<<myweightfunctionreco<<endl;
-  
-  TCanvas *canvasPtReweight=new TCanvas("canvasPtReweight","canvasPtReweight_pp_MC_B+",0,23,1253,494); 
+  //myweightfunctiongen=Form("pow(10,%f*Gpt+%f+Gpt*Gpt*%f)+pow(10,%f*Gpt+%f+Gpt*Gpt*%f)",par0,par1,par2,par3,par4,par5);
+  //myweightfunctiongen=Form("%f+%f*x+x*x*%f+x*x*x*%f+x*x*x*x*%f+x*x*x*x*x*%f",par0,par1,par2,par3,par4,par5);
+  myweightfunctiongen=Form("pow(10,%f+%f*x+x*x*%f+x*x*x*%f+x*x*x*x*%f+x*x*x*x*x*%f)",par0,par1,par2,par3,par4,par5);
+  std::cout<<"myweightfunctiongen="<<myweightfunctiongen<<std::endl;
+
+  //myweightfunctionreco=Form("pow(10,%f*Gpt+%f+Gpt*Gpt*%f)+pow(10,%f*Gpt+%f+Gpt*Gpt*%f)",par0,par1,par2,par3,par4,par5);
+  //std::cout<<"myweightfunctionreco="<<myweightfunctionreco<<std::endl;
+  //std::cout<<"fit function parameters="<<weightfunctiongen<<std::endl;
+
+  TCanvas*canvasPtReweight=new TCanvas("canvasPtReweight","canvasPtReweight_PbPb_MC_B+",1253.,494.); 
   canvasPtReweight->Divide(3,1);
   canvasPtReweight->cd(1);
   gPad->SetLogy();
-  
-  hPtGenFONLL->SetXTitle("Gen p_{T}");
+  gPad->SetLeftMargin(0.15);
+  hPtGenFONLL->SetXTitle("Gen p_{T}(GeV)");
   hPtGenFONLL->SetYTitle("PYTHIA, #entries");
   hPtGenFONLL->SetMinimum(1e-4);  
-  hPtGenFONLL->SetMaximum(1e11);  
-  hPtGenFONLL->GetYaxis()->SetTitleOffset(1.4);
+  hPtGenFONLL->SetMaximum(1e2);  
+  hPtGenFONLL->GetYaxis()->SetTitleOffset(1.2);
   hPtGenFONLL->Draw();
-  
   canvasPtReweight->cd(2);
   gPad->SetLogy();
-  hFONLL->SetXTitle("Gen  p_{T}");
-  hFONLL->SetYTitle("FONLL, #entries");
+  gPad->SetLeftMargin(0.15);
+  hFONLL->SetXTitle("Gen, p_{T}(GeV)");
+  hFONLL->SetYTitle("FONLL_PbPb, #entries");
   hFONLL->SetMinimum(1e-4);  
-  hFONLL->SetMaximum(1e11);  
-  hFONLL->GetYaxis()->SetTitleOffset(1.4);
+  hFONLL->SetMaximum(1e2);  
+  hFONLL->GetYaxis()->SetTitleOffset(1.2);
   hFONLL->GetYaxis()->CenterTitle();
   hFONLL->GetXaxis()->CenterTitle();
   hFONLL->Draw();
- 
- canvasPtReweight->cd(3);
+  canvasPtReweight->cd(3);
   gPad->SetLogy();
-  hFONLLOverPt->SetXTitle("Gen p_{T}");
-  hFONLLOverPt->SetYTitle("FONLL/PYTHIA ");
-  hFONLLOverPt->SetMinimum(1e-2);  
-  hFONLLOverPt->SetMaximum(1e7);  
-  hFONLLOverPt->GetYaxis()->SetTitleOffset(1.4);
+  gPad->SetLeftMargin(0.15);
+  hFONLLOverPt->SetXTitle("Gen p_{T}(GeV)");
+  hFONLLOverPt->SetYTitle("FONLL_PbPb/PYTHIA ");
+  hFONLLOverPt->SetMinimum(0.01);  
+  hFONLLOverPt->SetMaximum(10.);  
+  hFONLLOverPt->GetYaxis()->SetTitleOffset(1.2);
   hFONLLOverPt->GetYaxis()->CenterTitle();
   hFONLLOverPt->GetXaxis()->CenterTitle();
   hFONLLOverPt->Draw();
   canvasPtReweight->SaveAs("Reweightplots/canvasPtReweightPP.pdf");
-
-  
-
-
-}
-
-
-void weightPPFONLLpthat(int minfit=2,int maxfit=100,TString pthat="pthatall")
-{
-  TString label;
-  TString selmcgen="((GisSignal==1||GisSignal==2)&&(Gy>-1&&Gy<1))";
-  TString myweightfunctiongen,myweightfunctionreco;
-
-  
-  gStyle->SetOptTitle(0);
-  gStyle->SetOptStat(0);
-  gStyle->SetOptFit(0);
-  gStyle->SetEndErrorSize(0);
-  gStyle->SetMarkerStyle(20);
- 
-  TFile*infMC=new TFile("/data/HeavyFlavourRun2/MC2015/Dntuple/pp/ntD_EvtBase_20160513_DfinderMC_pp_20160502_dPt0tkPt0p5_D0Dstar_prompt_Dpt2Dy1p1tkPt0p7tkEta2Decay2p9Dalpha0p14Skim_pthatweight.root");
-  TTree* ntGen = (TTree*)infMC->Get("ntGen");
-  TTree *ntHiMC = (TTree*)infMC->Get("ntHi");
-  ntGen->AddFriend(ntHiMC);
-  
-  TH1D* hPtGenFONLL = new TH1D("hPtGenFONLL","",nBinsReweight,ptBinsReweight);
-  ntGen->Project("hPtGenFONLL","Gpt",(TCut(selmcgen.Data())*TCut("pthatweight")));
-  divideBinWidth(hPtGenFONLL);
-    
-  TString fonll="/afs/cern.ch/work/g/ginnocen/public/output_pp_d0meson_5TeV_y1.root";
-  TFile* filePPReference = new TFile(fonll.Data());  
-  TGraphAsymmErrors* gaeBplusReference = (TGraphAsymmErrors*)filePPReference->Get("gaeSigmaDzero");
-
-  TH1D* hFONLL = new TH1D("hFONLL","",nBinsReweight,ptBinsReweight);
-  double x,y;
-  for(int i=0;i<nBinsReweight;i++){
-    gaeBplusReference->GetPoint(i,x,y);
-    hFONLL->SetBinContent(i+1,y);
-  }
-  TH1D* hFONLLOverPt=(TH1D*)hFONLL->Clone("hFONLLOverPt");
-  TH1D* hFONLLOverPtWeight=(TH1D*)hFONLL->Clone("hFONLLOverPtWeight");
-
-  hFONLLOverPt->Divide(hPtGenFONLL);
-
-
-  TF1 *myfit = new TF1("myfit","[0]+[1]*x+x*x*[2]+x*x*x*[3]+x*x*x*x*[4]+x*x*x*x*x*[5]",0, 100);  
-  hFONLLOverPt->Fit("myfit","","",0,100);
-
-  double par0=myfit->GetParameter(0);
-  double par1=myfit->GetParameter(1);
-  double par2=myfit->GetParameter(2);
-  double par3=myfit->GetParameter(3);
-  double par4=myfit->GetParameter(4);
-  double par5=myfit->GetParameter(5);
-
-  std::cout<<"weight="<<par0<<"+Gpt*("<<par1<<")+Gpt*Gpt*("<<par2<<")+Gpt*Gpt*Gpt*("<<par3<<")"<<"+Gpt*Gpt*Gpt*Gpt*("<<par4<<")+Gpt*Gpt*Gpt*Gpt*Gpt*("<<par5<<")"<<endl;
-  std::cout<<"weight="<<par0<<"+Dgenpt*("<<par1<<")+Dgenpt*Dgenpt*("<<par2<<")+Dgenpt*Dgenpt*Dgenpt*("<<par3<<")"<<"+Dgenpt*Dgenpt*Dgenpt*Dgenpt*("<<par4<<")+Dgenpt*Dgenpt*Dgenpt*Dgenpt*Dgenpt*("<<par5<<")"<<endl;
-
-  std::cout<<myweightfunctiongen<<std::endl;
-  std::cout<<myweightfunctionreco<<std::endl;
-  
-  TCanvas*canvasPtReweight=new TCanvas("canvasPtReweight","canvasPtReweight",1000.,500.); 
-  canvasPtReweight->Divide(3,1);
-  canvasPtReweight->cd(1);
-  gPad->SetLogy();
-  hPtGenFONLL->SetXTitle("Gen p_{T}");
-  hPtGenFONLL->SetYTitle("#entries");
-  hPtGenFONLL->SetMinimum(1e-4);  
-  hPtGenFONLL->SetMaximum(1e11);  
-  hPtGenFONLL->GetYaxis()->SetTitleOffset(1.4);
-  hPtGenFONLL->Draw();
-  canvasPtReweight->cd(2);
-  gPad->SetLogy();
-  hFONLL->SetXTitle("p_{T}");
-  hFONLL->SetYTitle("FONLL, #entries");
-  hFONLL->SetMinimum(1e-4);  
-  hFONLL->SetMaximum(1e11);  
-  hFONLL->GetYaxis()->SetTitleOffset(1.4);
-  hFONLL->Draw();
-  canvasPtReweight->cd(3);
-  hFONLLOverPt->SetXTitle("Gen p_{T}");
-  hFONLLOverPt->SetYTitle("FONLL/PYTHIA ");
-  hFONLLOverPt->SetMinimum(0.01);  
-  hFONLLOverPt->SetMaximum(10.);  
-  hFONLLOverPt->GetYaxis()->SetTitleOffset(1.4);
-  hFONLLOverPt->Draw();
-
 }

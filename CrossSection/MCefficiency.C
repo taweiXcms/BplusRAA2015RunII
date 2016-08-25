@@ -49,31 +49,44 @@ void MCefficiency(int isPbPb=0,TString inputmc="/data/wangj/MC2015/Dntuple/pp/re
   TTree* ntMC = (TTree*)infMC->Get("ntKp");
   TTree* ntGen = (TTree*)infMC->Get("ntGen");
   TTree* ntSkim = (TTree*)infMC->Get("ntSkim");
-  TTree* ntbdtTree = (TTree*)infMC->Get("bdtTree");
+  TTree* ntmvaTree = (TTree*)infMC->Get("mvaTree");
+  TTree* ntHlt = (TTree*)infMC->Get("ntHlt");
 
-  ntMC->AddFriend(ntbdtTree);
+  ntMC->AddFriend(ntmvaTree);
   ntMC->AddFriend(ntGen);
   ntMC->AddFriend(ntSkim);
+  ntMC->AddFriend(ntHlt);
 
   TTree* nthi = (TTree*)infMC->Get("ntHi");
   ntGen->AddFriend(nthi);
   ntGen->AddFriend(ntSkim);
+  ntGen->AddFriend(ntHlt);
   nthi->AddFriend(ntMC);
   ntMC->AddFriend(nthi);
 
   // optimal weigths
+  TCut weighpthat = "1";
+  TCut weightGpt = "1";
+  TCut weightBgenpt = "1";
+  TCut weightHiBin = "1";
   if(useweight==0) {
     weightfunctiongen="1";
     weightfunctionreco="1";
+    weighpthat = "pthatweight";
+    weightGpt = "(pow(10,-0.094152+0.008102*Gpt+Gpt*Gpt*0.000171+Gpt*Gpt*Gpt*-0.000005+Gpt*Gpt*Gpt*Gpt*-0.000000+Gpt*Gpt*Gpt*Gpt*Gpt*0.000000))";
+    weightBgenpt = "(pow(10,-0.094152+0.008102*Bgenpt+Bgenpt*Bgenpt*0.000171+Bgenpt*Bgenpt*Bgenpt*-0.000005+Bgenpt*Bgenpt*Bgenpt*Bgenpt*-0.000000+Bgenpt*Bgenpt*Bgenpt*Bgenpt*Bgenpt*0.000000))";
     }
   
   if(useweight==1) {
     weightfunctiongen="6.08582+hiBin*(-0.155739)+hiBin*hiBin*(0.00149946)+hiBin*hiBin*hiBin*(-6.41629e-06)+hiBin*hiBin*hiBin*hiBin*(1.02726e-08)";
     weightfunctionreco="6.08582+hiBin*(-0.155739)+hiBin*hiBin*(0.00149946)+hiBin*hiBin*hiBin*(-6.41629e-06)+hiBin*hiBin*hiBin*hiBin*(1.02726e-08)";
+    weighpthat = "pthatweight";
+    weightGpt = "(pow(10,-0.107832+0.010248*Gpt+Gpt*Gpt*0.000079+Gpt*Gpt*Gpt*-0.000003+Gpt*Gpt*Gpt*Gpt*-0.000000+Gpt*Gpt*Gpt*Gpt*Gpt*0.000000))";
+    weightBgenpt = "(pow(10,-0.107832+0.010248*Bgenpt+Bgenpt*Bgenpt*0.000079+Bgenpt*Bgenpt*Bgenpt*-0.000003+Bgenpt*Bgenpt*Bgenpt*Bgenpt*-0.000000+Bgenpt*Bgenpt*Bgenpt*Bgenpt*Bgenpt*0.000000))";
+    weightHiBin = "(6.08582+hiBin*(-0.155739)+hiBin*hiBin*(0.00149946)+hiBin*hiBin*hiBin*(-6.41629e-06)+hiBin*hiBin*hiBin*hiBin*(1.02726e-08))";
     }
 
-
-   std::cout<<"fit function parameters="<<weightfunctiongen<<std::endl;
+  std::cout<<"fit function parameters="<<weightfunctiongen<<std::endl;
 
   TH1D* hPtMC = new TH1D("hPtMC","",nBins,ptBins);
   TH1D* hPtMCrecoonly = new TH1D("hPtMCrecoonly","",nBins,ptBins);
@@ -83,15 +96,20 @@ void MCefficiency(int isPbPb=0,TString inputmc="/data/wangj/MC2015/Dntuple/pp/re
   TH1D* hPthat = new TH1D("hPthat","",100,0,500);
   TH1D* hPthatweight = new TH1D("hPthatweight","",100,0,500);
 
-  ntMC->Project("hPtMC","Bpt",TCut(weightfunctionreco)*(TCut(cut.Data())&&"(Bgen==23333)"));
+  //ntMC->Project("hPtMC","Bpt",TCut(weightfunctionreco)*(TCut(cut.Data())&&"(Bgen==23333)"));
+  ntMC->Project("hPtMC","Bpt",TCut(weighpthat)*TCut(weightBgenpt)*TCut(weightHiBin)*(TCut(cut.Data())&&"(Bgen==23333)"));
   divideBinWidth(hPtMC);
-  ntMC->Project("hPtMCrecoonly","Bpt",TCut(weightfunctionreco)*(TCut(cut_recoonly.Data())&&"(Bgen==23333)"));
+  //ntMC->Project("hPtMCrecoonly","Bpt",TCut(weightfunctionreco)*(TCut(cut_recoonly.Data())&&"(Bgen==23333)"));
+  ntMC->Project("hPtMCrecoonly","Bpt",TCut(weighpthat)*TCut(weightBgenpt)*TCut(weightHiBin)*(TCut(cut_recoonly.Data())&&"(Bgen==23333)"));
   divideBinWidth(hPtMCrecoonly);
-  ntGen->Project("hPtGen","Gpt",(TCut(selmcgen.Data())));
+  //ntGen->Project("hPtGen","Gpt",(TCut(selmcgen.Data())));
+  ntGen->Project("hPtGen","Gpt",TCut(weighpthat)*TCut(weightGpt)*(TCut(selmcgen.Data())));
   divideBinWidth(hPtGen);
-  ntGen->Project("hPtGenAcc","Gpt",(TCut(selmcgenacceptance.Data())));
+  //ntGen->Project("hPtGenAcc","Gpt",(TCut(selmcgenacceptance.Data())));
+  ntGen->Project("hPtGenAcc","Gpt",TCut(weighpthat)*TCut(weightGpt)*(TCut(selmcgenacceptance.Data())));
   divideBinWidth(hPtGenAcc);
-  ntGen->Project("hPtGenAccWeighted","Gpt",TCut(weightfunctiongen)*(TCut(selmcgenacceptance.Data())));
+  //ntGen->Project("hPtGenAccWeighted","Gpt",TCut(weightfunctiongen)*(TCut(selmcgenacceptance.Data())));
+  ntGen->Project("hPtGenAccWeighted","Gpt",TCut(weighpthat)*TCut(weightGpt)*TCut(weightHiBin)*(TCut(selmcgenacceptance.Data())));
   divideBinWidth(hPtGenAccWeighted);
 
   ntMC->Project("hPthat","pthat","1");
