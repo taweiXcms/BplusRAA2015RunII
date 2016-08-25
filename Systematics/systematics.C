@@ -5,6 +5,7 @@
 #include <TLine.h>
 #include <TLegend.h>
 #include <TLatex.h>
+#include <TFile.h>
 
 
 // Yen-Jie: systematics table for B meson
@@ -27,12 +28,19 @@ double ppLumiUncertainty 	= 12;
 // Point-to-point
 double ppTrackingEfficiency 	= 4;   			    // single track systematics from D* studies
 double PbPbTrackingEfficiency 	= 5;   			// single track systematics from D* studies
+double ppAlignment = 2.8; //alignment systematic from pp 13 TeV analysis
+double PbPbAlignment = 2.8; //alignment systematic from pp 13 TeV analysis
+double ppLifetime = 0.3; //from 13 TeV analysis
+double PbPbLifetime = 0.3; //from 13 TeV analysis
 
 TH1D*  ppSignalExtraction;			                 	// (6/29/2016)
 TH1D*  ppMesonSelection;				                // (6/29/2016)
 TH1D*  ppTagAndProbe;				                // (6/29/2016)
 
 TF1 *fPPPtShape = new TF1("fPPPtShapeSig","[0]+[1]/(x)+[2]/x/x+[3]*x");
+
+TFile* ppMCEfffile = new TFile("../CrossSection/ROOTfiles/MCstudiesPP.root");
+TH1D* ppEff = (TH1D*)ppMCEfffile->Get("hEff");
 
 // =============================================================================================================
 // PbPb uncertainty
@@ -51,6 +59,9 @@ TH1D*  PbPbMesonSelection;				                // (6/29/2016)
 TH1D*  PbPbTagAndProbe;				                // (6/29/2016)
 TF1 *fPbPbPtShape= new TF1("fPbPbPtShapeSig","[0]+[1]/(x)+[2]/x/x+[3]*x");
 
+TFile* PbPbMCEfffile = new TFile("../CrossSection/ROOTfiles/MCstudiesPbPb.root");
+TH1D* PbPbEff = (TH1D*)PbPbMCEfffile->Get("hEff");
+
 bool initialized = 0;
 
 void initializationPP()
@@ -62,7 +73,7 @@ void initializationPP()
    ppSignalExtraction->SetBinContent(1,		5.0);
 
    ppTagAndProbe = new TH1D("ppTagAndProbe","",nPtBins,PtBins);
-   ppTagAndProbe->SetBinContent(1,		11.0);
+   ppTagAndProbe->SetBinContent(1,		11.0*2);
    
    fPPPtShape->SetParameters(0.999265,-0.0458006,-0.181359,0);
    }
@@ -148,11 +159,20 @@ float systematicsForRAA(double pt,double centL=0,double centH=100, double HLT=0,
    sys+= PbPbMesonSelection->GetBinContent(PbPbMesonSelection->FindBin(pt))*
          PbPbMesonSelection->GetBinContent(PbPbMesonSelection->FindBin(pt));
 
+   sys+= ppEff->GetBinError(ppEff->FindBin(pt))/ppEff->GetBinContent(ppEff->FindBin(pt))*100*
+         ppEff->GetBinError(ppEff->FindBin(pt))/ppEff->GetBinContent(ppEff->FindBin(pt))*100;
+   sys+= PbPbEff->GetBinError(PbPbEff->FindBin(pt))/PbPbEff->GetBinContent(PbPbEff->FindBin(pt))*100*
+         PbPbEff->GetBinError(PbPbEff->FindBin(pt))/PbPbEff->GetBinContent(PbPbEff->FindBin(pt))*100;
+
    sys+=fPPPtShape->Eval(pt)*fPPPtShape->Eval(pt);
    sys+=fPbPbPtShape->Eval(pt)*fPbPbPtShape->Eval(pt);
 
    sys+=(ppTrackingEfficiency)*(ppTrackingEfficiency);
    sys+=(PbPbTrackingEfficiency)*(PbPbTrackingEfficiency);
+   sys+=ppAlignment*ppAlignment;
+   sys+=ppLifetime*ppLifetime;
+   sys+=PbPbAlignment*PbPbAlignment;
+   sys+=PbPbLifetime*PbPbLifetime;
 	    
    if (stage==3) return sqrt(sys);
 
@@ -205,8 +225,12 @@ float systematicsPP(double pt, double HLT=0,int stage=0)
 
    sys+=fPPPtShape->Eval(pt)*fPPPtShape->Eval(pt);
    sys+=(ppTrackingEfficiency)*(ppTrackingEfficiency);
+   sys+=ppAlignment*ppAlignment;
+   sys+=ppLifetime*ppLifetime;
    sys+= ppMesonSelection->GetBinContent(ppMesonSelection->FindBin(pt))* 
          ppMesonSelection->GetBinContent(ppMesonSelection->FindBin(pt));
+   sys+= ppEff->GetBinError(ppEff->FindBin(pt))/ppEff->GetBinContent(ppEff->FindBin(pt))*100*
+         ppEff->GetBinError(ppEff->FindBin(pt))/ppEff->GetBinContent(ppEff->FindBin(pt))*100;
 
    if (stage==3) return sqrt(sys);
 
@@ -244,10 +268,14 @@ float systematicsPbPb(double pt, double centL=0,double centH=100, double HLT=0)
    // pp tracking eff uncertainty used for the moment
    sys+=(PbPbTrackingEfficiency)*(PbPbTrackingEfficiency);
    //sys+=PbPbNMBUncertainty*PbPbNMBUncertainty;
+   sys+=PbPbAlignment*PbPbAlignment;
+   sys+=PbPbLifetime*PbPbLifetime;
    
    sys+=TAAUncertainty0to100*TAAUncertainty0to100;
    sys+= PbPbMesonSelection->GetBinContent(PbPbMesonSelection->FindBin(pt))* 
          PbPbMesonSelection->GetBinContent(PbPbMesonSelection->FindBin(pt));
+   sys+= PbPbEff->GetBinError(PbPbEff->FindBin(pt))/PbPbEff->GetBinContent(PbPbEff->FindBin(pt))*100*
+         PbPbEff->GetBinError(PbPbEff->FindBin(pt))/PbPbEff->GetBinContent(PbPbEff->FindBin(pt))*100;
    sys+=fPbPbPtShape->Eval(pt)*fPbPbPtShape->Eval(pt);
    sys+= PbPbSignalExtraction->GetBinContent(PbPbSignalExtraction->FindBin(pt))* 
          PbPbSignalExtraction->GetBinContent(PbPbSignalExtraction->FindBin(pt));
@@ -293,7 +321,7 @@ void plotSystematicsRAA(double centL=0,double centH=100)
   canvas->SetFrameBorderMode(0);
   canvas->SetLogx();
 
-  TH2F* hempty=new TH2F("hempty","",50,5,60.,10.,-0.65,0.65);
+  TH2F* hempty=new TH2F("hempty","",50,5,60.,10.,-0.8,0.8);
   hempty->GetXaxis()->CenterTitle();
   hempty->GetYaxis()->CenterTitle();
   hempty->GetYaxis()->SetTitle("Systematical Uncertainty");
@@ -416,7 +444,7 @@ void plotSystematicsPP()
   canvas->SetFrameBorderMode(0);
   canvas->SetLogx();
 
-  TH2F* hempty=new TH2F("hempty","",50,5,60.,10.,-0.65,0.65);
+  TH2F* hempty=new TH2F("hempty","",50,5,60.,10.,-0.8,0.8);
   hempty->GetXaxis()->CenterTitle();
   hempty->GetYaxis()->CenterTitle();
   hempty->GetYaxis()->SetTitle("Systematical Uncertainty");

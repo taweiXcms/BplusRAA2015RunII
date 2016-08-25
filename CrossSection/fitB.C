@@ -80,7 +80,7 @@ void fitB(int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp/ntB_
   nt->AddFriend("ntHlt");
   nt->AddFriend("ntHi");
   nt->AddFriend("ntSkim");
-  nt->AddFriend("bdtTree");
+  nt->AddFriend("mvaTree");
 
   TTree* ntGen = (TTree*)infMC->Get("ntGen");
   ntGen->AddFriend("ntHlt");
@@ -90,7 +90,7 @@ void fitB(int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp/ntB_
   ntMC->AddFriend("ntHlt");
   ntMC->AddFriend("ntHi");
   ntMC->AddFriend("ntSkim");
-  ntMC->AddFriend("bdtTree");
+  ntMC->AddFriend("mvaTree");
   ntMC->AddFriend(ntGen);
   
   TH1D* hPt = new TH1D("hPt","",nBins,ptBins);
@@ -228,7 +228,7 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 */
   
    h->Draw();
-   f->SetParLimits(4,-1000,0);
+   f->SetParLimits(4,-1000,1000);
    f->SetParLimits(2,0.01,0.05);
    f->SetParLimits(8,0.01,0.05);
    f->SetParLimits(7,0,1);
