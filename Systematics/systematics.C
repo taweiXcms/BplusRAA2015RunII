@@ -82,10 +82,10 @@ void initializationPbPbCent0100()
 {
 
    PbPbMesonSelection = new TH1D("PbPbMesonSelection","",nPtBins,PtBins);
-   PbPbMesonSelection->SetBinContent(1,		10.);
+   PbPbMesonSelection->SetBinContent(1,		4.);
 
    PbPbSignalExtraction = new TH1D("PbPbSignalExtraction","",nPtBins,PtBins);
-   PbPbSignalExtraction->SetBinContent(1,	10.);
+   PbPbSignalExtraction->SetBinContent(1,	5.);
 
    PbPbTagAndProbe = new TH1D("PbPbTagAndProbe","",nPtBins,PtBins);
    PbPbTagAndProbe->SetBinContent(1,		12.0);
