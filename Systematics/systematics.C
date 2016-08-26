@@ -23,7 +23,7 @@ double BtomumuKBRUncertainty	= 3.07;			// from PDG
 // =============================================================================================================
 
 // Normalization uncertainty
-double ppLumiUncertainty 	= 4;			       
+double ppLumiUncertainty 	= 4;			// updated by YJ to the lumi POG number       
 
 // Point-to-point
 double ppTrackingEfficiency 	= 4;   			    // single track systematics from D* studies
@@ -73,7 +73,7 @@ void initializationPP()
    ppSignalExtraction->SetBinContent(1,		5.0);
 
    ppTagAndProbe = new TH1D("ppTagAndProbe","",nPtBins,PtBins);
-   ppTagAndProbe->SetBinContent(1,		11.0);
+   ppTagAndProbe->SetBinContent(1,		11.0);    // YJ removed the *2 double counting
    
    fPPPtShape->SetParameters(0.999265,-0.0458006,-0.181359,0);
    }
