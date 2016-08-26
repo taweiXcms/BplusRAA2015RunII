@@ -7,6 +7,7 @@ INPUTMCPP="/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160629_Bpt7svpv5p5B
 INPUTDATAPP="/data/HeavyFlavourRun2/Data2015/Bntuple/Bntuple20160629_Bpt7svpv5p5Bpt10svpv3p5_crab_BfinderData_pp_20160606_bPt0jpsiPt0tkPt0p5_Bp_BDT.root"
 
 OUTPUTFILEPP_NP="ROOTfiles/NPFitPP.root"
+NPFIT_PP="3.12764e1*Gaus(x,5.33166,3.64663e-2)*(x<5.33166)+(x>=5.33166)*3.12764e1*Gaus(x,5.33166,1.5204e-1)+7.18255e1*TMath::Erf(-(x-5.14397)/6.43194e-2) + 7.18255e1"
 
 if [ $VariableOption -eq 0 ]; then      
 
@@ -96,8 +97,10 @@ TRGPPData="HLT_HIL1DoubleMu0_v1"
 
 
 g++ fitBvariable.C $(root-config --cflags --libs) -g -o fitBvariable.exe 
-./fitBvariable.exe "$VARIABLE" "$VARIABLEPLOT" 0 "$INPUTDATAPP"  "$INPUTMCPP"  "$TRGPPData" "$CUTPP"   "$SELGENPP"   "$ISMCPP"          1   "$ISDOWEIGHTPP"   "$LABELPPData"  "$OUTPUTFILEPPVariableData" "$OUTPUTFILEPP_NP"
-./fitBvariable.exe "$VARIABLE" "$VARIABLEPLOT" 0 "$INPUTMCPP"      "$INPUTMCPP"  "$TRGPPMC"   "$CUTPP"   "$SELGENPP"   "$ISMCPPData"   1   "$ISDOWEIGHTPP"   "$LABELPPMC"  "$OUTPUTFILEPPVariablePromptMC" "$OUTPUTFILEPP_NP"
+#./fitBvariable.exe "$VARIABLE" "$VARIABLEPLOT" 0 "$INPUTDATAPP"  "$INPUTMCPP"  "$TRGPPData" "$CUTPP"   "$SELGENPP"   "$ISMCPP"          1   "$ISDOWEIGHTPP"   "$LABELPPData"  "$OUTPUTFILEPPVariableData" "$OUTPUTFILEPP_NP"
+#./fitBvariable.exe "$VARIABLE" "$VARIABLEPLOT" 0 "$INPUTMCPP"      "$INPUTMCPP"  "$TRGPPMC"   "$CUTPP"   "$SELGENPP"   "$ISMCPPData"   1   "$ISDOWEIGHTPP"   "$LABELPPMC"  "$OUTPUTFILEPPVariablePromptMC" "$OUTPUTFILEPP_NP"
+./fitBvariable.exe "$VARIABLE" "$VARIABLEPLOT" 0 "$INPUTDATAPP"  "$INPUTMCPP"  "$TRGPPData" "$CUTPP"   "$SELGENPP"   "$ISMCPP"          1   "$ISDOWEIGHTPP"   "$LABELPPData"  "$OUTPUTFILEPPVariableData" "$NPFIT_PP"
+./fitBvariable.exe "$VARIABLE" "$VARIABLEPLOT" 0 "$INPUTMCPP"      "$INPUTMCPP"  "$TRGPPMC"   "$CUTPP"   "$SELGENPP"   "$ISMCPPData"   1   "$ISDOWEIGHTPP"   "$LABELPPMC"  "$OUTPUTFILEPPVariablePromptMC" "$NPFIT_PP"
 
 g++ compareMCdataVariables.C $(root-config --cflags --libs) -g -o compareMCdataVariables.exe 
 ./compareMCdataVariables.exe "$OUTPUTFILEPPVariablePromptMC" "$OUTPUTFILEPPVariableData" "$VARIABLEPLOT" "$VARIABLENAME" "$LIMITLOW" "$LIMITHIGH"
