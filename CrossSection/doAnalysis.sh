@@ -50,7 +50,8 @@ FONLLOUTPUTFILE="ROOTfiles/fonllOutput_pp_Bplus_5p03TeV_y2p4.root"
 OUTPUTFILERAA="ROOTfiles/outputRAA.root"
 
 LABELPP="pp"
-LUMIPP=27.7
+LUMIPP=27.45
+#27.7*0.991
 ISMCPP=0
 ISDOWEIGHTPP=0
 SELGENPP="TMath::Abs(Gy)<2.4&&abs(GpdgId)==521&&GisSignal==1"
@@ -119,8 +120,9 @@ fi
 LABELPbPb="PbPb"
 #LUMIPbPb=15.5665
 #LUMIPbPb=15.17
-LUMIPbPb=13.3
 #350.68(ub-1)*208*208/1000000=15.17
+LUMIPbPb=12.99
+#12.91/0.99*0.996
 ISMCPbPb=0
 ISDOWEIGHTPbPb=1
 SELGENPbPb="TMath::Abs(Gy)<2.4&&abs(GpdgId)==521&&GisSignal==1"
