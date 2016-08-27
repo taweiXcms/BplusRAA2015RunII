@@ -106,7 +106,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
   tlatexeff3->SetTextSize(0.038);
   tlatexeff3->Draw();
 */
-  TLatex* texlumi = new TLatex(0.15,0.936,"25.8 pb^{-1} (5.02 TeV pp) + 404 #mub^{-1} (5.02 TeV PbPb)");
+  TLatex* texlumi = new TLatex(0.15,0.936,"27.7 pb^{-1} (5.02 TeV pp) + 350.68 #mub^{-1} (5.02 TeV PbPb)");
   texlumi->SetNDC();
   //texlumi->SetTextAlign(31);
   texlumi->SetTextFont(42);

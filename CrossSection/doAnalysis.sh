@@ -84,7 +84,8 @@ CUTPP_NP="abs(PVz)<15&&pBeamScrapingFilter&&pPAprimaryVertexFilter&&TMath::Abs(B
 OUTPUTFILEPP_NP="ROOTfiles/NPFitPP.root"
 #NPFIT_PP="TMath::Erf((x-5.144224e+00)/-1.322908e-02)+1"
 #NPFIT_PP="213.355334*TMath::Erf((x-5.139684)/-0.049768) + 213.355334 + 14.620639*(0.856020*Gaus(x,5.351676,0.198591)/(sqrt(2*3.14159)*0.198591)+(1-0.856020)*Gaus(x,5.351676,0.035974)/(sqrt(2*3.14159)*0.035974))"
-NPFIT_PP="3.12764e1*Gaus(x,5.33166,3.64663e-2)*(x<5.33166)+(x>=5.33166)*3.12764e1*Gaus(x,5.33166,1.5204e-1)+7.18255e1*TMath::Erf(-(x-5.14397)/6.43194e-2) + 7.18255e1"
+#NPFIT_PP="3.12764e1*Gaus(x,5.33166,3.64663e-2)*(x<5.33166)+(x>=5.33166)*3.12764e1*Gaus(x,5.33166,1.5204e-1)+7.18255e1*TMath::Erf(-(x-5.14397)/6.43194e-2) + 7.18255e1"
+NPFIT_PP="3.12764e1*Gaus(x,5.33166,3.64663e-2)*(x<5.33166)+(x>=5.33166)*3.12764e1*Gaus(x,5.33166,1.5204e-1)+2.11124e2*TMath::Erf(-(x-5.14397)/6.43194e-2) + 2.11124e2"
 
 if [ $DOANALYSISPP_FONLL -eq 1 ]; then      
 g++ Bplusdsigmadpt.cc $(root-config --cflags --libs) -g -o Bplusdsigmadpt.exe 
@@ -151,7 +152,8 @@ CUTPbPb_NP="pclusterCompatibilityFilter&&pprimaryVertexFilter&&phfCoincFilter3&a
 OUTPUTFILEPbPb_NP="ROOTfiles/NPFitPbPb.root"
 #NPFIT_PbPb="TMath::Erf((x-5.145404e+00)/-3.407053e-02)+1"
 #NPFIT_PbPb="199.353547*TMath::Erf((x-5.140255)/-0.039233) + 199.353547 + 26.393491*(0.613544*Gaus(x,5.354664,0.448306)/(sqrt(2*3.14159)*0.448306)+(1-0.613544)*Gaus(x,5.354664,0.111947)/(sqrt(2*3.14159)*0.111947))"
-NPFIT_PbPb="3.39711e1*Gaus(x,5.35002e0,3.87952e-2)*(x<5.35002e0)+(x>=5.35002e0)*3.39711e1*Gaus(x,5.35002e0,1.14232e-1)+6.89441e1*TMath::Erf(-(x-5.14189)/8.66243e-2) + 6.89441e1"
+#NPFIT_PbPb="3.39711e1*Gaus(x,5.35002e0,3.87952e-2)*(x<5.35002e0)+(x>=5.35002e0)*3.39711e1*Gaus(x,5.35002e0,1.14232e-1)+6.89441e1*TMath::Erf(-(x-5.14189)/8.66243e-2) + 6.89441e1"
+NPFIT_PbPb="3.39711e1*Gaus(x,5.35002e0,3.87952e-2)*(x<5.35002e0)+(x>=5.35002e0)*3.39711e1*Gaus(x,5.35002e0,1.14232e-1)+2.16376e2*TMath::Erf(-(x-5.14189)/8.66243e-2) + 2.16376e2"
 
 if [ $DOANALYSISPbPb_FITNP -eq 1 ]; then      
 g++ fitNP.C $(root-config --cflags --libs) -g -o fitNP.exe 

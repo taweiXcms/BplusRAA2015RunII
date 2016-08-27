@@ -62,12 +62,15 @@ TF1 *fPbPbPtShape= new TF1("fPbPbPtShapeSig","[0]+[1]/(x)+[2]/x/x+[3]*x");
 TFile* PbPbMCEfffile = new TFile("../CrossSection/ROOTfiles/MCstudiesPbPb.root");
 TH1D* PbPbEff = (TH1D*)PbPbMCEfffile->Get("hEff");
 
+// RAA uncertainty, for systematic that can cancel such as PDF variation
+TH1D*  RAASignalExtraction;
+
 bool initialized = 0;
 
 void initializationPP()
 {
    ppMesonSelection = new TH1D("ppMesonSelection","",nPtBins,PtBins);
-   ppMesonSelection->SetBinContent(1,		4.0);
+   ppMesonSelection->SetBinContent(1,		2.4);
 
    ppSignalExtraction = new TH1D("ppSignalExtraction","",nPtBins,PtBins);
    ppSignalExtraction->SetBinContent(1,		5.0);
@@ -93,6 +96,11 @@ void initializationPbPbCent0100()
    fPbPbPtShape->SetParameters(0.984161,0.0593406,-0.3992,0.000271564);
    }
 
+void initializationRAA()
+{
+   RAASignalExtraction = new TH1D("RAASignalExtraction","",nPtBins,PtBins);
+   RAASignalExtraction->SetBinContent(1,	5.);
+}
 void initializationPbPbCent010()
 {
 
@@ -112,6 +120,7 @@ void initializationPbPbCent010()
 void initialization(double centL=0,double centH=100){
 
 initializationPP();
+initializationRAA();
 if (centL==0&&centH==100) initializationPbPbCent0100();
 if (centL==0&&centH==10) initializationPbPbCent010();
 initialized=1;
@@ -147,10 +156,12 @@ float systematicsForRAA(double pt,double centL=0,double centH=100, double HLT=0,
   
    if (stage==1) return sqrt(sys);
    
-   sys+= PbPbSignalExtraction->GetBinContent(PbPbSignalExtraction->FindBin(pt))*
-         PbPbSignalExtraction->GetBinContent(PbPbSignalExtraction->FindBin(pt));
-   sys+= ppSignalExtraction->GetBinContent(ppSignalExtraction->FindBin(pt))*
-         ppSignalExtraction->GetBinContent(ppSignalExtraction->FindBin(pt));
+   sys+= RAASignalExtraction->GetBinContent(RAASignalExtraction->FindBin(pt))*
+         RAASignalExtraction->GetBinContent(RAASignalExtraction->FindBin(pt));
+//   sys+= PbPbSignalExtraction->GetBinContent(PbPbSignalExtraction->FindBin(pt))*
+//         PbPbSignalExtraction->GetBinContent(PbPbSignalExtraction->FindBin(pt));
+//   sys+= ppSignalExtraction->GetBinContent(ppSignalExtraction->FindBin(pt))*
+//         ppSignalExtraction->GetBinContent(ppSignalExtraction->FindBin(pt));
 
    if (stage==2) return sqrt(sys);
 
@@ -373,7 +384,7 @@ void plotSystematicsRAA(double centL=0,double centH=100)
    TH1D *h7 = new TH1D("h7","",100,0,1);
    h7->SetLineWidth(2); h7->SetLineColor(kYellow);
     
-  TLatex* texlumi = new TLatex(0.19,0.936,"25.8 pb^{-1} (5.02 TeV pp) + 404 #mub^{-1} (5.02 TeV PbPb)");
+  TLatex* texlumi = new TLatex(0.19,0.936,"27.7 pb^{-1} (5.02 TeV pp) + 350.68 #mub^{-1} (5.02 TeV PbPb)");
   texlumi->SetNDC();
   //texlumi->SetTextAlign(31);
   texlumi->SetTextFont(42);
@@ -492,7 +503,7 @@ void plotSystematicsPP()
    TH1D *h6 = new TH1D("h6","",100,0,1);
    h6->SetLineWidth(2); h6->SetLineColor(kMagenta);
 
-  TLatex* texlumi = new TLatex(0.35,0.936,"25.8 pb^{-1} (5.02 TeV pp)");
+  TLatex* texlumi = new TLatex(0.35,0.936,"27.7 pb^{-1} (5.02 TeV pp)");
   texlumi->SetNDC();
   //texlumi->SetTextAlign(31);
   texlumi->SetTextFont(42);
