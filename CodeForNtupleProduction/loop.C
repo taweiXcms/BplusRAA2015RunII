@@ -1,15 +1,19 @@
 #include "loop.h"
 
 Bool_t iseos = true;
-int loop(TString infile="/store/group/phys_heavyions/velicanu/forest/Run2015E/ExpressPhysics/Merged/HiForestExpress_baobab.root",
-	 TString outfile="/data/wangj/Data2015/Bntuple/ntB_20151130_HiForestExpress_baobab.root", Bool_t REAL=true, Bool_t isPbPb=false, Int_t startEntries=0, Bool_t skim=false, Bool_t gskim=true, Bool_t checkMatching=false)
+int loop(TString infile="/store/group/phys_heavyions/velicanu/forest/HIRun2015/HIExpressPhysics/Merged/HIForestExpress_run262620-v6.root",
+	 TString outfile="/data/wangj/Data2015/Bntuple/example/ntB_HIForestExpress_run262620.root", Bool_t REAL=true, Bool_t isPbPb=true, Int_t startEntries=0, Int_t endEntries=-1, Bool_t skim=false, Bool_t gskim=true, Bool_t checkMatching=false)
 {
+  void fillTreeEvt();
   void fillTree(TVector3* bP, TVector3* bVtx, TLorentzVector* b4P, Int_t j, Int_t typesize, Double_t track_mass1, Double_t track_mass2, Bool_t REAL);
   bool signalGen(Int_t Btype, Int_t j);
 
   cout<<endl;
-  if(REAL) cout<<"--- Processing - REAL DATA"<<endl;
-  else cout<<"--- Processing - MC"<<endl;
+  if(REAL) cout<<"--- Processing - REAL DATA";
+  else cout<<"--- Processing - MC";
+  if(isPbPb) cout<<" - PbPb";
+  else cout<<" - pp";
+  cout<<endl;
 
   TString ifname;
   if(iseos) ifname = Form("root://eoscms.cern.ch//eos/cms%s",infile.Data());
@@ -18,10 +22,13 @@ int loop(TString infile="/store/group/phys_heavyions/velicanu/forest/Run2015E/Ex
   TTree* root = (TTree*)f->Get("Bfinder/root");
   TTree* hltroot = (TTree*)f->Get("hltanalysis/HltTree");
   TTree* hiroot  = (TTree*)f->Get("hiEvtAnalyzer/HiTree");
-  TFile* outf = new TFile(outfile,"recreate");
   setBBranch(root);
   setHltBranch(hltroot);
   if(isPbPb) setHiTreeBranch(hiroot);
+
+  Long64_t nentries = root->GetEntries();
+  if(endEntries>nentries || endEntries==-1) endEntries = nentries;
+  TFile* outf = new TFile(outfile,"recreate");
 
   int ifchannel[7];
   ifchannel[0] = 1; //jpsi+Kp
@@ -41,10 +48,11 @@ int loop(TString infile="/store/group/phys_heavyions/velicanu/forest/Run2015E/Ex
   TTree* nt6 = new TTree("ntmix","");    buildBranch(nt6);
   TTree* ntGen = new TTree("ntGen","");  buildGenBranch(ntGen);
   TTree* ntHlt = hltroot->CloneTree(0);
+  ntHlt->SetName("ntHlt");
   TTree* ntHi = hiroot->CloneTree(0);
+  ntHi->SetName("ntHi");
   cout<<"--- Building trees finished"<<endl;
 
-  Long64_t nentries = root->GetEntries();
   TVector3* bP = new TVector3;
   TVector3* bVtx = new TVector3;
   TLorentzVector* b4P = new TLorentzVector;
@@ -56,21 +64,22 @@ int loop(TString infile="/store/group/phys_heavyions/velicanu/forest/Run2015E/Ex
   cout<<endl;
   cout<<"--- Processing events"<<endl;
   //nentries=1000;
-  for(Int_t i=startEntries;i<nentries;i++)
+  for(Int_t i=startEntries;i<endEntries;i++)
     {
       root->GetEntry(i);
       hltroot->GetEntry(i);
       if(isPbPb) hiroot->GetEntry(i);
-      if(i%100000==0) cout<<setw(8)<<i<<" / "<<nentries<<endl;
+      if(i%100000==0) cout<<setw(8)<<i<<" / "<<(endEntries-startEntries)<<endl;
       if(checkMatching)
 	{
-	  if((Int_t)Bf_HLT_Event!=EvtInfo_EvtNo||Bf_HLT_Run!=EvtInfo_RunNo||Bf_HLT_LumiBlock!=EvtInfo_LumiNo || (isPbPb&&(Bf_HiTree_Evt!=EvtInfo_EvtNo||Bf_HiTree_Run!=EvtInfo_RunNo||Bf_HiTree_Lumi!=EvtInfo_LumiNo)))
+	  if((Int_t)Bf_HLT_Event!=EvtInfo_EvtNo||(Int_t)Bf_HLT_Run!=EvtInfo_RunNo||(Int_t)Bf_HLT_LumiBlock!=EvtInfo_LumiNo || (isPbPb&&((Int_t)Bf_HiTree_Evt!=EvtInfo_EvtNo||(Int_t)Bf_HiTree_Run!=EvtInfo_RunNo||(Int_t)Bf_HiTree_Lumi!=EvtInfo_LumiNo)))
 	    {
 	      cout<<"Error: not matched "<<i<<" | ";
 	      cout<<"EvtNo("<<Bf_HLT_Event<<","<<EvtInfo_EvtNo<<") RunNo("<<Bf_HLT_Run<<","<<EvtInfo_RunNo<<") LumiNo("<<Bf_HLT_LumiBlock<<","<<EvtInfo_LumiNo<<") | EvtNo("<<Bf_HiTree_Evt<<","<<EvtInfo_EvtNo<<") RunNo("<<Bf_HiTree_Run<<","<<EvtInfo_RunNo<<") LumiNo("<<Bf_HiTree_Lumi<<","<<EvtInfo_LumiNo<<")"<<endl;
 	      continue;
 	    }
 	}
+      fillTreeEvt();
       Int_t Btypesize[7]={0,0,0,0,0,0,0};
       Int_t ptflag=-1,ptMatchedflag=-1,probflag=-1,probMatchedflag=-1,tktkflag=-1,tktkMatchedflag=-1;
       Double_t pttem=0,ptMatchedtem=0,probtem=0,probMatchedtem=0,tktktem=0,tktkMatchedtem=0;
@@ -80,7 +89,6 @@ int loop(TString infile="/store/group/phys_heavyions/velicanu/forest/Run2015E/Ex
 	  if(t!=4)
 	    {
 	      tidx = t;
-	      Bsize = 0;
 	      ptflag = -1;
 	      pttem = 0;
 	      ptMatchedflag = -1;
@@ -93,11 +101,16 @@ int loop(TString infile="/store/group/phys_heavyions/velicanu/forest/Run2015E/Ex
 	      tktktem = 1000000.;
 	      tktkMatchedflag = -1;
 	      tktkMatchedtem = 1000000.;
+	      Bsize = 0;
 	    }
 	  if(ifchannel[t]==1)
 	    {
 	      for(int j=0;j<BInfo_size;j++)
 		{
+                  if(skim)
+                    {
+                      if(BInfo_pt[j]<3.) continue;
+                    }
 		  if(BInfo_type[j]==(t+1))
 		    {
 		      fillTree(bP,bVtx,b4P,j,Btypesize[tidx],tk1mass[t],tk2mass[t],REAL);
@@ -181,9 +194,9 @@ int loop(TString infile="/store/group/phys_heavyions/velicanu/forest/Run2015E/Ex
 	      Gy[gsize] = bGen->Rapidity();
 	      sigtype=0;
 	      for(gt=1;gt<8;gt++)
-		{
-		  if(signalGen(gt,j))
-		    {
+                {
+                  if(signalGen(gt,j))
+                    {
 		      sigtype=gt;
 		      break;
 		    }
@@ -236,19 +249,23 @@ int loop(TString infile="/store/group/phys_heavyions/velicanu/forest/Run2015E/Ex
     }
 
   outf->Write();
+  cout<<"--- Writing finished"<<endl;
   outf->Close();
+
+  cout<<"--- In/Output files"<<endl;
+  cout<<infile<<endl;
+  cout<<outfile<<endl;
+  cout<<endl;
+
   return 1;
 }
 
-
-void fillTree(TVector3* bP, TVector3* bVtx, TLorentzVector* b4P, Int_t j, Int_t typesize, Double_t track_mass1, Double_t track_mass2, Bool_t REAL)
+void fillTreeEvt()
 {
-
   //Event Info
   RunNo = EvtInfo_RunNo;
   EvtNo = EvtInfo_EvtNo;
   LumiNo = EvtInfo_LumiNo;
-  Bsize = typesize+1;
   PVx = EvtInfo_PVx;
   PVy = EvtInfo_PVy;
   PVz = EvtInfo_PVz;
@@ -271,11 +288,17 @@ void fillTree(TVector3* bP, TVector3* bVtx, TLorentzVector* b4P, Int_t j, Int_t 
   BSWidthXErr = EvtInfo_BSWidthXErr;
   BSWidthY = EvtInfo_BSWidthY;
   BSWidthYErr = EvtInfo_BSWidthYErr;
-  bP->SetXYZ(BInfo_px[j],BInfo_py[j],BInfo_pz[j]*0);
+}
+
+void fillTree(TVector3* bP, TVector3* bVtx, TLorentzVector* b4P, Int_t j, Int_t typesize, Double_t track_mass1, Double_t track_mass2, Bool_t REAL)
+{
+  Bsize = typesize+1;
+
+  bP->SetPtEtaPhi(BInfo_pt[j],BInfo_eta[j]*0,BInfo_phi[j]);
   bVtx->SetXYZ(BInfo_vtxX[j]-EvtInfo_PVx,
 	       BInfo_vtxY[j]-EvtInfo_PVy,
 	       BInfo_vtxZ[j]*0-EvtInfo_PVz*0);
-  b4P->SetXYZM(BInfo_px[j],BInfo_py[j],BInfo_pz[j],BInfo_mass[j]);
+  b4P->SetPtEtaPhiM(BInfo_pt[j],BInfo_eta[j],BInfo_phi[j],BInfo_mass[j]);
 
   Bindex[typesize] = typesize;
   Btype[typesize] = BInfo_type[j];
@@ -293,13 +316,12 @@ void fillTree(TVector3* bP, TVector3* bVtx, TLorentzVector* b4P, Int_t j, Int_t 
   Bchi2ndf[typesize] = BInfo_vtxchi2[j]/BInfo_vtxdof[j];
   Bchi2cl[typesize] = TMath::Prob(BInfo_vtxchi2[j],BInfo_vtxdof[j]);
   Bdtheta[typesize] = bP->Angle(*bVtx);
-  Blxy[typesize] = ((BInfo_vtxX[j]-EvtInfo_PVx)*BInfo_px[j] + (BInfo_vtxY[j]-EvtInfo_PVy)*BInfo_py[j])/BInfo_pt[j];
+  Blxy[typesize] = ((BInfo_vtxX[j]-EvtInfo_PVx)*b4P->Px() + (BInfo_vtxY[j]-EvtInfo_PVy)*b4P->Py())/BInfo_pt[j];
   Double_t r2lxyBS = (BInfo_vtxX[j]-EvtInfo_BSx+(BInfo_vtxZ[j]-EvtInfo_BSz)*EvtInfo_BSdxdz) * (BInfo_vtxX[j]-EvtInfo_BSx+(BInfo_vtxZ[j]-EvtInfo_BSz)*EvtInfo_BSdxdz)
     + (BInfo_vtxY[j]-EvtInfo_BSy+(BInfo_vtxZ[j]-EvtInfo_BSz)*EvtInfo_BSdydz) * (BInfo_vtxY[j]-EvtInfo_BSy+(BInfo_vtxZ[j]-EvtInfo_BSz)*EvtInfo_BSdydz);
   Double_t xlxyBS = BInfo_vtxX[j]-EvtInfo_BSx + (BInfo_vtxZ[j]-EvtInfo_BSz)*EvtInfo_BSdxdz;
   Double_t ylxyBS = BInfo_vtxY[j]-EvtInfo_BSy + (BInfo_vtxZ[j]-EvtInfo_BSz)*EvtInfo_BSdydz;
   BlxyBS[typesize] = TMath::Sqrt(r2lxyBS);
-  //BlxyBSErr[typesize] = 0;
   BlxyBSErr[typesize] = (1./r2lxyBS) * ((xlxyBS*xlxyBS)*BInfo_vtxXErr[j] + (2*xlxyBS*ylxyBS)*BInfo_vtxYXErr[j] + (ylxyBS*ylxyBS)*BInfo_vtxYErr[j]);
   Bmaxpt[typesize] = false;
   Bmaxprob[typesize] = false;
@@ -308,28 +330,29 @@ void fillTree(TVector3* bP, TVector3* bVtx, TLorentzVector* b4P, Int_t j, Int_t 
   BmaxprobMatched[typesize] = false;
   BbesttktkmassMatched[typesize] = false;
 
-  Double_t mu1px,mu1py,mu1pz,mu1E;
-  mu1px = MuonInfo_pt[BInfo_uj_rfmu1_index[BInfo_rfuj_index[j]]]*cos(MuonInfo_phi[BInfo_uj_rfmu1_index[BInfo_rfuj_index[j]]]);
-  mu1py = MuonInfo_pt[BInfo_uj_rfmu1_index[BInfo_rfuj_index[j]]]*sin(MuonInfo_phi[BInfo_uj_rfmu1_index[BInfo_rfuj_index[j]]]);
-  mu1pz = MuonInfo_pt[BInfo_uj_rfmu1_index[BInfo_rfuj_index[j]]]*sinh(MuonInfo_eta[BInfo_uj_rfmu1_index[BInfo_rfuj_index[j]]]);
-  b4P->SetXYZM(mu1px,mu1py,mu1pz,MUON_MASS);
-  mu1E = b4P->E();
-  Bmu1pt[typesize] = b4P->Pt();
+  b4P->SetPtEtaPhiM(MuonInfo_pt[BInfo_uj_rfmu1_index[BInfo_rfuj_index[j]]],MuonInfo_eta[BInfo_uj_rfmu1_index[BInfo_rfuj_index[j]]],MuonInfo_phi[BInfo_uj_rfmu1_index[BInfo_rfuj_index[j]]],MUON_MASS);
+  Bmu1pt[typesize] = MuonInfo_pt[BInfo_uj_rfmu1_index[BInfo_rfuj_index[j]]];
+  Bmu1eta[typesize] = MuonInfo_eta[BInfo_uj_rfmu1_index[BInfo_rfuj_index[j]]];
+  Bmu1phi[typesize] = MuonInfo_phi[BInfo_uj_rfmu1_index[BInfo_rfuj_index[j]]];
   Bmu1p[typesize] = b4P->P();
-  Bmu1eta[typesize] = b4P->Eta();
-  Bmu1phi[typesize] = b4P->Phi();
   Bmu1y[typesize] = b4P->Rapidity();
-  Double_t mu2px,mu2py,mu2pz,mu2E;
-  mu2px = MuonInfo_pt[BInfo_uj_rfmu2_index[BInfo_rfuj_index[j]]]*cos(MuonInfo_phi[BInfo_uj_rfmu2_index[BInfo_rfuj_index[j]]]);
-  mu2py = MuonInfo_pt[BInfo_uj_rfmu2_index[BInfo_rfuj_index[j]]]*sin(MuonInfo_phi[BInfo_uj_rfmu2_index[BInfo_rfuj_index[j]]]);
-  mu2pz = MuonInfo_pt[BInfo_uj_rfmu2_index[BInfo_rfuj_index[j]]]*sinh(MuonInfo_eta[BInfo_uj_rfmu2_index[BInfo_rfuj_index[j]]]);
-  b4P->SetXYZM(mu2px,mu2py,mu2pz,MUON_MASS);
-  mu2E = b4P->E();
-  Bmu2pt[typesize] = b4P->Pt();
+  Double_t mu1px,mu1py,mu1pz,mu1E;
+  mu1px = b4P->Px();
+  mu1py = b4P->Py();
+  mu1pz = b4P->Pz();
+  mu1E = b4P->E();
+
+  b4P->SetPtEtaPhiM(MuonInfo_pt[BInfo_uj_rfmu2_index[BInfo_rfuj_index[j]]],MuonInfo_eta[BInfo_uj_rfmu2_index[BInfo_rfuj_index[j]]],MuonInfo_phi[BInfo_uj_rfmu2_index[BInfo_rfuj_index[j]]],MUON_MASS);
+  Bmu2pt[typesize] = MuonInfo_pt[BInfo_uj_rfmu2_index[BInfo_rfuj_index[j]]];
+  Bmu2eta[typesize] = MuonInfo_eta[BInfo_uj_rfmu2_index[BInfo_rfuj_index[j]]];
+  Bmu2phi[typesize] = MuonInfo_phi[BInfo_uj_rfmu2_index[BInfo_rfuj_index[j]]];
   Bmu2p[typesize] = b4P->P();
-  Bmu2eta[typesize] = b4P->Eta();
-  Bmu2phi[typesize] = b4P->Phi();
   Bmu2y[typesize] = b4P->Rapidity();
+  Double_t mu2px,mu2py,mu2pz,mu2E;
+  mu2px = b4P->Px();
+  mu2py = b4P->Py();
+  mu2pz = b4P->Pz();
+  mu2E = b4P->E();
 
   Bmu1dzPV[typesize] = MuonInfo_dzPV[BInfo_uj_rfmu1_index[BInfo_rfuj_index[j]]];
   Bmu2dzPV[typesize] = MuonInfo_dzPV[BInfo_uj_rfmu2_index[BInfo_rfuj_index[j]]];
@@ -355,6 +378,7 @@ void fillTree(TVector3* bP, TVector3* bVtx, TLorentzVector* b4P, Int_t j, Int_t 
   Bmu2InStripLayer[typesize] = MuonInfo_i_nStripLayer[BInfo_uj_rfmu2_index[BInfo_rfuj_index[j]]];
   Bmu1InTrackerLayer[typesize] = MuonInfo_i_nPixelLayer[BInfo_uj_rfmu1_index[BInfo_rfuj_index[j]]] + MuonInfo_i_nStripLayer[BInfo_uj_rfmu1_index[BInfo_rfuj_index[j]]];
   Bmu2InTrackerLayer[typesize] = MuonInfo_i_nPixelLayer[BInfo_uj_rfmu2_index[BInfo_rfuj_index[j]]] + MuonInfo_i_nStripLayer[BInfo_uj_rfmu2_index[BInfo_rfuj_index[j]]];
+
   b4P->SetPxPyPzE(mu1px+mu2px,
 		  mu1py+mu2py,
 		  mu1pz+mu2pz,
@@ -364,17 +388,18 @@ void fillTree(TVector3* bP, TVector3* bVtx, TLorentzVector* b4P, Int_t j, Int_t 
   Bmumuphi[typesize] = b4P->Phi();
   Bmumuy[typesize] = b4P->Rapidity();
   Bmumupt[typesize] = b4P->Pt();
+
   Bujmass[typesize] = BInfo_uj_mass[BInfo_rfuj_index[j]];
   BujvProb[typesize] = TMath::Prob(BInfo_uj_vtxchi2[BInfo_rfuj_index[j]],BInfo_uj_vtxdof[BInfo_rfuj_index[j]]);
-  b4P->SetXYZM(BInfo_uj_px[BInfo_rfuj_index[j]],
-	       BInfo_uj_py[BInfo_rfuj_index[j]],
-	       BInfo_uj_pz[BInfo_rfuj_index[j]],
-	       BInfo_uj_mass[BInfo_rfuj_index[j]]);
-  Bujpt[typesize] = b4P->Pt();
-  Bujeta[typesize] = b4P->PseudoRapidity();
-  Bujphi[typesize] = b4P->Phi();
+  Bujpt[typesize] = BInfo_uj_pt[BInfo_rfuj_index[j]];
+  Bujeta[typesize] = BInfo_uj_eta[BInfo_rfuj_index[j]];
+  Bujphi[typesize] = BInfo_uj_phi[BInfo_rfuj_index[j]];
+  b4P->SetPtEtaPhiM(BInfo_uj_pt[BInfo_rfuj_index[j]],
+		    BInfo_uj_eta[BInfo_rfuj_index[j]],
+		    BInfo_uj_phi[BInfo_rfuj_index[j]],
+		    BInfo_uj_mass[BInfo_rfuj_index[j]]);
   Bujy[typesize] = b4P->Rapidity();
-  Bujlxy[typesize] = ((BInfo_uj_vtxX[BInfo_rfuj_index[j]]-EvtInfo_PVx)*BInfo_uj_px[BInfo_rfuj_index[j]] + (BInfo_uj_vtxY[BInfo_rfuj_index[j]]-EvtInfo_PVy)*BInfo_uj_py[BInfo_rfuj_index[j]])/Bujpt[typesize];
+  Bujlxy[typesize] = ((BInfo_uj_vtxX[BInfo_rfuj_index[j]]-EvtInfo_PVx)*b4P->Px() + (BInfo_uj_vtxY[BInfo_rfuj_index[j]]-EvtInfo_PVy)*b4P->Py())/BInfo_uj_pt[BInfo_rfuj_index[j]];
   /*
   if(MuonInfo_muqual[BInfo_uj_rfmu1_index[BInfo_rfuj_index[j]]]&16) mu1TrackerMuArbitrated[typesize] = 1;
   else mu1TrackerMuArbitrated[typesize] = 0;
@@ -500,11 +525,12 @@ void fillTree(TVector3* bP, TVector3* bVtx, TLorentzVector* b4P, Int_t j, Int_t 
       Btktky[typesize] = b4P->Rapidity();
       Btktkpt[typesize] = b4P->Pt();
       BtktkvProb[typesize] = TMath::Prob(BInfo_tktk_vtxchi2[j],BInfo_tktk_vtxdof[j]);
+
       Bdoubletmass[typesize] = BInfo_tktk_mass[j];
-      b4P->SetXYZM(BInfo_tktk_px[j],BInfo_tktk_py[j],BInfo_tktk_pz[j],BInfo_tktk_mass[j]);
-      Bdoubletpt[typesize] = b4P->Pt();
-      Bdoubleteta[typesize] = b4P->PseudoRapidity();
-      Bdoubletphi[typesize] = b4P->Phi();
+      Bdoubletpt[typesize] = BInfo_tktk_pt[j];
+      Bdoubleteta[typesize] = BInfo_tktk_eta[j];
+      Bdoubletphi[typesize] = BInfo_tktk_phi[j];
+      b4P->SetPtEtaPhiM(BInfo_tktk_pt[j],BInfo_tktk_eta[j],BInfo_tktk_phi[j],BInfo_tktk_mass[j]);
       Bdoublety[typesize] = b4P->Rapidity();
 
       b4P->SetPtEtaPhiM(TrackInfo_pt[BInfo_rftk1_index[j]],TrackInfo_eta[BInfo_rftk1_index[j]],TrackInfo_phi[BInfo_rftk1_index[j]],KAON_MASS);
@@ -577,10 +603,10 @@ void fillTree(TVector3* bP, TVector3* bVtx, TLorentzVector* b4P, Int_t j, Int_t 
       Btktkpt[typesize] = b4P->Pt();
       BtktkvProb[typesize] = TMath::Prob(BInfo_tktk_vtxchi2[j],BInfo_tktk_vtxdof[j]);
       Bdoubletmass[typesize] = BInfo_tktk_mass[j];
-      b4P->SetXYZM(BInfo_tktk_px[j],BInfo_tktk_py[j],BInfo_tktk_pz[j],BInfo_tktk_mass[j]);
-      Bdoubletpt[typesize] = b4P->Pt();
-      Bdoubleteta[typesize] = b4P->PseudoRapidity();
-      Bdoubletphi[typesize] = b4P->Phi();
+      Bdoubletpt[typesize] = BInfo_tktk_pt[j];
+      Bdoubleteta[typesize] = BInfo_tktk_eta[j];
+      Bdoubletphi[typesize] = BInfo_tktk_phi[j];
+      b4P->SetPtEtaPhiM(BInfo_tktk_pt[j],BInfo_tktk_eta[j],BInfo_tktk_phi[j],BInfo_tktk_mass[j]);
       Bdoublety[typesize] = b4P->Rapidity();
 
       b4P->SetPtEtaPhiM(TrackInfo_pt[BInfo_rftk1_index[j]],TrackInfo_eta[BInfo_rftk1_index[j]],TrackInfo_phi[BInfo_rftk1_index[j]],KAON_MASS);
