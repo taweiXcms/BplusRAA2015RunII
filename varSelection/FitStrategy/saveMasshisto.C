@@ -46,12 +46,12 @@ int saveMasshisto(TString inputdata="",
   nt->AddFriend("ntHlt");
   nt->AddFriend("ntHi");  
   nt->AddFriend("ntSkim");  
-  nt->AddFriend("bdtTree");
+  nt->AddFriend("mvaTree");
   TTree* ntMC = (TTree*)infMC->Get("ntKp");
   ntMC->AddFriend("ntHlt");
   ntMC->AddFriend("ntHi");
   ntMC->AddFriend("ntSkim");
-  ntMC->AddFriend("bdtTree");
+  ntMC->AddFriend("mvaTree");
   
   cout<<"  -- Variable"<<endl;
   cout<<"     "<<varname<<" "<<variable<<endl;
