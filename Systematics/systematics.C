@@ -70,10 +70,10 @@ bool initialized = 0;
 void initializationPP()
 {
    ppMesonSelection = new TH1D("ppMesonSelection","",nPtBins,PtBins);
-   ppMesonSelection->SetBinContent(1,		2.4);
+   ppMesonSelection->SetBinContent(1,		2.7);
 
    ppSignalExtraction = new TH1D("ppSignalExtraction","",nPtBins,PtBins);
-   ppSignalExtraction->SetBinContent(1,		5.0);
+   ppSignalExtraction->SetBinContent(1,		2.9);
 
    ppTagAndProbe = new TH1D("ppTagAndProbe","",nPtBins,PtBins);
    ppTagAndProbe->SetBinContent(1,		11.0);    // YJ removed the *2 double counting
@@ -85,10 +85,10 @@ void initializationPbPbCent0100()
 {
 
    PbPbMesonSelection = new TH1D("PbPbMesonSelection","",nPtBins,PtBins);
-   PbPbMesonSelection->SetBinContent(1,		4.);
+   PbPbMesonSelection->SetBinContent(1,		8.7);
 
    PbPbSignalExtraction = new TH1D("PbPbSignalExtraction","",nPtBins,PtBins);
-   PbPbSignalExtraction->SetBinContent(1,	5.);
+   PbPbSignalExtraction->SetBinContent(1,	2.6);
 
    PbPbTagAndProbe = new TH1D("PbPbTagAndProbe","",nPtBins,PtBins);
    PbPbTagAndProbe->SetBinContent(1,		12.0);
@@ -99,7 +99,7 @@ void initializationPbPbCent0100()
 void initializationRAA()
 {
    RAASignalExtraction = new TH1D("RAASignalExtraction","",nPtBins,PtBins);
-   RAASignalExtraction->SetBinContent(1,	5.);
+   RAASignalExtraction->SetBinContent(1,	0.5);
 }
 void initializationPbPbCent010()
 {
