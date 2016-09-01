@@ -78,9 +78,12 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
   TGraphAsymmErrors* gaeRatioCrossFONLLunity = new TGraphAsymmErrors(nBins,xr,yunity,xrlow,xrhigh,yFONLLrelunclow,yFONLLrelunchigh);
   gaeRatioCrossFONLLunity->SetName("gaeRatioCrossFONLLunity");
   gaeRatioCrossFONLLunity->SetLineWidth(2);
-  gaeRatioCrossFONLLunity->SetLineColor(5);//Color(2);
-  gaeRatioCrossFONLLunity->SetFillColor(5);//Color(2);
-  gaeRatioCrossFONLLunity->SetFillStyle(3002);
+  //gaeRatioCrossFONLLunity->SetLineColor(5);//Color(2);
+  //gaeRatioCrossFONLLunity->SetFillColor(5);//Color(2);
+  gaeRatioCrossFONLLunity->SetLineColor(kOrange);//Color(2);
+  gaeRatioCrossFONLLunity->SetFillColor(kOrange);//Color(2);
+  //gaeRatioCrossFONLLunity->SetFillStyle(3001);
+  gaeRatioCrossFONLLunity->SetFillStyle(1001);
   
   TCanvas* cSigma = new TCanvas("cSigma","",600,750);
   cSigma->SetFrameBorderMode(0);
@@ -133,10 +136,13 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
   hemptySigma->SetMaximum(2);
   hemptySigma->SetMinimum(0.);
   hemptySigma->Draw();
-  gaeBplusReference->SetFillColor(5);//Color(2);
-  gaeBplusReference->SetFillStyle(3001); 
+  //gaeBplusReference->SetFillColor(5);//Color(2);
+  gaeBplusReference->SetFillColor(kOrange);
+  //gaeBplusReference->SetFillStyle(3001); 
+  gaeBplusReference->SetFillStyle(1001); 
   gaeBplusReference->SetLineWidth(3);
-  gaeBplusReference->SetLineColor(5);//Color(2);
+  //gaeBplusReference->SetLineColor(5);//Color(2);
+  gaeBplusReference->SetLineColor(kOrange);
   gaeBplusReference->Draw("5same");
   hPtSigma->SetLineColor(1);
   hPtSigma->SetLineWidth(2);
@@ -250,6 +256,8 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
   l->Draw("same");
   if(!isPbPb) cSigma->SaveAs(Form("plotCrossSection/canvasSigmaBplusRatio%s.pdf",label.Data()));
   else cSigma->SaveAs(Form("plotCrossSection/canvasSigmaBplusRatio%s_%.0f_%.0f.pdf",label.Data(),centMin,centMax));
+  if(!isPbPb) cSigma->SaveAs(Form("plotCrossSection/canvasSigmaBplusRatio%s.png",label.Data()));
+  else cSigma->SaveAs(Form("plotCrossSection/canvasSigmaBplusRatio%s_%.0f_%.0f.pgn",label.Data(),centMin,centMax));
   
   
   TCanvas* cEff = new TCanvas("cEff","",550,500);
@@ -302,6 +310,8 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
   tlatexeff2->Draw();
   if(!isPbPb) cEff->SaveAs(Form("plotOthers/efficiency%s.pdf",label.Data()));
   else cEff->SaveAs(Form("plotOthers/efficiency%s_%.0f_%.0f.pdf",label.Data(),centMin,centMax));
+  if(!isPbPb) cEff->SaveAs(Form("plotOthers/efficiency%s.png",label.Data()));
+  else cEff->SaveAs(Form("plotOthers/efficiency%s_%.0f_%.0f.png",label.Data(),centMin,centMax));
   
   
   TFile *outputfile=new TFile(outputplot.Data(),"recreate");
