@@ -76,7 +76,7 @@ void initializationPP()
    ppSignalExtraction->SetBinContent(1,		2.9);
 
    ppTagAndProbe = new TH1D("ppTagAndProbe","",nPtBins,PtBins);
-   ppTagAndProbe->SetBinContent(1,		11.0);    // YJ removed the *2 double counting
+   ppTagAndProbe->SetBinContent(1,		10.0);
    
    fPPPtShape->SetParameters(0.999265,-0.0458006,-0.181359,0);
    }
@@ -91,7 +91,7 @@ void initializationPbPbCent0100()
    PbPbSignalExtraction->SetBinContent(1,	2.6);
 
    PbPbTagAndProbe = new TH1D("PbPbTagAndProbe","",nPtBins,PtBins);
-   PbPbTagAndProbe->SetBinContent(1,		12.0);
+   PbPbTagAndProbe->SetBinContent(1,		13.0);
 
    fPbPbPtShape->SetParameters(0.984161,0.0593406,-0.3992,0.000271564);
    }
