@@ -15,17 +15,27 @@ Double_t binwidthmass=(maxhisto-minhisto)/nbinsmasshisto;
 
 TString weight;
 TString weightgen;
+TString weightdata;
 TString seldata;
 TString selmc;
 TString selmceff;
 TString selmcgen;
 TString collisionsystem;
 Float_t hiBinMin,hiBinMax,centMin,centMax;
+double _ErrCor=1;
+
+int _nBins = nBins;
+double *_ptBins = ptBins;
 
 //void fitB(int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp/ntB_EvtBase_20160420_BfinderData_pp_20160419_bPt0jpsiPt0tkPt0p5.root" , TString inputmc="/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160606_pp_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root", TString trgselection="1",  TString cut="TMath::Abs(By)<2.4&&TMath::Abs(Bmumumass-3.096916)<0.15&&Bmass>5&&Bmass<6&&Btrk1Pt>0.9&&Bchi2cl>1.32e-02&&(Bd0/Bd0Err)>3.41&&cos(Bdtheta)>-3.46e-01&&Bmu1pt>1.5&&Bmu2pt>1.5&&Blxy>0.025", TString cutmcgen="TMath::Abs(Gy)<2.4&&abs(GpdgId)==521&&GisSignal==1", int isMC=0, Double_t luminosity=1., int doweight=0, TString collsyst="PbPb", TString outputfile="", TString npfile="ROOTfiles/NPFitPP.root", Float_t centmin=0., Float_t centmax=100.)
-void fitB(int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp/ntB_EvtBase_20160420_BfinderData_pp_20160419_bPt0jpsiPt0tkPt0p5.root" , TString inputmc="/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160606_pp_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root", TString trgselection="1",  TString cut="TMath::Abs(By)<2.4&&TMath::Abs(Bmumumass-3.096916)<0.15&&Bmass>5&&Bmass<6&&Btrk1Pt>0.9&&Bchi2cl>1.32e-02&&(Bd0/Bd0Err)>3.41&&cos(Bdtheta)>-3.46e-01&&Bmu1pt>1.5&&Bmu2pt>1.5&&Blxy>0.025", TString cutmcgen="TMath::Abs(Gy)<2.4&&abs(GpdgId)==521&&GisSignal==1", int isMC=0, Double_t luminosity=1., int doweight=0, TString collsyst="PbPb", TString outputfile="", TString npfit="0", Float_t centmin=0., Float_t centmax=100.)
+void fitB(int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp/ntB_EvtBase_20160420_BfinderData_pp_20160419_bPt0jpsiPt0tkPt0p5.root" , TString inputmc="/data/HeavyFlavourRun2/MC2015/Bntuple/pp/Bntuple20160606_pp_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root", TString trgselection="1",  TString cut="TMath::Abs(By)<2.4&&TMath::Abs(Bmumumass-3.096916)<0.15&&Bmass>5&&Bmass<6&&Btrk1Pt>0.9&&Bchi2cl>1.32e-02&&(Bd0/Bd0Err)>3.41&&cos(Bdtheta)>-3.46e-01&&Bmu1pt>1.5&&Bmu2pt>1.5&&Blxy>0.025", TString cutmcgen="TMath::Abs(Gy)<2.4&&abs(GpdgId)==521&&GisSignal==1", int isMC=0, Double_t luminosity=1., int doweight=0, TString collsyst="PbPb", TString outputfile="", TString npfit="0", int doDataCor = 0, Float_t centmin=0., Float_t centmax=100.)
 {
   collisionsystem=collsyst;
+  if(collisionsystem=="ppInc"||collisionsystem=="PbPbInc"){
+    _nBins = nBinsInc;
+    _ptBins = ptBinsInc;
+  }
+  
   hiBinMin = centmin*2;
   hiBinMax = centmax*2;
   centMin = centmin;
@@ -70,8 +80,18 @@ void fitB(int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp/ntB_
 
   weightgen="1";
   weight="1";
+  weightdata="1";
+  if(doDataCor == 1){
+    if(collisionsystem=="pp"||collisionsystem=="PP"||collisionsystem=="ppInc"||collisionsystem=="PbPbInc"){
+      weightdata="(-6.098782e-02+4.106526e-04*Bpt+Bpt*Bpt*1.434530e-03+Bpt*Bpt*Bpt*-4.695382e-05+Bpt*Bpt*Bpt*Bpt*4.363289e-07)";
+    }
+    else{
+      weightdata="( (hiBin>=0&& hiBin<20)*(3.117632e-02+-1.159784e-02*Bpt+Bpt*Bpt*1.219370e-03+Bpt*Bpt*Bpt*-2.963314e-05+Bpt*Bpt*Bpt*Bpt*2.301367e-07) + (hiBin>=20&&hiBin<60)*(4.379875e-02+-1.553269e-02*Bpt+Bpt*Bpt*1.603658e-03+Bpt*Bpt*Bpt*-3.987113e-05+Bpt*Bpt*Bpt*Bpt*3.104066e-07) + (hiBin>=60&&hiBin<100)*(6.381744e-02+-2.182311e-02*Bpt+Bpt*Bpt*2.237331e-03+Bpt*Bpt*Bpt*-6.150110e-05+Bpt*Bpt*Bpt*Bpt*5.475154e-07) + (hiBin>=100&&hiBin<=200)*(7.876289e-02+-2.580109e-02*Bpt+Bpt*Bpt*2.555978e-03+Bpt*Bpt*Bpt*-6.953917e-05+Bpt*Bpt*Bpt*Bpt*6.101012e-07) )";
+    }
+  }
   
   std::cout<<"we are using weight="<<weight<<std::endl;
+  std::cout<<"we are using weightdata="<<weightdata<<std::endl;
   
   TFile* inf = new TFile(inputdata.Data());
   TFile* infMC = new TFile(inputmc.Data());
@@ -93,26 +113,27 @@ void fitB(int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp/ntB_
   ntMC->AddFriend("mvaTree");
   ntMC->AddFriend(ntGen);
   
-  TH1D* hPt = new TH1D("hPt","",nBins,ptBins);
-  TH1D* hPtRecoTruth = new TH1D("hPtRecoTruth","",nBins,ptBins);
-  TH1D* hPtMC = new TH1D("hPtMC","",nBins,ptBins);
-  TH1D* hPtGen = new TH1D("hPtGen","",nBins,ptBins);
+  TH1D* hPt = new TH1D("hPt","",_nBins,_ptBins);
+  TH1D* hPtRecoTruth = new TH1D("hPtRecoTruth","",_nBins,_ptBins);
+  TH1D* hPtMC = new TH1D("hPtMC","",_nBins,_ptBins);
+  TH1D* hPtGen = new TH1D("hPtGen","",_nBins,_ptBins);
 
-  TH1D* hMean = new TH1D("hMean","",nBins,ptBins);                       
-  TH1D* hSigmaGaus1 = new TH1D("hSigmaGaus1","",nBins,ptBins); 
-  TH1D* hSigmaGaus2 = new TH1D("hSigmaGaus2","",nBins,ptBins); 
+  TH1D* hMean = new TH1D("hMean","",_nBins,_ptBins);                       
+  TH1D* hSigmaGaus1 = new TH1D("hSigmaGaus1","",_nBins,_ptBins); 
+  TH1D* hSigmaGaus2 = new TH1D("hSigmaGaus2","",_nBins,_ptBins); 
   TF1 *totalmass;
 
-  for(int i=0;i<nBins;i++)
+  for(int i=0;i<_nBins;i++)
     {
-      //TF1* f = fit(nt,ntMC,ptBins[i],ptBins[i+1],isMC,isPbPb, totalmass,centmin, centmax, NPpar);
-      TF1* f = fit(nt,ntMC,ptBins[i],ptBins[i+1],isMC,isPbPb, totalmass,centmin, centmax, npfit);
+      //TF1* f = fit(nt,ntMC,_ptBins[i],_ptBins[i+1],isMC,isPbPb, totalmass,centmin, centmax, NPpar);
+      TF1* f = fit(nt,ntMC,_ptBins[i],_ptBins[i+1],isMC,isPbPb, totalmass,centmin, centmax, npfit);
       hMean->SetBinContent(i+1,f->GetParameter(1));
       hMean->SetBinError(i+1,f->GetParError(1));  
       double yield = f->Integral(minhisto,maxhisto)/binwidthmass;
       double yieldErr = f->Integral(minhisto,maxhisto)/binwidthmass*f->GetParError(0)/f->GetParameter(0);
-      hPt->SetBinContent(i+1,yield/(ptBins[i+1]-ptBins[i]));
-      hPt->SetBinError(i+1,yieldErr/(ptBins[i+1]-ptBins[i]));
+      yieldErr = yieldErr*_ErrCor;
+      hPt->SetBinContent(i+1,yield/(_ptBins[i+1]-_ptBins[i]));
+      hPt->SetBinError(i+1,yieldErr/(_ptBins[i+1]-_ptBins[i]));
     }  
 
   ntMC->Project("hPtMC","Bpt",TCut(weight)*(TCut(selmceff.Data())&&"(Bgen==23333)"));
@@ -167,8 +188,7 @@ void fitB(int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp/ntB_
   hPtSigma->Draw();
 
   TString outputf;
-  if(nBins == 1) outputf = Form("%s_integrated.root",outputfile.Data());
-  else outputf = Form("%s.root",outputfile.Data());
+  outputf = Form("%s",outputfile.Data());
   
   TFile* outf = new TFile(outputf.Data(),"recreate");
   outf->cd();
@@ -214,8 +234,8 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
    TF1* f = new TF1(Form("f%d",count),"[0]*([7]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2])+(1-[7])*Gaus(x,[1],[8])/(sqrt(2*3.14159)*[8]))+[3]+[4]*x+[5]*("+iNP+")");
    
 
-   if(isMC==1) nt->Project(Form("h-%d",count),"Bmass",Form("%s*(%s&&Bpt>%f&&Bpt<%f)","1",seldata.Data(),ptmin,ptmax));   
-   else nt->Project(Form("h-%d",count),"Bmass",Form("(%s&&Bpt>%f&&Bpt<%f)",seldata.Data(),ptmin,ptmax));   
+   if(isMC==1) nt->Project(Form("h-%d",count),"Bmass",Form("%s*(%s&&Bpt>%f&&Bpt<%f)*(1/%s)","1",seldata.Data(),ptmin,ptmax,weightdata.Data()));   
+   else nt->Project(Form("h-%d",count),"Bmass",Form("(%s&&Bpt>%f&&Bpt<%f)*(1/%s)",seldata.Data(),ptmin,ptmax,weightdata.Data()));   
 
    ntMC->Project(Form("hMCSignal-%d",count),"Bmass",Form("%s&&Bpt>%f&&Bpt<%f",Form("%s&&Bgen==23333",selmc.Data()),ptmin,ptmax));
    clean0(h);
@@ -240,6 +260,15 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
    f->SetParameter(8,setparam3);
    f->FixParameter(1,fixparam1);
    f->FixParameter(5,0);
+   if(weightdata != "1"){
+     int maxb = h->GetMaximumBin();
+     double _max = h->GetBinContent(maxb);
+     double _maxE = h->GetBinError(maxb);
+     _ErrCor = (_maxE/_max)/(1/sqrt(_max));
+     f->SetParLimits(0,0,1e5);
+     f->SetParLimits(4,-1e5,1e5);
+     f->SetParLimits(5,0,1e4);
+   }
    h->GetEntries();
 
    hMCSignal->Fit(Form("f%d",count),"q","",minhisto,maxhisto);
@@ -263,6 +292,11 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
    h->Fit(Form("f%d",count),"L q","",minhisto,maxhisto);
    h->Fit(Form("f%d",count),"L q","",minhisto,maxhisto);
    h->Fit(Form("f%d",count),"L m","",minhisto,maxhisto);
+   if(weightdata != "1"){
+//      h->Fit(Form("f%d",count),"q","",minhisto,maxhisto);
+//      h->Fit(Form("f%d",count),"q","",minhisto,maxhisto);
+//      h->Fit(Form("f%d",count),"m","",minhisto,maxhisto);
+   }
    h->SetMarkerSize(0.8);
    h->SetMarkerStyle(20);
 
@@ -350,7 +384,7 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
   texCms->Draw();
 
   TLatex* texCol;
-  if(collisionsystem=="pp"||collisionsystem=="PP") texCol= new TLatex(0.96,0.93, Form("%s #sqrt{s_{NN}} = 5.02 TeV","pp"));
+  if(collisionsystem=="pp"||collisionsystem=="PP"||collisionsystem=="ppInc"||collisionsystem=="PbPbInc") texCol= new TLatex(0.96,0.93, Form("%s #sqrt{s_{NN}} = 5.02 TeV","pp"));
   else texCol= new TLatex(0.96,0.93, Form("%s #sqrt{s_{NN}} = 5.02 TeV","PbPb"));
   texCol->SetNDC();
   texCol->SetTextAlign(32);
@@ -390,14 +424,16 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
   //if(!isPbPb) c->SaveAs(Form("plotFits/BMass%s_%d.pdf",collisionsystem.Data(),count));
   //else c->SaveAs(Form("plotFits/BMass%s_%.0f_%.0f_%d.pdf",collisionsystem.Data(),centMin,centMax,count));
 
+  TString _postfix = "";
+  if(weightdata!="1") _postfix = "_EFFCOR";
   if(isPbPb && isMC==0) 
-      c->SaveAs(Form("plotFits/data_PbPb_%.0f_%.0f.pdf",ptmin,ptmax));
+      c->SaveAs(Form("plotFits/data_PbPb_%.0f_%.0f%s.pdf",ptmin,ptmax,_postfix.Data()));
   else if(isPbPb && isMC==1) 
-      c->SaveAs(Form("plotFits/mc_PbPb_%.0f_%.0f.pdf",ptmin,ptmax));
+      c->SaveAs(Form("plotFits/mc_PbPb_%.0f_%.0f%s.pdf",ptmin,ptmax,_postfix.Data()));
   else if(!isPbPb && isMC==0) 
-      c->SaveAs(Form("plotFits/data_pp_%.0f_%.0f.pdf",ptmin,ptmax));
+      c->SaveAs(Form("plotFits/data_pp_%.0f_%.0f%s.pdf",ptmin,ptmax,_postfix.Data()));
   else 
-      c->SaveAs(Form("plotFits/mc_pp_%.0f_%.0f.pdf",ptmin,ptmax));
+      c->SaveAs(Form("plotFits/mc_pp_%.0f_%.0f%s.pdf",ptmin,ptmax,_postfix.Data()));
 
   return mass;
 }
@@ -405,14 +441,14 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 
 int main(int argc, char *argv[])
 {
-  if(argc==15)
+  if(argc==16)
     {
-      fitB(atoi(argv[1]),argv[2], argv[3], argv[4], argv[5], argv[6], atoi(argv[7]), atof(argv[8]), atoi(argv[9]),argv[10],argv[11],argv[12],atof(argv[13]),atof(argv[14]));
+      fitB(atoi(argv[1]),argv[2], argv[3], argv[4], argv[5], argv[6], atoi(argv[7]), atof(argv[8]), atoi(argv[9]),argv[10],argv[11],argv[12],atoi(argv[13]),atof(argv[14]),atof(argv[15]));
       return 0;
     }
-  else if(argc==13)
+  else if(argc==14)
     {
-      fitB(atoi(argv[1]), argv[2], argv[3], argv[4], argv[5], argv[6], atoi(argv[7]), atof(argv[8]), atoi(argv[9]),argv[10],argv[11], argv[12]);
+      fitB(atoi(argv[1]), argv[2], argv[3], argv[4], argv[5], argv[6], atoi(argv[7]), atof(argv[8]), atoi(argv[9]),argv[10],argv[11], argv[12], atoi(argv[13]));
       return 0;
     }
   else

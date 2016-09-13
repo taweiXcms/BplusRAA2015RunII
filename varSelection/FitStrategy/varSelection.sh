@@ -5,7 +5,7 @@ DOSAVEHISTPP_CHI2=0
 DOSAVEHISTPbPb_CHI2=0
 DOSAVEHISTPP_COSTHETA=0
 DOSAVEHISTPbPb_COSTHETA=0
-DOSAVEHISTPP_TRKPT=0
+DOSAVEHISTPP_TRKPT=1
 DOSAVEHISTPbPb_TRKPT=0
 DOSAVEHISTPP_TRKETA=0
 DOSAVEHISTPbPb_TRKETA=0
@@ -18,7 +18,7 @@ DOFITPP_CHI2=0
 DOFITPbPb_CHI2=0
 DOFITPP_COSTHETA=0
 DOFITPbPb_COSTHETA=0
-DOFITPP_TRKPT=0
+DOFITPP_TRKPT=1
 DOFITPbPb_TRKPT=0
 DOFITPP_TRKETA=0
 DOFITPbPb_TRKETA=0
@@ -55,8 +55,8 @@ NPFIT_PP="3.12764e1*Gaus(x,5.33166,3.64663e-2)*(x<5.33166)+(x>=5.33166)*3.12764e
 VARBINS=5
 LABEL_DECAYLENGTH="Decaylength"
 VAR_DECAYLENGTH="(BsvpvDistance/BsvpvDisErr)"
-VARMIN_DECAYLENGTH=5.
-VARMAX_DECAYLENGTH=7.
+VARMIN_DECAYLENGTH=3.5
+VARMAX_DECAYLENGTH=7.5
 VARSIGN_DECAYLENGTH=1
 TEX_DECAYLENGTH="Decay length sig"
 
@@ -64,8 +64,8 @@ LABEL_CHI2="Chi2"
 VAR_CHI2="Bchi2cl"
 #VARMIN_CHI2=0.05
 #VARMAX_CHI2=0.45
-VARMIN_CHI2=0.05
-VARMAX_CHI2=0.35
+VARMIN_CHI2=0.005
+VARMAX_CHI2=0.045
 VARSIGN_CHI2=1
 TEX_CHI2="Vtx prob"
 
@@ -78,8 +78,10 @@ TEX_COSTHETA="Cosine(#theta)"
 
 LABEL_TRKPT="Btrk1Pt"
 VAR_TRKPT="Btrk1Pt"
-VARMIN_TRKPT=0.8
-VARMAX_TRKPT=1.4
+#VARMIN_TRKPT=0.8
+VARMIN_TRKPT=1.2
+#VARMAX_TRKPT=1.8
+VARMAX_TRKPT=2.2
 VARSIGN_TRKPT=1
 TEX_TRKPT="trk pt"
 
@@ -104,8 +106,8 @@ ADDCUTPP_COSTHETA="((BsvpvDistance/BsvpvDisErr)>4. && Bchi2cl > 0.005)"
 ADDCUTPP_TRKPT="((BsvpvDistance/BsvpvDisErr)>4. && Bchi2cl > 0.005 && cos(Bdtheta) > 0.2)"
 ADDCUTPP_TRKETA="((BsvpvDistance/BsvpvDisErr)>4. && Bchi2cl > 0.005 && cos(Bdtheta) > 0.2)"
 ADDCUTPP_BDT="((BsvpvDistance/BsvpvDisErr)>4. && Bchi2cl > 0.005 && cos(Bdtheta) > 0.2)"
-NOMINALPP_DECAYLENGTH="(BsvpvDistance/BsvpvDisErr)>4."
-NOMINALPP_CHI2="Bchi2cl > 0.2"
+NOMINALPP_DECAYLENGTH="(BsvpvDistance/BsvpvDisErr)>3.5"
+NOMINALPP_CHI2="Bchi2cl > 0.1"
 NOMINALPP_COSTHETA="cos(Bdtheta) > 0.2"
 NOMINALPP_TRKPT="Btrk1Pt>1."
 NOMINALPP_TRKETA="abs(Btrk1Eta)<2.4"
@@ -132,16 +134,16 @@ OUTPUTFILEPbPb_NP="NPFitPbPb.root"
 NPFIT_PbPb="3.39711e1*Gaus(x,5.35002e0,3.87952e-2)*(x<5.35002e0)+(x>=5.35002e0)*3.39711e1*Gaus(x,5.35002e0,1.14232e-1)+6.89441e1*TMath::Erf(-(x-5.14189)/8.66243e-2) + 6.89441e1"
 
 #"((BsvpvDistance/BsvpvDisErr)>6. && Bchi2cl > 0.2 && cos(Bdtheta) > 0.2)"
-ADDCUTPbPb_DECAYLENGTH="(Bchi2cl > 0.2 && cos(Bdtheta) > 0.2 && Btrk1Pt>1.2)"
+ADDCUTPbPb_DECAYLENGTH="(Bchi2cl > 0.2 && cos(Bdtheta) > 0.2 && Btrk1Pt>1.5)"
 ADDCUTPbPb_CHI2="((BsvpvDistance/BsvpvDisErr)>6. && cos(Bdtheta) > 0.2 && Btrk1Pt>1.)"
 ADDCUTPbPb_COSTHETA="((BsvpvDistance/BsvpvDisErr)>6. && Bchi2cl > 0.2)"
 ADDCUTPbPb_TRKPT="((BsvpvDistance/BsvpvDisErr)>6. && Bchi2cl > 0.2 && cos(Bdtheta) > 0.2)"
 ADDCUTPbPb_TRKETA="((BsvpvDistance/BsvpvDisErr)>6. && Bchi2cl > 0.2 && cos(Bdtheta) > 0.2)"
 ADDCUTPbPb_BDT="( (BsvpvDistance/BsvpvDisErr)>6. && Bchi2cl > 0.2 && cos(Bdtheta) > 0.2 )"
-NOMINALPbPb_DECAYLENGTH="(BsvpvDistance/BsvpvDisErr)>6."
-NOMINALPbPb_CHI2="Bchi2cl > 0.2"
+NOMINALPbPb_DECAYLENGTH="(BsvpvDistance/BsvpvDisErr)>5."
+NOMINALPbPb_CHI2="Bchi2cl > 0.1"
 NOMINALPbPb_COSTHETA="cos(Bdtheta) > 0.2"
-NOMINALPbPb_TRKPT="Btrk1Pt>1."
+NOMINALPbPb_TRKPT="Btrk1Pt>1.8"
 NOMINALPbPb_TRKETA="abs(Btrk1Eta)<2.4"
 NOMINALPbPb_BDT="BDT>0.08"
 

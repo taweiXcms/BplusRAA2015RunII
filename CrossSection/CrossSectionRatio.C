@@ -3,7 +3,7 @@
 #include "TLegendEntry.h"
 #include "../Systematics/systematics.C"
 
-void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5TeV_y1.root", TString input="ROOTfiles/hPtSpectrumBplusPP.root", TString efficiency="test.root",TString outputplot="myplot.root",int usePbPb=1,TString label="PbPb",double lumi=1.,Float_t centMin=0., Float_t centMax=100.)
+void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5TeV_y1.root", TString input="ROOTfiles/hPtSpectrumBplusPP.root", TString efficiency="test.root",TString outputplot="myplot.root",int usePbPb=1,TString label="PbPb",int doDataCor = 0,double lumi=1.,Float_t centMin=0., Float_t centMax=100.)
 {
   gStyle->SetOptTitle(0);
   gStyle->SetOptStat(0);
@@ -23,7 +23,7 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
   TH1F* hEff = (TH1F*)fileeff->Get("hEff");
   
   TH1F* hPtSigma = (TH1F*)file->Get("hPt");
-   hPtSigma->Divide(hEff);
+   if(doDataCor != 1) hPtSigma->Divide(hEff);
    hPtSigma->Scale(1./(2*lumi*BRchain));
    hPtSigma->SetName("hPtSigma");
   
@@ -254,10 +254,13 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
   gaeRatioCrossFONLLstat->Draw("epsame");
   gaeRatioCrossFONLLsyst->Draw("5same");
   l->Draw("same");
-  if(!isPbPb) cSigma->SaveAs(Form("plotCrossSection/canvasSigmaBplusRatio%s.pdf",label.Data()));
-  else cSigma->SaveAs(Form("plotCrossSection/canvasSigmaBplusRatio%s_%.0f_%.0f.pdf",label.Data(),centMin,centMax));
-  if(!isPbPb) cSigma->SaveAs(Form("plotCrossSection/canvasSigmaBplusRatio%s.png",label.Data()));
-  else cSigma->SaveAs(Form("plotCrossSection/canvasSigmaBplusRatio%s_%.0f_%.0f.pgn",label.Data(),centMin,centMax));
+
+  TString _postfix = "";
+  if(doDataCor==1) _postfix = "_EFFCOR";
+  if(!isPbPb) cSigma->SaveAs(Form("plotCrossSection/canvasSigmaBplusRatio%s%s.pdf",label.Data(),_postfix.Data()));
+  else cSigma->SaveAs(Form("plotCrossSection/canvasSigmaBplusRatio%s_%.0f_%.0f%s.pdf",label.Data(),centMin,centMax,_postfix.Data()));
+  if(!isPbPb) cSigma->SaveAs(Form("plotCrossSection/canvasSigmaBplusRatio%s%s.png",label.Data(),_postfix.Data()));
+  else cSigma->SaveAs(Form("plotCrossSection/canvasSigmaBplusRatio%s_%.0f_%.0f%s.pgn",label.Data(),centMin,centMax,_postfix.Data()));
   
   
   TCanvas* cEff = new TCanvas("cEff","",550,500);
@@ -308,10 +311,11 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
   tlatexeff2->SetTextFont(42);
   tlatexeff2->SetTextSize(0.04);
   tlatexeff2->Draw();
-  if(!isPbPb) cEff->SaveAs(Form("plotOthers/efficiency%s.pdf",label.Data()));
-  else cEff->SaveAs(Form("plotOthers/efficiency%s_%.0f_%.0f.pdf",label.Data(),centMin,centMax));
-  if(!isPbPb) cEff->SaveAs(Form("plotOthers/efficiency%s.png",label.Data()));
-  else cEff->SaveAs(Form("plotOthers/efficiency%s_%.0f_%.0f.png",label.Data(),centMin,centMax));
+
+  if(!isPbPb) cEff->SaveAs(Form("plotOthers/efficiency%s%s.pdf",label.Data(),_postfix.Data()));
+  else cEff->SaveAs(Form("plotOthers/efficiency%s_%.0f_%.0f%s.pdf",label.Data(),centMin,centMax,_postfix.Data()));
+  if(!isPbPb) cEff->SaveAs(Form("plotOthers/efficiency%s%s.png",label.Data(),_postfix.Data()));
+  else cEff->SaveAs(Form("plotOthers/efficiency%s_%.0f_%.0f%s.png",label.Data(),centMin,centMax,_postfix.Data()));
   
   
   TFile *outputfile=new TFile(outputplot.Data(),"recreate");
@@ -329,14 +333,14 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
 
 int main(int argc, char *argv[])
 {
-  if(argc==10)
+  if(argc==11)
     {
-      CrossSectionRatio(argv[1], argv[2], argv[3],argv[4],atoi(argv[5]),argv[6],atof(argv[7]),atof(argv[8]),atof(argv[9]));
+      CrossSectionRatio(argv[1], argv[2], argv[3],argv[4],atoi(argv[5]),argv[6],atoi(argv[7]),atof(argv[8]),atof(argv[9]),atof(argv[10]));
       return 0;
     }
-  else if(argc==8)
+  else if(argc==9)
     {
-      CrossSectionRatio(argv[1], argv[2], argv[3],argv[4],atoi(argv[5]),argv[6],atof(argv[7]));
+      CrossSectionRatio(argv[1], argv[2], argv[3],argv[4],atoi(argv[5]),argv[6],atoi(argv[7]),atof(argv[8]));
       return 0;
     }
   else

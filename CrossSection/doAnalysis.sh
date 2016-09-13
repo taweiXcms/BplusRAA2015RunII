@@ -15,11 +15,24 @@ DOANALYSISPbPb_FITNP=0
 DOANALYSISPbPb_FIT=0
 DOANALYSISPbPb_MCSTUDY=0
 DOANALYSISPbPb_CROSS=0
+DORAA=0
 
-DOANALYSISPP_MCSTUDYCombine=0
-DOANALYSISPbPb_MCSTUDYCombine=0
+#CENTRALITY RAA
+DOANALYSISPP_FIT_INC=0
+DOANALYSISPP_MCSTUDY_INC=0
+DOANALYSISPbPb_FIT_CENT=0
+DOANALYSISPbPb_MCSTUDY_CENT=0
+DORAA_CENT=0
 
-DORAA=1
+DOANALYSISPP_MCSTUDY_FINE=0
+DOANALYSISPP_EFFFIT=0
+DOANALYSISPP_FIT_INC_EFFCOR=1
+DOANALYSISPbPb_MCSTUDY_FINE_HIBIN=0
+DOANALYSISPbPb_EFFFIT=0
+DOANALYSISPbPb_FIT_CENT_EFFCOR=1
+DORAA_CENT_EFFCOR=1
+DOANALYSISPP_FIT_EFFCOR=1
+DOANALYSISPP_CROSS_EFFCOR=1
 
 #systematic section
 DOCOMPARE=0
@@ -59,13 +72,8 @@ SELGENPP="TMath::Abs(Gy)<2.4&&abs(GpdgId)==521&&GisSignal==1"
 SELGENPPACCPP="TMath::Abs(Gy)<2.4&&abs(GpdgId)==521&&GisSignal==1&&TMath::Abs(Gy)<2.4&& ((TMath::Abs(Gmu1eta)<1.2 && Gmu1pt>3.5) || (TMath::Abs(Gmu1eta)>1.2 && TMath::Abs(Gmu1eta)<2.1 && Gmu1pt>(5.77-1.8*TMath::Abs(Gmu1eta))) || (TMath::Abs(Gmu1eta)>2.1 && TMath::Abs(Gmu1eta)<2.4 && Gmu1pt>1.8)) && ((TMath::Abs(Gmu2eta)<1.2 && Gmu2pt>3.5) || (TMath::Abs(Gmu2eta)>1.2 && TMath::Abs(Gmu2eta)<2.1 && Gmu2pt>(5.77-1.8*TMath::Abs(Gmu2eta))) || (TMath::Abs(Gmu2eta)>2.1 && TMath::Abs(Gmu2eta)<2.4 && Gmu2pt>1.8)) && Gtk1pt>0.5 && TMath::Abs(Gtk1eta)<2.4"
 #pre-approval + trg matching
 #CUTPP="abs(PVz)<15&&pBeamScrapingFilter&&pPAprimaryVertexFilter&&TMath::Abs(By)<2.4&&TMath::Abs(Bmumumass-3.096916)<0.15&&Bmass>5&&Bmass<6&& ((abs(Bmu1eta)<1.2 && Bmu1pt>3.5) || (abs(Bmu1eta)>1.2 && abs(Bmu1eta)<2.1 && Bmu1pt>(5.77-1.8*abs(Bmu1eta))) || (abs(Bmu1eta)>2.1 && abs(Bmu1eta)<2.4 && Bmu1pt>1.8)) && ((abs(Bmu2eta)<1.2 && Bmu2pt>3.5) || (abs(Bmu2eta)>1.2 && abs(Bmu2eta)<2.1 && Bmu2pt>(5.77-1.8*abs(Bmu2eta))) || (abs(Bmu2eta)>2.1 && abs(Bmu2eta)<2.4 && Bmu2pt>1.8)) && Bmu1TMOneStationTight && Bmu2TMOneStationTight && Bmu1InPixelLayer > 0 && (Bmu1InPixelLayer+Bmu1InStripLayer) > 5 && Bmu2InPixelLayer > 0 && (Bmu2InPixelLayer+Bmu2InStripLayer) > 5 && Bmu1dxyPV< 0.3 && Bmu2dxyPV< 0.3 && Bmu1dzPV<20 && Bmu2dzPV<20 && Bmu1isGlobalMuon && Bmu2isGlobalMuon && Bmu1TrgMatchFilterE>0 && Bmu2TrgMatchFilterE>0 && Btrk1highPurity && abs(Btrk1Eta)<2.4 && Btrk1Pt>1. && Bchi2cl>0.005 && cos(Bdtheta)>0.2 && ((Bpt>10 && (BsvpvDistance/BsvpvDisErr)>4.) || (Bpt<10 && (BsvpvDistance/BsvpvDisErr)>5.5))"
-#PbPb GA
-#CUTPP="abs(PVz)<15&&pBeamScrapingFilter&&pPAprimaryVertexFilter&&TMath::Abs(By)<2.4&&TMath::Abs(Bmumumass-3.096916)<0.15&&Bmass>5&&Bmass<6&& ((abs(Bmu1eta)<1.2 && Bmu1pt>3.5) || (abs(Bmu1eta)>1.2 && abs(Bmu1eta)<2.1 && Bmu1pt>(5.77-1.8*abs(Bmu1eta))) || (abs(Bmu1eta)>2.1 && abs(Bmu1eta)<2.4 && Bmu1pt>1.8)) && ((abs(Bmu2eta)<1.2 && Bmu2pt>3.5) || (abs(Bmu2eta)>1.2 && abs(Bmu2eta)<2.1 && Bmu2pt>(5.77-1.8*abs(Bmu2eta))) || (abs(Bmu2eta)>2.1 && abs(Bmu2eta)<2.4 && Bmu2pt>1.8)) && Bmu1TMOneStationTight && Bmu2TMOneStationTight && Bmu1InPixelLayer > 0 && (Bmu1InPixelLayer+Bmu1InStripLayer) > 5 && Bmu2InPixelLayer > 0 && (Bmu2InPixelLayer+Bmu2InStripLayer) > 5 && Bmu1dxyPV< 0.3 && Bmu2dxyPV< 0.3 && Bmu1dzPV<20 && Bmu2dzPV<20 && Bmu1isGlobalMuon && Bmu2isGlobalMuon && Bmu1TrgMatchFilterE>0 && Bmu2TrgMatchFilterE>0 && Btrk1highPurity && abs(Btrk1Eta)<2.4 && Btrk1Pt>0.8 && Bchi2cl>0.005 && ((Bpt<10 && (BsvpvDistance/BsvpvDisErr)>5.5) || (Bpt>10 && (BsvpvDistance/BsvpvDisErr)>3.5)) && ((Bpt>7 && Bpt<10 && BDT>0.08)|| (Bpt>10 && Bpt<15 && Btrk1Pt>1.38 && Bchi2cl>0.0796 && (BsvpvDistance/BsvpvDisErr)>7.48 && cos(Bdtheta)>-0.415 && abs(Btrk1Eta)<2.16) || (Bpt>15 && Bpt<20 && Btrk1Pt>1.7 && Bchi2cl>0.0521 && (BsvpvDistance/BsvpvDisErr)>4.96 && cos(Bdtheta)>-0.76 && abs(Btrk1Eta)<2.3) || (Bpt>20 && Bpt<30 && Btrk1Pt>2.02 && Bchi2cl>0.00859 && (BsvpvDistance/BsvpvDisErr)>2.03 && cos(Bdtheta)>-0.349 && abs(Btrk1Eta)<2.36) || (Bpt>30 && Bpt<50 && Btrk1Pt>1.94 && Bchi2cl>0.0166 && (BsvpvDistance/BsvpvDisErr)>4.25 && cos(Bdtheta)>0.99 && abs(Btrk1Eta)<2.33))"
-#PbPb SA
-#CUTPP="abs(PVz)<15&&pBeamScrapingFilter&&pPAprimaryVertexFilter&&TMath::Abs(By)<2.4&&TMath::Abs(Bmumumass-3.096916)<0.15&&Bmass>5&&Bmass<6&& ((abs(Bmu1eta)<1.2 && Bmu1pt>3.5) || (abs(Bmu1eta)>1.2 && abs(Bmu1eta)<2.1 && Bmu1pt>(5.77-1.8*abs(Bmu1eta))) || (abs(Bmu1eta)>2.1 && abs(Bmu1eta)<2.4 && Bmu1pt>1.8)) && ((abs(Bmu2eta)<1.2 && Bmu2pt>3.5) || (abs(Bmu2eta)>1.2 && abs(Bmu2eta)<2.1 && Bmu2pt>(5.77-1.8*abs(Bmu2eta))) || (abs(Bmu2eta)>2.1 && abs(Bmu2eta)<2.4 && Bmu2pt>1.8)) && Bmu1TMOneStationTight && Bmu2TMOneStationTight && Bmu1InPixelLayer > 0 && (Bmu1InPixelLayer+Bmu1InStripLayer) > 5 && Bmu2InPixelLayer > 0 && (Bmu2InPixelLayer+Bmu2InStripLayer) > 5 && Bmu1dxyPV< 0.3 && Bmu2dxyPV< 0.3 && Bmu1dzPV<20 && Bmu2dzPV<20 && Bmu1isGlobalMuon && Bmu2isGlobalMuon && Bmu1TrgMatchFilterE>0 && Bmu2TrgMatchFilterE>0 && Btrk1highPurity && abs(Btrk1Eta)<2.4 && Btrk1Pt>0.8 && Bchi2cl>0.005 && ((Bpt<10 && (BsvpvDistance/BsvpvDisErr)>5.5) || (Bpt>10 && (BsvpvDistance/BsvpvDisErr)>3.5)) && ((Bpt>7 && Bpt<10 && BDT>0.08)|| (Bpt>10 && Bpt<15 && Btrk1Pt>1.39 && Bchi2cl>0.0643 && (BsvpvDistance/BsvpvDisErr)>8.34 && cos(Bdtheta)>0.619 && abs(Btrk1Eta)<2.12) || (Bpt>15 && Bpt<20 && Btrk1Pt>1.61 && Bchi2cl>0.0342 && (BsvpvDistance/BsvpvDisErr)>5.22 && cos(Bdtheta)>0.572 && abs(Btrk1Eta)<2.23) || (Bpt>20 && Bpt<30 && Btrk1Pt>2.03 && Bchi2cl>0.00265 && (BsvpvDistance/BsvpvDisErr)>2.31 && cos(Bdtheta)>0.758 && abs(Btrk1Eta)<2.4) || (Bpt>30 && Bpt<50 && Btrk1Pt>1.71 && Bchi2cl>0.0117 && (BsvpvDistance/BsvpvDisErr)>4.24 && cos(Bdtheta)>0.991 && abs(Btrk1Eta)<2.33))"
 #pp GA
 CUTPP="abs(PVz)<15&&pBeamScrapingFilter&&pPAprimaryVertexFilter&&TMath::Abs(By)<2.4&&TMath::Abs(Bmumumass-3.096916)<0.15&&Bmass>5&&Bmass<6&& ((abs(Bmu1eta)<1.2 && Bmu1pt>3.5) || (abs(Bmu1eta)>1.2 && abs(Bmu1eta)<2.1 && Bmu1pt>(5.77-1.8*abs(Bmu1eta))) || (abs(Bmu1eta)>2.1 && abs(Bmu1eta)<2.4 && Bmu1pt>1.8)) && ((abs(Bmu2eta)<1.2 && Bmu2pt>3.5) || (abs(Bmu2eta)>1.2 && abs(Bmu2eta)<2.1 && Bmu2pt>(5.77-1.8*abs(Bmu2eta))) || (abs(Bmu2eta)>2.1 && abs(Bmu2eta)<2.4 && Bmu2pt>1.8)) && Bmu1TMOneStationTight && Bmu2TMOneStationTight && Bmu1InPixelLayer > 0 && (Bmu1InPixelLayer+Bmu1InStripLayer) > 5 && Bmu2InPixelLayer > 0 && (Bmu2InPixelLayer+Bmu2InStripLayer) > 5 && Bmu1dxyPV< 0.3 && Bmu2dxyPV< 0.3 && Bmu1dzPV<20 && Bmu2dzPV<20 && Bmu1isGlobalMuon && Bmu2isGlobalMuon && Bmu1TrgMatchFilterE>0 && Bmu2TrgMatchFilterE>0 && Btrk1highPurity && abs(Btrk1Eta)<2.4 && Btrk1Pt>0.5 && Bchi2cl>0.005 && ((Bpt<10 && (BsvpvDistance/BsvpvDisErr)>5.5) || (Bpt>10 && (BsvpvDistance/BsvpvDisErr)>3.5)) && ((Bpt>7 && Bpt<10 && Btrk1Pt>0.748 && Bchi2cl>0.0322 && (BsvpvDistance/BsvpvDisErr)>0 && cos(Bdtheta)>0.989 && abs(Btrk1Eta)<2.4)|| (Bpt>10 && Bpt<15 && Btrk1Pt>0.878 && Bchi2cl>0.0014 && (BsvpvDistance/BsvpvDisErr)>0 && cos(Bdtheta)>0.971 && abs(Btrk1Eta)<2.39) || (Bpt>15 && Bpt<20 && Btrk1Pt>0.818 && Bchi2cl>0.00838 && (BsvpvDistance/BsvpvDisErr)>0 && cos(Bdtheta)>0.959 && abs(Btrk1Eta)<2.42) || (Bpt>20 && Bpt<30 && Btrk1Pt>0.84 && Bchi2cl>0.014 && (BsvpvDistance/BsvpvDisErr)>0 && cos(Bdtheta)>0.603 && abs(Btrk1Eta)<2.38) || (Bpt>30 && Bpt<50 && Btrk1Pt>1.06 && Bchi2cl>0.0155 && (BsvpvDistance/BsvpvDisErr)>3.53 && cos(Bdtheta)>0.995 && abs(Btrk1Eta)<2.37))"
-
 BASECUTPP="abs(PVz)<15&&pBeamScrapingFilter&&pPAprimaryVertexFilter&&TMath::Abs(By)<2.4&&TMath::Abs(Bmumumass-3.096916)<0.15&&Bmass>5&&Bmass<6&& ((abs(Bmu1eta)<1.2 && Bmu1pt>3.5) || (abs(Bmu1eta)>1.2 && abs(Bmu1eta)<2.1 && Bmu1pt>(5.77-1.8*abs(Bmu1eta))) || (abs(Bmu1eta)>2.1 && abs(Bmu1eta)<2.4 && Bmu1pt>1.8)) && ((abs(Bmu2eta)<1.2 && Bmu2pt>3.5) || (abs(Bmu2eta)>1.2 && abs(Bmu2eta)<2.1 && Bmu2pt>(5.77-1.8*abs(Bmu2eta))) || (abs(Bmu2eta)>2.1 && abs(Bmu2eta)<2.4 && Bmu2pt>1.8)) && Bmu1TMOneStationTight && Bmu2TMOneStationTight && Bmu1InPixelLayer > 0 && (Bmu1InPixelLayer+Bmu1InStripLayer) > 5 && Bmu2InPixelLayer > 0 && (Bmu2InPixelLayer+Bmu2InStripLayer) > 5 && Bmu1dxyPV< 0.3 && Bmu2dxyPV< 0.3 && Bmu1dzPV<20 && Bmu2dzPV<20 && Bmu1isGlobalMuon && Bmu2isGlobalMuon && abs(By) < 2.4 && Btrk1highPurity && abs(Btrk1Eta)<2.4" # USED FOR MVA PREFILTER, UPDATE WITH CUTPP
 RECOONLYPP=$CUTPP
 TRGPP="(HLT_HIL1DoubleMu0_v1)"
@@ -101,7 +109,7 @@ fi
 
 if [ $DOANALYSISPP_FIT -eq 1 ]; then      
 g++ fitB.C $(root-config --cflags --libs) -g -o fitB.exe 
-./fitB.exe 0 "$INPUTDATAPP"  "$INPUTMCPP"  "$TRGPP" "$CUTPP"   "$SELGENPP"   "$ISMCPP"   1   "$ISDOWEIGHTPP"   "$LABELPP"  "$PREFIXPP" "$NPFIT_PP"
+./fitB.exe 0 "$INPUTDATAPP"  "$INPUTMCPP"  "$TRGPP" "$CUTPP"   "$SELGENPP"   "$ISMCPP"   1   "$ISDOWEIGHTPP"   "$LABELPP"  "$OUTPUTFILEPP" "$NPFIT_PP" 0
 rm fitB.exe
 fi 
 
@@ -113,22 +121,24 @@ fi
 
 if [ $DOANALYSISPP_CROSS -eq 1 ]; then      
 g++ CrossSectionRatio.C $(root-config --cflags --libs) -g -o CrossSectionRatio.exe 
-./CrossSectionRatio.exe "$FONLLOUTPUTFILE"  "$OUTPUTFILEPP" "$OUTPUTFILEMCSTUDYPP" "$OUTPUTFILEPlotPP" 0 "$LABELPP" "$LUMIPP"
+./CrossSectionRatio.exe "$FONLLOUTPUTFILE"  "$OUTPUTFILEPP" "$OUTPUTFILEMCSTUDYPP" "$OUTPUTFILEPlotPP" 0 "$LABELPP" 0 "$LUMIPP"
 rm CrossSectionRatio.exe
 fi
 
-
 LABELPbPb="PbPb"
+
 #LUMIPbPb=15.5665
 #LUMIPbPb=15.17
 #350.68(ub-1)*208*208/1000000=15.17
-#LUMIPbPb=12.99
-#12.91/0.99*0.996 ???
+
 #N_MB = 148356846 lumi_MB_BrilCalc = 7.213*3 lumi_dimuon_BrilCalc = 345.1 TAA = 392.4/(70.*1e9)
 #148356846*345.1/(7.213*3) = 2.366003e+09, 2.366003e+09*392.4/(70.*1e9) = 1.326314e+01
+
 LUMIPbPb=13.14
 #3.153359e+09*345.1/467.112 = 2329685794.627413, 2329685794.627413*392.4/(70.*1e9) = 13.06
 #13.06/0.99*0.996
+
+NMBEVT=2329685794.627413
 ISMCPbPb=0
 ISDOWEIGHTPbPb=1
 SELGENPbPb="TMath::Abs(Gy)<2.4&&abs(GpdgId)==521&&GisSignal==1"
@@ -139,7 +149,6 @@ RECOONLYPbPb="1"
 CUTPbPb="pclusterCompatibilityFilter&&pprimaryVertexFilter&&phfCoincFilter3&abs(PVz)<15&&TMath::Abs(By)<2.4&&TMath::Abs(Bmumumass-3.096916)<0.15&&Bmass>5&&Bmass<6&&((abs(Bmu1eta)<1.2 && Bmu1pt>3.5) || (abs(Bmu1eta)>1.2 && abs(Bmu1eta)<2.1 && Bmu1pt>(5.77-1.8*abs(Bmu1eta))) || (abs(Bmu1eta)>2.1 && abs(Bmu1eta)<2.4 && Bmu1pt>1.8)) && ((abs(Bmu2eta)<1.2 && Bmu2pt>3.5) || (abs(Bmu2eta)>1.2 && abs(Bmu2eta)<2.1 && Bmu2pt>(5.77-1.8*abs(Bmu2eta))) || (abs(Bmu2eta)>2.1 && abs(Bmu2eta)<2.4 && Bmu2pt>1.8)) && Bmu1TMOneStationTight && Bmu2TMOneStationTight && Bmu1InPixelLayer > 0 && (Bmu1InPixelLayer+Bmu1InStripLayer) > 5 && Bmu2InPixelLayer > 0 && (Bmu2InPixelLayer+Bmu2InStripLayer) > 5 && Bmu1dxyPV< 0.3 && Bmu2dxyPV< 0.3 && Bmu1dzPV<20 && Bmu2dzPV<20 && Bmu1isGlobalMuon && Bmu2isGlobalMuon && Bmu1TrgMatchFilterE>0 && Bmu2TrgMatchFilterE>0 && Btrk1highPurity && abs(Btrk1Eta)<2.4 && Btrk1Pt>0.8 && Bchi2cl>0.005 && ((Bpt<10 && (BsvpvDistance/BsvpvDisErr)>5.5) || (Bpt>10 && (BsvpvDistance/BsvpvDisErr)>3.5)) && ((Bpt>7 && Bpt<10 && BDT>0.08)|| (Bpt>10 && Bpt<15 && Btrk1Pt>1.38 && Bchi2cl>0.0796 && (BsvpvDistance/BsvpvDisErr)>7.48 && cos(Bdtheta)>-0.415 && abs(Btrk1Eta)<2.16) || (Bpt>15 && Bpt<20 && Btrk1Pt>1.7 && Bchi2cl>0.0521 && (BsvpvDistance/BsvpvDisErr)>4.96 && cos(Bdtheta)>-0.76 && abs(Btrk1Eta)<2.3) || (Bpt>20 && Bpt<30 && Btrk1Pt>2.02 && Bchi2cl>0.00859 && (BsvpvDistance/BsvpvDisErr)>2.03 && cos(Bdtheta)>-0.349 && abs(Btrk1Eta)<2.36) || (Bpt>30 && Bpt<50 && Btrk1Pt>1.94 && Bchi2cl>0.0166 && (BsvpvDistance/BsvpvDisErr)>4.25 && cos(Bdtheta)>0.99 && abs(Btrk1Eta)<2.33))"
 #SA
 #CUTPbPb="pclusterCompatibilityFilter&&pprimaryVertexFilter&&phfCoincFilter3&abs(PVz)<15&&TMath::Abs(By)<2.4&&TMath::Abs(Bmumumass-3.096916)<0.15&&Bmass>5&&Bmass<6&&((abs(Bmu1eta)<1.2 && Bmu1pt>3.5) || (abs(Bmu1eta)>1.2 && abs(Bmu1eta)<2.1 && Bmu1pt>(5.77-1.8*abs(Bmu1eta))) || (abs(Bmu1eta)>2.1 && abs(Bmu1eta)<2.4 && Bmu1pt>1.8)) && ((abs(Bmu2eta)<1.2 && Bmu2pt>3.5) || (abs(Bmu2eta)>1.2 && abs(Bmu2eta)<2.1 && Bmu2pt>(5.77-1.8*abs(Bmu2eta))) || (abs(Bmu2eta)>2.1 && abs(Bmu2eta)<2.4 && Bmu2pt>1.8)) && Bmu1TMOneStationTight && Bmu2TMOneStationTight && Bmu1InPixelLayer > 0 && (Bmu1InPixelLayer+Bmu1InStripLayer) > 5 && Bmu2InPixelLayer > 0 && (Bmu2InPixelLayer+Bmu2InStripLayer) > 5 && Bmu1dxyPV< 0.3 && Bmu2dxyPV< 0.3 && Bmu1dzPV<20 && Bmu2dzPV<20 && Bmu1isGlobalMuon && Bmu2isGlobalMuon && Bmu1TrgMatchFilterE>0 && Bmu2TrgMatchFilterE>0 && Btrk1highPurity && abs(Btrk1Eta)<2.4 && Btrk1Pt>0.8 && Bchi2cl>0.005 && ((Bpt<10 && (BsvpvDistance/BsvpvDisErr)>5.5) || (Bpt>10 && (BsvpvDistance/BsvpvDisErr)>3.5)) && ((Bpt>7 && Bpt<10 && BDT>0.08)|| (Bpt>10 && Bpt<15 && Btrk1Pt>1.39 && Bchi2cl>0.0643 && (BsvpvDistance/BsvpvDisErr)>8.34 && cos(Bdtheta)>0.619 && abs(Btrk1Eta)<2.12) || (Bpt>15 && Bpt<20 && Btrk1Pt>1.61 && Bchi2cl>0.0342 && (BsvpvDistance/BsvpvDisErr)>5.22 && cos(Bdtheta)>0.572 && abs(Btrk1Eta)<2.23) || (Bpt>20 && Bpt<30 && Btrk1Pt>2.03 && Bchi2cl>0.00265 && (BsvpvDistance/BsvpvDisErr)>2.31 && cos(Bdtheta)>0.758 && abs(Btrk1Eta)<2.4) || (Bpt>30 && Bpt<50 && Btrk1Pt>1.71 && Bchi2cl>0.0117 && (BsvpvDistance/BsvpvDisErr)>4.24 && cos(Bdtheta)>0.991 && abs(Btrk1Eta)<2.33))"
-
 BASECUTPbPb="pclusterCompatibilityFilter&&pprimaryVertexFilter&&phfCoincFilter3&abs(PVz)<15&&TMath::Abs(By)<2.4&&TMath::Abs(Bmumumass-3.096916)<0.15&&Bmass>5&&Bmass<6&&((abs(Bmu1eta)<1.2 && Bmu1pt>3.5) || (abs(Bmu1eta)>1.2 && abs(Bmu1eta)<2.1 && Bmu1pt>(5.77-1.8*abs(Bmu1eta))) || (abs(Bmu1eta)>2.1 && abs(Bmu1eta)<2.4 && Bmu1pt>1.8)) && ((abs(Bmu2eta)<1.2 && Bmu2pt>3.5) || (abs(Bmu2eta)>1.2 && abs(Bmu2eta)<2.1 && Bmu2pt>(5.77-1.8*abs(Bmu2eta))) || (abs(Bmu2eta)>2.1 && abs(Bmu2eta)<2.4 && Bmu2pt>1.8)) && Bmu1TMOneStationTight && Bmu2TMOneStationTight && Bmu1InPixelLayer > 0 && (Bmu1InPixelLayer+Bmu1InStripLayer) > 5 && Bmu2InPixelLayer > 0 && (Bmu2InPixelLayer+Bmu2InStripLayer) > 5 && Bmu1dxyPV< 0.3 && Bmu2dxyPV< 0.3 && Bmu1dzPV<20 && Bmu2dzPV<20 && Bmu1isGlobalMuon && Bmu2isGlobalMuon && ( ( Bpt > 7 && Bpt < 10 && abs(By) < 2.4 && Btrk1highPurity && abs(Btrk1Eta)<2.4 &&BDT>-0.1) || ( Bmumupt>3 && Bpt > 10 && Bpt < 15 && abs(By) < 2.4 && Btrk1highPurity && abs(Btrk1Eta)<2.4) || (Bmumupt>3 && Bpt > 15 && Bpt < 20 && abs(By) < 2.4 && Btrk1highPurity && abs(Btrk1Eta)<2.4) || (Bmumupt>3 && Bpt > 20 && Bpt < 50 && abs(By) < 2.4 && Btrk1highPurity && abs(Btrk1Eta)<2.4) || (Bmumupt>3 && Bpt > 50 && Bpt < 100 && abs(By) < 2.4 && Btrk1highPurity && abs(Btrk1Eta)<2.4))"
 TRGPbPb="(HLT_HIL1DoubleMu0_v1 || HLT_HIL1DoubleMu0_part1_v1 || HLT_HIL1DoubleMu0_part2_v1 || HLT_HIL1DoubleMu0_part3_v1)"
 TRGPbPbMC="(HLT_HIL1DoubleMu0_v1 || HLT_HIL1DoubleMu0_part1_v1 || HLT_HIL1DoubleMu0_part2_v1 || HLT_HIL1DoubleMu0_part3_v1)"
@@ -168,7 +177,7 @@ fi
 
 if [ $DOANALYSISPbPb_FIT -eq 1 ]; then      
 g++ fitB.C $(root-config --cflags --libs) -g -o fitB.exe 
-./fitB.exe 1 "$INPUTDATAPbPb"  "$INPUTMCPbPb"  "$TRGPbPb" "$CUTPbPb"   "$SELGENPbPb"   "$ISMCPbPb"   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$PREFIXPbPb" "$NPFIT_PbPb" "$CENTPbPbMIN" "$CENTPbPbMAX"
+./fitB.exe 1 "$INPUTDATAPbPb"  "$INPUTMCPbPb"  "$TRGPbPb" "$CUTPbPb"   "$SELGENPbPb"   "$ISMCPbPb"   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$OUTPUTFILEPbPb" "$NPFIT_PbPb" "$CENTPbPbMIN" "$CENTPbPbMAX" 0
 rm fitB.exe
 fi 
 
@@ -180,7 +189,7 @@ fi
 
 if [ $DOANALYSISPbPb_CROSS -eq 1 ]; then      
 g++ CrossSectionRatio.C $(root-config --cflags --libs) -g -o CrossSectionRatio.exe 
-./CrossSectionRatio.exe "$FONLLOUTPUTFILE"  "$OUTPUTFILEPbPb" "$OUTPUTFILEMCSTUDYPbPb" "$OUTPUTFILEPlotPbPb" 0 "$LABELPbPb" "$LUMIPbPb"
+./CrossSectionRatio.exe "$FONLLOUTPUTFILE"  "$OUTPUTFILEPbPb" "$OUTPUTFILEMCSTUDYPbPb" "$OUTPUTFILEPlotPbPb" 0 "$LABELPbPb" 0 "$LUMIPbPb"
 rm CrossSectionRatio.exe
 fi
 
@@ -190,24 +199,135 @@ g++ NuclearModificationFactor.C $(root-config --cflags --libs) -g -o NuclearModi
 rm NuclearModificationFactor.exe
 fi
 
+#CENTRALITY RAA
+
+OUTPUTFILEPP_INC="ROOTfiles/hPtSpectrumBplusPP_INC.root"
+if [ $DOANALYSISPP_FIT_INC -eq 1 ]; then      
+g++ fitB.C $(root-config --cflags --libs) -g -o fitB.exe 
+./fitB.exe 0 "$INPUTDATAPP"  "$INPUTMCPP"  "$TRGPP" "$CUTPP"   "$SELGENPP"   "$ISMCPP"   1   "$ISDOWEIGHTPP"   "ppInc"  "$OUTPUTFILEPP_INC" "$NPFIT_PP" 0
+rm fitB.exe
+fi 
+
+OUTPUTFILEMCSTUDYPP_INC="ROOTfiles/MCstudiesPP_INC.root"
+if [ $DOANALYSISPP_MCSTUDY_INC -eq 1 ]; then      
+g++ MCefficiency.C $(root-config --cflags --libs) -g -o MCefficiency.exe 
+./MCefficiency.exe  0 "$INPUTMCPP"  "$SELGENPP" "$SELGENPPACCPP"  "$RECOONLYPP" "$CUTPP&&$TRGPPMC"  "ppInc" "$OUTPUTFILEMCSTUDYPP_INC" "$ISDOWEIGHTPP" "$CENTPbPbMIN" "$CENTPbPbMAX"
+rm MCefficiency.exe
+fi
+
+OUTPUTFILEPbPb_CENT="ROOTfiles/hPtSpectrumBplusPbPb_CENT.root"
+if [ $DOANALYSISPbPb_FIT_CENT -eq 1 ]; then
+g++ fitBCent.C $(root-config --cflags --libs) -g -o fitBCent.exe
+./fitBCent.exe 1 "$INPUTDATAPbPb"  "$INPUTMCPbPb"  "$TRGPbPb" "$CUTPbPb&&Bpt>10"   "$SELGENPbPb"   "$ISMCPbPb"   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$OUTPUTFILEPbPb_CENT" "$NPFIT_PbPb" 0
+rm fitBCent.exe
+fi
+
+OUTPUTFILEMCSTUDYPbPb_CENT="ROOTfiles/MCstudiesPbPb_CENT.root"
+if [ $DOANALYSISPbPb_MCSTUDY_CENT -eq 1 ]; then      
+g++ MCefficiencyCent.C $(root-config --cflags --libs) -g -o MCefficiencyCent.exe 
+./MCefficiencyCent.exe 1 "$INPUTMCPbPb"  "$SELGENPbPb&&Gpt>10&&Gpt<50" "$SELGENPbPbACCPbPb&&Gpt>10&&Gpt<50"  "$RECOONLYPbPb" "$CUTPbPb&&$TRGPbPbMC"  "$LABELPbPb" "$OUTPUTFILEMCSTUDYPbPb_CENT" "$ISDOWEIGHTPbPb" "$CENTPbPbMIN" "$CENTPbPbMAX"
+rm MCefficiencyCent.exe
+fi
+
+OUTPUTFILERAA_CENT="ROOTfiles/outputRAA_CENT.root"
+if [ $DORAA_CENT -eq 1 ]; then
+g++ NuclearModificationFactorCent.C $(root-config --cflags --libs) -g -o NuclearModificationFactorCent.exe
+./NuclearModificationFactorCent.exe "$OUTPUTFILEPP_INC" "$OUTPUTFILEPbPb_CENT" "$OUTPUTFILEMCSTUDYPP_INC" "$OUTPUTFILEMCSTUDYPbPb_CENT" "$LABELPbPb" "$OUTPUTFILERAA_CENT" 0 "$LUMIPP" "$NMBEVT" "$CENTPbPbMIN" "$CENTPbPbMAX"
+rm NuclearModificationFactorCent.exe
+fi
+
+OUTPUTFILEMCSTUDYPP_FINE="ROOTfiles/MCstudiesPP_Fine.root"
+if [ $DOANALYSISPP_MCSTUDY_FINE -eq 1 ]; then      
+g++ MCefficiency.C $(root-config --cflags --libs) -g -o MCefficiency.exe
+./MCefficiency.exe  0 "$INPUTMCPP"  "$SELGENPP" "$SELGENPPACCPP"  "$RECOONLYPP" "$CUTPP&&$TRGPPMC"  "ppFine" "$OUTPUTFILEMCSTUDYPP_FINE" "$ISDOWEIGHTPP" "$CENTPbPbMIN" "$CENTPbPbMAX"
+rm MCefficiency.exe
+fi
+
+if [ $DOANALYSISPP_EFFFIT -eq 1 ]; then
+g++ EfficiencyFit.C $(root-config --cflags --libs) -g -o EfficiencyFit.exe
+./EfficiencyFit.exe  "$OUTPUTFILEMCSTUDYPP_FINE" "PP_Fine"
+rm EfficiencyFit.exe
+fi
+
+OUTPUTFILEMCSTUDYPbPb_FINE_HIBIN0to20="ROOTfiles/MCstudiesPbPb_Fine_hiBin0to20.root"
+OUTPUTFILEMCSTUDYPbPb_FINE_HIBIN20to60="ROOTfiles/MCstudiesPbPb_Fine_hiBin20to60.root"
+OUTPUTFILEMCSTUDYPbPb_FINE_HIBIN60to100="ROOTfiles/MCstudiesPbPb_Fine_hiBin60to100.root"
+OUTPUTFILEMCSTUDYPbPb_FINE_HIBIN100to200="ROOTfiles/MCstudiesPbPb_Fine_hiBin100to200.root"
+if [ $DOANALYSISPbPb_MCSTUDY_FINE_HIBIN -eq 1 ]; then      
+g++ MCefficiency.C $(root-config --cflags --libs) -g -o MCefficiency.exe
+CentSel="hiBin>=0&&hiBin<20"
+./MCefficiency.exe 1 "$INPUTMCPbPb"  "$SELGENPbPb&&$CentSel" "$SELGENPbPbACCPbPb&&$CentSel"  "$RECOONLYPbPb&&$CentSel" "$CUTPbPb&&$TRGPbPbMC&&$CentSel"  "PbPbFine_hiBin0to20" "$OUTPUTFILEMCSTUDYPbPb_FINE_HIBIN0to20" "$ISDOWEIGHTPbPb" "$CENTPbPbMIN" "$CENTPbPbMAX"
+CentSel="hiBin>=20&&hiBin<60"
+./MCefficiency.exe 1 "$INPUTMCPbPb"  "$SELGENPbPb&&$CentSel" "$SELGENPbPbACCPbPb&&$CentSel"  "$RECOONLYPbPb&&$CentSel" "$CUTPbPb&&$TRGPbPbMC&&$CentSel"  "PbPbFine_hiBin20to60" "$OUTPUTFILEMCSTUDYPbPb_FINE_HIBIN20to60" "$ISDOWEIGHTPbPb" "$CENTPbPbMIN" "$CENTPbPbMAX"
+CentSel="hiBin>=60&&hiBin<100"
+./MCefficiency.exe 1 "$INPUTMCPbPb"  "$SELGENPbPb&&$CentSel" "$SELGENPbPbACCPbPb&&$CentSel"  "$RECOONLYPbPb&&$CentSel" "$CUTPbPb&&$TRGPbPbMC&&$CentSel"  "PbPbFine_hiBin60to100" "$OUTPUTFILEMCSTUDYPbPb_FINE_HIBIN60to100" "$ISDOWEIGHTPbPb" "$CENTPbPbMIN" "$CENTPbPbMAX"
+CentSel="hiBin>=100&&hiBin<=200"
+./MCefficiency.exe 1 "$INPUTMCPbPb"  "$SELGENPbPb&&$CentSel" "$SELGENPbPbACCPbPb&&$CentSel"  "$RECOONLYPbPb&&$CentSel" "$CUTPbPb&&$TRGPbPbMC&&$CentSel"  "PbPbFine_hiBin100to200" "$OUTPUTFILEMCSTUDYPbPb_FINE_HIBIN100to200" "$ISDOWEIGHTPbPb" "$CENTPbPbMIN" "$CENTPbPbMAX"
+rm MCefficiency.exe
+fi
+
+if [ $DOANALYSISPbPb_EFFFIT -eq 1 ]; then
+g++ EfficiencyFit.C $(root-config --cflags --libs) -g -o EfficiencyFit.exe
+./EfficiencyFit.exe  "$OUTPUTFILEMCSTUDYPbPb_FINE_HIBIN0to20" "PbPb_Fine_HIBIN0to20"
+./EfficiencyFit.exe  "$OUTPUTFILEMCSTUDYPbPb_FINE_HIBIN20to60" "PbPb_Fine_HIBIN20to60"
+./EfficiencyFit.exe  "$OUTPUTFILEMCSTUDYPbPb_FINE_HIBIN60to100" "PbPb_Fine_HIBIN60to100"
+./EfficiencyFit.exe  "$OUTPUTFILEMCSTUDYPbPb_FINE_HIBIN100to200" "PbPb_Fine_HIBIN100to200"
+rm EfficiencyFit.exe
+fi
+
+OUTPUTFILEPP_INC_EFFCOR="ROOTfiles/hPtSpectrumBplusPP_INC_EFFCOR.root"
+if [ $DOANALYSISPP_FIT_INC_EFFCOR -eq 1 ]; then      
+g++ fitB.C $(root-config --cflags --libs) -g -o fitB.exe 
+./fitB.exe 0 "$INPUTDATAPP"  "$INPUTMCPP"  "$TRGPP" "$CUTPP"   "$SELGENPP"   "$ISMCPP"   1   "$ISDOWEIGHTPP"   "ppInc"  "$OUTPUTFILEPP_INC_EFFCOR" "$NPFIT_PP" 1
+rm fitB.exe
+fi 
+
+OUTPUTFILEPbPb_CENT_EFFCOR="ROOTfiles/hPtSpectrumBplusPbPb_CENT_EFFCOR.root"
+if [ $DOANALYSISPbPb_FIT_CENT_EFFCOR -eq 1 ]; then
+g++ fitBCent.C $(root-config --cflags --libs) -g -o fitBCent.exe
+./fitBCent.exe 1 "$INPUTDATAPbPb"  "$INPUTMCPbPb"  "$TRGPbPb" "$CUTPbPb&&Bpt>10"   "$SELGENPbPb"   "$ISMCPbPb"   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$OUTPUTFILEPbPb_CENT_EFFCOR" "$NPFIT_PbPb" 1
+rm fitBCent.exe
+fi
+
+OUTPUTFILERAA_CENT_EFFCOR="ROOTfiles/outputRAA_CENT_EFFCOR.root"
+if [ $DORAA_CENT_EFFCOR -eq 1 ]; then
+g++ NuclearModificationFactorCent.C $(root-config --cflags --libs) -g -o NuclearModificationFactorCent.exe
+./NuclearModificationFactorCent.exe "$OUTPUTFILEPP_INC_EFFCOR" "$OUTPUTFILEPbPb_CENT_EFFCOR" "$OUTPUTFILEMCSTUDYPP_INC" "$OUTPUTFILEMCSTUDYPbPb_CENT" "$LABELPbPb" "$OUTPUTFILERAA_CENT_EFFCOR" 1 "$LUMIPP" "$NMBEVT" "$CENTPbPbMIN" "$CENTPbPbMAX"
+rm NuclearModificationFactorCent.exe
+fi
+
+###pp fit EFFCOR test
+OUTPUTFILEPP_EFFCOR="ROOTfiles/hPtSpectrumBplusPP_EFFCOR.root"
+if [ $DOANALYSISPP_FIT_EFFCOR -eq 1 ]; then      
+g++ fitB.C $(root-config --cflags --libs) -g -o fitB.exe 
+./fitB.exe 0 "$INPUTDATAPP"  "$INPUTMCPP"  "$TRGPP" "$CUTPP"   "$SELGENPP"   "$ISMCPP"   1   "$ISDOWEIGHTPP"   "$LABELPP"  "$OUTPUTFILEPP_EFFCOR" "$NPFIT_PP" 1
+rm fitB.exe
+fi 
+
+OUTPUTFILEPlotPP_EFFCOR="ROOTfiles/CrossSectionPP_EFFCOR.root"
+if [ $DOANALYSISPP_CROSS_EFFCOR -eq 1 ]; then      
+g++ CrossSectionRatio.C $(root-config --cflags --libs) -g -o CrossSectionRatio.exe 
+./CrossSectionRatio.exe "$FONLLOUTPUTFILE"  "$OUTPUTFILEPP_EFFCOR" "$OUTPUTFILEMCSTUDYPP" "$OUTPUTFILEPlotPP_EFFCOR" 0 "$LABELPP" 1 "$LUMIPP"
+rm CrossSectionRatio.exe
+fi
 
 #MEAN COMPARISON
 
 if [ $DOCOMPARE -eq 1 ]; then
 g++ fitB.C $(root-config --cflags --libs) -g -o fitB.exe 
-./fitB.exe 1 "$INPUTDATAPbPb"  "$INPUTMCPbPb"  "$TRGPbPb" "$CUTPbPb"   "$SELGENPbPb"   0   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$OUTPUTFILEPbPbDATA" "$NPFIT_PbPb" "$CENTPbPbMIN" "$CENTPbPbMAX"
+./fitB.exe 1 "$INPUTDATAPbPb"  "$INPUTMCPbPb"  "$TRGPbPb" "$CUTPbPb"   "$SELGENPbPb"   0   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$OUTPUTFILEPbPbDATA" "$NPFIT_PbPb" "$CENTPbPbMIN" "$CENTPbPbMAX" 0
 rm fitB.exe
 
 g++ fitB.C $(root-config --cflags --libs) -g -o fitB.exe 
-./fitB.exe 1 "$INPUTMCPbPb"  "$INPUTMCPbPb"  "$TRGPbPbMC" "$CUTPbPb"   "$SELGENPbPb"   1   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$OUTPUTFILEPbPbMC" "$NPFIT_PbPb" "$CENTPbPbMIN" "$CENTPbPbMAX"
+./fitB.exe 1 "$INPUTMCPbPb"  "$INPUTMCPbPb"  "$TRGPbPbMC" "$CUTPbPb"   "$SELGENPbPb"   1   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$OUTPUTFILEPbPbMC" "$NPFIT_PbPb" "$CENTPbPbMIN" "$CENTPbPbMAX" 0
 rm fitB.exe
 
 g++ fitB.C $(root-config --cflags --libs) -g -o fitB.exe 
-./fitB.exe 0 "$INPUTDATAPP"  "$INPUTMCPP"  "$TRGPP" "$CUTPP"   "$SELGENPP"   0   1   "$ISDOWEIGHTPP"   "$LABELPP"  "$OUTPUTFILEPPDATA" "$NPFIT_PP"
+./fitB.exe 0 "$INPUTDATAPP"  "$INPUTMCPP"  "$TRGPP" "$CUTPP"   "$SELGENPP"   0   1   "$ISDOWEIGHTPP"   "$LABELPP"  "$OUTPUTFILEPPDATA" "$NPFIT_PP" 0
 rm fitB.exe
 
 g++ fitB.C $(root-config --cflags --libs) -g -o fitB.exe 
-./fitB.exe 0 "$INPUTMCPP"  "$INPUTMCPP"  "$TRGPPMC" "$CUTPP"   "$SELGENPP"   1   1   "$ISDOWEIGHTPP"   "$LABELPP"  "$OUTPUTFILEPPMC" "$NPFIT_PP"
+./fitB.exe 0 "$INPUTMCPP"  "$INPUTMCPP"  "$TRGPPMC" "$CUTPP"   "$SELGENPP"   1   1   "$ISDOWEIGHTPP"   "$LABELPP"  "$OUTPUTFILEPPMC" "$NPFIT_PP" 0
 rm fitB.exe
 
 g++ comparison.C $(root-config --cflags --libs) -g -o comparison.exe 

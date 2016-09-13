@@ -194,16 +194,19 @@ void weightPPFONLLpthat(int minfit=2,int maxfit=100,TString pthat="pthatall")
 
 void weightPbPbCentrality(){
 
-TFile*fMC=new TFile("/data/HeavyFlavourRun2/MC2015/Bntuple/PbPb/Bntuple20160606_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root");
-//TFile*fMC=new TFile("/data/HeavyFlavourRun2/MC2015/Bntuple/PbPb/Bntuple20160816_Bpt7svpv5p5Bpt10svpv3p5_BfinderMC_PbPb_Pythia8_BuToJpsiK_TuneCUEP8M1_20160816_bPt5jpsiPt0tkPt0p8_Bp_pthatweight_JingBDT.root");
+//TFile*fMC=new TFile("/data/HeavyFlavourRun2/MC2015/Bntuple/PbPb/Bntuple20160606_Pythia8_BuToJpsiK_Bpt5p0_Pthat5.root");
+TFile*fMC=new TFile("/data/HeavyFlavourRun2/MC2015/Bntuple/PbPb/Bntuple20160816_Bpt7svpv5p5Bpt10svpv3p5_BfinderMC_PbPb_Pythia8_BuToJpsiK_TuneCUEP8M1_20160816_bPt5jpsiPt0tkPt0p8_Bp_pthatweight_JingBDT.root");
+//TFile*fMC=new TFile("/data/HeavyFlavourRun2/MC2015/Bntuple/PbPb/Bntuple20160816_Bpt7svpv5p5Bpt10svpv3p5_BfinderMC_PbPb_Pythia8_BuToJpsiK_Bpt0_Pthat5_TuneCUEP8M1_20160816_bPt5jpsiPt0tkPt0p8_Bp_JingBDT.root");
 TTree *ntDkpiMC = (TTree*)fMC->Get("ntKp");
 TTree *ntSkimMC = (TTree*)fMC->Get("ntSkim");
 TTree *ntHiMC = (TTree*)fMC->Get("ntHi");
+TTree *ntHltMC = (TTree*)fMC->Get("ntHlt");
 ntDkpiMC->AddFriend(ntSkimMC);
 ntDkpiMC->AddFriend(ntHiMC);
+ntDkpiMC->AddFriend(ntHltMC);
 
-TFile*fData=new TFile("/data/HeavyFlavourRun2/Data2015/Bntuple/Bntuple20160610_crab_BfinderData_PbPb_20160607_bPt5jpsiPt0tkPt0p8_Bp.root");
-//TFile*fData=new TFile("/data/HeavyFlavourRun2/Data2015/Bntuple/Bntuple20160816_Bpt7svpv5p5Bpt10svpv3p5_BfinderData_PbPb_20160816_bPt5jpsiPt0tkPt0p8_Bp_JingBDT.root");
+//TFile*fData=new TFile("/data/HeavyFlavourRun2/Data2015/Bntuple/Bntuple20160610_crab_BfinderData_PbPb_20160607_bPt5jpsiPt0tkPt0p8_Bp.root");
+TFile*fData=new TFile("/data/HeavyFlavourRun2/Data2015/Bntuple/Bntuple20160816_Bpt7svpv5p5Bpt10svpv3p5_BfinderData_PbPb_20160816_bPt5jpsiPt0tkPt0p8_Bp_JingBDT.root");
 TTree *ntDkpiData = (TTree*)fData->Get("ntKp");
 TTree *ntSkimData = (TTree*)fData->Get("ntSkim");
 TTree *ntHiData = (TTree*)fData->Get("ntHi");
@@ -221,7 +224,8 @@ TCut weighpthat="1";
 TString cut="abs(PVz)<15&&pclusterCompatibilityFilter&&pprimaryVertexFilter&&phfCoincFilter3";
 TString hlt="(HLT_HIL1DoubleMu0_v1 || HLT_HIL1DoubleMu0_part1_v1 || HLT_HIL1DoubleMu0_part2_v1 || HLT_HIL1DoubleMu0_part3_v1)";
 
-ntDkpiMC->Project("hCenMC","hiBin",TCut(weighpthat)*(TCut(cut.Data())));
+//ntDkpiMC->Project("hCenMC","hiBin",TCut(weighpthat)*(TCut(cut.Data())));
+ntDkpiMC->Project("hCenMC","hiBin",TCut(weighpthat)*TCut(cut.Data())*TCut(hlt.Data()));
 ntDkpiData->Project("hCenData","hiBin",(TCut(cut.Data())*TCut(hlt.Data())));
 
 hCenMC->Scale(1./hCenMC->Integral(hCenMC->FindBin(0.),hCenMC->FindBin(200)));

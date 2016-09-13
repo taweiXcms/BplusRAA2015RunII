@@ -15,12 +15,26 @@ Double_t binwidthmass=(maxhisto-minhisto)/nbinsmasshisto;
 
 TString weightfunctiongen = "1";
 TString weightfunctionreco = "1";
-
 Float_t hiBinMin,hiBinMax,centMin,centMax;
+
+int _nBins = nBins;
+double *_ptBins = ptBins;
 
 void MCefficiency(int isPbPb=0,TString inputmc="/data/wangj/MC2015/Dntuple/pp/revised/ntD_pp_Dzero_kpi_prompt/ntD_EvtBase_20160303_Dfinder_20160302_pp_Pythia8_prompt_D0_dPt0tkPt0p5_pthatweight.root", TString selmcgen="((GisSignal==1||GisSignal==2)&&(Gy>-1&&Gy<1))",TString selmcgenacceptance="((GisSignal==1||GisSignal==2)&&(Gy>-1&&Gy<1))&&abs(Gtk1eta)<2.0&&abs(Gtk2eta)<2.0&&Gtk1pt>2.0&&Gtk2pt>2.0", TString cut_recoonly="Dy>-1.&&Dy<1.&&Dtrk1highPurity&&Dtrk2highPurity&&Dtrk1Pt>2.0&&Dtrk2Pt>2.0&&Dtrk1PtErr/Dtrk1Pt<0.1&&Dtrk2PtErr/Dtrk2Pt<0.1&&abs(Dtrk1Eta)<2.0&&abs(Dtrk2Eta)<2.0&&Dtrk1Algo>3&&Dtrk1Algo<8&&(Dtrk1PixelHit+Dtrk1StripHit)>=11", TString cut="Dy>-1.&&Dy<1.&&Dtrk1highPurity&&Dtrk2highPurity&&Dtrk1Pt>2.0&&Dtrk2Pt>2.0&&(DsvpvDistance/DsvpvDisErr)>3.5&&(DlxyBS/DlxyBSErr)>1.5&&Dchi2cl>0.05&&Dalpha<0.12&&Dtrk1PtErr/Dtrk1Pt<0.1&&Dtrk2PtErr/Dtrk2Pt<0.1&&abs(Dtrk1Eta)<2.0&&abs(Dtrk2Eta)<2.0&&Dtrk1Algo>3&&Dtrk1Algo<8&&Dtrk2Algo>3&&Dtrk2Algo<8&&(Dtrk1PixelHit+Dtrk1StripHit)>=11&&(Dtrk1Chi2ndf/(Dtrk1nStripLayer+Dtrk1nPixelLayer)<0.15)&&(Dtrk2Chi2ndf/(Dtrk2nStripLayer+Dtrk2nPixelLayer)<0.15)",TString label="PP",TString outputfile="test", int useweight=1,Float_t centmin=0., Float_t centmax=100.)
 { 
- 
+  if(label=="ppInc"){
+    _nBins = nBinsInc;
+    _ptBins = ptBinsInc;
+  }
+  
+  std::string str = label.Data();
+  std::size_t found = str.find("Fine");
+  //if(label=="ppFine"||label=="PbPbFine"){
+  if (found!=std::string::npos){
+    _nBins = nBinsFine;
+    _ptBins = ptBinsFine;
+  }
+
   hiBinMin = centmin*2;
   hiBinMax = centmax*2;
   centMin = centmin;
@@ -88,11 +102,11 @@ void MCefficiency(int isPbPb=0,TString inputmc="/data/wangj/MC2015/Dntuple/pp/re
 
   std::cout<<"fit function parameters="<<weightfunctiongen<<std::endl;
 
-  TH1D* hPtMC = new TH1D("hPtMC","",nBins,ptBins);
-  TH1D* hPtMCrecoonly = new TH1D("hPtMCrecoonly","",nBins,ptBins);
-  TH1D* hPtGen = new TH1D("hPtGen","",nBins,ptBins);
-  TH1D* hPtGenAcc = new TH1D("hPtGenAcc","",nBins,ptBins);
-  TH1D* hPtGenAccWeighted = new TH1D("hPtGenAccWeighted","",nBins,ptBins);
+  TH1D* hPtMC = new TH1D("hPtMC","",_nBins,_ptBins);
+  TH1D* hPtMCrecoonly = new TH1D("hPtMCrecoonly","",_nBins,_ptBins);
+  TH1D* hPtGen = new TH1D("hPtGen","",_nBins,_ptBins);
+  TH1D* hPtGenAcc = new TH1D("hPtGenAcc","",_nBins,_ptBins);
+  TH1D* hPtGenAccWeighted = new TH1D("hPtGenAccWeighted","",_nBins,_ptBins);
   TH1D* hPthat = new TH1D("hPthat","",100,0,500);
   TH1D* hPthatweight = new TH1D("hPthatweight","",100,0,500);
 
@@ -136,7 +150,7 @@ void MCefficiency(int isPbPb=0,TString inputmc="/data/wangj/MC2015/Dntuple/pp/re
   //hEff->Divide(hPtMC,hPtGen,1,1,"");
   hEff->Multiply(hEff,hEffAcc,1,1);
 
-  TH2F* hemptyEff=new TH2F("hemptyEff","",50,ptBins[0]-5.,ptBins[nBins]+5.,10.,0,1.0);  
+  TH2F* hemptyEff=new TH2F("hemptyEff","",50,_ptBins[0]-5.,_ptBins[_nBins]+5.,10.,0,1.0);  
   hemptyEff->GetXaxis()->CenterTitle();
   hemptyEff->GetYaxis()->CenterTitle();
   //hemptyEff->GetYaxis()->SetTitle("acceptance x #epsilon_{reco} x #epsilon_{sel} ");
