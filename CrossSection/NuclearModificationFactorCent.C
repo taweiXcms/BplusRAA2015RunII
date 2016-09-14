@@ -168,12 +168,14 @@ void NuclearModificationFactorCent(TString inputPP="ROOTfiles/CrossSectionPP.roo
   //gNuclearModification->SetLineColor(1);//kGreen+4
   //gNuclearModification->SetMarkerColor(1);//kGreen+4
   gNuclearModification->SetLineColor(kOrange);//kGreen+4
-  gNuclearModification->SetMarkerColor(kOrange);//kGreen+4
+  //gNuclearModification->SetMarkerColor(kOrange);//kGreen+4
+  gNuclearModification->SetMarkerColor(kRed);//kGreen+4
   gNuclearModification->Draw("5same");
 
   hNuclearModification->SetLineWidth(3);
   hNuclearModification->SetLineColor(kRed);
   hNuclearModification->SetMarkerColor(kRed);
+  hNuclearModification->SetMarkerStyle(21);
   //hNuclearModification->Draw("same");
   hNuclearModification->Draw("same p");
 

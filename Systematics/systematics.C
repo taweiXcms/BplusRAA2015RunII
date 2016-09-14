@@ -11,8 +11,9 @@
 // Yen-Jie: systematics table for B meson
 // Unit: In percentage
 const int nPtBins=1;
-//double PtBins[nPtBins+1] = {7.,10.};
 double PtBins[nPtBins+1] = {7.,50.+1};//add a margin so that "FindBin" can work at the bin end
+const int AnaBins=5;
+double AnaPtBins[nBins+1] = {7.,10.,15.,20.,30,50+1};
 
 const int nCentBins=4;
 double CentBins[nCentBins+1] = {0.,10.,30.,50.,100.};
@@ -82,8 +83,12 @@ void initializationPP()
    ppMesonSelection = new TH1D("ppMesonSelection","",nPtBins,PtBins);
    ppMesonSelection->SetBinContent(1,		2.7);
 
-   ppSignalExtraction = new TH1D("ppSignalExtraction","",nPtBins,PtBins);
-   ppSignalExtraction->SetBinContent(1,		2.9);
+   ppSignalExtraction = new TH1D("ppSignalExtraction","",AnaBins,AnaPtBins);
+   ppSignalExtraction->SetBinContent(1,		1.0);
+   ppSignalExtraction->SetBinContent(2,		2.2);
+   ppSignalExtraction->SetBinContent(3,		2.0);
+   ppSignalExtraction->SetBinContent(4,		1.8);
+   ppSignalExtraction->SetBinContent(5,		1.8);
 
    ppTagAndProbe = new TH1D("ppTagAndProbe","",nPtBins,PtBins);
    ppTagAndProbe->SetBinContent(1,		10.0);
@@ -97,8 +102,12 @@ void initializationPbPbCent0100()
    PbPbMesonSelection = new TH1D("PbPbMesonSelection","",nPtBins,PtBins);
    PbPbMesonSelection->SetBinContent(1,		8.7);
 
-   PbPbSignalExtraction = new TH1D("PbPbSignalExtraction","",nPtBins,PtBins);
-   PbPbSignalExtraction->SetBinContent(1,	2.6);
+   PbPbSignalExtraction = new TH1D("PbPbSignalExtraction","",AnaBins,AnaPtBins);
+   PbPbSignalExtraction->SetBinContent(1,	8.7);
+   PbPbSignalExtraction->SetBinContent(2,	9.1);
+   PbPbSignalExtraction->SetBinContent(3,	5.7);
+   PbPbSignalExtraction->SetBinContent(4,	4.5);
+   PbPbSignalExtraction->SetBinContent(5,	4.0);
 
    PbPbTagAndProbe = new TH1D("PbPbTagAndProbe","",nPtBins,PtBins);
    PbPbTagAndProbe->SetBinContent(1,		13.0);

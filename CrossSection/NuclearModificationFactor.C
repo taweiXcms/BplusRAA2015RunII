@@ -2,19 +2,32 @@
 #include "parameters.h"
 #include "TLegendEntry.h"
 #include "../Systematics/systematics.C"
+#include "ChargedHad/RAA_0_10.C"
+#include "ChargedHad/RAA_0_100.C"
+#include "theoryPrediction/drawTheory.h"
 #include "Draw_DRAA.h"
 
-//bool drawDRAA = true;
 bool drawDRAA = false;
+bool drawChHad = false;
+bool drawThm = false;
 
 void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", TString inputPbPb="ROOTfiles/CrossSectionPbPb.root",TString label="PbPb",TString outputfile="RAAfile.root", Float_t centMin=0., Float_t centMax=100.)
 {
+//  drawDRAA = true;
+//  drawChHad = true;
+  drawThm = true;
+
   float pti = ptBins[0]-2.;
   float pte = ptBins[nBins]+5.;
   if(drawDRAA){
     pti = 1;
-    pte = 150.;
+    pte = 400.;
   }
+  if(drawThm){
+    pti = 5;
+    pte = 110.;
+  }
+
 
   gStyle->SetOptTitle(0);
   gStyle->SetOptStat(0);
@@ -96,13 +109,15 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
   //gNuclearModification->SetLineColor(1);//kGreen+4
   //gNuclearModification->SetMarkerColor(1);//kGreen+4
   gNuclearModification->SetLineColor(kOrange);//kGreen+4
-  gNuclearModification->SetMarkerColor(kOrange);//kGreen+4
-  gNuclearModification->Draw("5same");
+  //gNuclearModification->SetMarkerColor(kOrange);//kGreen+4
+  gNuclearModification->SetMarkerColor(kRed);//kGreen+4
+  //gNuclearModification->Draw("5same");
 
   hNuclearModification->SetLineWidth(3);
   hNuclearModification->SetLineColor(kRed);
   hNuclearModification->SetMarkerColor(kRed);
-  hNuclearModification->Draw("same");
+  hNuclearModification->SetMarkerStyle(21);
+  //hNuclearModification->Draw("same");
 
   Float_t systnorm = normalizationUncertaintyForRAA()*1.e-2;
   TBox* bSystnorm = new TBox(pti,1-systnorm,pti+0.35,1+systnorm);
@@ -111,7 +126,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
   bSystnorm->SetFillColor(16);
   bSystnorm->Draw();
 
-  TLatex * tlatexeff2=new TLatex(0.41,0.58,"Centrality 0-100%");
+  TLatex * tlatexeff2=new TLatex(0.38,0.595,"Centrality 0-100%");
   tlatexeff2->SetNDC();
   tlatexeff2->SetTextColor(1);
   tlatexeff2->SetTextFont(42);
@@ -149,13 +164,14 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 
   //TLegend *legendSigma=new TLegend(0.40,0.5168644,0.8084677,0.6605932,"");
   TLegend *legendSigma=new TLegend(0.5436242,0.7474695,0.942953,0.8457592,"");
-  if(drawDRAA)legendSigma=new TLegend(0.5436242,0.6774695,0.942953,0.8757592,"");
+  if(drawDRAA)legendSigma=new TLegend(0.4236242,0.6774695,0.812953,0.8757592,"");
+  if(drawThm)legendSigma=new TLegend(0.5436242,0.6774695,0.922953,0.8757592,"");
   legendSigma->SetBorderSize(0);
   legendSigma->SetLineColor(0);
   legendSigma->SetFillColor(0);
   legendSigma->SetFillStyle(1001);
   legendSigma->SetTextFont(42);
-  legendSigma->SetTextSize(0.045);
+  legendSigma->SetTextSize(0.04);
 
 //  TLegendEntry *ent_SigmaPP=legendSigma->AddEntry(hNuclearModification,"R_{AA} stat. unc.","pf");
 //  ent_SigmaPP->SetTextFont(42);
@@ -173,7 +189,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
   ent_B->SetTextFont(42);
   ent_B->SetLineColor(4);
   ent_B->SetMarkerColor(4);
-  ent_B->SetTextSize(0.043);//0.03
+  ent_B->SetTextSize(0.038);//0.03
 
   TLatex* texSystnorm = new TLatex(0.23,0.70,"T_{AA} and lumi.");
   if(drawDRAA) texSystnorm = new TLatex(0.17,0.70,"T_{AA} and lumi.");
@@ -192,30 +208,73 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
   texSystnorm->SetLineWidth(2);
   texSystnorm->Draw();
 
+  if(drawChHad){
+    RAA_0_100();
+  }
+
   if(drawDRAA){
     TGraphAsymmErrors* gDNuclearModification = new TGraphAsymmErrors();
     Draw_DRAA(canvasRAA, gDNuclearModification);
     gDNuclearModification->SetFillColor(kYellow-9);
+    //gDNuclearModification->SetFillColor(5);
     TLegendEntry *ent_Dhighpt = legendSigma->AddEntry(gDNuclearModification,"R_{AA} D^{0} |y| < 1.0","pf");
     ent_Dhighpt->SetTextFont(42);
-    ent_Dhighpt->SetLineColor(4);
+//    ent_Dhighpt->SetLineColor(4);
     ent_Dhighpt->SetMarkerColor(4);
-    ent_Dhighpt->SetTextSize(0.043);//0.03
+    ent_Dhighpt->SetTextSize(0.038);//0.03
   }
+
+  if(drawChHad){
+    TGraphAsymmErrors* gChHadDummy = new TGraphAsymmErrors();
+    gChHadDummy->SetFillColor(TColor::GetColor("#ffcc00"));
+    gChHadDummy->SetMarkerColor(kRed);
+    TLegendEntry *ent_ChHad = legendSigma->AddEntry(gChHadDummy,"R_{AA} charged hadrons |y| < 1.0","pf");
+    ent_ChHad->SetTextFont(42);
+    ent_ChHad->SetLineColor(4);
+    ent_ChHad->SetMarkerColor(4);
+    ent_ChHad->SetTextSize(0.038);//0.03
+  }
+  if(drawThm){
+    plotTheory();
+    TGraphAsymmErrors* gThmDummy1 = new TGraphAsymmErrors();
+    TGraphAsymmErrors* gThmDummy2 = new TGraphAsymmErrors();
+    TGraphAsymmErrors* gThmDummy3 = new TGraphAsymmErrors();
+    gThmDummy1->SetLineColor(kGreen+4);
+    gThmDummy2->SetLineColor(kViolet-6);
+    gThmDummy3->SetLineColor(4);
+    gThmDummy1->SetLineWidth(4.5);
+    gThmDummy2->SetLineWidth(4.5);
+    gThmDummy3->SetLineWidth(4.5);
+    TLegendEntry *ent_thm1 = legendSigma->AddEntry(gThmDummy1,"M. Djordjevic et al.","l");
+    TLegendEntry *ent_thm2 = legendSigma->AddEntry(gThmDummy2,"M. He et al.","l");
+    TLegendEntry *ent_thm3 = legendSigma->AddEntry(gThmDummy3,"CUJET3.0 0-20%","l");
+    ent_thm1->SetTextSize(0.038);//0.03
+    ent_thm2->SetTextSize(0.038);//0.03
+    ent_thm3->SetTextSize(0.038);//0.03
+  }
+
+  gNuclearModification->Draw("5same");
+  hNuclearModification->Draw("same");
 
   legendSigma->Draw();
 
   canvasRAA->Update();
   canvasRAA->RedrawAxis();
 
-  if(!drawDRAA){
-    canvasRAA->SaveAs(Form("plotRAA/canvasRAA%s_%.0f_%.0f.pdf",label.Data(),centMin,centMax));
-    canvasRAA->SaveAs(Form("plotRAA/canvasRAA%s_%.0f_%.0f.png",label.Data(),centMin,centMax));
-  }
+  TString AddOn = "";
   if(drawDRAA){
-    canvasRAA->SaveAs(Form("plotRAA/canvasRAA_DRAA_%s_%.0f_%.0f.pdf",label.Data(),centMin,centMax));
-    canvasRAA->SaveAs(Form("plotRAA/canvasRAA_DRAA_%s_%.0f_%.0f.png",label.Data(),centMin,centMax));
+    AddOn = AddOn += "_DRAA";
   }
+  if(drawChHad){
+    AddOn = AddOn += "_ChHadRAA";
+  }
+  if(drawThm){
+    AddOn = AddOn += "_ThmRAA";
+  }
+
+
+  canvasRAA->SaveAs(Form("plotRAA/canvasRAA%s_%.0f_%.0f%s.pdf",label.Data(),centMin,centMax,AddOn.Data()));
+  canvasRAA->SaveAs(Form("plotRAA/canvasRAA%s_%.0f_%.0f%s.png",label.Data(),centMin,centMax,AddOn.Data()));
   TFile *fRAA=new TFile(outputfile.Data(),"recreate");
   fRAA->cd();
   gNuclearModification->Write();

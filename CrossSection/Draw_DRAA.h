@@ -1,5 +1,8 @@
 void Draw_DRAA(TCanvas*c, TGraphAsymmErrors *grae)
 {
+c->SetHighLightColor(2);
+
+
    c->cd();
    Double_t gNuclearModification_fx3001[5] = {
    22.5,
@@ -193,6 +196,7 @@ void Draw_DRAA(TCanvas*c, TGraphAsymmErrors *grae)
    hNuclearModification2->GetZaxis()->SetLabelSize(0.035);
    hNuclearModification2->GetZaxis()->SetTitleSize(0.035);
    hNuclearModification2->GetZaxis()->SetTitleFont(42);
+   hNuclearModification2->SetLineColor(1);
    hNuclearModification2->Draw("psame");
 
    Double_t xAxis2[10] = {2, 3, 4, 5, 6, 8, 10, 12.5, 15, 20}; 
@@ -233,5 +237,6 @@ void Draw_DRAA(TCanvas*c, TGraphAsymmErrors *grae)
    hNuclearModification3->GetZaxis()->SetLabelSize(0.035);
    hNuclearModification3->GetZaxis()->SetTitleSize(0.035);
    hNuclearModification3->GetZaxis()->SetTitleFont(42);
+   hNuclearModification3->SetLineColor(1);
    hNuclearModification3->Draw("psame");
 }
