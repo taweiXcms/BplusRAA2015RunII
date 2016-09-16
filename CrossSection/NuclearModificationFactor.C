@@ -100,24 +100,25 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
   line->SetLineWidth(2);
   line->Draw();
 
-  //gNuclearModification->SetFillColor(5);//1
-  gNuclearModification->SetFillColor(kOrange);//1
+  //gNuclearModification->SetFillColor(kOrange);//1
+  //gNuclearModification->SetFillColor(kPink+7);//1
+  gNuclearModification->SetFillColor(kAzure+7);//1
   gNuclearModification->SetFillStyle(3001);//0
   gNuclearModification->SetLineWidth(1);//3
   gNuclearModification->SetMarkerSize(1);
   gNuclearModification->SetMarkerStyle(21);
-  //gNuclearModification->SetLineColor(1);//kGreen+4
-  //gNuclearModification->SetMarkerColor(1);//kGreen+4
-  gNuclearModification->SetLineColor(kOrange);//kGreen+4
-  //gNuclearModification->SetMarkerColor(kOrange);//kGreen+4
-  gNuclearModification->SetMarkerColor(kRed);//kGreen+4
-  //gNuclearModification->Draw("5same");
+  //gNuclearModification->SetLineColor(kOrange);//kGreen+4
+  //gNuclearModification->SetMarkerColor(kRed);//kGreen+4
+  gNuclearModification->SetLineColor(kAzure+7);//kGreen+4
+  gNuclearModification->SetMarkerColor(kViolet+3);//kGreen+4
 
   hNuclearModification->SetLineWidth(3);
-  hNuclearModification->SetLineColor(kRed);
-  hNuclearModification->SetMarkerColor(kRed);
+  //hNuclearModification->SetLineColor(kRed);
+  //hNuclearModification->SetMarkerColor(kRed);
+  //hNuclearModification->SetLineColor(kTeal+7);
+    hNuclearModification->SetLineColor(kViolet+3);
+  hNuclearModification->SetMarkerColor(kViolet+3);
   hNuclearModification->SetMarkerStyle(21);
-  //hNuclearModification->Draw("same");
 
   Float_t systnorm = normalizationUncertaintyForRAA()*1.e-2;
   TBox* bSystnorm = new TBox(pti,1-systnorm,pti+0.35,1+systnorm);
@@ -140,7 +141,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
   texY->SetLineWidth(2);
   //texY->Draw();
 
-  TLatex* texlumi = new TLatex(0.13,0.936,"27.7 pb^{-1} (5.02 TeV pp) + 350.68 #mub^{-1} (5.02 TeV PbPb)");
+  TLatex* texlumi = new TLatex(0.13,0.936,"25.8 pb^{-1} (5.02 TeV pp) + 350.68 #mub^{-1} (5.02 TeV PbPb)");
   texlumi->SetNDC();
   //texlumi->SetTextAlign(31);
   texlumi->SetTextFont(42);
@@ -240,7 +241,8 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
     TGraphAsymmErrors* gThmDummy2 = new TGraphAsymmErrors();
     TGraphAsymmErrors* gThmDummy3 = new TGraphAsymmErrors();
     gThmDummy1->SetLineColor(kGreen+4);
-    gThmDummy2->SetLineColor(kViolet-6);
+    //gThmDummy2->SetLineColor(kViolet-6);
+    gThmDummy2->SetLineColor(kOrange+8);
     gThmDummy3->SetLineColor(4);
     gThmDummy1->SetLineWidth(4.5);
     gThmDummy2->SetLineWidth(4.5);

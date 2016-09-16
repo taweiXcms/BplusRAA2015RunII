@@ -150,7 +150,7 @@ void MCefficiency(int isPbPb=0,TString inputmc="/data/wangj/MC2015/Dntuple/pp/re
   //hEff->Divide(hPtMC,hPtGen,1,1,"");
   hEff->Multiply(hEff,hEffAcc,1,1);
 
-  TH2F* hemptyEff=new TH2F("hemptyEff","",50,_ptBins[0]-5.,_ptBins[_nBins]+5.,10.,0,1.0);  
+  TH2F* hemptyEff=new TH2F("hemptyEff","",50,_ptBins[0]-5.,_ptBins[_nBins]+5.,10.,0,0.6);  
   hemptyEff->GetXaxis()->CenterTitle();
   hemptyEff->GetYaxis()->CenterTitle();
   //hemptyEff->GetYaxis()->SetTitle("acceptance x #epsilon_{reco} x #epsilon_{sel} ");
@@ -166,7 +166,7 @@ void MCefficiency(int isPbPb=0,TString inputmc="/data/wangj/MC2015/Dntuple/pp/re
   hemptyEff->GetYaxis()->SetLabelFont(42);
   hemptyEff->GetXaxis()->SetLabelSize(0.035);
   hemptyEff->GetYaxis()->SetLabelSize(0.035);  
-  hemptyEff->SetMaximum(2);
+  hemptyEff->SetMaximum(1.0);
   hemptyEff->SetMinimum(0.);
   hemptyEff->Draw();
 
@@ -202,7 +202,7 @@ void MCefficiency(int isPbPb=0,TString inputmc="/data/wangj/MC2015/Dntuple/pp/re
   hemptyPthat->GetYaxis()->SetLabelFont(42);
   hemptyPthat->GetXaxis()->SetLabelSize(0.035);
   hemptyPthat->GetYaxis()->SetLabelSize(0.035);  
-  hemptyPthat->SetMaximum(2);
+  hemptyPthat->SetMaximum(1.0);
   hemptyPthat->SetMinimum(0.);
 
 
@@ -261,7 +261,54 @@ void MCefficiency(int isPbPb=0,TString inputmc="/data/wangj/MC2015/Dntuple/pp/re
   ntGen->Project("hPtGen","Gpt",TCut(weightfunctiongen)*(TCut(selmcgen.Data())));
   ntGen->Project("hPtGenAcc","Gpt",TCut(weightfunctiongen)*(TCut(selmcgenacceptance.Data())));
 */  
+  TString text;
+  if (isPbPb) { text="350.68 #mub^{-1} (5.02 TeV PbPb)";}
+  else {text="25.8 pb^{-1} (5.02 TeV pp)";}
+  TLatex* texlumi = new TLatex(0.9,0.92,text.Data());
+  texlumi->SetNDC();
+  texlumi->SetTextAlign(31);
+  texlumi->SetTextFont(42);
+  texlumi->SetTextSize(0.038);
+  texlumi->SetLineWidth(2);
+
+  TString texper="%";
+  TLatex* texCent = new TLatex(0.5,0.815,Form("Centrality %.0f - %.0f%s",centMin,centMax,texper.Data()));
+  texCent->SetNDC();
+  texCent->SetTextFont(42);
+  texCent->SetTextSize(0.05);
+
+  TLatex* texY = new TLatex(0.5,0.750,"|y| < 2.4");
+  texY->SetNDC();
+  texY->SetTextFont(42);
+  texY->SetTextSize(0.05);
+  texY->SetLineWidth(2);
+
+  TLatex* texCms = new TLatex(0.08,0.95, "CMS Preliminary");
+  texCms->SetNDC();
+  texCms->SetTextAlign(13);
+  texCms->SetTextSize(0.038);
+  texCms->SetTextFont(62);
+
   TCanvas*canvas1D=new TCanvas("canvas1D","",600,600);
+  canvas1D->cd();
+  gPad->SetLogy(0);
+  //hemptyEff->SetYTitle("hPtMC / hPtGen");
+  hemptyEff->SetMaximum(0.6);
+  hemptyEff->SetYTitle("#alpha x #epsilon");
+  hemptyEff->GetXaxis()->SetTitle("p_{T} GeV^{-1}c)");
+  hemptyEff->Draw();
+  hEff->SetLineColor(2);
+  hEff->SetMarkerColor(2);
+  hEff->Draw("same");
+  if(isPbPb) texCent->Draw();
+  texY->Draw();
+  texCms->Draw();
+  texlumi->Draw();
+  canvas1D->SaveAs(Form("plotEff/canvas1DhEff_%s.pdf",Form(label.Data())));
+  canvas1D->SaveAs(Form("plotEff/canvas1DhEff_%s.C",Form(label.Data())));
+  canvas1D->Clear();
+
+  canvas1D=new TCanvas("canvas1D","",600,600);
   canvas1D->cd();
   gPad->SetLogy();
   hemptySpectra->SetYTitle("Entries of hPtMC");
@@ -299,15 +346,6 @@ void MCefficiency(int isPbPb=0,TString inputmc="/data/wangj/MC2015/Dntuple/pp/re
 
   canvas1D=new TCanvas("canvas1D","",600,600);
   canvas1D->cd();
-  gPad->SetLogy(0);
-  hemptyEff->SetYTitle("hPtMC / hPtGen");
-  hemptyEff->Draw(); 
-  hEff->Draw("same");
-  canvas1D->SaveAs(Form("plotEff/canvas1DhEff_%s.pdf",Form(label.Data())));
-  canvas1D->Clear();
-
-  canvas1D=new TCanvas("canvas1D","",600,600);
-  canvas1D->cd();
   hemptyEff->SetYTitle("hPtMCrecoonly / hPtGen");
   hemptyEff->Draw(); 
   hEffReco->Draw("same");
@@ -329,6 +367,7 @@ void MCefficiency(int isPbPb=0,TString inputmc="/data/wangj/MC2015/Dntuple/pp/re
   hEffSelection->Draw("same");
   canvas1D->SaveAs(Form("plotEff/canvas1DhEffSelection_%s.pdf",Form(label.Data())));
   canvas1D->Clear();
+
 
   gStyle->SetPalette(55);
   TCanvas* canvas2D=new TCanvas("canvas2D","",600,600);

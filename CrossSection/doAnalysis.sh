@@ -15,7 +15,7 @@ DOANALYSISPbPb_FITNP=0
 DOANALYSISPbPb_FIT=0
 DOANALYSISPbPb_MCSTUDY=0
 DOANALYSISPbPb_CROSS=0
-DORAA=0
+DORAA=1
 
 #CENTRALITY RAA
 DOANALYSISPP_FIT_INC=0
@@ -63,7 +63,9 @@ FONLLOUTPUTFILE="ROOTfiles/fonllOutput_pp_Bplus_5p03TeV_y2p4.root"
 OUTPUTFILERAA="ROOTfiles/outputRAA.root"
 
 LABELPP="pp"
-LUMIPP=27.45
+LUMIPP=25.57
+#25.8*0.991
+#LUMIPP=27.45
 #27.7*0.991
 ISMCPP=0
 ISDOWEIGHTPP=0
@@ -177,7 +179,7 @@ fi
 
 if [ $DOANALYSISPbPb_FIT -eq 1 ]; then      
 g++ fitB.C $(root-config --cflags --libs) -g -o fitB.exe 
-./fitB.exe 1 "$INPUTDATAPbPb"  "$INPUTMCPbPb"  "$TRGPbPb" "$CUTPbPb"   "$SELGENPbPb"   "$ISMCPbPb"   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$OUTPUTFILEPbPb" "$NPFIT_PbPb" "$CENTPbPbMIN" "$CENTPbPbMAX" 0
+./fitB.exe 1 "$INPUTDATAPbPb"  "$INPUTMCPbPb"  "$TRGPbPb" "$CUTPbPb"   "$SELGENPbPb"   "$ISMCPbPb"   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$OUTPUTFILEPbPb" "$NPFIT_PbPb" 0 "$CENTPbPbMIN" "$CENTPbPbMAX"
 rm fitB.exe
 fi 
 
@@ -315,11 +317,11 @@ fi
 
 if [ $DOCOMPARE -eq 1 ]; then
 g++ fitB.C $(root-config --cflags --libs) -g -o fitB.exe 
-./fitB.exe 1 "$INPUTDATAPbPb"  "$INPUTMCPbPb"  "$TRGPbPb" "$CUTPbPb"   "$SELGENPbPb"   0   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$OUTPUTFILEPbPbDATA" "$NPFIT_PbPb" "$CENTPbPbMIN" "$CENTPbPbMAX" 0
+./fitB.exe 1 "$INPUTDATAPbPb"  "$INPUTMCPbPb"  "$TRGPbPb" "$CUTPbPb"   "$SELGENPbPb"   0   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$OUTPUTFILEPbPbDATA" "$NPFIT_PbPb" 0 "$CENTPbPbMIN" "$CENTPbPbMAX"
 rm fitB.exe
 
 g++ fitB.C $(root-config --cflags --libs) -g -o fitB.exe 
-./fitB.exe 1 "$INPUTMCPbPb"  "$INPUTMCPbPb"  "$TRGPbPbMC" "$CUTPbPb"   "$SELGENPbPb"   1   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$OUTPUTFILEPbPbMC" "$NPFIT_PbPb" "$CENTPbPbMIN" "$CENTPbPbMAX" 0
+./fitB.exe 1 "$INPUTMCPbPb"  "$INPUTMCPbPb"  "$TRGPbPbMC" "$CUTPbPb"   "$SELGENPbPb"   1   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$OUTPUTFILEPbPbMC" "$NPFIT_PbPb" 0 "$CENTPbPbMIN" "$CENTPbPbMAX"
 rm fitB.exe
 
 g++ fitB.C $(root-config --cflags --libs) -g -o fitB.exe 
@@ -394,7 +396,7 @@ TRGPPMCClosure="1"
 LABELPPMCClosure="PPMCClosure"
 
 g++ fitB.C $(root-config --cflags --libs) -g -o fitB.exe 
-./fitB.exe 0 "$INPUTMCPP"  "$INPUTMCPP"  "$TRGPPMCClosure" "$CUTPP"   "$SELGENPP"   "$ISMCPPMCClosure"   "$LUMIPPMCClosure"   "$ISDOWEIGHTPPMCClosure"   "$LABELPPMCClosure"  "$OUTPUTFILEPPMCClosure" "$NPFIT_PP"
+./fitB.exe 0 "$INPUTMCPP"  "$INPUTMCPP"  "$TRGPPMCClosure" "$CUTPP"   "$SELGENPP"   "$ISMCPPMCClosure"   "$LUMIPPMCClosure"   "$ISDOWEIGHTPPMCClosure"   "$LABELPPMCClosure"  "$OUTPUTFILEPPMCClosure" "$NPFIT_PP" 0
 g++ ClosureTest.C $(root-config --cflags --libs) -g -o ClosureTest.exe 
 ./ClosureTest.exe "$OUTPUTFILEPPMCClosure" "$LABELPP"
 
@@ -406,7 +408,7 @@ TRGPbPbMCClosure="1"
 LABELPbPbMCClosure="PbPbMCClosure"
 
 g++ fitB.C $(root-config --cflags --libs) -g -o fitB.exe 
-./fitB.exe 1 "$INPUTMCPbPb"  "$INPUTMCPbPb"  "$TRGPbPbMCClosure" "$CUTPbPb"   "$SELGENPbPb"   "$ISMCPbPbMCClosure"   "$LUMIPbPbMCClosure"   "$ISDOWEIGHTPbPbMCClosure"   "$LABELPbPbMCClosure"  "$OUTPUTFILEPbPbMCClosure" "$NPFIT_PbPb" "$CENTPbPbMIN" "$CENTPbPbMAX"
+./fitB.exe 1 "$INPUTMCPbPb"  "$INPUTMCPbPb"  "$TRGPbPbMCClosure" "$CUTPbPb"   "$SELGENPbPb"   "$ISMCPbPbMCClosure"   "$LUMIPbPbMCClosure"   "$ISDOWEIGHTPbPbMCClosure"   "$LABELPbPbMCClosure"  "$OUTPUTFILEPbPbMCClosure" "$NPFIT_PbPb" 0 "$CENTPbPbMIN" "$CENTPbPbMAX"
 g++ ClosureTest.C $(root-config --cflags --libs) -g -o ClosureTest.exe 
 ./ClosureTest.exe "$OUTPUTFILEPbPbMCClosure" "$LABELPbPb"
 

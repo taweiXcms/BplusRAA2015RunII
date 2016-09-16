@@ -173,8 +173,8 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
 
   TString text;
 
-  if (label=="PbPb") { text="404 #mub^{-1} (5.02 TeV PbPb)";}
-  else {text="27.7 pb^{-1} (5.02 TeV pp)";}
+  if (label=="PbPb") { text="350.68 #mub^{-1} (5.02 TeV PbPb)";}
+  else {text="25.8 pb^{-1} (5.02 TeV pp)";}
   
   TLatex* texlumi = new TLatex(0.90,0.936,text.Data());
   texlumi->SetNDC();
@@ -199,12 +199,19 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
   texCent->SetTextSize(0.04);
   if(isPbPb) texCent->Draw();
 
-  TLatex* texY = new TLatex(0.53,0.60,"|y| < 2.4");
+  TLatex* texY = new TLatex(0.53,0.65,"|y| < 2.4");
   texY->SetNDC();
   texY->SetTextFont(42);
   texY->SetTextSize(0.05);
   texY->SetLineWidth(2);
   texY->Draw();
+
+  TLatex* texGlobal = new TLatex(0.53,0.59,"Global uncert. 12.4\%");
+  texGlobal->SetNDC();
+  texGlobal->SetTextFont(42);
+  texGlobal->SetTextSize(0.05);
+  texGlobal->SetLineWidth(2);
+  texGlobal->Draw();
 
   TLegend* leg_CS = new TLegend(0.52,0.70,0.85,0.80);
   leg_CS->SetBorderSize(0);

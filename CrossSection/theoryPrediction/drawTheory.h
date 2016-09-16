@@ -41,8 +41,10 @@ void plotTheory()
     }
   TGraphErrors* gTAMUB5TeV = new TGraphErrors(nbin, aTAMUB5TeVx, aTAMUB5TeVy, aTAMUB5TeVxe, aTAMUB5TeVye);
   gTAMUB5TeV->SetName("gTAMUB5TeV");
-  gTAMUB5TeV->SetLineColor(kViolet-6);
-  gTAMUB5TeV->SetFillColor(kViolet-6);
+  //gTAMUB5TeV->SetLineColor(kViolet-6);
+  //gTAMUB5TeV->SetFillColor(kViolet-6);
+  gTAMUB5TeV->SetLineColor(kOrange+8);
+  gTAMUB5TeV->SetFillColor(kOrange+8);
   gTAMUB5TeV->SetFillStyle(1001);
   gTAMUB5TeV->Draw("4 same");
 

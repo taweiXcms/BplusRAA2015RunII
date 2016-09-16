@@ -11,9 +11,9 @@
 // Yen-Jie: systematics table for B meson
 // Unit: In percentage
 const int nPtBins=1;
-double PtBins[nPtBins+1] = {7.,50.+1};//add a margin so that "FindBin" can work at the bin end
+double PtBins[nPtBins+1] = {7.,50.};//add a margin so that "FindBin" can work at the bin end
 const int AnaBins=5;
-double AnaPtBins[nBins+1] = {7.,10.,15.,20.,30,50+1};
+double AnaPtBins[AnaBins+1] = {7.,10.,15.,20.,30.,50.};
 
 const int nCentBins=4;
 double CentBins[nCentBins+1] = {0.,10.,30.,50.,100.};
@@ -27,7 +27,7 @@ double BtomumuKBRUncertainty	= 3.07;			// from PDG
 // =============================================================================================================
 
 // Normalization uncertainty
-double ppLumiUncertainty 	= 4;			// updated by YJ to the lumi POG number       
+double ppLumiUncertainty 	= 12;			// updated by YJ to the lumi POG number       
 
 // Point-to-point
 double ppTrackingEfficiency 	= 4;   			    // single track systematics from D* studies
@@ -84,11 +84,11 @@ void initializationPP()
    ppMesonSelection->SetBinContent(1,		2.7);
 
    ppSignalExtraction = new TH1D("ppSignalExtraction","",AnaBins,AnaPtBins);
-   ppSignalExtraction->SetBinContent(1,		1.0);
-   ppSignalExtraction->SetBinContent(2,		2.2);
-   ppSignalExtraction->SetBinContent(3,		2.0);
-   ppSignalExtraction->SetBinContent(4,		1.8);
-   ppSignalExtraction->SetBinContent(5,		1.8);
+   ppSignalExtraction->SetBinContent(1,		3.8);
+   ppSignalExtraction->SetBinContent(2,		3.8);
+   ppSignalExtraction->SetBinContent(3,		3.8);
+   ppSignalExtraction->SetBinContent(4,		3.8);
+   ppSignalExtraction->SetBinContent(5,		3.8);
 
    ppTagAndProbe = new TH1D("ppTagAndProbe","",nPtBins,PtBins);
    ppTagAndProbe->SetBinContent(1,		10.0);
@@ -103,11 +103,11 @@ void initializationPbPbCent0100()
    PbPbMesonSelection->SetBinContent(1,		8.7);
 
    PbPbSignalExtraction = new TH1D("PbPbSignalExtraction","",AnaBins,AnaPtBins);
-   PbPbSignalExtraction->SetBinContent(1,	8.7);
-   PbPbSignalExtraction->SetBinContent(2,	9.1);
-   PbPbSignalExtraction->SetBinContent(3,	5.7);
-   PbPbSignalExtraction->SetBinContent(4,	4.5);
-   PbPbSignalExtraction->SetBinContent(5,	4.0);
+   PbPbSignalExtraction->SetBinContent(1,	12.0);
+   PbPbSignalExtraction->SetBinContent(2,	12.0);
+   PbPbSignalExtraction->SetBinContent(3,	12.0);
+   PbPbSignalExtraction->SetBinContent(4,	12.0);
+   PbPbSignalExtraction->SetBinContent(5,	12.0);
 
    PbPbTagAndProbe = new TH1D("PbPbTagAndProbe","",nPtBins,PtBins);
    PbPbTagAndProbe->SetBinContent(1,		13.0);
@@ -183,6 +183,7 @@ float systematicsForRAA(double pt,double centL=0,double centH=100, double HLT=0,
    double sys=0;
 
    if (pt<7) return 0;
+   if (pt >= PtBins[1]) pt = PtBins[1]-0.1;
   
    if (stage==1) return sqrt(sys);
    
@@ -318,6 +319,8 @@ float systematicsPP(double pt, double HLT=0,int stage=0)
 {
    if (!initialized) initialization();
    double sys=0;
+
+   if (pt >= PtBins[1]) pt = PtBins[1]-0.1;
    
    if (stage==1) return sqrt(sys);
    
@@ -447,11 +450,11 @@ void plotSystematicsRAA(double centL=0,double centH=100)
    drawSys(6.5,0, 6.5,normalizationUncertaintyForRAA(centL,centH),2);
 
 
-   drawSys(7,0, 7,systematicsForRAA(7,centL,centH,0,0),1);
-   drawSys(50,0, 50,systematicsForRAA(50,centL,centH,0,0),1);
+   drawSys(PtBins[0],0, PtBins[0],systematicsForRAA(PtBins[0],centL,centH,0,0),1);
+   drawSys(PtBins[nPtBins],0, PtBins[nPtBins],systematicsForRAA(PtBins[nPtBins],centL,centH,0,0),1);
 
 
-   for (double i=7;i<50;i+=0.1)
+   for (double i=PtBins[0];i<=PtBins[nPtBins];i+=0.1)
    {      
       drawSys(i,systematicsForRAA(i,centL,centH,0,0), i+0.1,systematicsForRAA(i+0.1,centL,centH,0,0),1);
       drawSys(i,sqrt((systematicsForRAA(i,centL,centH,0,2)*systematicsForRAA(i,centL,centH,0,2))-(systematicsForRAA(i,centL,centH,0,1)*systematicsForRAA(i,centL,centH,0,1))),
@@ -476,7 +479,7 @@ void plotSystematicsRAA(double centL=0,double centH=100)
    TH1D *h7 = new TH1D("h7","",100,0,1);
    h7->SetLineWidth(2); h7->SetLineColor(kYellow);
     
-  TLatex* texlumi = new TLatex(0.19,0.936,"27.7 pb^{-1} (5.02 TeV pp) + 350.68 #mub^{-1} (5.02 TeV PbPb)");
+  TLatex* texlumi = new TLatex(0.19,0.936,"25.8 pb^{-1} (5.02 TeV pp) + 350.68 #mub^{-1} (5.02 TeV PbPb)");
   texlumi->SetNDC();
   //texlumi->SetTextAlign(31);
   texlumi->SetTextFont(42);
@@ -526,6 +529,7 @@ void plotSystematicsRAA(double centL=0,double centH=100)
    leg->AddEntry(h6,"Tag and Probe","l");
    leg->Draw();
    canvas->SaveAs(Form("SystematicSummaryPbPb_Cent%d.pdf",(int)centH));
+   canvas->SaveAs(Form("SystematicSummaryPbPb_Cent%d.png",(int)centH));
 
 
 }
@@ -570,10 +574,10 @@ void plotSystematicsPP()
    drawSys(6.5,0, 6.5,normalizationUncertaintyForPP(),2);
 
 
-   drawSys(7,0, 7,systematicsPP(7),1);
-   drawSys(50,0, 50,systematicsPP(50),1);
+   drawSys(PtBins[0],0, PtBins[0],systematicsPP(PtBins[0]),1);
+   drawSys(PtBins[nPtBins],0, PtBins[nPtBins],systematicsPP(PtBins[nPtBins]),1);
 
-   for (double i=7;i<50;i+=0.1)
+   for (double i=PtBins[0];i<PtBins[nPtBins];i+=0.1)
    {      
       drawSys(i,systematicsPP(i,0,0), i+0.1,systematicsPP(i+0.1,0,0),1);
       drawSys(i,sqrt((systematicsPP(i,0,2)*systematicsPP(i,0,2))-(systematicsPP(i,0,1)*systematicsPP(i,0,1))),
@@ -637,6 +641,7 @@ void plotSystematicsPP()
    leg->Draw();
 
   canvas->SaveAs("SystematicSummaryPP.pdf");
+  canvas->SaveAs("SystematicSummaryPP.png");
   }
 
 
