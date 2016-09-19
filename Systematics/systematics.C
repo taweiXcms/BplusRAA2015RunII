@@ -599,7 +599,7 @@ void plotSystematicsPP()
    TH1D *h6 = new TH1D("h6","",100,0,1);
    h6->SetLineWidth(2); h6->SetLineColor(kMagenta);
 
-  TLatex* texlumi = new TLatex(0.35,0.936,"27.7 pb^{-1} (5.02 TeV pp)");
+  TLatex* texlumi = new TLatex(0.35,0.936,"25.8 pb^{-1} (5.02 TeV pp)");
   texlumi->SetNDC();
   //texlumi->SetTextAlign(31);
   texlumi->SetTextFont(42);

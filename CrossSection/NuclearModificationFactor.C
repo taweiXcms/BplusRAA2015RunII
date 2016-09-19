@@ -15,7 +15,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 {
 //  drawDRAA = true;
 //  drawChHad = true;
-  drawThm = true;
+//  drawThm = true;
 
   float pti = ptBins[0]-2.;
   float pte = ptBins[nBins]+5.;
@@ -79,7 +79,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
   TH2F* hemptyEff=new TH2F("hemptyEff","",50,pti,pte,10.,0,1.55);  
   hemptyEff->GetXaxis()->CenterTitle();
   hemptyEff->GetYaxis()->CenterTitle();
-  hemptyEff->GetYaxis()->SetTitle("B^{+} R_{AA}");
+  hemptyEff->GetYaxis()->SetTitle("R_{AA}");
   hemptyEff->GetXaxis()->SetTitle("p_{T} (GeV/c)");
   hemptyEff->GetXaxis()->SetTitleOffset(1.0);
   hemptyEff->GetYaxis()->SetTitleOffset(1.1);
@@ -164,9 +164,9 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
   texpre->Draw();
 
   //TLegend *legendSigma=new TLegend(0.40,0.5168644,0.8084677,0.6605932,"");
-  TLegend *legendSigma=new TLegend(0.5436242,0.7474695,0.942953,0.8457592,"");
+  TLegend *legendSigma=new TLegend(0.6036242,0.7474695,0.942953,0.8457592,"");
   if(drawDRAA)legendSigma=new TLegend(0.4236242,0.6774695,0.812953,0.8757592,"");
-  if(drawThm)legendSigma=new TLegend(0.5436242,0.6774695,0.922953,0.8757592,"");
+  if(drawThm)legendSigma=new TLegend(0.5636242,0.6774695,0.922953,0.8757592,"");
   legendSigma->SetBorderSize(0);
   legendSigma->SetLineColor(0);
   legendSigma->SetFillColor(0);
@@ -186,7 +186,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 //  ent_Sigmapp->SetMarkerColor(1);
 //  ent_Sigmapp->SetTextSize(0.045);
 
-  TLegendEntry *ent_B = legendSigma->AddEntry(gNuclearModification,"R_{AA} B^{+} |y| < 2.4","pf");
+  TLegendEntry *ent_B = legendSigma->AddEntry(gNuclearModification,"B^{+} |y| < 2.4","pf");
   ent_B->SetTextFont(42);
   ent_B->SetLineColor(4);
   ent_B->SetMarkerColor(4);
@@ -218,7 +218,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
     Draw_DRAA(canvasRAA, gDNuclearModification);
     gDNuclearModification->SetFillColor(kYellow-9);
     //gDNuclearModification->SetFillColor(5);
-    TLegendEntry *ent_Dhighpt = legendSigma->AddEntry(gDNuclearModification,"R_{AA} D^{0} |y| < 1.0","pf");
+    TLegendEntry *ent_Dhighpt = legendSigma->AddEntry(gDNuclearModification,"D^{0} |y| < 1.0","pf");
     ent_Dhighpt->SetTextFont(42);
 //    ent_Dhighpt->SetLineColor(4);
     ent_Dhighpt->SetMarkerColor(4);
@@ -229,7 +229,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
     TGraphAsymmErrors* gChHadDummy = new TGraphAsymmErrors();
     gChHadDummy->SetFillColor(TColor::GetColor("#ffcc00"));
     gChHadDummy->SetMarkerColor(kRed);
-    TLegendEntry *ent_ChHad = legendSigma->AddEntry(gChHadDummy,"R_{AA} charged hadrons |y| < 1.0","pf");
+    TLegendEntry *ent_ChHad = legendSigma->AddEntry(gChHadDummy,"charged hadrons |y| < 1.0","pf");
     ent_ChHad->SetTextFont(42);
     ent_ChHad->SetLineColor(4);
     ent_ChHad->SetMarkerColor(4);
