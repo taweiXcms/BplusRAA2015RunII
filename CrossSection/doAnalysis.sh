@@ -8,7 +8,7 @@ DOANALYSISPP_FONLL=0
 DOANALYSISPP_FITNP=0
 DOANALYSISPP_FIT=0
 DOANALYSISPP_MCSTUDY=0
-DOANALYSISPP_CROSS=0
+DOANALYSISPP_CROSS=1
 
 DOANALYSISPbPb_FONLL=0
 DOANALYSISPbPb_FITNP=0
@@ -17,12 +17,19 @@ DOANALYSISPbPb_MCSTUDY=0
 DOANALYSISPbPb_CROSS=0
 DORAA=1
 
+#Rapidity RAA
+DOANALYSISPP_FIT_Y=0
+DOANALYSISPP_MCSTUDY_Y=0
+DOANALYSISPbPb_FIT_Y=0
+DOANALYSISPbPb_MCSTUDY_Y=0
+DORAA_Y=1
+
 #CENTRALITY RAA
 DOANALYSISPP_FIT_INC=0
 DOANALYSISPP_MCSTUDY_INC=0
 DOANALYSISPbPb_FIT_CENT=0
 DOANALYSISPbPb_MCSTUDY_CENT=0
-DORAA_CENT=0
+DORAA_CENT=1
 
 DOANALYSISPP_MCSTUDY_FINE=0
 DOANALYSISPP_EFFFIT=0
@@ -30,7 +37,7 @@ DOANALYSISPP_FIT_INC_EFFCOR=0
 DOANALYSISPbPb_MCSTUDY_FINE_HIBIN=0
 DOANALYSISPbPb_EFFFIT=0
 DOANALYSISPbPb_FIT_CENT_EFFCOR=0
-DORAA_CENT_EFFCOR=0
+DORAA_CENT_EFFCOR=1
 DOANALYSISPP_FIT_EFFCOR=0
 DOANALYSISPP_CROSS_EFFCOR=0
 
@@ -63,7 +70,8 @@ FONLLOUTPUTFILE="ROOTfiles/fonllOutput_pp_Bplus_5p03TeV_y2p4.root"
 OUTPUTFILERAA="ROOTfiles/outputRAA.root"
 
 LABELPP="pp"
-LUMIPP=25.57
+#LUMIPP=25.57 pre HardProbe2016
+LUMIPP=27.4
 #25.8*0.991
 #LUMIPP=27.45
 #27.7*0.991
@@ -201,7 +209,48 @@ g++ NuclearModificationFactor.C $(root-config --cflags --libs) -g -o NuclearModi
 rm NuclearModificationFactor.exe
 fi
 
+
+#######
+#CENTRALITY RAPIDITY
+#######
+OUTPUTFILEPP_Y="ROOTfiles/hPtSpectrumBplusPP_Y.root"
+if [ $DOANALYSISPP_FIT_Y -eq 1 ]; then
+g++ fitBY.C $(root-config --cflags --libs) -g -o fitBY.exe
+./fitBY.exe 0 "$INPUTDATAPP"  "$INPUTMCPP"  "$TRGPP" "$CUTPP&&Bpt>7"  "$SELGENPP"   "$ISMCPP"   1   "$ISDOWEIGHTPP"   "$LABELPP"  "$OUTPUTFILEPP_Y" "$NPFIT_PP" 0
+rm fitBY.exe
+fi
+
+OUTPUTFILEPbPb_Y="ROOTfiles/hPtSpectrumBplusPbPb_Y.root"
+if [ $DOANALYSISPbPb_FIT_Y -eq 1 ]; then      
+g++ fitBY.C $(root-config --cflags --libs) -g -o fitBY.exe 
+./fitBY.exe 1 "$INPUTDATAPbPb"  "$INPUTMCPbPb"  "$TRGPbPb" "$CUTPbPb&&Bpt>7"  "$SELGENPbPb"   "$ISMCPbPb"   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$OUTPUTFILEPbPb_Y" "$NPFIT_PbPb" 0 "$CENTPbPbMIN" "$CENTPbPbMAX"
+rm fitBY.exe
+fi 
+
+OUTPUTFILEMCSTUDYPP_Y="ROOTfiles/MCstudiesPP_Y.root"
+if [ $DOANALYSISPP_MCSTUDY_Y -eq 1 ]; then
+g++ MCefficiencyY.C $(root-config --cflags --libs) -g -o MCefficiencyY.exe
+./MCefficiencyY.exe  0 "$INPUTMCPP"  "$SELGENPP&&Gpt>7&&Gpt<50" "$SELGENPPACCPP&&Gpt>7&&Gpt<50"  "$RECOONLYPP" "$CUTPP&&$TRGPPMC"  "$LABELPP" "$OUTPUTFILEMCSTUDYPP_Y" "$ISDOWEIGHTPP" "$CENTPbPbMIN" "$CENTPbPbMAX"
+rm MCefficiencyY.exe
+fi
+
+OUTPUTFILEMCSTUDYPbPb_Y="ROOTfiles/MCstudiesPbPb_Y.root"
+if [ $DOANALYSISPbPb_MCSTUDY_Y -eq 1 ]; then
+g++ MCefficiencyY.C $(root-config --cflags --libs) -g -o MCefficiencyY.exe
+./MCefficiencyY.exe 1 "$INPUTMCPbPb"  "$SELGENPbPb&&Gpt>7&&Gpt<50" "$SELGENPbPbACCPbPb&&Gpt>7&&Gpt<50"  "$RECOONLYPbPb" "$CUTPbPb&&$TRGPbPbMC"  "$LABELPbPb" "$OUTPUTFILEMCSTUDYPbPb_Y" "$ISDOWEIGHTPbPb" "$CENTPbPbMIN" "$CENTPbPbMAX"
+rm MCefficiencyY.exe
+fi
+
+OUTPUTFILERAA_Y="ROOTfiles/outputRAA_Y.root"
+if [ $DORAA_Y -eq 1 ]; then
+g++ NuclearModificationFactorY.C $(root-config --cflags --libs) -g -o NuclearModificationFactorY.exe
+./NuclearModificationFactorY.exe "$OUTPUTFILEPP_Y" "$OUTPUTFILEPbPb_Y" "$OUTPUTFILEMCSTUDYPP_Y" "$OUTPUTFILEMCSTUDYPbPb_Y" "$LABELPbPb" "$OUTPUTFILERAA_Y" 0 "$LUMIPP" "$LUMIPbPb" "$CENTPbPbMIN" "$CENTPbPbMAX"
+rm NuclearModificationFactorY.exe
+fi
+
+#######
 #CENTRALITY RAA
+#######
 
 OUTPUTFILEPP_INC="ROOTfiles/hPtSpectrumBplusPP_INC.root"
 if [ $DOANALYSISPP_FIT_INC -eq 1 ]; then      
@@ -220,14 +269,15 @@ fi
 OUTPUTFILEPbPb_CENT="ROOTfiles/hPtSpectrumBplusPbPb_CENT.root"
 if [ $DOANALYSISPbPb_FIT_CENT -eq 1 ]; then
 g++ fitBCent.C $(root-config --cflags --libs) -g -o fitBCent.exe
-./fitBCent.exe 1 "$INPUTDATAPbPb"  "$INPUTMCPbPb"  "$TRGPbPb" "$CUTPbPb&&Bpt>10"   "$SELGENPbPb"   "$ISMCPbPb"   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$OUTPUTFILEPbPb_CENT" "$NPFIT_PbPb" 0
+./fitBCent.exe 1 "$INPUTDATAPbPb"  "$INPUTMCPbPb"  "$TRGPbPb" "$CUTPbPb&&Bpt>7"   "$SELGENPbPb"   "$ISMCPbPb"   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$OUTPUTFILEPbPb_CENT" "$NPFIT_PbPb" 0
 rm fitBCent.exe
 fi
 
 OUTPUTFILEMCSTUDYPbPb_CENT="ROOTfiles/MCstudiesPbPb_CENT.root"
 if [ $DOANALYSISPbPb_MCSTUDY_CENT -eq 1 ]; then      
 g++ MCefficiencyCent.C $(root-config --cflags --libs) -g -o MCefficiencyCent.exe 
-./MCefficiencyCent.exe 1 "$INPUTMCPbPb"  "$SELGENPbPb&&Gpt>10&&Gpt<50" "$SELGENPbPbACCPbPb&&Gpt>10&&Gpt<50"  "$RECOONLYPbPb" "$CUTPbPb&&$TRGPbPbMC"  "$LABELPbPb" "$OUTPUTFILEMCSTUDYPbPb_CENT" "$ISDOWEIGHTPbPb" "$CENTPbPbMIN" "$CENTPbPbMAX"
+#./MCefficiencyCent.exe 1 "$INPUTMCPbPb"  "$SELGENPbPb&&Gpt>7&&Gpt<50" "$SELGENPbPbACCPbPb&&Gpt>7&&Gpt<50"  "$RECOONLYPbPb" "$CUTPbPb&&$TRGPbPbMC"  "$LABELPbPb" "$OUTPUTFILEMCSTUDYPbPb_CENT" "$ISDOWEIGHTPbPb" "$CENTPbPbMIN" "$CENTPbPbMAX"
+./MCefficiencyCent.exe 1 "$INPUTMCPbPb"  "$SELGENPbPb&&Gpt>7&&Gpt<50" "$SELGENPbPbACCPbPb&&Gpt>7&&Gpt<50"  "$RECOONLYPbPb" "$CUTPbPb&&$TRGPbPbMC&&Bpt>7"  "$LABELPbPb" "$OUTPUTFILEMCSTUDYPbPb_CENT" "$ISDOWEIGHTPbPb" "$CENTPbPbMIN" "$CENTPbPbMAX"
 rm MCefficiencyCent.exe
 fi
 
@@ -287,7 +337,7 @@ fi
 OUTPUTFILEPbPb_CENT_EFFCOR="ROOTfiles/hPtSpectrumBplusPbPb_CENT_EFFCOR.root"
 if [ $DOANALYSISPbPb_FIT_CENT_EFFCOR -eq 1 ]; then
 g++ fitBCent.C $(root-config --cflags --libs) -g -o fitBCent.exe
-./fitBCent.exe 1 "$INPUTDATAPbPb"  "$INPUTMCPbPb"  "$TRGPbPb" "$CUTPbPb&&Bpt>10"   "$SELGENPbPb"   "$ISMCPbPb"   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$OUTPUTFILEPbPb_CENT_EFFCOR" "$NPFIT_PbPb" 1
+./fitBCent.exe 1 "$INPUTDATAPbPb"  "$INPUTMCPbPb"  "$TRGPbPb" "$CUTPbPb&&Bpt>7"   "$SELGENPbPb"   "$ISMCPbPb"   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$OUTPUTFILEPbPb_CENT_EFFCOR" "$NPFIT_PbPb" 1
 rm fitBCent.exe
 fi
 
