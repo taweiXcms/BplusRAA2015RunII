@@ -50,7 +50,7 @@ void MCefficiency(int isPbPb=0,TString inputmc="/data/wangj/MC2015/Dntuple/pp/re
 
      std::cout<<"selmcgen="<<selmcgen<<std::endl;
      std::cout<<"selmcgenacceptance="<<selmcgenacceptance<<std::endl;
-     std::cout<<"cut_recoonly"<<cut_recoonly<<std::endl;
+     std::cout<<"cut_recoonly="<<cut_recoonly<<std::endl;
      std::cout<<"cut="<<cut<<std::endl;
 
    std::cout<<"option="<<useweight<<std::endl;
@@ -112,18 +112,36 @@ void MCefficiency(int isPbPb=0,TString inputmc="/data/wangj/MC2015/Dntuple/pp/re
 
   //ntMC->Project("hPtMC","Bpt",TCut(weightfunctionreco)*(TCut(cut.Data())&&"(Bgen==23333)"));
   ntMC->Project("hPtMC","Bpt",TCut(weighpthat)*TCut(weightBgenpt)*TCut(weightHiBin)*(TCut(cut.Data())&&"(Bgen==23333)"));
-  divideBinWidth(hPtMC);
   //ntMC->Project("hPtMCrecoonly","Bpt",TCut(weightfunctionreco)*(TCut(cut_recoonly.Data())&&"(Bgen==23333)"));
   ntMC->Project("hPtMCrecoonly","Bpt",TCut(weighpthat)*TCut(weightBgenpt)*TCut(weightHiBin)*(TCut(cut_recoonly.Data())&&"(Bgen==23333)"));
-  divideBinWidth(hPtMCrecoonly);
   //ntGen->Project("hPtGen","Gpt",(TCut(selmcgen.Data())));
   ntGen->Project("hPtGen","Gpt",TCut(weighpthat)*TCut(weightGpt)*(TCut(selmcgen.Data())));
-  divideBinWidth(hPtGen);
   //ntGen->Project("hPtGenAcc","Gpt",(TCut(selmcgenacceptance.Data())));
   ntGen->Project("hPtGenAcc","Gpt",TCut(weighpthat)*TCut(weightGpt)*(TCut(selmcgenacceptance.Data())));
-  divideBinWidth(hPtGenAcc);
   //ntGen->Project("hPtGenAccWeighted","Gpt",TCut(weightfunctiongen)*(TCut(selmcgenacceptance.Data())));
   ntGen->Project("hPtGenAccWeighted","Gpt",TCut(weighpthat)*TCut(weightGpt)*TCut(weightHiBin)*(TCut(selmcgenacceptance.Data())));
+
+  ////// tag & probe scaling factor
+  for(int i = 0; i < 5; i++){printf("%.2f, ", hPtMC->GetBinContent(i+1));}printf("\n");//check entries
+  double sf_pp[5] = {227977.02/207901.56, 632864.53/606712.42, 408808.07/399583.96, 275911.15/272909.48, 85362.85/85846.52, };
+  double sf_pbpb[5] = {64266.93/59877.61, 189085.92/187577.36, 156249.18/158435.51, 138502.42/141744.96, 53617.98/55196.42, };
+  for(int i = 0; i < 5; i++){
+    if(label == "pp"){
+      hPtMC->SetBinContent(i+1, hPtMC->GetBinContent(i+1)*sf_pp[i]);
+      hPtMCrecoonly->SetBinContent(i+1, hPtMCrecoonly->GetBinContent(i+1)*sf_pp[i]);
+    }
+    if(label == "PbPb"){
+      hPtMC->SetBinContent(i+1, hPtMC->GetBinContent(i+1)*sf_pbpb[i]);
+      hPtMCrecoonly->SetBinContent(i+1, hPtMCrecoonly->GetBinContent(i+1)*sf_pbpb[i]);
+    }
+  }
+  for(int i = 0; i < 5; i++){printf("%.2f, ", hPtMC->GetBinContent(i+1));}printf("\n");//check entries
+  ////// tag & probe scaling factor
+
+  divideBinWidth(hPtMC);
+  divideBinWidth(hPtMCrecoonly);
+  divideBinWidth(hPtGen);
+  divideBinWidth(hPtGenAcc);
   divideBinWidth(hPtGenAccWeighted);
 
   ntMC->Project("hPthat","pthat","1");

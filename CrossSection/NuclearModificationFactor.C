@@ -2,26 +2,34 @@
 #include "parameters.h"
 #include "TLegendEntry.h"
 #include "../Systematics/systematics.C"
-#include "ChargedHad/RAA_0_10.C"
-#include "ChargedHad/RAA_0_100.C"
 #include "theoryPrediction/drawTheory.h"
-#include "Draw_DRAA.h"
+#include "B_RpA/DrawBRpa.h"
+//#include "ChargedHad/RAA_0_10.C"
+//#include "ChargedHad/RAA_0_100.C"
+#include "ChargedHad/RpPb_Final_20161207.h"
+#include "Dmeson/Draw_DRAA.h" //PAS
+#include "Dmeson/canvasRAA_0_100_20161207.h" //new
+//#include "NonPromptJpsi/expBeautyCMS_20161208.h"
+#include "NonPromptJpsi/nonPrompt_276raa_20170201.h"
 
-bool drawDRAA = false;
-bool drawChHad = false;
-bool drawThm = false;
+bool drawB = 1;
+bool drawChHad = 0;
+bool drawDRAA = 0;
+bool drawJpsi = 0;
+
+bool drawBRpA = 1;
+bool drawThm = 1;
 
 void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", TString inputPbPb="ROOTfiles/CrossSectionPbPb.root",TString label="PbPb",TString outputfile="RAAfile.root", Float_t centMin=0., Float_t centMax=100.)
 {
-//  drawDRAA = true;
-//  drawChHad = true;
-//  drawThm = true;
-
+  float TAABarWid = 0.35;
   float pti = ptBins[0]-2.;
   float pte = ptBins[nBins]+5.;
   if(drawDRAA){
-    pti = 1;
-    pte = 400.;
+    pti = 0.5;
+    pte = 600.;
+    //pte = 60.;
+    TAABarWid = 0.12;
   }
   if(drawThm){
     pti = 5;
@@ -76,6 +84,9 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
   canvasRAA->SetLogx();
 
   TH2F* hemptyEff=new TH2F("hemptyEff","",50,pti,pte,10.,0,1.55);  
+  if(drawBRpA) {
+    hemptyEff=new TH2F("hemptyEff","",50,pti,pte,10.,0,3);  
+  }
   hemptyEff->GetXaxis()->CenterTitle();
   hemptyEff->GetYaxis()->CenterTitle();
   hemptyEff->GetYaxis()->SetTitle("R_{AA}");
@@ -102,37 +113,53 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
   //gNuclearModification->SetFillColor(kOrange);//1
   //gNuclearModification->SetFillColor(kPink+7);//1
   gNuclearModification->SetFillColor(kAzure+7);//1
-  gNuclearModification->SetFillStyle(3001);//0
+  gNuclearModification->SetFillColorAlpha(kAzure+7, 0.5);//1
+  //gNuclearModification->SetFillStyle(3001);//0
+  //gNuclearModification->SetFillStyle(3002);//0
+  
   gNuclearModification->SetLineWidth(1);//3
-  gNuclearModification->SetMarkerSize(1);
+  gNuclearModification->SetMarkerSize(1.2);
   gNuclearModification->SetMarkerStyle(21);
-  //gNuclearModification->SetLineColor(kOrange);//kGreen+4
-  //gNuclearModification->SetMarkerColor(kRed);//kGreen+4
-  gNuclearModification->SetLineColor(kAzure+7);//kGreen+4
-  gNuclearModification->SetMarkerColor(kViolet+3);//kGreen+4
+  //gNuclearModification->SetLineColor(kOrange);
+  //gNuclearModification->SetMarkerColor(kRed);
+  gNuclearModification->SetLineColor(kAzure-1);
+  gNuclearModification->SetMarkerColor(kAzure-1);
 
   hNuclearModification->SetLineWidth(3);
   //hNuclearModification->SetLineColor(kRed);
   //hNuclearModification->SetMarkerColor(kRed);
   //hNuclearModification->SetLineColor(kTeal+7);
-    hNuclearModification->SetLineColor(kViolet+3);
-  hNuclearModification->SetMarkerColor(kViolet+3);
+  //hNuclearModification->SetLineColor(kViolet+3);
+  //hNuclearModification->SetMarkerColor(kViolet+3);
+  hNuclearModification->SetLineColor(kAzure-1);
+  hNuclearModification->SetMarkerColor(kAzure-1);
   hNuclearModification->SetMarkerStyle(21);
+  //hNuclearModification->SetMarkerStyle(33);
+  hNuclearModification->SetMarkerSize(1.2);
 
-  Float_t systnorm = normalizationUncertaintyForRAA()*1.e-2;
-  TBox* bSystnorm = new TBox(pti,1-systnorm,pti+0.35,1+systnorm);
-cout<<systnorm<<endl;
-  if(drawDRAA) bSystnorm = new TBox(pti,1-systnorm,pti+0.2,1+systnorm);
+  Float_t systnormhi = normalizationUncertaintyForRAA(1)*1.e-2;
+  Float_t systnormlo = normalizationUncertaintyForRAA(0)*1.e-2;
+  Float_t systnorm;
+  TBox* bSystnorm = new TBox(pti,1-systnormlo,pti+TAABarWid*1,1+systnormhi);
+  //cout<<systnorm<<endl;
   bSystnorm->SetLineColor(16);
   bSystnorm->SetFillColor(16);
-  bSystnorm->Draw();
+  if(drawDRAA) bSystnorm = new TBox(pti,1-systnorm,pti+TAABarWid*1,1+systnorm);
+  if(drawChHad) {
+    bSystnorm = new TBox(pti+TAABarWid*2.1,1-systnorm,pti+TAABarWid*3.5,1+systnorm);
+    bSystnorm->SetLineColor(kAzure+7);
+    bSystnorm->SetFillColor(kAzure+7);
+    bSystnorm->SetFillColorAlpha(kAzure+7, 0.5);
+    //bSystnorm->SetFillStyle(3002);
+  }
+  if(drawB) bSystnorm->Draw();
 
-  TLatex * tlatexeff2=new TLatex(0.38,0.595,"Centrality 0-100%");
+  TLatex * tlatexeff2=new TLatex(0.40,0.595,"Centrality 0-100%");
   tlatexeff2->SetNDC();
   tlatexeff2->SetTextColor(1);
   tlatexeff2->SetTextFont(42);
   tlatexeff2->SetTextSize(0.050);
-  tlatexeff2->Draw();
+  //tlatexeff2->Draw();
   TLatex * texY = new TLatex(0.41,0.53,"|y| < 2.4");//0.2612903,0.8425793
   texY->SetNDC();
   texY->SetTextColor(1);
@@ -141,7 +168,8 @@ cout<<systnorm<<endl;
   texY->SetLineWidth(2);
   //texY->Draw();
 
-  TLatex* texlumi = new TLatex(0.13,0.936,"27.4 pb^{-1} (5.02 TeV pp) + 350.68 #mub^{-1} (5.02 TeV PbPb)");
+  TLatex* texlumi = new TLatex(0.13,0.936,"28.0 pb^{-1} (5.02 TeV pp) + 350.68 #mub^{-1} (5.02 TeV PbPb)");
+  //TLatex* texlumi = new TLatex(0.13,0.936,"350.1 #mub^{-1} (5.02 TeV PbPb)");
   texlumi->SetNDC();
   //texlumi->SetTextAlign(31);
   texlumi->SetTextFont(42);
@@ -165,7 +193,7 @@ cout<<systnorm<<endl;
 
   //TLegend *legendSigma=new TLegend(0.40,0.5168644,0.8084677,0.6605932,"");
   TLegend *legendSigma=new TLegend(0.6036242,0.7474695,0.942953,0.8457592,"");
-  if(drawDRAA)legendSigma=new TLegend(0.4236242,0.6774695,0.812953,0.8757592,"");
+  if(drawDRAA)legendSigma=new TLegend(0.3936242,0.6574695,0.812953,0.9157592,"");
   if(drawThm)legendSigma=new TLegend(0.5636242,0.6774695,0.922953,0.8757592,"");
   legendSigma->SetBorderSize(0);
   legendSigma->SetLineColor(0);
@@ -186,77 +214,175 @@ cout<<systnorm<<endl;
 //  ent_Sigmapp->SetMarkerColor(1);
 //  ent_Sigmapp->SetTextSize(0.045);
 
-  TLegendEntry *ent_B = legendSigma->AddEntry(gNuclearModification,"B^{+} |y| < 2.4","pf");
-  ent_B->SetTextFont(42);
-  ent_B->SetLineColor(4);
-  ent_B->SetMarkerColor(4);
-  ent_B->SetTextSize(0.038);//0.03
-
-  TLatex* texSystnorm = new TLatex(0.23,0.70,"T_{AA} and lumi.");
-  if(drawDRAA) texSystnorm = new TLatex(0.17,0.70,"T_{AA} and lumi.");
+  TLatex* texSystnorm = new TLatex(0.23,0.70,"T_{AA} + lumi.");
+  if(drawDRAA) texSystnorm = new TLatex(0.22,0.70,"T_{AA} + lumi.");
   texSystnorm->SetNDC();
   texSystnorm->SetTextColor(1);
   texSystnorm->SetTextFont(42);
   texSystnorm->SetTextSize(0.04);
   texSystnorm->SetLineWidth(2);
   texSystnorm->Draw();
-  texSystnorm = new TLatex(0.23,0.65,"uncertainty");
-  if(drawDRAA) texSystnorm = new TLatex(0.17,0.65,"uncertainty");
+  texSystnorm = new TLatex(0.23,0.66,"uncertainty");
+  if(drawDRAA) texSystnorm = new TLatex(0.22,0.66,"uncertainty");
   texSystnorm->SetNDC();
   texSystnorm->SetTextColor(1);
   texSystnorm->SetTextFont(42);
-  texSystnorm->SetTextSize(0.04);
+  texSystnorm->SetTextSize(0.035);
   texSystnorm->SetLineWidth(2);
   texSystnorm->Draw();
 
   if(drawChHad){
-    RAA_0_100();
-  }
-
-  if(drawDRAA){
-    TGraphAsymmErrors* gDNuclearModification = new TGraphAsymmErrors();
-    Draw_DRAA(canvasRAA, gDNuclearModification);
-    gDNuclearModification->SetFillColor(kYellow-9);
-    //gDNuclearModification->SetFillColor(5);
-    TLegendEntry *ent_Dhighpt = legendSigma->AddEntry(gDNuclearModification,"D^{0} |y| < 1.0","pf");
-    ent_Dhighpt->SetTextFont(42);
-//    ent_Dhighpt->SetLineColor(4);
-    ent_Dhighpt->SetMarkerColor(4);
-    ent_Dhighpt->SetTextSize(0.038);//0.03
-  }
-
-  if(drawChHad){
+    //RAA_0_100();
+    RpPb_Final_20161207();
     TGraphAsymmErrors* gChHadDummy = new TGraphAsymmErrors();
     gChHadDummy->SetFillColor(TColor::GetColor("#ffcc00"));
-    gChHadDummy->SetMarkerColor(kRed);
+    //gChHadDummy->SetMarkerColor(kRed);
     TLegendEntry *ent_ChHad = legendSigma->AddEntry(gChHadDummy,"charged hadrons |y| < 1.0","pf");
     ent_ChHad->SetTextFont(42);
     ent_ChHad->SetLineColor(4);
     ent_ChHad->SetMarkerColor(4);
     ent_ChHad->SetTextSize(0.038);//0.03
+    systnorm = sqrt(0.089*0.089+0.023*0.023);
+    bSystnorm = new TBox(pti,1-systnorm,pti+TAABarWid*1,1+systnorm);
+    bSystnorm->SetLineColor(TColor::GetColor("#ffcc00"));
+    bSystnorm->SetFillColor(TColor::GetColor("#ffcc00"));
+    bSystnorm->Draw();
   }
+
+  if(drawDRAA){
+    TGraphAsymmErrors* gDNuclearModification = new TGraphAsymmErrors();
+    Draw_DRAA(canvasRAA, gDNuclearModification);
+    //canvasRAA_0_100_20161207(canvasRAA, gDNuclearModification);
+//    gDNuclearModification->SetFillColor(kYellow-9);
+    gDNuclearModification->SetFillColor(kGreen-9);
+    gDNuclearModification->SetFillColorAlpha(kGreen-9, 0.5);
+    gDNuclearModification->SetMarkerStyle(21);
+    gDNuclearModification->SetMarkerColor(kGreen+3);
+//    gDNuclearModification->SetFillStyle(3001);
+    TLegendEntry *ent_Dhighpt = legendSigma->AddEntry(gDNuclearModification,"D^{0} |y| < 1.0","pf");
+    ent_Dhighpt->SetTextFont(42);
+    ent_Dhighpt->SetMarkerColor(4);
+    ent_Dhighpt->SetTextSize(0.038);//0.03
+    systnormhi = normalizationUncertaintyForRAA(1)*1.e-2;
+    systnormlo = normalizationUncertaintyForRAA(0)*1.e-2;
+    bSystnorm = new TBox(pti+TAABarWid*1,1-systnormlo,pti+TAABarWid*2.1,1+systnormhi);
+//    bSystnorm->SetLineColor(kYellow-9);
+//    bSystnorm->SetFillColor(kYellow-9);
+    bSystnorm->SetLineColor(kGreen-9);
+    bSystnorm->SetFillColor(kGreen-9);
+    bSystnorm->SetFillColorAlpha(kGreen-9, 0.5);
+//    bSystnorm->SetFillStyle(3001);
+    bSystnorm->Draw();
+  }
+
+  TLegendEntry *ent_B;
+  if(drawB) {
+    ent_B = legendSigma->AddEntry(gNuclearModification,"B^{+} |y| < 2.4","pf");
+    ent_B->SetTextFont(42);
+    ent_B->SetLineColor(4);
+    ent_B->SetMarkerColor(4);
+    ent_B->SetTextSize(0.038);//0.03
+  }
+  if(drawBRpA){
+    ent_B = legendSigma->AddEntry(gNuclearModification,"B^{+} R_{pA} (5.02 TeV)","pf");
+    ent_B->SetTextFont(42);
+    ent_B->SetLineColor(4);
+    ent_B->SetMarkerColor(4);
+    ent_B->SetTextSize(0.038);//0.03
+  }
+
+  if(drawJpsi){
+    //expBeautyCMS_20161208();
+    expBeautyCMS_20170201();
+    TGraphAsymmErrors* gChHadDummy = new TGraphAsymmErrors();
+    gChHadDummy->SetFillColor(925);
+    //gChHadDummy->SetMarkerColor(TColor::GetColor("#6600cc"));
+    //gChHadDummy->SetMarkerColor(kViolet+3);
+    gChHadDummy->SetMarkerColor(kGray+3);
+    gChHadDummy->SetMarkerStyle(34);
+    gChHadDummy->SetMarkerSize(1.5);
+    //gChHadDummy->SetFillColor(kViolet-9);
+    gChHadDummy->SetFillColor(kGray+2);
+    gChHadDummy->SetFillColorAlpha(kGray+2, 0.5);
+    //gChHadDummy->SetFillStyle(3001);
+    TLegendEntry *ent_ChHad = legendSigma->AddEntry(gChHadDummy,"nonprompt J/#psi 1.6 < |y| < 2.4 (2.76 TeV)","pf");
+    ent_ChHad->SetTextSize(0.029);
+    TGraphAsymmErrors* gChHadDummy2 = new TGraphAsymmErrors();
+    gChHadDummy2->SetFillColor(924);
+    //gChHadDummy2->SetMarkerColor( TColor::GetColor("#cc6600"));
+    //gChHadDummy2->SetMarkerColor(kViolet+3);
+    gChHadDummy2->SetMarkerColor(kGray+3);
+    gChHadDummy2->SetMarkerStyle(29);
+    gChHadDummy2->SetMarkerSize(1.5);
+    //gChHadDummy2->SetFillColor(kViolet-9);
+    gChHadDummy2->SetFillColor(kGray+2);
+    gChHadDummy2->SetFillColorAlpha(kGray+2, 0.5);
+    //gChHadDummy2->SetFillStyle(3001);
+    TLegendEntry *ent_ChHad2 = legendSigma->AddEntry(gChHadDummy2,"nonprompt J/#psi |y| < 2.4 (2.76 TeV)","pf");
+    ent_ChHad2->SetTextSize(0.029);
+    systnorm = 0.075;
+    //bSystnorm = new TBox(pti+TAABarWid*3.5,1-systnorm,pti+TAABarWid*5.,1+systnorm);
+    bSystnorm = new TBox(pti+TAABarWid*3.5,0.9249388,pti+TAABarWid*5.,1.075061);
+    //bSystnorm->SetLineColor(kViolet-9);
+    //bSystnorm->SetFillColor(kViolet-9);
+    //bSystnorm->SetFillColorAlpha(kViolet-9, 0.5);
+    bSystnorm->SetLineColor(kGray+2);
+    bSystnorm->SetFillColor(kGray+2);
+    bSystnorm->SetFillColorAlpha(kGray+2, 0.5);
+    //bSystnorm->SetFillStyle(3001);
+    bSystnorm->Draw();
+	texlumi = new TLatex(0.13,0.936,"350.68 #mub^{-1} (5.02 TeV PbPb)");
+	texlumi->SetNDC();
+	texlumi->SetTextFont(42);
+	texlumi->SetTextSize(0.038);
+	texlumi->SetLineWidth(2);
+	texlumi->Draw();
+  }
+
+  if(drawBRpA){
+    DrawBRpa();
+  }
+
   if(drawThm){
     plotTheory();
     TGraphAsymmErrors* gThmDummy1 = new TGraphAsymmErrors();
     TGraphAsymmErrors* gThmDummy2 = new TGraphAsymmErrors();
     TGraphAsymmErrors* gThmDummy3 = new TGraphAsymmErrors();
-    gThmDummy1->SetLineColor(kGreen+4);
-    //gThmDummy2->SetLineColor(kViolet-6);
-    gThmDummy2->SetLineColor(kOrange+8);
-    gThmDummy3->SetLineColor(4);
+    gThmDummy1->SetLineColor(kOrange+8);
+    gThmDummy2->SetLineColor(kGreen+4);
+    gThmDummy3->SetLineColor(kRed-4);
     gThmDummy1->SetLineWidth(4.5);
     gThmDummy2->SetLineWidth(4.5);
     gThmDummy3->SetLineWidth(4.5);
-    TLegendEntry *ent_thm1 = legendSigma->AddEntry(gThmDummy1,"M. Djordjevic et al.","l");
-    TLegendEntry *ent_thm2 = legendSigma->AddEntry(gThmDummy2,"M. He et al.","l");
+    gThmDummy2->SetLineStyle(6);
+    gThmDummy3->SetLineStyle(2);
+    TLegendEntry *ent_thm1 = legendSigma->AddEntry(gThmDummy1,"M. He et al.","l");
+    TLegendEntry *ent_thm2 = legendSigma->AddEntry(gThmDummy2,"M. Djordjevic et al.","l");
     TLegendEntry *ent_thm3 = legendSigma->AddEntry(gThmDummy3,"CUJET3.0 0-20%","l");
     ent_thm1->SetTextSize(0.038);//0.03
     ent_thm2->SetTextSize(0.038);//0.03
     ent_thm3->SetTextSize(0.038);//0.03
   }
+ 
+  if(drawB){
+    gNuclearModification->Draw("5same");
+    hNuclearModification->Draw("same");
+  }
 
-  gNuclearModification->Draw("5same");
-  hNuclearModification->Draw("same");
+  //DrawPoints at the very last again
+  if(drawChHad){
+    RpPb_Final_20161207(1);
+  }
+  if(drawDRAA){
+    TGraphAsymmErrors* gDNuclearModification = new TGraphAsymmErrors();
+    Draw_DRAA(canvasRAA, gDNuclearModification, 1);
+  }
+  if(drawJpsi){
+    expBeautyCMS_20170201(1);
+  } 
+  if(drawB){
+    hNuclearModification->Draw("same p");
+  }
 
   legendSigma->Draw();
 
@@ -264,14 +390,23 @@ cout<<systnorm<<endl;
   canvasRAA->RedrawAxis();
 
   TString AddOn = "";
+  if(!drawB){
+    AddOn = AddOn += "_NoB";
+  }
   if(drawDRAA){
     AddOn = AddOn += "_DRAA";
   }
   if(drawChHad){
     AddOn = AddOn += "_ChHadRAA";
   }
+  if(drawJpsi){
+    AddOn = AddOn += "_NPJpsiRAA";
+  }
   if(drawThm){
     AddOn = AddOn += "_ThmRAA";
+  }
+  if(drawBRpA){
+    AddOn = AddOn += "_RpA";
   }
 
 

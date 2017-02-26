@@ -13,6 +13,7 @@ int BfinderAna(
 		Bool_t isPbPb=false, 
 		Int_t startEntries=0, 
 		Int_t endEntries=-1,  
+		//Int_t endEntries=200000,  
 		Bool_t skim=true, 
 		Bool_t gskim=true, 
 		Bool_t checkMatching=true, 
@@ -22,7 +23,8 @@ int BfinderAna(
 	if(istest)
 	{
 //		infile="/data/HeavyFlavourRun2/BfinderRun2/MC/crab_BfinderMC_pp_BJpsiMM_5p02TeV_TuneCUETP8M1_20160613_bPt0jpsiPt0tkPt0p5_Bp.root";
-		infile="/data/HeavyFlavourRun2/BfinderRun2/MC/crab_BfinderMC_PbPb_Pythia8_BJpsiMM_ptJpsi_0_inf_Hydjet_MB_20160613_bPt5jpsiPt0tkPt0p8_Bp.root";
+		infile="/data/HeavyFlavourRun2/BfinderRun2/MC/crab_BfinderMC_pp_BJpsiMM_5p02TeV_TuneCUETP8M1_20170123_bPt0jpsiPt0tkPt0p5_Bp.root";
+//		infile="/data/HeavyFlavourRun2/BfinderRun2/MC/crab_BfinderMC_PbPb_Pythia8_BJpsiMM_ptJpsi_0_inf_Hydjet_MB_20160613_bPt5jpsiPt0tkPt0p8_Bp.root";
 		outfile="test.root";
 		REAL=false;
 		isPbPb=false;
@@ -82,24 +84,34 @@ int BfinderAna(
 	TH1D* BmassBpPi = new TH1D("BmassBpPi","BmassBpPi", nbin, min, max);
 	TH1D* BmassBpXPi = new TH1D("BmassBpXPi","BmassBpXPi", nbin, min, max);
 	TH1D* BmassBpK = new TH1D("BmassBpK","BmassBpK", nbin, min, max);
-	TH1D* BmassB0K = new TH1D("BmassB0K","BmassB0K", nbin, min, max);
 	TH1D* BmassBpK_tkmatch = new TH1D("BmassBpK_tkmatch","BmassBpK_tkmatch", nbin, min, max);
-	TH1D* BmassB0K_tkmatch = new TH1D("BmassB0K_tkmatch","BmassB0K_tkmatch", nbin, min, max);
 	TH1D* BmassBpK_tknotmatch = new TH1D("BmassBpK_tknotmatch","BmassBpK_tknotmatch", nbin, min, max);
+	TH1D* BmassB0K = new TH1D("BmassB0K","BmassB0K", nbin, min, max);
+	TH1D* BmassB0K_tkmatch = new TH1D("BmassB0K_tkmatch","BmassB0K_tkmatch", nbin, min, max);
 	TH1D* BmassB0K_tknotmatch = new TH1D("BmassB0K_tknotmatch","BmassB0K_tknotmatch", nbin, min, max);
+	TH1D* BmassLambdaB = new TH1D("BmassLambdaB","BmassLambdaB", nbin, min, max);
+	TH1D* BmassLambdaB_tkmatch = new TH1D("BmassLambdaB_tkmatch","BmassLambdaB_tkmatch", nbin, min, max);
+	TH1D* BmassLambdaB_tknotmatch = new TH1D("BmassLambdaB_tknotmatch","BmassLambdaB_tknotmatch", nbin, min, max);
 	Bmass->SetMinimum(0);
 	Bmass_nosig->SetMinimum(0); 
 	BmassBpPi->SetMinimum(0); 
 	BmassBpXPi->SetMinimum(0);
 	BmassBpK->SetMinimum(0);
-	BmassB0K->SetMinimum(0);
 	BmassBpK_tkmatch->SetMinimum(0);
-	BmassB0K_tkmatch->SetMinimum(0);
 	BmassBpK_tknotmatch->SetMinimum(0);
+	BmassB0K->SetMinimum(0);
+	BmassB0K_tkmatch->SetMinimum(0);
 	BmassB0K_tknotmatch->SetMinimum(0);
+	BmassLambdaB->SetMinimum(0);
+	BmassLambdaB_tkmatch->SetMinimum(0);
+	BmassLambdaB_tknotmatch->SetMinimum(0);
 
 	std::map<int,int> BtypeCountBpK;
 	std::map<int,int> BtypeCountB0K;
+	std::map<int,int> BtypeCountLambdaB;
+	const int _gType = 4;
+	int genTypeCount[_gType] = {0, 0, 0 , 0};
+
 	cout<<"--- Processing events"<<endl;
 	for(Int_t i=startEntries;i<endEntries;i++)
 	{
@@ -124,7 +136,8 @@ int BfinderAna(
 		//Do oyur analysis here
 		//example: checking GenInfo
 	    for(int j=0;j<GenInfo->size;j++){
-			if( int(GenInfo->pdgId[j]/100)%100 == 5){
+			if(1){
+//			if( int(GenInfo->pdgId[j]/100)%100 == 5){
 //				cout<<GenInfo->pdgId[j]<<endl;
 //				if(abs(GenInfo->pdgId[GenInfo->da1[j]]) == 443 || abs(GenInfo->pdgId[GenInfo->da2[j]]) == 443){
 //					printDa(GenInfo, j, 1);
@@ -134,6 +147,7 @@ int BfinderAna(
 				if(abs(GenInfo->pdgId[GenInfo->da1[j]]) == 443)
 				if(abs(GenInfo->pdgId[GenInfo->da2[j]]) == 211)
 				{
+					genTypeCount[0] += 1;
 					//printDa(GenInfo, j, 1);
 				}
 
@@ -142,6 +156,7 @@ int BfinderAna(
 				if(abs(GenInfo->pdgId[GenInfo->da1[j]]) == 443)
 				if((abs(GenInfo->pdgId[GenInfo->da2[j]])/100)%100 == 3)
 				{
+					genTypeCount[1] += 1;
 					//printDa(GenInfo, j, 1);
 				}
 
@@ -150,6 +165,15 @@ int BfinderAna(
 				if(abs(GenInfo->pdgId[GenInfo->da1[j]]) == 443)
 				if((abs(GenInfo->pdgId[GenInfo->da2[j]])/100)%100 == 3)
 				{
+					genTypeCount[2] += 1;
+					//printDa(GenInfo, j, 1);
+				}
+
+				if(abs(GenInfo->pdgId[j])==5122)
+				if(GenInfo->da1[j] != -1)
+				if(abs(GenInfo->pdgId[GenInfo->da1[j]]) == 443 || abs(GenInfo->pdgId[GenInfo->da2[j]]) == 443 || abs(GenInfo->pdgId[GenInfo->da3[j]]) == 443 || abs(GenInfo->pdgId[GenInfo->da4[j]]) == 443)
+				{
+					genTypeCount[3] += 1;
 					//printDa(GenInfo, j, 1);
 				}
 				
@@ -218,8 +242,9 @@ int BfinderAna(
 							int mmu1idx = GenInfo->mo1[gmu1idx];
 							int mmu2idx = GenInfo->mo1[gmu2idx];
 							int mjpsiidx = GenInfo->mo1[mmu1idx];
-							//B+ to jpsi pi+
 							if(gtk1idx != -1){
+
+								//B+ to jpsi pi+
 								int mtk1idx = GenInfo->mo1[gtk1idx];
 								if(mtk1idx != 1){
 									int mtk1pdg = GenInfo->pdgId[mtk1idx];
@@ -240,6 +265,7 @@ int BfinderAna(
 										}
 									}
 								}
+
 								//B+ to jpsi K 
 								if(abs(GenInfo->pdgId[GenInfo->mo1[mmu1idx]]) == 521){
 									int bidx = GenInfo->mo1[mmu1idx];
@@ -297,6 +323,31 @@ int BfinderAna(
 										}
 									}
 								}
+
+								//LambdaB to jpsi
+								if(abs(GenInfo->pdgId[GenInfo->mo1[mmu1idx]]) == 5122){
+									int bidx = GenInfo->mo1[mmu1idx];
+									int bda2idx = GenInfo->da2[bidx]; 
+									int bda2pdg = GenInfo->pdgId[bda2idx];
+									int tkancestor = getBAncestor(GenInfo, gtk1idx, 5122);
+									//if((abs(bda2pdg)/100)%100==3){
+									if(1){
+										//printDa(GenInfo, bidx, 1);
+										//cout<<"Bmass: "<<BInfo->mass[j]<<endl;
+										BmassLambdaB->Fill(BInfo->mass[j]);
+										if(tkancestor == bidx){
+											BmassLambdaB_tkmatch->Fill(BInfo->mass[j]);
+										}
+										else{BmassLambdaB_tknotmatch->Fill(BInfo->mass[j]);}
+
+										if(BtypeCountLambdaB.find(abs(bda2pdg)) == BtypeCountLambdaB.end()){
+											BtypeCountLambdaB[abs(bda2pdg)] = 1;
+										}
+										else{
+											BtypeCountLambdaB[abs(bda2pdg)] += 1;
+										}
+									}
+								}
 							}
 
 						}
@@ -315,6 +366,18 @@ int BfinderAna(
 	for(BtypeCountB0KIt = BtypeCountB0K.begin(); BtypeCountB0KIt != BtypeCountB0K.end(); BtypeCountB0KIt++){
 		cout<<"Ktype: "<<BtypeCountB0KIt->first<<" Count: "<<BtypeCountB0KIt->second<<endl;
 	}
+
+	cout<<"LabmdaB + ? type count========="<<endl;
+	std::map<int,int>::iterator BtypeCountLambdaBIt;
+	for(BtypeCountLambdaBIt = BtypeCountLambdaB.begin(); BtypeCountLambdaBIt != BtypeCountLambdaB.end(); BtypeCountLambdaBIt++){
+		cout<<"Ktype: "<<BtypeCountLambdaBIt->first<<" Count: "<<BtypeCountLambdaBIt->second<<endl;
+	}
+
+	for(int i = 0; i < _gType; i ++){
+		cout<<genTypeCount[i]<<" ";
+	}
+	cout<<endl;
+
 	outf->Write();
 	cout<<"--- Writing finished"<<endl;
 	outf->Close();

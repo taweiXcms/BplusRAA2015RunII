@@ -27,7 +27,8 @@ double BtomumuKBRUncertainty	= 3.07;			// from PDG
 // =============================================================================================================
 
 // Normalization uncertainty
-double ppLumiUncertainty 	= 12;			// updated by YJ to the lumi POG number       
+//double ppLumiUncertainty 	= 12;			// PAS 
+double ppLumiUncertainty 	= 2.3;			// new
 
 // Point-to-point
 double ppTrackingEfficiency 	= 4;   			    // single track systematics from D* studies
@@ -52,7 +53,9 @@ TH1D* ppEff = (TH1D*)ppMCEfffile->Get("hEff");
 
 // Normalization uncertainty
 double PbPbNMBUncertainty	= 2;			// uncertainty associated with minbias events,
-double TAAUncertainty0to100	= 8.9;			// Updated number (4/7/2016)
+//double TAAUncertainty0to100	= 8.9;			// Updated number (4/7/2016)
+double TAAUncertainty0to100HI = 2.8;	//new number 2017/02/23
+double TAAUncertainty0to100LO = 3.4;	//new number 2017/02/23
 double TAAUncertainty0to10	= 1.7;			// Updated number (4/7/2016)
 double PbPbLumiUncertainty	= 10;			// 10% for the moment, to be updated (from Daniel), NOT used
 
@@ -96,8 +99,13 @@ void initializationPP()
    ppSignalExtraction->SetBinContent(4,		3.8);
    ppSignalExtraction->SetBinContent(5,		3.8);
 
-   ppTagAndProbe = new TH1D("ppTagAndProbe","",nPtBins,PtBins);
-   ppTagAndProbe->SetBinContent(1,		10.0);
+   //ppTagAndProbe = new TH1D("ppTagAndProbe","",nPtBins,PtBins); // PAS number
+   //ppTagAndProbe->SetBinContent(1,		10.0);
+   ppTagAndProbe = new TH1D("ppTagAndProbe","",AnaBins,AnaPtBins); //paper 20170224
+   double tnpUnc_pp[5] = {5.386053, 3.814706, 3.235419, 3.014523, 2.819569, };
+   for(int i = 0; i < AnaBins; i++){
+     ppTagAndProbe->SetBinContent(i+1,tnpUnc_pp[i]);
+   }
    
    fPPPtShape->SetParameters(0.999265,-0.0458006,-0.181359,0);
    }
@@ -115,8 +123,13 @@ void initializationPbPbCent0100()
    PbPbSignalExtraction->SetBinContent(4,	12.0);
    PbPbSignalExtraction->SetBinContent(5,	12.0);
 
-   PbPbTagAndProbe = new TH1D("PbPbTagAndProbe","",nPtBins,PtBins);
-   PbPbTagAndProbe->SetBinContent(1,		13.0);
+   //PbPbTagAndProbe = new TH1D("PbPbTagAndProbe","",nPtBins,PtBins); // PAS number
+   //PbPbTagAndProbe->SetBinContent(1,		13.0);
+   PbPbTagAndProbe = new TH1D("PbPbTagAndProbe","",AnaBins,AnaPtBins); // paper 20170224
+   double tnpUnc_pbpb[5] = {6.291468, 4.653674, 3.889682, 3.593492, 3.405239, };
+   for(int i = 0; i < AnaBins; i++){
+     PbPbTagAndProbe->SetBinContent(i+1,tnpUnc_pbpb[i]);
+   }
 
    fPbPbPtShape->SetParameters(0.984161,0.0593406,-0.3992,0.000271564);
    }
@@ -166,7 +179,7 @@ initialized=1;
 // =============================================================================================================
 // RAA systematics
 // =============================================================================================================
-float normalizationUncertaintyForRAA(double centL=0,double centH=100)
+float normalizationUncertaintyForRAA(bool TAAhi = 1, double centL=0,double centH=100)
 {
    double sys = 0;
    sys+=ppLumiUncertainty*ppLumiUncertainty;
@@ -175,8 +188,11 @@ float normalizationUncertaintyForRAA(double centL=0,double centH=100)
       // 0-10%
       sys+=TAAUncertainty0to10*TAAUncertainty0to10;
    } else {
-      // 0-100%
-      sys+=TAAUncertainty0to100*TAAUncertainty0to100;
+      // 0-100%a
+      if(TAAhi == 1)
+      sys+=TAAUncertainty0to100HI*TAAUncertainty0to100HI;
+      if(TAAhi == 0)
+      sys+=TAAUncertainty0to100LO*TAAUncertainty0to100LO;
    }
    return sqrt(sys);
 }
@@ -405,7 +421,7 @@ float systematicsPP(double pt, double HLT=0,int stage=0)
 // =============================================================================================================
 // cross-section systematics for PbPb
 // =============================================================================================================
-float normalizationUncertaintyForPbPb(double centL=0,double centH=100)
+float normalizationUncertaintyForPbPb(bool TAAhi = 1, double centL=0,double centH=100)
 {
    double sys = ((BtomumuKBRUncertainty*BtomumuKBRUncertainty)+(PbPbNMBUncertainty*PbPbNMBUncertainty));
    if (centL==0&&centH==10) {
@@ -413,13 +429,16 @@ float normalizationUncertaintyForPbPb(double centL=0,double centH=100)
       sys+=TAAUncertainty0to10*TAAUncertainty0to10;
    } else {
       // 0-100%
-      sys+=TAAUncertainty0to100*TAAUncertainty0to100;
+      if(TAAhi == 1)
+      sys+=TAAUncertainty0to100HI*TAAUncertainty0to100HI;
+      if(TAAhi == 0)
+      sys+=TAAUncertainty0to100LO*TAAUncertainty0to100LO;
    }   
    return sqrt(sys);
 }
 
 
-float systematicsPbPb(double pt, double centL=0,double centH=100, double HLT=0)
+float systematicsPbPb(double pt, bool TAAhi = 1, double centL=0,double centH=100, double HLT=0)
 {
    if (!initialized && centL==0&&centH==100) initializationPbPbCent0100();
    if (!initialized && centL==0&&centH==10) initializationPbPbCent010();
@@ -432,7 +451,10 @@ float systematicsPbPb(double pt, double centL=0,double centH=100, double HLT=0)
    sys+=PbPbAlignment*PbPbAlignment;
    sys+=PbPbLifetime*PbPbLifetime;
    
-   sys+=TAAUncertainty0to100*TAAUncertainty0to100;
+   if(TAAhi == 1)
+   sys+=TAAUncertainty0to100HI*TAAUncertainty0to100HI;
+   if(TAAhi == 0)
+   sys+=TAAUncertainty0to100LO*TAAUncertainty0to100LO;
    sys+= PbPbMesonSelection->GetBinContent(PbPbMesonSelection->FindBin(pt))* 
          PbPbMesonSelection->GetBinContent(PbPbMesonSelection->FindBin(pt));
    sys+= PbPbEff->GetBinError(PbPbEff->FindBin(pt))/PbPbEff->GetBinContent(PbPbEff->FindBin(pt))*100*

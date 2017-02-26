@@ -112,7 +112,8 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
   pSigma->cd();
 
 
-  Float_t yaxisMin=1.1,yaxisMax=1.e+9;
+  //Float_t yaxisMin=1.1,yaxisMax=1.e+9;//PAS
+  Float_t yaxisMin=1.e3,yaxisMax=1.e+7;//paper 20170224
   if(label=="PPMB"||label=="PbPbMB")
     {
       yaxisMin=1.e+4;
@@ -169,12 +170,12 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
   texPrel->SetTextAlign(13);
   texPrel->SetTextSize(0.050);
   texPrel->SetTextFont(52);
-  texPrel->Draw();
+  //texPrel->Draw();
 
   TString text;
 
   if (label=="PbPb") { text="350.68 #mub^{-1} (5.02 TeV PbPb)";}
-  else {text="27.4 pb^{-1} (5.02 TeV pp)";}
+  else {text="28.0 pb^{-1} (5.02 TeV pp)";}
   
   TLatex* texlumi = new TLatex(0.90,0.936,text.Data());
   texlumi->SetNDC();
@@ -206,7 +207,8 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
   texY->SetLineWidth(2);
   texY->Draw();
 
-  TLatex* texGlobal = new TLatex(0.53,0.59,"Global uncert. 12.4\%");
+//  TLatex* texGlobal = new TLatex(0.53,0.59,"Global uncert. 12.4\%");
+  TLatex* texGlobal = new TLatex(0.53,0.59,Form("Global uncert. %.1f%s",normalizationUncertaintyForPP(),texper.Data()));
   texGlobal->SetNDC();
   texGlobal->SetTextFont(42);
   texGlobal->SetTextSize(0.05);
@@ -237,7 +239,9 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
   pRatio->Draw();
   pRatio->cd();
 
-  TH2F* hemptyRatio=new TH2F("hemptyRatio","",50,ptBins[0]-5.,ptBins[nBins]+5.,10.,0.,3.1);
+  //TH2F* hemptyRatio=new TH2F("hemptyRatio","",50,ptBins[0]-5.,ptBins[nBins]+5.,10.,0.,3.1);
+  //TH2F* hemptyRatio=new TH2F("hemptyRatio","",50,ptBins[0]-5.,ptBins[nBins]+5.,10.,0.,2.1);//PAS
+  TH2F* hemptyRatio=new TH2F("hemptyRatio","",50,ptBins[0]-5.,ptBins[nBins]+5.,10.,0.2,1.8);//PAS
   hemptyRatio->GetXaxis()->SetTitle("p_{T} (GeV/c)");
   hemptyRatio->GetXaxis()->CenterTitle();
   hemptyRatio->GetYaxis()->CenterTitle();
@@ -252,6 +256,7 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
   hemptyRatio->GetYaxis()->SetLabelFont(42);
   hemptyRatio->GetXaxis()->SetLabelSize(0.12);//0.1
   hemptyRatio->GetYaxis()->SetLabelSize(0.12);//0.1  
+  hemptyRatio->GetYaxis()->SetNdivisions(505);
   hemptyRatio->Draw();
 
   TLine* l = new TLine(ptBins[0]-5.,1,ptBins[nBins]+5.,1);

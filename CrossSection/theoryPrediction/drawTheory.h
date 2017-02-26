@@ -13,6 +13,7 @@ void plotTheory()
   gMagdalenaB5TeV->SetName("gMagdalenaB5TeV");
   gMagdalenaB5TeV->SetLineColor(kGreen+4);
   gMagdalenaB5TeV->SetLineWidth(3);
+  gMagdalenaB5TeV->SetLineStyle(6);
   //gMagdalenaB5TeV->SetFillColor(kGreen+4);
   //gMagdalenaB5TeV->SetFillStyle(3004);
   //gMagdalenaB5TeV->Draw("f same");
@@ -59,9 +60,12 @@ void plotTheory()
       nbin++;
     }
   TGraph* gCUJETB5TeV = new TGraph(nbin,aCx,aCy);
-  gCUJETB5TeV->SetLineColor(4);
-  gCUJETB5TeV->SetMarkerColor(4);
+  //gCUJETB5TeV->SetLineColor(4); // PAS color
+  //gCUJETB5TeV->SetMarkerColor(4); // PAS color
+  gCUJETB5TeV->SetLineColor(kRed-4); //paper color 20170224
+  gCUJETB5TeV->SetMarkerColor(kRed-4); //paper color 20170224
   gCUJETB5TeV->SetLineWidth(3);
+  gCUJETB5TeV->SetLineStyle(2);
   gCUJETB5TeV->SetMarkerSize(0.15);
   gCUJETB5TeV->Draw("c same");
 
