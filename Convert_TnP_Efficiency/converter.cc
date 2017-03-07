@@ -13,7 +13,7 @@
 #include <TGraphAsymmErrors.h>
 using namespace std;
 
-bool ispp = 0;
+bool ispp = 1;
 TString inputmc;
 
 int _nBins = nBins;
@@ -201,15 +201,15 @@ void converter(){
 	cout<<"Stat. unc."<<endl;
 	cout<<"vStatTrg"<<endl;
 	for(int j = 0; j < 100; j++){
-		for(int i = 0; i < 5; i++){	printf("%.2f, ", hStatTrg[j]->GetBinContent(i+1));}printf("\n");
+		for(int i = 0; i < _nBins; i++){	printf("%.2f, ", hStatTrg[j]->GetBinContent(i+1));}printf("\n");
 	}
 	cout<<"vStatMuid"<<endl;
 	for(int j = 0; j < 100; j++){
-		for(int i = 0; i < 5; i++){	printf("%.2f, ", hStatMuid[j]->GetBinContent(i+1));}printf("\n");
+		for(int i = 0; i < _nBins; i++){	printf("%.2f, ", hStatMuid[j]->GetBinContent(i+1));}printf("\n");
 	}
 	cout<<"vStatSTA"<<endl;
 	for(int j = 0; j < 100; j++){
-		for(int i = 0; i < 5; i++){	printf("%.2f, ", hStatSTA[j]->GetBinContent(i+1));}printf("\n");
+		for(int i = 0; i < _nBins; i++){	printf("%.2f, ", hStatSTA[j]->GetBinContent(i+1));}printf("\n");
 	}
 
 	//Calculate stat. unc.
@@ -246,27 +246,27 @@ void converter(){
 	
 	cout<<"Sys. unc."<<endl;
 	cout<<"vNominal"<<endl;
-	for(int i = 0; i < 5; i++){	printf("%.2f, ", hNominal->GetBinContent(i+1));}printf("\n");
+	for(int i = 0; i < _nBins; i++){	printf("%.2f, ", hNominal->GetBinContent(i+1));}printf("\n");
 	cout<<"vScale"<<endl;
-	for(int i = 0; i < 5; i++){	printf("%.2f, ", hScale->GetBinContent(i+1));}printf("\n");
+	for(int i = 0; i < _nBins; i++){	printf("%.2f, ", hScale->GetBinContent(i+1));}printf("\n");
 	cout<<"vSysHiTrg"<<endl;
-	for(int i = 0; i < 5; i++){	printf("%.2f, ", hSysHiTrg->GetBinContent(i+1));}printf("\n");
+	for(int i = 0; i < _nBins; i++){	printf("%.2f, ", hSysHiTrg->GetBinContent(i+1));}printf("\n");
 	cout<<"vSysLoTrg"<<endl;
-	for(int i = 0; i < 5; i++){	printf("%.2f, ", hSysLoTrg->GetBinContent(i+1));}printf("\n");
+	for(int i = 0; i < _nBins; i++){	printf("%.2f, ", hSysLoTrg->GetBinContent(i+1));}printf("\n");
 	cout<<"vSysHiTrk"<<endl;
-	for(int i = 0; i < 5; i++){	printf("%.2f, ", hSysHiTrk->GetBinContent(i+1));}printf("\n");
+	for(int i = 0; i < _nBins; i++){	printf("%.2f, ", hSysHiTrk->GetBinContent(i+1));}printf("\n");
 	cout<<"vSysLoTrk"<<endl;
-	for(int i = 0; i < 5; i++){	printf("%.2f, ", hSysLoTrk->GetBinContent(i+1));}printf("\n");
+	for(int i = 0; i < _nBins; i++){	printf("%.2f, ", hSysLoTrk->GetBinContent(i+1));}printf("\n");
 	cout<<"vSysHiMuid"<<endl;
-	for(int i = 0; i < 5; i++){	printf("%.2f, ", hSysHiMuid->GetBinContent(i+1));}printf("\n");
+	for(int i = 0; i < _nBins; i++){	printf("%.2f, ", hSysHiMuid->GetBinContent(i+1));}printf("\n");
 	cout<<"vSysLoMuid"<<endl;
-	for(int i = 0; i < 5; i++){	printf("%.2f, ", hSysLoMuid->GetBinContent(i+1));}printf("\n");
+	for(int i = 0; i < _nBins; i++){	printf("%.2f, ", hSysLoMuid->GetBinContent(i+1));}printf("\n");
 	cout<<"vSysHiSTA"<<endl;
-	for(int i = 0; i < 5; i++){	printf("%.2f, ", hSysHiSTA->GetBinContent(i+1));}printf("\n");
+	for(int i = 0; i < _nBins; i++){	printf("%.2f, ", hSysHiSTA->GetBinContent(i+1));}printf("\n");
 	cout<<"vSysLoSTA"<<endl;
-	for(int i = 0; i < 5; i++){	printf("%.2f, ", hSysLoSTA->GetBinContent(i+1));}printf("\n");
+	for(int i = 0; i < _nBins; i++){	printf("%.2f, ", hSysLoSTA->GetBinContent(i+1));}printf("\n");
 	cout<<"vSysBinnedTrg"<<endl;
-	for(int i = 0; i < 5; i++){	printf("%.2f, ", hSysBinnedTrg->GetBinContent(i+1));}printf("\n");
+	for(int i = 0; i < _nBins; i++){	printf("%.2f, ", hSysBinnedTrg->GetBinContent(i+1));}printf("\n");
 	
 	//Calculate sys. unc.
 	printf("vSysTrg, vSysTrk, vSysMuid, vSysSTA, vSysBinnedTrg, Sysall\n");
@@ -282,7 +282,7 @@ void converter(){
 		hSysUnc->SetBinContent(i+1, Sysall);
 	}
 	printf("sys + stat uncertainty:\n");
-	printf("double tnpUnc_%s[5] = {", label.c_str());
+	printf("double tnpUnc_%s[%d] = {", label.c_str(), _nBins);
 	for(int i = 0; i < _nBins; i++){
 		double sys = hSysUnc->GetBinContent(i+1);
 		double stat = hStatUnc->GetBinContent(i+1);
@@ -296,7 +296,7 @@ void converter(){
 	    hSF->SetBinContent(i+1, SF);
 		printf("%.4f, ", SF);
 	}printf("\n");
-	printf("double sf_%s[5] = {", label.c_str());
+	printf("double sf_%s[%d] = {", label.c_str(), _nBins);
 	for(int i = 0; i < _nBins; i++){	
 		printf("%.2f/%.2f, ", hScale->GetBinContent(i+1), hNominal->GetBinContent(i+1));
 	}printf("};\n");

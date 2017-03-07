@@ -90,14 +90,10 @@ bool initialized = 0;
 void initializationPP()
 {
    ppMesonSelection = new TH1D("ppMesonSelection","",nPtBins,PtBins);
-   ppMesonSelection->SetBinContent(1,		2.7);
+   ppMesonSelection->SetBinContent(1,		2.7);//PAS
 
-   ppSignalExtraction = new TH1D("ppSignalExtraction","",AnaBins,AnaPtBins);
-   ppSignalExtraction->SetBinContent(1,		3.8);
-   ppSignalExtraction->SetBinContent(2,		3.8);
-   ppSignalExtraction->SetBinContent(3,		3.8);
-   ppSignalExtraction->SetBinContent(4,		3.8);
-   ppSignalExtraction->SetBinContent(5,		3.8);
+   ppSignalExtraction = new TH1D("ppSignalExtraction","",nPtBins,PtBins);
+   ppSignalExtraction->SetBinContent(1,		3.8);//PAS
 
    //ppTagAndProbe = new TH1D("ppTagAndProbe","",nPtBins,PtBins); // PAS number
    //ppTagAndProbe->SetBinContent(1,		10.0);
@@ -114,14 +110,10 @@ void initializationPbPbCent0100()
 {
 
    PbPbMesonSelection = new TH1D("PbPbMesonSelection","",nPtBins,PtBins);
-   PbPbMesonSelection->SetBinContent(1,		8.7);
+   PbPbMesonSelection->SetBinContent(1,		8.7);//PAS
 
-   PbPbSignalExtraction = new TH1D("PbPbSignalExtraction","",AnaBins,AnaPtBins);
-   PbPbSignalExtraction->SetBinContent(1,	12.0);
-   PbPbSignalExtraction->SetBinContent(2,	12.0);
-   PbPbSignalExtraction->SetBinContent(3,	12.0);
-   PbPbSignalExtraction->SetBinContent(4,	12.0);
-   PbPbSignalExtraction->SetBinContent(5,	12.0);
+   PbPbSignalExtraction = new TH1D("PbPbSignalExtraction","",nPtBins,PtBins);
+   PbPbSignalExtraction->SetBinContent(1,	12.0);//PAS
 
    //PbPbTagAndProbe = new TH1D("PbPbTagAndProbe","",nPtBins,PtBins); // PAS number
    //PbPbTagAndProbe->SetBinContent(1,		13.0);
@@ -240,6 +232,62 @@ float systematicsForRAA(double pt,double centL=0,double centH=100, double HLT=0,
 	    
    if (stage==3) return sqrt(sys);
 
+   sys+= ppTagAndProbe->GetBinContent(ppTagAndProbe->FindBin(pt))*
+         ppTagAndProbe->GetBinContent(ppTagAndProbe->FindBin(pt));
+
+   sys+= PbPbTagAndProbe->GetBinContent(PbPbTagAndProbe->FindBin(pt))*
+         PbPbTagAndProbe->GetBinContent(PbPbTagAndProbe->FindBin(pt));
+   
+   return sqrt(sys);
+}
+
+float systematicsForRAA_Correlated(double pt,double centL=0,double centH=100, double HLT=0, int stage=0)
+{
+   if (!initialized && centL==0&&centH==100) initialization(centL,centH);
+   if (!initialized && centL==0&&centH==10) initialization(centL,centH);
+
+   double sys=0;
+
+   if (pt<7) return 0;
+   if (pt >= PtBins[1]) pt = PtBins[1]-0.1;
+  
+   sys+= PbPbSignalExtraction->GetBinContent(PbPbSignalExtraction->FindBin(pt))*
+         PbPbSignalExtraction->GetBinContent(PbPbSignalExtraction->FindBin(pt));
+   sys+= ppSignalExtraction->GetBinContent(ppSignalExtraction->FindBin(pt))*
+         ppSignalExtraction->GetBinContent(ppSignalExtraction->FindBin(pt));
+
+   sys+= ppMesonSelection->GetBinContent(ppMesonSelection->FindBin(pt))*
+         ppMesonSelection->GetBinContent(ppMesonSelection->FindBin(pt));
+   sys+= PbPbMesonSelection->GetBinContent(PbPbMesonSelection->FindBin(pt))*
+         PbPbMesonSelection->GetBinContent(PbPbMesonSelection->FindBin(pt));
+
+   sys+=(ppTrackingEfficiency)*(ppTrackingEfficiency);
+   sys+=(PbPbTrackingEfficiency)*(PbPbTrackingEfficiency);
+   sys+=ppAlignment*ppAlignment;
+   sys+=ppLifetime*ppLifetime;
+   sys+=PbPbAlignment*PbPbAlignment;
+   sys+=PbPbLifetime*PbPbLifetime;
+
+   return sqrt(sys);
+}
+float systematicsForRAA_UnCorrelated(double pt,double centL=0,double centH=100, double HLT=0, int stage=0)
+{
+   if (!initialized && centL==0&&centH==100) initialization(centL,centH);
+   if (!initialized && centL==0&&centH==10) initialization(centL,centH);
+
+   double sys=0;
+
+   if (pt<7) return 0;
+   if (pt >= PtBins[1]) pt = PtBins[1]-0.1;
+  
+   sys+= ppEff->GetBinError(ppEff->FindBin(pt))/ppEff->GetBinContent(ppEff->FindBin(pt))*100*
+         ppEff->GetBinError(ppEff->FindBin(pt))/ppEff->GetBinContent(ppEff->FindBin(pt))*100;
+   sys+= PbPbEff->GetBinError(PbPbEff->FindBin(pt))/PbPbEff->GetBinContent(PbPbEff->FindBin(pt))*100*
+         PbPbEff->GetBinError(PbPbEff->FindBin(pt))/PbPbEff->GetBinContent(PbPbEff->FindBin(pt))*100;
+
+   sys+=fPPPtShape->Eval(pt)*fPPPtShape->Eval(pt);
+   sys+=fPbPbPtShape->Eval(pt)*fPbPbPtShape->Eval(pt);
+	    
    sys+= ppTagAndProbe->GetBinContent(ppTagAndProbe->FindBin(pt))*
          ppTagAndProbe->GetBinContent(ppTagAndProbe->FindBin(pt));
 

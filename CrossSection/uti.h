@@ -17,6 +17,7 @@
 #include <TCanvas.h>
 #include <TPad.h>
 #include <TLatex.h>
+#include <TMathText.h>
 #include <TLegend.h>
 #include <TLine.h>
 #include <TBox.h>

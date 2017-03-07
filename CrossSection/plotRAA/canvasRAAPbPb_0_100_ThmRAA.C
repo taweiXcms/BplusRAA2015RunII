@@ -1,7 +1,7 @@
 void canvasRAAPbPb_0_100_ThmRAA()
 {
 //=========Macro generated from canvas: canvasRAA/canvasRAA
-//=========  (Sun Feb 26 06:59:22 2017) by ROOT version6.02/10
+//=========  (Tue Mar  7 00:08:25 2017) by ROOT version6.02/10
    TCanvas *canvasRAA = new TCanvas("canvasRAA", "canvasRAA",0,0,600,600);
    gStyle->SetOptStat(0);
    gStyle->SetOptTitle(0);
@@ -58,28 +58,22 @@ tex->SetNDC();
    tex->SetTextSize(0.038);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(0.15,0.9,"CMS");
+      tex = new TLatex(0.85,0.85,"B^{+}");
+tex->SetNDC();
+   tex->SetTextFont(42);
+   tex->SetTextSize(0.07);
+   tex->SetLineWidth(2);
+   tex->Draw();
+      tex = new TLatex(0.16,0.9,"CMS");
 tex->SetNDC();
    tex->SetTextAlign(13);
    tex->SetTextSize(0.06);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(0.15,0.84,"Preliminary");
-tex->SetNDC();
-   tex->SetTextAlign(13);
-   tex->SetTextFont(52);
-   tex->SetLineWidth(2);
-   tex->Draw();
-      tex = new TLatex(0.23,0.7,"T_{AA} + lumi.");
+      tex = new TLatex(0.16,0.8,"|y| < 2.4");
 tex->SetNDC();
    tex->SetTextFont(42);
    tex->SetTextSize(0.04);
-   tex->SetLineWidth(2);
-   tex->Draw();
-      tex = new TLatex(0.23,0.66,"uncertainty");
-tex->SetNDC();
-   tex->SetTextFont(42);
-   tex->SetTextSize(0.035);
    tex->SetLineWidth(2);
    tex->Draw();
    
@@ -1660,35 +1654,35 @@ tex->SetNDC();
    25,
    40};
    Double_t gNuclearModification_fy3001[5] = {
-   0.3473905,
-   0.4499945,
-   0.442162,
-   0.6179107,
-   0.3502033};
+   0.3458558,
+   0.4480066,
+   0.4402087,
+   0.615181,
+   0.3486562};
    Double_t gNuclearModification_felx3001[5] = {
-   1.5,
-   2.5,
-   2.5,
-   5,
-   10};
+   1.071429,
+   1.785714,
+   1.785714,
+   3.571429,
+   7.142857};
    Double_t gNuclearModification_fely3001[5] = {
-   0.07096023,
-   0.08443992,
-   0.08142119,
-   0.1119749,
-   0.06309874};
+   0.03772334,
+   0.03287048,
+   0.02812092,
+   0.03375651,
+   0.01790043};
    Double_t gNuclearModification_fehx3001[5] = {
-   1.5,
-   2.5,
-   2.5,
-   5,
-   10};
+   1.071429,
+   1.785714,
+   1.785714,
+   3.571429,
+   7.142857};
    Double_t gNuclearModification_fehy3001[5] = {
-   0.07096023,
-   0.08443992,
-   0.08142119,
-   0.1119749,
-   0.06309874};
+   0.03772334,
+   0.03287048,
+   0.02812092,
+   0.03375651,
+   0.01790043};
    TGraphAsymmErrors *grae = new TGraphAsymmErrors(5,gNuclearModification_fx3001,gNuclearModification_fy3001,gNuclearModification_felx3001,gNuclearModification_fehx3001,gNuclearModification_fely3001,gNuclearModification_fehy3001);
    grae->SetName("gNuclearModification");
    grae->SetTitle("Graph");
@@ -1705,9 +1699,9 @@ tex->SetNDC();
    grae->SetMarkerStyle(21);
    grae->SetMarkerSize(1.2);
    
-   TH1F *Graph_gNuclearModification3001 = new TH1F("Graph_gNuclearModification3001","Graph",100,2.7,54.3);
-   Graph_gNuclearModification3001->SetMinimum(0.2310847);
-   Graph_gNuclearModification3001->SetMaximum(0.7752311);
+   TH1F *Graph_gNuclearModification3001 = new TH1F("Graph_gNuclearModification3001","Graph",100,3.457143,51.11429);
+   Graph_gNuclearModification3001->SetMinimum(0.274052);
+   Graph_gNuclearModification3001->SetMaximum(0.683018);
    Graph_gNuclearModification3001->SetDirectory(0);
    Graph_gNuclearModification3001->SetStats(0);
 
@@ -1729,19 +1723,91 @@ tex->SetNDC();
    grae->SetHistogram(Graph_gNuclearModification3001);
    
    grae->Draw("5");
+   
+   Double_t gNuclearModification_Cor_fx3002[5] = {
+   8.5,
+   12.5,
+   17.5,
+   25,
+   40};
+   Double_t gNuclearModification_Cor_fy3002[5] = {
+   0.3458558,
+   0.4480066,
+   0.4402087,
+   0.615181,
+   0.3486562};
+   Double_t gNuclearModification_Cor_felx3002[5] = {
+   1.5,
+   2.5,
+   2.5,
+   5,
+   10};
+   Double_t gNuclearModification_Cor_fely3002[5] = {
+   0.05973201,
+   0.07737425,
+   0.0760275,
+   0.1062466,
+   0.06021566};
+   Double_t gNuclearModification_Cor_fehx3002[5] = {
+   1.5,
+   2.5,
+   2.5,
+   5,
+   10};
+   Double_t gNuclearModification_Cor_fehy3002[5] = {
+   0.05973201,
+   0.07737425,
+   0.0760275,
+   0.1062466,
+   0.06021566};
+   grae = new TGraphAsymmErrors(5,gNuclearModification_Cor_fx3002,gNuclearModification_Cor_fy3002,gNuclearModification_Cor_felx3002,gNuclearModification_Cor_fehx3002,gNuclearModification_Cor_fely3002,gNuclearModification_Cor_fehy3002);
+   grae->SetName("gNuclearModification_Cor");
+   grae->SetTitle("Graph");
+
+   ci = 925;
+   color = new TColor(ci, 1, 1, 1, " ", 0.01);
+   grae->SetFillColor(ci);
+   grae->SetLineStyle(7);
+   grae->SetLineWidth(3);
+   grae->SetMarkerStyle(20);
+   
+   TH1F *Graph_gNuclearModification_Cor3002 = new TH1F("Graph_gNuclearModification_Cor3002","Graph",100,2.7,54.3);
+   Graph_gNuclearModification_Cor3002->SetMinimum(0.2425934);
+   Graph_gNuclearModification_Cor3002->SetMaximum(0.764958);
+   Graph_gNuclearModification_Cor3002->SetDirectory(0);
+   Graph_gNuclearModification_Cor3002->SetStats(0);
+
+   ci = TColor::GetColor("#000099");
+   Graph_gNuclearModification_Cor3002->SetLineColor(ci);
+   Graph_gNuclearModification_Cor3002->SetMarkerStyle(20);
+   Graph_gNuclearModification_Cor3002->GetXaxis()->SetLabelFont(42);
+   Graph_gNuclearModification_Cor3002->GetXaxis()->SetLabelSize(0.035);
+   Graph_gNuclearModification_Cor3002->GetXaxis()->SetTitleSize(0.035);
+   Graph_gNuclearModification_Cor3002->GetXaxis()->SetTitleFont(42);
+   Graph_gNuclearModification_Cor3002->GetYaxis()->SetLabelFont(42);
+   Graph_gNuclearModification_Cor3002->GetYaxis()->SetLabelSize(0.035);
+   Graph_gNuclearModification_Cor3002->GetYaxis()->SetTitleSize(0.035);
+   Graph_gNuclearModification_Cor3002->GetYaxis()->SetTitleFont(42);
+   Graph_gNuclearModification_Cor3002->GetZaxis()->SetLabelFont(42);
+   Graph_gNuclearModification_Cor3002->GetZaxis()->SetLabelSize(0.035);
+   Graph_gNuclearModification_Cor3002->GetZaxis()->SetTitleSize(0.035);
+   Graph_gNuclearModification_Cor3002->GetZaxis()->SetTitleFont(42);
+   grae->SetHistogram(Graph_gNuclearModification_Cor3002);
+   
+   grae->Draw("5");
    Double_t xAxis1[6] = {7, 10, 15, 20, 30, 50}; 
    
    TH1D *hNuclearModification2 = new TH1D("hNuclearModification2","",5, xAxis1);
-   hNuclearModification2->SetBinContent(1,0.3473905);
-   hNuclearModification2->SetBinContent(2,0.4499945);
-   hNuclearModification2->SetBinContent(3,0.442162);
-   hNuclearModification2->SetBinContent(4,0.6179107);
-   hNuclearModification2->SetBinContent(5,0.3502033);
-   hNuclearModification2->SetBinError(1,0.1091778);
-   hNuclearModification2->SetBinError(2,0.07480341);
-   hNuclearModification2->SetBinError(3,0.07540498);
-   hNuclearModification2->SetBinError(4,0.09233194);
-   hNuclearModification2->SetBinError(5,0.1125117);
+   hNuclearModification2->SetBinContent(1,0.3458558);
+   hNuclearModification2->SetBinContent(2,0.4480066);
+   hNuclearModification2->SetBinContent(3,0.4402087);
+   hNuclearModification2->SetBinContent(4,0.615181);
+   hNuclearModification2->SetBinContent(5,0.3486562);
+   hNuclearModification2->SetBinError(1,0.1086955);
+   hNuclearModification2->SetBinError(2,0.07447295);
+   hNuclearModification2->SetBinError(3,0.07507186);
+   hNuclearModification2->SetBinError(4,0.09192405);
+   hNuclearModification2->SetBinError(5,0.1120147);
    hNuclearModification2->SetEntries(109.8058);
 
    ci = TColor::GetColor("#0033cc");
@@ -1770,16 +1836,16 @@ tex->SetNDC();
    Double_t xAxis2[6] = {7, 10, 15, 20, 30, 50}; 
    
    TH1D *hNuclearModification3 = new TH1D("hNuclearModification3","",5, xAxis2);
-   hNuclearModification3->SetBinContent(1,0.3473905);
-   hNuclearModification3->SetBinContent(2,0.4499945);
-   hNuclearModification3->SetBinContent(3,0.442162);
-   hNuclearModification3->SetBinContent(4,0.6179107);
-   hNuclearModification3->SetBinContent(5,0.3502033);
-   hNuclearModification3->SetBinError(1,0.1091778);
-   hNuclearModification3->SetBinError(2,0.07480341);
-   hNuclearModification3->SetBinError(3,0.07540498);
-   hNuclearModification3->SetBinError(4,0.09233194);
-   hNuclearModification3->SetBinError(5,0.1125117);
+   hNuclearModification3->SetBinContent(1,0.3458558);
+   hNuclearModification3->SetBinContent(2,0.4480066);
+   hNuclearModification3->SetBinContent(3,0.4402087);
+   hNuclearModification3->SetBinContent(4,0.615181);
+   hNuclearModification3->SetBinContent(5,0.3486562);
+   hNuclearModification3->SetBinError(1,0.1086955);
+   hNuclearModification3->SetBinError(2,0.07447295);
+   hNuclearModification3->SetBinError(3,0.07507186);
+   hNuclearModification3->SetBinError(4,0.09192405);
+   hNuclearModification3->SetBinError(5,0.1120147);
    hNuclearModification3->SetEntries(109.8058);
 
    ci = TColor::GetColor("#0033cc");
@@ -1806,7 +1872,7 @@ tex->SetNDC();
    hNuclearModification3->GetZaxis()->SetTitleFont(42);
    hNuclearModification3->Draw("same p");
    
-   TLegend *leg = new TLegend(0.5636242,0.6774695,0.922953,0.8757592,NULL,"brNDC");
+   TLegend *leg = new TLegend(0.5636242,0.6574695,0.922953,0.8757592,NULL,"brNDC");
    leg->SetBorderSize(0);
    leg->SetTextSize(0.04);
    leg->SetLineColor(0);
@@ -1814,7 +1880,7 @@ tex->SetNDC();
    leg->SetLineWidth(1);
    leg->SetFillColor(0);
    leg->SetFillStyle(1001);
-   TLegendEntry *entry=leg->AddEntry("gNuclearModification","B^{+} |y| < 2.4","pf");
+   TLegendEntry *entry=leg->AddEntry("gNuclearModification","Data","pf");
 
    ci = 924;
    color = new TColor(ci, 0, 0.6, 1, " ", 0.5);
@@ -1830,6 +1896,17 @@ tex->SetNDC();
    entry->SetMarkerColor(ci);
    entry->SetMarkerStyle(21);
    entry->SetMarkerSize(1.2);
+   entry->SetTextFont(42);
+   entry->SetTextSize(0.038);
+   entry=leg->AddEntry("TBox","T_{AA} + L_{pp} uncert.","f");
+   entry->SetFillColor(16);
+   entry->SetFillStyle(1001);
+   entry->SetLineColor(1);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(1);
+   entry->SetMarkerColor(1);
+   entry->SetMarkerStyle(21);
+   entry->SetMarkerSize(1);
    entry->SetTextFont(42);
    entry->SetTextSize(0.038);
    entry=leg->AddEntry("","M. He et al.","l");
@@ -1866,6 +1943,12 @@ tex->SetNDC();
    entry->SetTextFont(42);
    entry->SetTextSize(0.038);
    leg->Draw();
+      tex = new TLatex(0.85,0.85,"B^{+}");
+tex->SetNDC();
+   tex->SetTextFont(42);
+   tex->SetTextSize(0.07);
+   tex->SetLineWidth(2);
+   tex->Draw();
    
    TH2F *hemptyEff_copy4 = new TH2F("hemptyEff_copy4","",50,5,110,10,0,1.55);
    hemptyEff_copy4->SetMinimum(0);

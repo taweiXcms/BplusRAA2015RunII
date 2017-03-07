@@ -339,7 +339,7 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 	mass->SetLineStyle(7);//paper
 
 	h->SetXTitle("m_{#mu#muK} (GeV/c^{2})");
-	h->SetYTitle("Entries / (20 MeV/c^{2})");
+	h->SetYTitle("Events / (20 MeV/c^{2})");
 	h->GetXaxis()->CenterTitle();
 	h->GetYaxis()->CenterTitle();
 	h->SetAxisRange(0,h->GetMaximum()*1.4*1.2,"Y");
@@ -388,20 +388,32 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 	texChi->SetTextSize(0.03);
 	texChi->SetTextFont(42);
 	//texChi->Draw();
+	printf("NDF: %d, chi: %f, prob: %f\n", f->GetNDF(), f->GetChisquare(), f->GetProb());
 
 	//TLatex* texCms = new TLatex(0.18,0.93, "#scale[1.25]{CMS} Preliminary");
-	TLatex* texCms = new TLatex(0.18,0.93, "#scale[1.25]{CMS}");
-	texCms->SetNDC();
-	texCms->SetTextAlign(12);
-	texCms->SetTextSize(0.04);
-	texCms->SetTextFont(42);
-	texCms->Draw();
+	//TLatex* texCms = new TLatex(0.18,0.93, "#scale[1.25]{CMS}");
+	//texCms->SetNDC();
+	//texCms->SetTextAlign(12);
+	//texCms->SetTextSize(0.04);
+	//texCms->SetTextFont(42);
+	//texCms->Draw();
+	TLatex* texcms = new TLatex(0.22,0.87,"CMS");
+	texcms->SetNDC();
+	texcms->SetTextAlign(13);
+	texcms->SetTextFont(62);//61
+	texcms->SetTextSize(0.06);
+	texcms->SetLineWidth(2);
+	texcms->Draw();
+
+
 
 	TLatex* texCol;
 	//if(collisionsystem=="pp"||collisionsystem=="PP"||collisionsystem=="ppInc"||collisionsystem=="PbPbInc") texCol= new TLatex(0.96,0.93, Form("%s #sqrt{s} = 5.02 TeV","pp"));
 	//else texCol= new TLatex(0.96,0.93, Form("%s #sqrt{s_{NN}} = 5.02 TeV","PbPb"));
-	if(collisionsystem=="pp"||collisionsystem=="PP"||collisionsystem=="ppInc"||collisionsystem=="PbPbInc") texCol= new TLatex(0.935,0.93, Form("28.0 pb^{-1} (#sqrt{s} = 5.02 TeV %s)","pp"));
-	else texCol= new TLatex(0.93,0.93, Form("350.1 #mub^{-1} (#sqrt{s_{NN}} = 5.02 TeV %s)","PbPb"));
+	//if(collisionsystem=="pp"||collisionsystem=="PP"||collisionsystem=="ppInc"||collisionsystem=="PbPbInc") texCol= new TLatex(0.935,0.93, Form("28.0 pb^{-1} (#sqrt{s} = 5.02 TeV %s)","pp"));
+	//else texCol= new TLatex(0.93,0.93, Form("350.1 #mub^{-1} (#sqrt{s_{NN}} = 5.02 TeV %s)","PbPb"));
+	if(collisionsystem=="pp"||collisionsystem=="PP"||collisionsystem=="ppInc"||collisionsystem=="PbPbInc") texCol= new TLatex(0.945,0.93, Form("28.0 pb^{-1} (5.02 TeV %s)","pp"));
+	else texCol= new TLatex(0.94,0.93, Form("350.1 #mub^{-1} (5.02 TeV %s)","PbPb"));
 	texCol->SetNDC();
 	texCol->SetTextAlign(32);
 	texCol->SetTextSize(0.04);
@@ -410,7 +422,7 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 
 	TLatex* tex;
 
-	tex = new TLatex(0.22,0.78,Form("%.0f < p_{T} < %.0f GeV/c",ptmin,ptmax));
+	tex = new TLatex(0.22,0.73,Form("%.0f < p_{T} < %.0f GeV/c",ptmin,ptmax));
 	tex->SetNDC();
 	tex->SetTextFont(42);
 	tex->SetTextSize(0.04);
@@ -428,7 +440,7 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 		//if(collisionsystem!="pp"&&collisionsystem!="PP"&&collisionsystem!="ppInc"&&collisionsystem!="PbPbInc") tex->Draw();
 	}
 
-	tex = new TLatex(0.22,0.83,"|y| < 2.4");
+	tex = new TLatex(0.22,0.78,"|y| < 2.4");
 	tex->SetNDC();
 	tex->SetTextFont(42);
 	tex->SetTextSize(0.04);
