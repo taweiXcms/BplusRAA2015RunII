@@ -195,7 +195,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 	texlumi->SetLineWidth(2);
 	texlumi->Draw();
 
-	TLatex* texB = new TLatex(0.85,0.85,"B^{+}");
+	TLatex* texB = new TLatex(0.88,0.85,"B^{+}");
 	texB->SetNDC();
 	texB->SetTextFont(42);
 	texB->SetTextSize(0.07);
@@ -227,7 +227,8 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 
     TLegend *legendSigma=new TLegend(0.6036242,0.7474695,0.942953,0.8457592,"");
 	if(drawDRAA)legendSigma=new TLegend(0.3936242,0.6574695,0.812953,0.9157592,"");
-	if(drawThm)legendSigma=new TLegend(0.5636242,0.6574695,0.922953,0.8757592,"");
+	//if(drawThm)legendSigma=new TLegend(0.5636242,0.6474695,0.922953,0.8857592,"");
+	if(drawThm)legendSigma=new TLegend(0.5236242,0.6474695,0.822953,0.9157592,"");
 	legendSigma->SetBorderSize(0);
 	legendSigma->SetLineColor(0);
 	legendSigma->SetFillColor(0);
@@ -395,9 +396,17 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		TGraphAsymmErrors* gThmDummy1 = new TGraphAsymmErrors();
 		TGraphAsymmErrors* gThmDummy2 = new TGraphAsymmErrors();
 		TGraphAsymmErrors* gThmDummy3 = new TGraphAsymmErrors();
+		TGraphAsymmErrors* gThmDummy4 = new TGraphAsymmErrors();
+		TGraphAsymmErrors* gThmDummy5 = new TGraphAsymmErrors();
 		gThmDummy1->SetLineColor(kOrange+8);
 		gThmDummy2->SetLineColor(kGreen+4);
 		gThmDummy3->SetLineColor(kRed-4);
+		gThmDummy4->SetLineColor(kGreen-2);
+		gThmDummy5->SetLineColor(kViolet-8);
+		gThmDummy4->SetFillColor(kGreen-2);
+		gThmDummy5->SetFillColor(kViolet-8);
+		gThmDummy4->SetFillColorAlpha(kGreen-2,0.5);
+		gThmDummy5->SetFillColorAlpha(kViolet-8,0.5);
 		gThmDummy1->SetLineWidth(4.5);
 		gThmDummy2->SetLineWidth(4.5);
 		gThmDummy3->SetLineWidth(4.5);
@@ -406,9 +415,13 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		TLegendEntry *ent_thm1 = legendSigma->AddEntry(gThmDummy1,"M. He et al.","l");
 		TLegendEntry *ent_thm2 = legendSigma->AddEntry(gThmDummy2,"M. Djordjevic et al.","l");
 		TLegendEntry *ent_thm3 = legendSigma->AddEntry(gThmDummy3,"CUJET3.0 0-20%","l");
+		TLegendEntry *ent_thm4 = legendSigma->AddEntry(gThmDummy4,"AdS/CFT: HH D(p)","f");
+		TLegendEntry *ent_thm5 = legendSigma->AddEntry(gThmDummy5,"AdS/CFT: HH D=const","f");
 		ent_thm1->SetTextSize(0.038);//0.03
 		ent_thm2->SetTextSize(0.038);//0.03
 		ent_thm3->SetTextSize(0.038);//0.03
+		ent_thm4->SetTextSize(0.038);//0.03
+		ent_thm5->SetTextSize(0.038);//0.03
 	}
 
 	if(drawB){

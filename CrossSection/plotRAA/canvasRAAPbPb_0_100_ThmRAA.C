@@ -1,7 +1,7 @@
 void canvasRAAPbPb_0_100_ThmRAA()
 {
 //=========Macro generated from canvas: canvasRAA/canvasRAA
-//=========  (Tue Mar  7 00:08:25 2017) by ROOT version6.02/10
+//=========  (Sun Mar 12 06:38:28 2017) by ROOT version6.02/10
    TCanvas *canvasRAA = new TCanvas("canvasRAA", "canvasRAA",0,0,600,600);
    gStyle->SetOptStat(0);
    gStyle->SetOptTitle(0);
@@ -58,7 +58,7 @@ tex->SetNDC();
    tex->SetTextSize(0.038);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(0.85,0.85,"B^{+}");
+      tex = new TLatex(0.88,0.85,"B^{+}");
 tex->SetNDC();
    tex->SetTextFont(42);
    tex->SetTextSize(0.07);
@@ -1647,6 +1647,216 @@ tex->SetNDC();
    
    graph->Draw("c ");
    
+   Double_t gADSCFT1B5TeV_fx1002[16] = {
+   7.5,
+   8.5,
+   9.5,
+   10.5,
+   11.5,
+   12.5,
+   13.5,
+   15,
+   17,
+   19,
+   22.5,
+   27.5,
+   32.5,
+   37.5,
+   45,
+   45};
+   Double_t gADSCFT1B5TeV_fy1002[16] = {
+   0.5242891,
+   0.487249,
+   0.4756444,
+   0.4645388,
+   0.4635213,
+   0.4478468,
+   0.4527611,
+   0.4522047,
+   0.4748608,
+   0.4580817,
+   0.4794449,
+   0.4638284,
+   0.4845484,
+   0.4694595,
+   0.5234405,
+   0.5234405};
+   Double_t gADSCFT1B5TeV_fex1002[16] = {
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0};
+   Double_t gADSCFT1B5TeV_fey1002[16] = {
+   0.0984306,
+   0.1018586,
+   0.1054292,
+   0.1062443,
+   0.1058244,
+   0.1026005,
+   0.1049775,
+   0.1060599,
+   0.1141117,
+   0.1103714,
+   0.1032208,
+   0.1085938,
+   0.1192258,
+   0.117942,
+   0.1356683,
+   0.1356683};
+   gre = new TGraphErrors(16,gADSCFT1B5TeV_fx1002,gADSCFT1B5TeV_fy1002,gADSCFT1B5TeV_fex1002,gADSCFT1B5TeV_fey1002);
+   gre->SetName("gADSCFT1B5TeV");
+   gre->SetTitle("Graph");
+
+   ci = 926;
+   color = new TColor(ci, 0.2, 0.6, 0.2, " ", 0.5);
+   gre->SetFillColor(ci);
+
+   ci = TColor::GetColor("#339933");
+   gre->SetLineColor(ci);
+   gre->SetMarkerStyle(20);
+   
+   TH1F *Graph_gADSCFT1B5TeV1002 = new TH1F("Graph_gADSCFT1B5TeV1002","Graph",100,3.75,48.75);
+   Graph_gADSCFT1B5TeV1002->SetMinimum(0.31386);
+   Graph_gADSCFT1B5TeV1002->SetMaximum(0.690495);
+   Graph_gADSCFT1B5TeV1002->SetDirectory(0);
+   Graph_gADSCFT1B5TeV1002->SetStats(0);
+
+   ci = TColor::GetColor("#000099");
+   Graph_gADSCFT1B5TeV1002->SetLineColor(ci);
+   Graph_gADSCFT1B5TeV1002->SetMarkerStyle(20);
+   Graph_gADSCFT1B5TeV1002->GetXaxis()->SetLabelFont(42);
+   Graph_gADSCFT1B5TeV1002->GetXaxis()->SetLabelSize(0.035);
+   Graph_gADSCFT1B5TeV1002->GetXaxis()->SetTitleSize(0.035);
+   Graph_gADSCFT1B5TeV1002->GetXaxis()->SetTitleFont(42);
+   Graph_gADSCFT1B5TeV1002->GetYaxis()->SetLabelFont(42);
+   Graph_gADSCFT1B5TeV1002->GetYaxis()->SetLabelSize(0.035);
+   Graph_gADSCFT1B5TeV1002->GetYaxis()->SetTitleSize(0.035);
+   Graph_gADSCFT1B5TeV1002->GetYaxis()->SetTitleFont(42);
+   Graph_gADSCFT1B5TeV1002->GetZaxis()->SetLabelFont(42);
+   Graph_gADSCFT1B5TeV1002->GetZaxis()->SetLabelSize(0.035);
+   Graph_gADSCFT1B5TeV1002->GetZaxis()->SetTitleSize(0.035);
+   Graph_gADSCFT1B5TeV1002->GetZaxis()->SetTitleFont(42);
+   gre->SetHistogram(Graph_gADSCFT1B5TeV1002);
+   
+   gre->Draw("4 ");
+   
+   Double_t gADSCFT2B5TeV_fx1003[16] = {
+   7.5,
+   8.5,
+   9.5,
+   10.5,
+   11.5,
+   12.5,
+   13.5,
+   15,
+   17,
+   19,
+   22.5,
+   27.5,
+   32.5,
+   37.5,
+   45,
+   45};
+   Double_t gADSCFT2B5TeV_fy1003[16] = {
+   0.4431521,
+   0.3987197,
+   0.3739132,
+   0.3537699,
+   0.343774,
+   0.3284611,
+   0.3239489,
+   0.3198551,
+   0.3255289,
+   0.3192497,
+   0.3196031,
+   0.319507,
+   0.3143519,
+   0.2964755,
+   0.3408608,
+   0.3408608};
+   Double_t gADSCFT2B5TeV_fex1003[16] = {
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0};
+   Double_t gADSCFT2B5TeV_fey1003[16] = {
+   0.07616813,
+   0.08208974,
+   0.08017439,
+   0.0771185,
+   0.07432198,
+   0.06944104,
+   0.06928585,
+   0.06161207,
+   0.06942809,
+   0.06281136,
+   0.0616596,
+   0.06791436,
+   0.06289453,
+   0.0612949,
+   0.08006671,
+   0.08006671};
+   gre = new TGraphErrors(16,gADSCFT2B5TeV_fx1003,gADSCFT2B5TeV_fy1003,gADSCFT2B5TeV_fex1003,gADSCFT2B5TeV_fey1003);
+   gre->SetName("gADSCFT2B5TeV");
+   gre->SetTitle("Graph");
+
+   ci = 927;
+   color = new TColor(ci, 0.6, 0.4, 0.8, " ", 0.5);
+   gre->SetFillColor(ci);
+
+   ci = TColor::GetColor("#9966cc");
+   gre->SetLineColor(ci);
+   gre->SetMarkerStyle(20);
+   
+   TH1F *Graph_gADSCFT2B5TeV1003 = new TH1F("Graph_gADSCFT2B5TeV1003","Graph",100,3.75,48.75);
+   Graph_gADSCFT2B5TeV1003->SetMinimum(0.2067667);
+   Graph_gADSCFT2B5TeV1003->SetMaximum(0.5477342);
+   Graph_gADSCFT2B5TeV1003->SetDirectory(0);
+   Graph_gADSCFT2B5TeV1003->SetStats(0);
+
+   ci = TColor::GetColor("#000099");
+   Graph_gADSCFT2B5TeV1003->SetLineColor(ci);
+   Graph_gADSCFT2B5TeV1003->SetMarkerStyle(20);
+   Graph_gADSCFT2B5TeV1003->GetXaxis()->SetLabelFont(42);
+   Graph_gADSCFT2B5TeV1003->GetXaxis()->SetLabelSize(0.035);
+   Graph_gADSCFT2B5TeV1003->GetXaxis()->SetTitleSize(0.035);
+   Graph_gADSCFT2B5TeV1003->GetXaxis()->SetTitleFont(42);
+   Graph_gADSCFT2B5TeV1003->GetYaxis()->SetLabelFont(42);
+   Graph_gADSCFT2B5TeV1003->GetYaxis()->SetLabelSize(0.035);
+   Graph_gADSCFT2B5TeV1003->GetYaxis()->SetTitleSize(0.035);
+   Graph_gADSCFT2B5TeV1003->GetYaxis()->SetTitleFont(42);
+   Graph_gADSCFT2B5TeV1003->GetZaxis()->SetLabelFont(42);
+   Graph_gADSCFT2B5TeV1003->GetZaxis()->SetLabelSize(0.035);
+   Graph_gADSCFT2B5TeV1003->GetZaxis()->SetTitleSize(0.035);
+   Graph_gADSCFT2B5TeV1003->GetZaxis()->SetTitleFont(42);
+   gre->SetHistogram(Graph_gADSCFT2B5TeV1003);
+   
+   gre->Draw("4 ");
+   
    Double_t gNuclearModification_fx3001[5] = {
    8.5,
    12.5,
@@ -1872,7 +2082,7 @@ tex->SetNDC();
    hNuclearModification3->GetZaxis()->SetTitleFont(42);
    hNuclearModification3->Draw("same p");
    
-   TLegend *leg = new TLegend(0.5636242,0.6574695,0.922953,0.8757592,NULL,"brNDC");
+   TLegend *leg = new TLegend(0.5236242,0.6474695,0.822953,0.9157592,NULL,"brNDC");
    leg->SetBorderSize(0);
    leg->SetTextSize(0.04);
    leg->SetLineColor(0);
@@ -1942,8 +2152,40 @@ tex->SetNDC();
    entry->SetMarkerSize(1);
    entry->SetTextFont(42);
    entry->SetTextSize(0.038);
+   entry=leg->AddEntry("","AdS/CFT: HH D(p)","f");
+
+   ci = 928;
+   color = new TColor(ci, 0.2, 0.6, 0.2, " ", 0.5);
+   entry->SetFillColor(ci);
+   entry->SetFillStyle(1001);
+
+   ci = TColor::GetColor("#339933");
+   entry->SetLineColor(ci);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(1);
+   entry->SetMarkerColor(1);
+   entry->SetMarkerStyle(21);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   entry->SetTextSize(0.038);
+   entry=leg->AddEntry("","AdS/CFT: HH D=const","f");
+
+   ci = 929;
+   color = new TColor(ci, 0.6, 0.4, 0.8, " ", 0.5);
+   entry->SetFillColor(ci);
+   entry->SetFillStyle(1001);
+
+   ci = TColor::GetColor("#9966cc");
+   entry->SetLineColor(ci);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(1);
+   entry->SetMarkerColor(1);
+   entry->SetMarkerStyle(21);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   entry->SetTextSize(0.038);
    leg->Draw();
-      tex = new TLatex(0.85,0.85,"B^{+}");
+      tex = new TLatex(0.88,0.85,"B^{+}");
 tex->SetNDC();
    tex->SetTextFont(42);
    tex->SetTextSize(0.07);
