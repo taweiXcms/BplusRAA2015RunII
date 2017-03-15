@@ -3,9 +3,9 @@
 #include "TGraph.h"
 const int n = 1000;
 Float_t aCx[n],aCy[n],aCyl[n],aCyh[n];
+Float_t bCx[n],bCy[n],bCye[n],bDummy[n];
 Int_t nbin=0;
 Float_t temp;
-Float_t bCx[n],bCy[n],bCye[n],bDummy[n];
 Float_t cCx[n],cCy[n],cCye[n],cDummy[n];
 using namespace std;
 void plotTheory()
@@ -52,15 +52,39 @@ void plotTheory()
   gTAMUB5TeV->Draw("4 same");
 
   //
-
-  ifstream getcujet("theoryPrediction/theorypre/CUJET3_RAA-pT_0-20.dat");
-  if(!getcujet.is_open()) cout<<"Opening the file fails: CUJET"<<endl;
-  nbin=0;
-  while(!getcujet.eof())
+  ifstream countlines("theoryPrediction/theorypre/CUJET_5.02TeV_B0_RAA_0-100.dat");
+  int counter=0;
+  while(!countlines.eof())
     {
-      getcujet>>aCx[nbin]>>temp>>temp>>aCy[nbin]>>temp>>temp>>temp;
-      nbin++;
+      countlines>>temp>>temp>>temp;
+      counter++;
     }
+  countlines.close();
+  countlines.clear();
+  ifstream getcujet("theoryPrediction/theorypre/CUJET_5.02TeV_B0_RAA_0-100.dat");
+
+  const int size = counter;
+  double pt[size],RAAhigh[size],RAAlow[size],RAA[size],RAAerr[size];
+  double zero[size];
+  double width[size];
+
+  for(int i=0;i<size;i++)
+    {
+      getcujet>>pt[i]>>RAAhigh[i]>>RAAlow[i];
+      RAA[i] = (RAAhigh[i]+RAAlow[i])/2.;
+      RAAerr[i] = (RAAhigh[i]-RAAlow[i])/2.;
+      width[i]=0.5;
+    }
+  getcujet.close();
+
+  TGraphAsymmErrors* gCUJETB5TeV = new TGraphAsymmErrors(size,pt,RAA,width,width,RAAerr,RAAerr);
+  gCUJETB5TeV->SetName("gCUJETB5TeV");
+  gCUJETB5TeV->SetLineWidth(1);
+  gCUJETB5TeV->SetLineColor(kRed-4);
+  gCUJETB5TeV->SetFillColor(kRed-4);
+  gCUJETB5TeV->SetFillStyle(3001);
+  gCUJETB5TeV->Draw("3 same");
+  /*
   TGraph* gCUJETB5TeV = new TGraph(nbin,aCx,aCy);
   //gCUJETB5TeV->SetLineColor(4); // PAS color
   //gCUJETB5TeV->SetMarkerColor(4); // PAS color
@@ -70,7 +94,7 @@ void plotTheory()
   gCUJETB5TeV->SetLineStyle(2);
   gCUJETB5TeV->SetMarkerSize(0.15);
   gCUJETB5TeV->Draw("c same");
-
+  */
   //
 
   ifstream getadscft1("theoryPrediction/theorypre/ADSCFT_20170310/RAA_5TeV_0080_B0_DiffusionConstant_band.dat");
