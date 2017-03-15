@@ -1,7 +1,7 @@
 void canvasRAAPbPb_0_100_ThmRAA()
 {
 //=========Macro generated from canvas: canvasRAA/canvasRAA
-//=========  (Sun Mar 12 06:38:28 2017) by ROOT version6.02/10
+//=========  (Wed Mar 15 01:42:09 2017) by ROOT version6.02/10
    TCanvas *canvasRAA = new TCanvas("canvasRAA", "canvasRAA",0,0,600,600);
    gStyle->SetOptStat(0);
    gStyle->SetOptTitle(0);
@@ -1876,11 +1876,11 @@ tex->SetNDC();
    3.571429,
    7.142857};
    Double_t gNuclearModification_fely3001[5] = {
-   0.03772334,
-   0.03287048,
-   0.02812092,
-   0.03375651,
-   0.01790043};
+   0.03772711,
+   0.03287635,
+   0.02815902,
+   0.03384599,
+   0.01801552};
    Double_t gNuclearModification_fehx3001[5] = {
    1.071429,
    1.785714,
@@ -1888,11 +1888,11 @@ tex->SetNDC();
    3.571429,
    7.142857};
    Double_t gNuclearModification_fehy3001[5] = {
-   0.03772334,
-   0.03287048,
-   0.02812092,
-   0.03375651,
-   0.01790043};
+   0.03772711,
+   0.03287635,
+   0.02815902,
+   0.03384599,
+   0.01801552};
    TGraphAsymmErrors *grae = new TGraphAsymmErrors(5,gNuclearModification_fx3001,gNuclearModification_fy3001,gNuclearModification_felx3001,gNuclearModification_fehx3001,gNuclearModification_fely3001,gNuclearModification_fehy3001);
    grae->SetName("gNuclearModification");
    grae->SetTitle("Graph");
@@ -1910,8 +1910,8 @@ tex->SetNDC();
    grae->SetMarkerSize(1.2);
    
    TH1F *Graph_gNuclearModification3001 = new TH1F("Graph_gNuclearModification3001","Graph",100,3.457143,51.11429);
-   Graph_gNuclearModification3001->SetMinimum(0.274052);
-   Graph_gNuclearModification3001->SetMaximum(0.683018);
+   Graph_gNuclearModification3001->SetMinimum(0.2740389);
+   Graph_gNuclearModification3001->SetMaximum(0.6831168);
    Graph_gNuclearModification3001->SetDirectory(0);
    Graph_gNuclearModification3001->SetStats(0);
 
@@ -1953,11 +1953,11 @@ tex->SetNDC();
    5,
    10};
    Double_t gNuclearModification_Cor_fely3002[5] = {
-   0.05973201,
-   0.07737425,
-   0.0760275,
-   0.1062466,
-   0.06021566};
+   0.0525052,
+   0.06801294,
+   0.06682914,
+   0.09339209,
+   0.05293033};
    Double_t gNuclearModification_Cor_fehx3002[5] = {
    1.5,
    2.5,
@@ -1965,11 +1965,11 @@ tex->SetNDC();
    5,
    10};
    Double_t gNuclearModification_Cor_fehy3002[5] = {
-   0.05973201,
-   0.07737425,
-   0.0760275,
-   0.1062466,
-   0.06021566};
+   0.0525052,
+   0.06801294,
+   0.06682914,
+   0.09339209,
+   0.05293033};
    grae = new TGraphAsymmErrors(5,gNuclearModification_Cor_fx3002,gNuclearModification_Cor_fy3002,gNuclearModification_Cor_felx3002,gNuclearModification_Cor_fehx3002,gNuclearModification_Cor_fely3002,gNuclearModification_Cor_fehy3002);
    grae->SetName("gNuclearModification_Cor");
    grae->SetTitle("Graph");
@@ -1982,8 +1982,8 @@ tex->SetNDC();
    grae->SetMarkerStyle(20);
    
    TH1F *Graph_gNuclearModification_Cor3002 = new TH1F("Graph_gNuclearModification_Cor3002","Graph",100,2.7,54.3);
-   Graph_gNuclearModification_Cor3002->SetMinimum(0.2425934);
-   Graph_gNuclearModification_Cor3002->SetMaximum(0.764958);
+   Graph_gNuclearModification_Cor3002->SetMinimum(0.2518284);
+   Graph_gNuclearModification_Cor3002->SetMaximum(0.7500953);
    Graph_gNuclearModification_Cor3002->SetDirectory(0);
    Graph_gNuclearModification_Cor3002->SetStats(0);
 

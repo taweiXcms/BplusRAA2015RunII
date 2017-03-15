@@ -112,18 +112,19 @@ void MCefficiencyY(int isPbPb=0,TString inputmc="/data/wangj/MC2015/Dntuple/pp/r
 
   //ntMC->Project("hPtMC","abs(By)",TCut(weightfunctionreco)*(TCut(cut.Data())&&"(Bgen==23333)"));
   ntMC->Project("hPtMC","abs(By)",TCut(weighpthat)*TCut(weightBgenpt)*TCut(weightHiBin)*(TCut(cut.Data())&&"(Bgen==23333)"));
-  divideBinWidth(hPtMC);
   //ntMC->Project("hPtMCrecoonly","abs(By)",TCut(weightfunctionreco)*(TCut(cut_recoonly.Data())&&"(Bgen==23333)"));
   ntMC->Project("hPtMCrecoonly","abs(By)",TCut(weighpthat)*TCut(weightBgenpt)*TCut(weightHiBin)*(TCut(cut_recoonly.Data())&&"(Bgen==23333)"));
-  divideBinWidth(hPtMCrecoonly);
   //ntGen->Project("hPtGen","Gy",(TCut(selmcgen.Data())));
-  ntGen->Project("hPtGen","Gy",TCut(weighpthat)*TCut(weightGpt)*(TCut(selmcgen.Data())));
-  divideBinWidth(hPtGen);
+  ntGen->Project("hPtGen","abs(Gy)",TCut(weighpthat)*TCut(weightGpt)*(TCut(selmcgen.Data())));
   //ntGen->Project("hPtGenAcc","Gy",(TCut(selmcgenacceptance.Data())));
-  ntGen->Project("hPtGenAcc","Gy",TCut(weighpthat)*TCut(weightGpt)*(TCut(selmcgenacceptance.Data())));
-  divideBinWidth(hPtGenAcc);
+  ntGen->Project("hPtGenAcc","abs(Gy)",TCut(weighpthat)*TCut(weightGpt)*(TCut(selmcgenacceptance.Data())));
   //ntGen->Project("hPtGenAccWeighted","Gy",TCut(weightfunctiongen)*(TCut(selmcgenacceptance.Data())));
-  ntGen->Project("hPtGenAccWeighted","Gy",TCut(weighpthat)*TCut(weightGpt)*TCut(weightHiBin)*(TCut(selmcgenacceptance.Data())));
+  ntGen->Project("hPtGenAccWeighted","abs(Gy)",TCut(weighpthat)*TCut(weightGpt)*TCut(weightHiBin)*(TCut(selmcgenacceptance.Data())));
+
+  divideBinWidth(hPtMC);
+  divideBinWidth(hPtMCrecoonly);
+  divideBinWidth(hPtGen);
+  divideBinWidth(hPtGenAcc);
   divideBinWidth(hPtGenAccWeighted);
 
   ntMC->Project("hPthat","pthat","1");

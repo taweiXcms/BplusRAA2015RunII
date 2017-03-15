@@ -120,7 +120,6 @@ void MCefficiency(int isPbPb=0,TString inputmc="/data/wangj/MC2015/Dntuple/pp/re
   ntGen->Project("hPtGenAcc","Gpt",TCut(weighpthat)*TCut(weightGpt)*(TCut(selmcgenacceptance.Data())));
   //ntGen->Project("hPtGenAccWeighted","Gpt",TCut(weightfunctiongen)*(TCut(selmcgenacceptance.Data())));
   ntGen->Project("hPtGenAccWeighted","Gpt",TCut(weighpthat)*TCut(weightGpt)*TCut(weightHiBin)*(TCut(selmcgenacceptance.Data())));
-
   ////// tag & probe scaling factor
   for(int i = 0; i < 5; i++){printf("%.2f, ", hPtMC->GetBinContent(i+1));}printf("\n");//check entries
   double sf_pp[5] = {227977.02/207901.56, 632864.53/606712.42, 408808.07/399583.96, 275911.15/272909.48, 85362.85/85846.52, };
