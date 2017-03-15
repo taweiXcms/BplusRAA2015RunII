@@ -400,21 +400,16 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		TGraphAsymmErrors* gThmDummy5 = new TGraphAsymmErrors();
 		gThmDummy1->SetLineColor(kOrange+8);
 		gThmDummy2->SetLineColor(kGreen+4);
-		gThmDummy3->SetLineColor(kRed-4);
-		gThmDummy4->SetLineColor(kGreen-2);
-		gThmDummy5->SetLineColor(kViolet-8);
-		gThmDummy4->SetFillColor(kGreen-2);
-		gThmDummy5->SetFillColor(kViolet-8);
+		gThmDummy3->SetFillColorAlpha(kRed-4,0.5);
 		gThmDummy4->SetFillColorAlpha(kGreen-2,0.5);
 		gThmDummy5->SetFillColorAlpha(kViolet-8,0.5);
 		gThmDummy1->SetLineWidth(4.5);
 		gThmDummy2->SetLineWidth(4.5);
-		gThmDummy3->SetLineWidth(4.5);
 		gThmDummy2->SetLineStyle(6);
-		gThmDummy3->SetLineStyle(2);
+		//gThmDummy3->SetLineStyle(2);
 		TLegendEntry *ent_thm1 = legendSigma->AddEntry(gThmDummy1,"M. He et al.","l");
 		TLegendEntry *ent_thm2 = legendSigma->AddEntry(gThmDummy2,"M. Djordjevic et al.","l");
-		TLegendEntry *ent_thm3 = legendSigma->AddEntry(gThmDummy3,"CUJET3.0 0-20%","l");
+		TLegendEntry *ent_thm3 = legendSigma->AddEntry(gThmDummy3,"CUJET3.0 0-20%","f");
 		TLegendEntry *ent_thm4 = legendSigma->AddEntry(gThmDummy4,"AdS/CFT: HH D(p)","f");
 		TLegendEntry *ent_thm5 = legendSigma->AddEntry(gThmDummy5,"AdS/CFT: HH D=const","f");
 		ent_thm1->SetTextSize(0.038);//0.03

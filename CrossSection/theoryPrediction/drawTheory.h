@@ -82,7 +82,8 @@ void plotTheory()
   gCUJETB5TeV->SetLineWidth(1);
   gCUJETB5TeV->SetLineColor(kRed-4);
   gCUJETB5TeV->SetFillColor(kRed-4);
-  gCUJETB5TeV->SetFillStyle(3001);
+  gCUJETB5TeV->SetFillColorAlpha(kRed-4, 0.5);
+  //gCUJETB5TeV->SetFillStyle(3001);
   gCUJETB5TeV->Draw("3 same");
   /*
   TGraph* gCUJETB5TeV = new TGraph(nbin,aCx,aCy);
