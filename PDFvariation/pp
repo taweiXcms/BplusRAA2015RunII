@@ -1,0 +1,14 @@
+RESULTS: Double Gaussian and Linear: 0.000001 0
+RESULTS: Width Variation: 0.000001
+RESULTS: NP Erf Shift Forward: 0.005804
+RESULTS: NP Erf Shift Back: 0.004395
+RESULTS: NP Relative Norm Erf Decrease: 0.000743
+RESULTS: NP Relative Norm Erf Increase: 0.000448
+RESULTS: NP Gaussian Shift Forward: 0.009164
+RESULTS: NP Gaussian Shift Back: 0.008066
+RESULTS: Double Gaussian and Quadratic: 0.028631 0
+RESULTS: Double Gaussian and Cubic: 0.028207 0
+RESULTS: Double Gaussian and Exponential: 0.000680 0
+RESULTS: Triple Gaussian and Linear: 0.004215 0
+
+sqrt(0.028631*0.028631 + 0.004215*0.004215)
