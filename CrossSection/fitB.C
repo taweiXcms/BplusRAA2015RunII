@@ -221,7 +221,6 @@ void getNPFnPar(TString npfname, float par[]){
 //TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool isPbPb,TF1* &total,Float_t centmin, Float_t centmax, float NPpar[])
 TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool isPbPb,TF1* &total,Float_t centmin, Float_t centmax, TString npfit)
 {
-	//cout<<cut.Data()<<endl;
 	static Int_t count=0;
 	count++;
 	TCanvas* c= new TCanvas(Form("c%d",count),"",600,600);
@@ -232,6 +231,7 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 	//TString iNP=Form("TMath::Erf((x-%f)/%f)+1", NPpar[0], NPpar[1]);
 	TString iNP = npfit;
 	TF1* f = new TF1(Form("f%d",count),"[0]*([7]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2])+(1-[7])*Gaus(x,[1],[8])/(sqrt(2*3.14159)*[8]))+[3]+[4]*x+[5]*("+iNP+")");
+	f->SetNpx(5000);
 	f->SetLineWidth(5);
 
 	if(isMC==1) nt->Project(Form("h-%d",count),"Bmass",Form("%s*(%s&&Bpt>%f&&Bpt<%f)*(1/%s)","1",seldata.Data(),ptmin,ptmax,weightdata.Data()));   
@@ -239,13 +239,6 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 
 	ntMC->Project(Form("hMCSignal-%d",count),"Bmass",Form("%s&&Bpt>%f&&Bpt<%f",Form("%s&&Bgen==23333",selmc.Data()),ptmin,ptmax));
 	clean0(h);
-	/*
-	   TFile*fout=new TFile("testout.root","recreate");
-	   fout->cd();
-	   h->Write();
-	   hMCSignal->Write();
-	   fout->Close();
-	   */
 
 	//h->Draw();
 	f->SetParLimits(4,-1000,1000);
@@ -298,7 +291,6 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 		//      h->Fit(Form("f%d",count),"q","",minhisto,maxhisto);
 		//      h->Fit(Form("f%d",count),"m","",minhisto,maxhisto);
 	}
-	f->SetLineWidth(5);
 
 	TF1 *background = new TF1(Form("background%d",count),"[0]+[1]*x");
 	background->SetParameter(0,f->GetParameter(3));
@@ -307,7 +299,8 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 	background->SetRange(minhisto,maxhisto);
 	//background->SetLineStyle(2);//PAS
 	background->SetLineStyle(7);//paper
-	background->SetLineWidth(5);
+	//background->SetLineWidth(5);
+	background->SetLineWidth(9);
 
 	TF1 *Bkpi = new TF1(Form("fBkpi%d",count),"[0]*("+iNP+")");
 	Bkpi->SetParameter(0,f->GetParameter(5));
@@ -319,7 +312,8 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 	//Bkpi->SetFillColor(kGreen+1);//PAS
 	Bkpi->SetLineColor(kGreen+4);//paper
 	Bkpi->SetFillColor(kGreen+4);//paper
-	Bkpi->SetLineWidth(5);
+	//Bkpi->SetLineWidth(5);
+	Bkpi->SetLineWidth(9);
 
 	TF1 *mass = new TF1(Form("fmass%d",count),"[0]*([3]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2])+(1-[3])*Gaus(x,[1],[4])/(sqrt(2*3.14159)*[4]))");
 	mass->SetParameters(f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(7),f->GetParameter(8));
@@ -334,31 +328,42 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 	mass->SetLineColor(kOrange-3);//paper
 	//mass->SetFillStyle(3004);//PAS
 	mass->SetFillStyle(3002);//paper
-	mass->SetLineWidth(5);
+	//mass->SetLineWidth(5);
+	mass->SetLineWidth(9);
 	//mass->SetLineStyle(2);//PAS
 	mass->SetLineStyle(7);//paper
 
-	h->SetXTitle("m_{#mu#muK} (GeV/c^{2})");
+	//h->SetXTitle("m_{#mu#muK} (GeV/c^{2})");
+	h->SetXTitle("m_{B} (GeV/c^{2})");
 	h->SetYTitle("Events / (20 MeV/c^{2})");
 	h->GetXaxis()->CenterTitle();
 	h->GetYaxis()->CenterTitle();
 	h->SetAxisRange(0,h->GetMaximum()*1.4*1.2,"Y");
-	h->GetXaxis()->SetTitleOffset(1.3);
-	h->GetYaxis()->SetTitleOffset(1.8);
-	h->GetXaxis()->SetLabelOffset(0.007);
-	h->GetYaxis()->SetLabelOffset(0.007);
-	h->GetXaxis()->SetTitleSize(0.045);
-	h->GetYaxis()->SetTitleSize(0.045);
+	//h->GetXaxis()->SetTitleOffset(1.3);
+	//h->GetYaxis()->SetTitleOffset(1.8);
+	h->GetXaxis()->SetTitleOffset(0.9);
+	h->GetYaxis()->SetTitleOffset(1.3);
+	//h->GetXaxis()->SetLabelOffset(0.007);
+	//h->GetYaxis()->SetLabelOffset(0.007);
+	//h->GetXaxis()->SetTitleSize(0.045);
+	//h->GetYaxis()->SetTitleSize(0.045);
+	h->GetXaxis()->SetTitleSize(0.07);
+	h->GetYaxis()->SetTitleSize(0.07);
 	h->GetXaxis()->SetTitleFont(42);
 	h->GetYaxis()->SetTitleFont(42);
 	h->GetXaxis()->SetLabelFont(42);
 	h->GetYaxis()->SetLabelFont(42);
-	h->GetXaxis()->SetLabelSize(0.04);
-	h->GetYaxis()->SetLabelSize(0.04);
-	h->SetMarkerSize(1.0);
+	//h->GetXaxis()->SetLabelSize(0.04);
+	//h->GetYaxis()->SetLabelSize(0.04);
+	h->GetXaxis()->SetLabelSize(0.06);
+	h->GetYaxis()->SetLabelSize(0.06);
+	//h->SetMarkerSize(1.0);
+	h->SetMarkerSize(1.55);
 	h->SetMarkerStyle(20);
-	h->SetLineWidth(2);
+	h->SetLineColor(1);
+	h->SetLineWidth(5);
 	h->SetStats(0);
+	h->GetXaxis()->SetNdivisions(-50205);
 	h->Draw("e");
 	Bkpi->Draw("same");
 	background->Draw("same");   
@@ -369,11 +374,13 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 	Double_t yield = mass->Integral(minhisto,maxhisto)/binwidthmass;
 	Double_t yieldErr = mass->Integral(minhisto,maxhisto)/binwidthmass*mass->GetParError(0)/mass->GetParameter(0);
 
-	TLegend* leg = new TLegend(0.62,0.58,0.82,0.88,NULL,"brNDC");
+	//TLegend* leg = new TLegend(0.62,0.58,0.82,0.88,NULL,"brNDC");
+    TLegend *leg = new TLegend(0.525,0.38,0.85,0.70,NULL,"brNDC");//paper
 	leg->SetBorderSize(0);
-	leg->SetTextSize(0.04);
-	//leg->SetTextFont(42);
-	leg->SetTextFont(62);
+	//leg->SetTextSize(0.04);
+	leg->SetTextSize(0.06);
+	leg->SetTextFont(42);
+	//leg->SetTextFont(62);
 	leg->SetFillStyle(0);
 	leg->AddEntry(h,"Data","pl");
 	leg->AddEntry(f,"Fit","l");
@@ -401,7 +408,7 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 	texcms->SetNDC();
 	texcms->SetTextAlign(13);
 	texcms->SetTextFont(62);//61
-	texcms->SetTextSize(0.06);
+	texcms->SetTextSize(0.08);
 	texcms->SetLineWidth(2);
 	texcms->Draw();
 
@@ -412,20 +419,24 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 	//else texCol= new TLatex(0.96,0.93, Form("%s #sqrt{s_{NN}} = 5.02 TeV","PbPb"));
 	//if(collisionsystem=="pp"||collisionsystem=="PP"||collisionsystem=="ppInc"||collisionsystem=="PbPbInc") texCol= new TLatex(0.935,0.93, Form("28.0 pb^{-1} (#sqrt{s} = 5.02 TeV %s)","pp"));
 	//else texCol= new TLatex(0.93,0.93, Form("350.1 #mub^{-1} (#sqrt{s_{NN}} = 5.02 TeV %s)","PbPb"));
-	if(collisionsystem=="pp"||collisionsystem=="PP"||collisionsystem=="ppInc"||collisionsystem=="PbPbInc") texCol= new TLatex(0.945,0.93, Form("28.0 pb^{-1} (5.02 TeV %s)","pp"));
-	else texCol= new TLatex(0.94,0.93, Form("350.1 #mub^{-1} (5.02 TeV %s)","PbPb"));
+	if(collisionsystem=="pp"||collisionsystem=="PP"||collisionsystem=="ppInc"||collisionsystem=="PbPbInc") texCol= new TLatex(0.945,0.94, Form("28.0 pb^{-1} (%s 5.02 TeV)","pp"));
+	else texCol= new TLatex(0.94,0.93, Form("350.1 #mub^{-1} (%s 5.02 TeV)","PbPb"));
 	texCol->SetNDC();
 	texCol->SetTextAlign(32);
-	texCol->SetTextSize(0.04);
+	//texCol->SetTextSize(0.04);
+	texCol->SetTextSize(0.06);
 	texCol->SetTextFont(42);
 	texCol->Draw();
 
 	TLatex* tex;
 
-	tex = new TLatex(0.22,0.73,Form("%.0f < p_{T} < %.0f GeV/c",ptmin,ptmax));
+	//tex = new TLatex(0.22,0.73,Form("%.0f < p_{T} < %.0f GeV/c",ptmin,ptmax));
+	//tex = new TLatex(0.488,0.84,Form("%.0f < p_{T} < %.0f GeV/c",ptmin,ptmax));
+	tex = new TLatex(0.488,0.82,Form("%.0f < p_{T} < %.0f GeV/c",ptmin,ptmax));
 	tex->SetNDC();
 	tex->SetTextFont(42);
-	tex->SetTextSize(0.04);
+	//tex->SetTextSize(0.04);
+	tex->SetTextSize(0.06);
 	tex->SetLineWidth(2);
 	tex->Draw();
 
@@ -440,10 +451,13 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 		//if(collisionsystem!="pp"&&collisionsystem!="PP"&&collisionsystem!="ppInc"&&collisionsystem!="PbPbInc") tex->Draw();
 	}
 
-	tex = new TLatex(0.22,0.78,"|y| < 2.4");
+	//tex = new TLatex(0.22,0.78,"|y| < 2.4");
+	//tex = new TLatex(0.700,0.77,"|y| < 2.4");
+	tex = new TLatex(0.725,0.75,"|y| < 2.4");
 	tex->SetNDC();
 	tex->SetTextFont(42);
-	tex->SetTextSize(0.04);
+	//tex->SetTextSize(0.04);
+	tex->SetTextSize(0.06);
 	tex->SetLineWidth(2);
 	tex->Draw();
 

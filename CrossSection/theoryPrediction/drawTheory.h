@@ -80,10 +80,11 @@ void plotTheory()
   TGraphAsymmErrors* gCUJETB5TeV = new TGraphAsymmErrors(size,pt,RAA,width,width,RAAerr,RAAerr);
   gCUJETB5TeV->SetName("gCUJETB5TeV");
   gCUJETB5TeV->SetLineWidth(1);
+  gStyle->SetHatchesLineWidth(3);
   gCUJETB5TeV->SetLineColor(kRed-4);
   gCUJETB5TeV->SetFillColor(kRed-4);
   gCUJETB5TeV->SetFillColorAlpha(kRed-4, 0.5);
-  //gCUJETB5TeV->SetFillStyle(3001);
+  gCUJETB5TeV->SetFillStyle(3344);
   gCUJETB5TeV->Draw("3 same");
   /*
   TGraph* gCUJETB5TeV = new TGraph(nbin,aCx,aCy);
@@ -126,7 +127,7 @@ void plotTheory()
   gADSCFT1B5TeV->SetLineColor(kGreen-2);
   gADSCFT1B5TeV->SetFillColor(kGreen-2);
   gADSCFT1B5TeV->SetFillColorAlpha(kGreen-2,0.5);
-  gADSCFT1B5TeV->SetFillStyle(1001);
+  gADSCFT1B5TeV->SetFillStyle(3325);
   gADSCFT1B5TeV->Draw("4 same");
 
   ifstream getadscft2("theoryPrediction/theorypre/ADSCFT_20170310/RAA_5TeV_0080_B0_DiffusionDynamic_band.dat");
@@ -157,7 +158,7 @@ void plotTheory()
   gADSCFT2B5TeV->SetLineColor(kViolet-8);
   gADSCFT2B5TeV->SetFillColor(kViolet-8);
   gADSCFT2B5TeV->SetFillColorAlpha(kViolet-8,0.5);
-  gADSCFT2B5TeV->SetFillStyle(1001);
+  gADSCFT2B5TeV->SetFillStyle(3352);
   gADSCFT2B5TeV->Draw("4 same");
 
 }

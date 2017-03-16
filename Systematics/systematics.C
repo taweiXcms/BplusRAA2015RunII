@@ -198,9 +198,9 @@ float normalizationUncertaintyForRAA(bool TAAhi = 1, double centL=0,double centH
 	} else {
 		// 0-100%a
 		if(TAAhi == 1)
-			sys+=TAAUncertainty0to100HI*TAAUncertainty0to100HI;
-		if(TAAhi == 0)
 			sys+=TAAUncertainty0to100LO*TAAUncertainty0to100LO;
+		if(TAAhi == 0)
+			sys+=TAAUncertainty0to100HI*TAAUncertainty0to100HI;
 	}
 	return sqrt(sys);
 }

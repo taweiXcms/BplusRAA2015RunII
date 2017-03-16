@@ -21,7 +21,7 @@ double ybin[nBinsy+1] = {0.0, 0.5, 1.0, 1.5, 2.4};
 double Ratylab[nBinsy];
 double RatErrylab[nBinsy];
 
-bool ispp = 1;
+bool ispp = 0;
 string label;
 bool ispt = 1;
 string var;
@@ -41,7 +41,7 @@ void drawmacro() {
     TFile *inf = new TFile(Form("../step4_SkimBntuple/results_%s.root", label.c_str()));
 	TFile* facc_gaus_ptdep=new TFile(Form("../step5_getAccFromtoy/AccVar_ptvar_%s.root", label.c_str()));
 	TFile* facc_gaus_ydep=new TFile(Form("../step5_getAccFromtoy/AccVar_yvar_%s.root", label.c_str()));
-	TFile* fout=new TFile("AccSys_Bplus_20141104.root","RECREATE");
+	TFile* fout=new TFile(Form("AccSys_Bplus_%s.root",label.c_str()),"RECREATE");
 
 	TTree* tr11=(TTree*)fratio_gaus_ptdep->Get("ditTree");
 	TTree* tr21=(TTree*)fratio_gaus_ydep->Get("ditTree");
@@ -135,7 +135,6 @@ void drawmacro() {
 		std::cout << avg21 << " " << sig21 << std::endl;
 		hpullf11y[i]=new TH1D(Form("hpullf11y_%i",i+1),Form("Pull distribution in (%1.3f#leqy_{lab}<%1.3f);pull;Entries",ybin[i],ybin[i+1]),1000,((avgh-0.0500-avg11)/sig11),((avgh+0.0500-avg11)/sig11));
 		hpullf21y[i]=new TH1D(Form("hpullf21y_%i",i+1),Form("Pull distribution in (%1.3f#leqy_{lab}<%1.3f);pull;Entries",ybin[i],ybin[i+1]),1000,((avgh-0.0500-avg21)/sig21),((avgh+0.0500-avg21)/sig21));
-
 		for (int j=0;j<1000;j++) {
 			hpullf11y[i]->SetBinContent(j+1,hf11y[i]->GetBinContent(j+1));
 			hpullf21y[i]->SetBinContent(j+1,hf21y[i]->GetBinContent(j+1));
@@ -206,7 +205,7 @@ void drawmacro() {
 		p21->Draw("same");
 		leg1->Draw("same");
 
-		c1->SaveAs(Form("test_20141104_Bplus_ptdep_%i.pdf",i));
+		c1->SaveAs(Form("Bplus_ptdep_%i_%s.pdf",i,label.c_str()));
 	}
 
 	for (int i=0;i<nBinsy;i++){
@@ -250,7 +249,7 @@ void drawmacro() {
 		p11->Draw("same");
 		p21->Draw("same");
 		leg1->Draw("same");
-		c1->SaveAs(Form("test_20141104_Bplus_ydep_%i.pdf",i));
+		c1->SaveAs(Form("Bplus_ydep_%i_%s.pdf",i,label.c_str()));
 	}
 
 	
@@ -309,7 +308,7 @@ void drawmacro() {
 		leg1->Draw("same");
 		ptline->Draw("same");
 
-		c1->SaveAs(Form("test_20141104_Bplus_accvar_ptdep_%i.pdf",i));
+		c1->SaveAs(Form("Bplus_accvar_ptdep_%i_%s.pdf",i,label.c_str()));
 	}
 
 	for (int i=0;i<nBinsy;i++){
@@ -350,7 +349,7 @@ void drawmacro() {
 		GetMinMaxMean(hf21y[i], aMean2, aMin2, aMax2);
 		double unc1 = max(fabs(aMean1-avghy[i]), max(fabs(aMin1-avghy[i]), fabs(aMax1-avghy[i])));
 		double unc2 = max(fabs(aMean2-avghy[i]), max(fabs(aMin2-avghy[i]), fabs(aMax2-avghy[i])));
-		printf("avg: %f, pt var unc: %f, y var unc: %f, final: %f\n", avghpt[i], unc1, unc2, 100*max(unc1, unc2));
+		printf("avg: %f, pt var unc: %f, y var unc: %f, final: %f\n", avghy[i], unc1, unc2, 100*max(unc1, unc2));
 
 		leg1->AddEntry(hf11y[i],"p_{T} variation with gaussian","l");
 		leg1->AddEntry(hf21y[i],"y variation with gaussian","l");
@@ -367,7 +366,7 @@ void drawmacro() {
 		leg1->Draw("same");
 		yline->Draw("same");
 
-		c1->SaveAs(Form("test_20141104_Bplus_accvar_ydep_%i.pdf",i));
+		c1->SaveAs(Form("Bplus_accvar_ydep_%i_%s.pdf",i,label.c_str()));
 	}
 
 	for(int i=0;i<tr11->GetEntries();i++){
@@ -410,7 +409,7 @@ void drawmacro() {
 	ha1gaus->SetLineColor(kRed+2);
 	ha1gaus->Draw("");
 	leg1->Draw("same");
-	c1->SaveAs("test_20141104_Bplus_ha1comp.pdf");
+	c1->SaveAs(Form("Bplus_ha1comp_%s.pdf",label.c_str()));
 
 	leg1->Clear();
 	leg1->AddEntry(ha2gaus,"p_{T} variation with gaussian","l");
@@ -427,7 +426,7 @@ void drawmacro() {
 	ha2gaus->SetLineColor(kRed+2);
 	ha2gaus->Draw("");
 	leg1->Draw("same");
-	c1->SaveAs("test_20141104_Bplus_ha2comp.pdf");
+	c1->SaveAs(Form("Bplus_ha2comp_%s.pdf",label.c_str()));
 
 	leg1->Clear();
 	leg1->AddEntry(hay1gaus,"y variation with gaussian","l");
@@ -445,7 +444,7 @@ void drawmacro() {
 	hay1gaus->SetLineColor(kBlue);
 	hay1gaus->Draw("");
 	leg1->Draw("same");
-	c1->SaveAs("test_20141104_Bplus_hay1comp.pdf");
+	c1->SaveAs(Form("Bplus_hay1comp_%s.pdf",label.c_str()));
 
 	leg1->Clear();
 	leg1->AddEntry(hay2gaus,"y variation with gaussian","l");
@@ -463,7 +462,7 @@ void drawmacro() {
 	hay2gaus->SetLineColor(kBlue);
 	hay2gaus->Draw("");
 	leg1->Draw("same");
-	c1->SaveAs("test_20141104_Bplus_hay2comp.pdf");
+	c1->SaveAs(Form("Bplus_hay2comp_%s.pdf",label.c_str()));
 
 	//////////////////////
 	leg1->Clear();
@@ -487,7 +486,7 @@ void drawmacro() {
 	htest11->SetLineColor(kRed+2);
 	htest11->Draw("");
 	leg1->Draw("same");
-	c1->SaveAs("test_20141104_Bplus_ratioptbin1.pdf");
+	c1->SaveAs(Form("Bplus_ratioptbin1_%s.pdf",label.c_str()));
 
 	leg1->Clear();
 	leg1->AddEntry(htest21,"y variation with gaussian","l");
@@ -505,7 +504,7 @@ void drawmacro() {
 	htest21->SetLineColor(kBlue);
 	htest21->Draw("");
 	leg1->Draw("same");
-	c1->SaveAs("test_20141104_Bplus_ratioybin1.pdf");
+	c1->SaveAs(Form("Bplus_ratioybin1_%s.pdf",label.c_str()));
 
 	fout->Write();
 	fout->Close();

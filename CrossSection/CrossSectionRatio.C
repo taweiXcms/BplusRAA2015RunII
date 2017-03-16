@@ -173,8 +173,8 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
 	//texPrel->Draw();
 
 	TString text;
-	if (label=="PbPb") { text="350.68 #mub^{-1} (5.02 TeV PbPb)";}
-	else {text="28.0 pb^{-1} (5.02 TeV pp)";}
+	if (label=="PbPb") { text="350.68 #mub^{-1} (PbPb 5.02 TeV)";}
+	else {text="28.0 pb^{-1} (pp 5.02 TeV)";}
 	TLatex* texlumi = new TLatex(0.90,0.936,text.Data());
 	texlumi->SetNDC();
 	texlumi->SetTextAlign(31);

@@ -135,6 +135,7 @@ void mkPP()
 //void fitBvar(TString collsyst="PbPb", TString inputfile ="", TString npfile="ROOTfiles/NPFitPbPb.root", float centMin=0, float centMax=100, TString outputfile="outHisto")
 void fitBvar(int N=0,float centMin=0, float centMax=100, TString outputfile="outHisto")
 {
+//N = 1;
   if(N==0) mkpp();
   if(N==1) mkPP();
 
@@ -595,6 +596,7 @@ void fitBvar(int N=0,float centMin=0, float centMax=100, TString outputfile="out
 		TString sigName;
 		if(s==0) sigName = "Double Gaussian";
 		else sigName = "Triple Gaussian";
+printf("RESULTS: %s and %s: %f %d\n", sigName.Data(),bkgname[b].Data(), fabs(hvar->GetBinContent(1)-1), N);
 		leg->AddEntry(hvar,Form("%s and %s",sigName.Data(),bkgname[b].Data()),"pl");
 		if(s==0 && b==0)
 		{
@@ -605,6 +607,13 @@ void fitBvar(int N=0,float centMin=0, float centMax=100, TString outputfile="out
 		    leg->AddEntry(normminus, "NP Relative Norm Erf Increase","pl");
 		    leg->AddEntry(meanplus, "NP Gaussian Shift Forward","pl");
 		    leg->AddEntry(meanminus, "NP Gaussian Shift Back","pl");
+printf("RESULTS: Width Variation: %f\n",fabs(hwidvar->GetBinContent(1)-1));
+printf("RESULTS: NP Erf Shift Forward: %f\n",fabs(erfplus->GetBinContent(1)-1));
+printf("RESULTS: NP Erf Shift Back: %f\n",fabs(erfminus->GetBinContent(1)-1));
+printf("RESULTS: NP Relative Norm Erf Decrease: %f\n",fabs(normplus->GetBinContent(1)-1));
+printf("RESULTS: NP Relative Norm Erf Increase: %f\n",fabs(normminus->GetBinContent(1)-1));
+printf("RESULTS: NP Gaussian Shift Forward: %f\n",fabs(meanplus->GetBinContent(1)-1));
+printf("RESULTS: NP Gaussian Shift Back: %f\n",fabs(meanminus->GetBinContent(1)-1));
 		}
 	    }
 	}
