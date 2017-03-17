@@ -1,0 +1,28 @@
+#!/bin/bash
+
+###
+
+###pp
+#Bplus
+#official
+sed '1iconst int nBins=5; float pthatBin[nBins]={0,5,15,30,50}; float crosssec[nBins+1]={1.239e+08,9.118e+07,7.929e+06,8.213e+05,1.216e+05}; int genSignal[2]={1,1};' weighPurePthat.C > weighPurePthat_tmp.C
+#INPUTFILE="Bntuple20160806_Bpt7svpv5p5Bpt10svpv3p5_BfinderMC_pp_Pythia8_BuToJpsiK_TuneCUEP8M1_20160805_bPt0jpsiPt0tkPt0p5_Bp.root"
+#OUTPUTFILE="Bntuple20160806_Bpt7svpv5p5Bpt10svpv3p5_BfinderMC_pp_Pythia8_BuToJpsiK_TuneCUEP8M1_20160805_bPt0jpsiPt0tkPt0p5_Bp_pthatweight.root"
+#INPUTFILE="Bntuple20160806_Bpt7svpv5p5Bpt10svpv3p5_BfinderMC_PbPb_Pythia8_BuToJpsiK_TuneCUEP8M1_20160805_bPt5jpsiPt0tkPt0p8_Bp.root"
+#OUTPUTFILE="Bntuple20160806_Bpt7svpv5p5Bpt10svpv3p5_BfinderMC_PbPb_Pythia8_BuToJpsiK_TuneCUEP8M1_20160805_bPt5jpsiPt0tkPt0p8_Bp_pthatweight.root"
+#INPUTFILE="Bntuple20160816_Bpt7svpv5p5Bpt10svpv3p5_BfinderMC_pp_Pythia8_BuToJpsiK_TuneCUEP8M1_20160816_bPt0jpsiPt0tkPt0p5_Bp.root"
+#OUTPUTFILE="Bntuple20160816_Bpt7svpv5p5Bpt10svpv3p5_BfinderMC_pp_Pythia8_BuToJpsiK_TuneCUEP8M1_20160816_bPt0jpsiPt0tkPt0p5_Bp_pthatweight.root"
+#INPUTFILE="Bntuple20160816_Bpt7svpv5p5Bpt10svpv3p5_BfinderMC_PbPb_Pythia8_BuToJpsiK_TuneCUEP8M1_20160816_bPt5jpsiPt0tkPt0p8_Bp.root"
+#OUTPUTFILE="Bntuple20160816_Bpt7svpv5p5Bpt10svpv3p5_BfinderMC_PbPb_Pythia8_BuToJpsiK_TuneCUEP8M1_20160816_bPt5jpsiPt0tkPt0p8_Bp_pthatweight.root"
+#INPUTFILE="Bntuple20170225_Bpt7svpv5p5Bpt10svpv3p5_BfinderMC_pp_Pythia8_BuToJpsiK_TuneCUEP8M1_20160816_bPt0jpsiPt0tkPt0p5_Bp.root"
+#OUTPUTFILE="Bntuple20170225_Bpt7svpv5p5Bpt10svpv3p5_BfinderMC_pp_Pythia8_BuToJpsiK_TuneCUEP8M1_20160816_bPt0jpsiPt0tkPt0p5_Bp_pthatweight.root"
+INPUTFILE="Bntuple20170225_Bpt7svpv5p5Bpt10svpv3p5_BfinderMC_PbPb_Pythia8_BuToJpsiK_TuneCUEP8M1_20160816_bPt5jpsiPt0tkPt0p8_Bp.root"
+OUTPUTFILE="Bntuple20170225_Bpt7svpv5p5Bpt10svpv3p5_BfinderMC_PbPb_Pythia8_BuToJpsiK_TuneCUEP8M1_20160816_bPt5jpsiPt0tkPt0p8_Bp_pthatweight.root"
+###
+
+cp "$INPUTFILE" "$OUTPUTFILE"
+g++ weighPurePthat_tmp.C $(root-config --cflags --libs) -g -o weighPurePthat_tmp.exe 
+./weighPurePthat_tmp.exe "$INPUTFILE" "$OUTPUTFILE"
+rm weighPurePthat_tmp.exe
+
+rm weighPurePthat_tmp.C
