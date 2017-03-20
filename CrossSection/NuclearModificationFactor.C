@@ -131,7 +131,6 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 	gNuclearModification->SetLineColor(0);
 	gNuclearModification->SetMarkerColor(kAzure-1);
 
-	gNuclearModification_Cor->SetLineStyle(7);
 	gNuclearModification_Cor->SetLineColor(1);
 	gNuclearModification_Cor->SetLineWidth(3);
 	gNuclearModification_Cor->SetFillColor(0);
@@ -190,10 +189,13 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 	texlumi->SetLineWidth(2);
 	texlumi->Draw();
 
-	TLatex* texB = new TLatex(0.89,0.85,"B^{+}");
+	//TLatex* texB = new TLatex(0.89,0.85,"B^{+}");
+	TLatex* texB = new TLatex(0.81,0.21,"B^{+}");
 	texB->SetNDC();
-	texB->SetTextFont(42);
-	texB->SetTextSize(0.07);
+	//texB->SetTextFont(42);
+	texB->SetTextFont(62);
+	//texB->SetTextSize(0.07);
+	texB->SetTextSize(0.08);
 	texB->SetLineWidth(2);
 	texB->Draw();
 
@@ -205,7 +207,8 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 	texcms->SetLineWidth(2);
 	texcms->Draw();
 
-	texY = new TLatex(0.16,0.80,"|y| < 2.4");
+	//texY = new TLatex(0.16,0.80,"|y| < 2.4");
+	texY = new TLatex(0.81,0.16,"|y| < 2.4");
 	texY->SetNDC();
 	texY->SetTextFont(42);
 	texY->SetTextSize(0.04);
@@ -222,7 +225,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 
     TLegend *legendSigma=new TLegend(0.6036242,0.7474695,0.942953,0.8457592,"");
 	if(drawDRAA)legendSigma=new TLegend(0.3936242,0.6574695,0.812953,0.9157592,"");
-	if(drawThm)legendSigma=new TLegend(0.15,0.65,0.49,0.78,"");
+	if(drawThm)legendSigma=new TLegend(0.15,0.65,0.49,0.85,"");
 	adjustLegend(legendSigma);
 
 	//TLegendEntry *ent_SigmaPP=legendSigma->AddEntry(hNuclearModification,"R_{AA} stat. unc.","pf");
@@ -300,21 +303,37 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 	}
 
 	TLegendEntry *ent_B;
+	TLegendEntry *ent_uncCor;
+	TLegendEntry *ent_uncUncor;
 	TLegendEntry *ent_unc;
 	if(drawB) {
 		//ent_B = legendSigma->AddEntry(gNuclearModification,"B^{+} |y| < 2.4","pf");
-		ent_B = legendSigma->AddEntry(gNuclearModification,"Data","pf");
+		//ent_B = legendSigma->AddEntry(gNuclearModification,"Data","pf");
+		ent_B = legendSigma->AddEntry(gNuclearModification,"R_{AA}","pe");
 		ent_B->SetTextFont(42);
 		ent_B->SetLineColor(4);
 		ent_B->SetMarkerColor(4);
 		ent_B->SetTextSize(0.038);//0.03
+
+		ent_uncCor = legendSigma->AddEntry(gNuclearModification_Cor,"correlated syst. uncert.","f");
+		ent_uncCor->SetTextFont(42);
+		ent_uncCor->SetLineColor(4);
+		ent_uncCor->SetMarkerColor(4);
+		ent_uncCor->SetTextSize(0.03);//0.03
+
+		ent_uncUncor = legendSigma->AddEntry(gNuclearModification,"uncorrelated syst. uncert.","f");
+		ent_uncUncor->SetTextFont(42);
+		ent_uncUncor->SetLineColor(4);
+		ent_uncUncor->SetMarkerColor(4);
+		ent_uncUncor->SetTextSize(0.03);//0.03
+
 		TBox* dummybox = new TBox();
 		dummybox->SetFillColor(16);
 		dummybox->SetLineColor(16);
 		dummybox->SetLineWidth(0);
 		ent_unc = legendSigma->AddEntry(dummybox,"T_{AA} + L_{pp} uncert.","f");
 		ent_unc->SetTextFont(42);
-		ent_unc->SetTextSize(0.038);//0.03
+		ent_unc->SetTextSize(0.03);//0.03
 
 		//TMathText mt;
 		//mt.SetTextAlign(23);
@@ -382,8 +401,8 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		DrawBRpA();
 	}
 
-	TLegend *legendThm=new TLegend(0.49,0.78,0.94,0.915,"");
-	TLegend *legendAds=new TLegend(0.49,0.64,0.94,0.78,"");
+	TLegend *legendThm=new TLegend(0.71,0.78,0.95,0.915,"");
+	TLegend *legendAds=new TLegend(0.71,0.64,0.95,0.78,"");
 	if(drawThm){
 		adjustLegend(legendThm);
 		adjustLegend(legendAds);
@@ -408,12 +427,12 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		gThmDummy3->SetFillStyle(3344);
 		gThmDummy4->SetFillStyle(3325);
 		gThmDummy5->SetFillStyle(3352);
-		TLegendEntry *ent_thm1 = legendThm->AddEntry(gThmDummy1,"M. He et al.","l");
-		TLegendEntry *ent_thm2 = legendThm->AddEntry(gThmDummy2,"M. Djordjevic et al.","l");
+		TLegendEntry *ent_thm1 = legendThm->AddEntry(gThmDummy1,"TAMU","l");
+		TLegendEntry *ent_thm2 = legendThm->AddEntry(gThmDummy2,"Djordjevic","l");
 		TLegendEntry *ent_thm3 = legendThm->AddEntry(gThmDummy3,"CUJET3.0","f");
-		legendAds->SetHeader("Ads/CFT");
-		TLegendEntry *ent_thm4 = legendAds->AddEntry(gThmDummy4,"HH D(p)","f");
-		TLegendEntry *ent_thm5 = legendAds->AddEntry(gThmDummy5,"HH D=const","f");
+		legendAds->SetHeader("AdS/CFT HH");
+		TLegendEntry *ent_thm4 = legendAds->AddEntry(gThmDummy4,"D(p)","f");
+		TLegendEntry *ent_thm5 = legendAds->AddEntry(gThmDummy5,"D = const","f");
 		ent_thm1->SetTextSize(0.038);//0.03
 		ent_thm2->SetTextSize(0.038);//0.03
 		ent_thm3->SetTextSize(0.038);//0.03
@@ -481,6 +500,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 	fRAA->cd();
 	gNuclearModification->Write();
 	hNuclearModification->Write();
+
 }
 
 

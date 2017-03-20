@@ -211,7 +211,8 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
 	texB->SetLineWidth(2);
 	texB->Draw();
 
-	TLatex* texGlobal = new TLatex(0.53,0.59,Form("Global uncert. %.1f%s",normalizationUncertaintyForPP(),texper.Data()));
+	//TLatex* texGlobal = new TLatex(0.53,0.59,Form("Global uncert. %.1f%s",normalizationUncertaintyForPP(),texper.Data()));
+	TLatex* texGlobal = new TLatex(0.53,0.59,Form("L_{pp} + B uncert. %.1f%s",normalizationUncertaintyForPP(),texper.Data()));
 	texGlobal->SetNDC();
 	texGlobal->SetTextFont(42);
 	texGlobal->SetTextSize(0.05);
