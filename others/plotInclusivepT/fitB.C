@@ -384,7 +384,8 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 	leg->SetFillStyle(0);
 	leg->AddEntry(h,"Data","pl");
 	leg->AddEntry(f,"Fit","l");
-	leg->AddEntry(mass,"B^{+} signal","f");
+	//leg->AddEntry(mass,"B^{+} signal","f");
+	leg->AddEntry(mass,"Signal","f");
 	leg->AddEntry(background,"Combinatorial","l");
 	leg->AddEntry(Bkpi,"B #rightarrow J/#psi X","f");
 	leg->Draw("same");
@@ -412,7 +413,13 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 	texcms->SetLineWidth(2);
 	texcms->Draw();
 
-
+    //TLatex* texB = new TLatex(0.81,0.30,"B^{+}");
+    TLatex* texB = new TLatex(0.22,0.73,"B^{+}+B^{-}");
+    texB->SetNDC();
+    texB->SetTextFont(42);
+    texB->SetTextSize(0.07);
+    texB->SetLineWidth(2);
+    texB->Draw();
 
 	TLatex* texCol;
 	//if(collisionsystem=="pp"||collisionsystem=="PP"||collisionsystem=="ppInc"||collisionsystem=="PbPbInc") texCol= new TLatex(0.96,0.93, Form("%s #sqrt{s} = 5.02 TeV","pp"));

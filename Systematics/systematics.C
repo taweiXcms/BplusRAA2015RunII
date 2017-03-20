@@ -32,7 +32,8 @@ double ppLumiUncertainty 	= 2.3;			// new
 
 // Point-to-point
 double ppTrackingEfficiency 	= 4;   			    // single track systematics from D* studies
-double PbPbTrackingEfficiency 	= 5;   			// single track systematics from D* studies
+//double PbPbTrackingEfficiency 	= 5;   			// single track systematics from D* studies
+double PbPbTrackingEfficiency 	= 6;   			// from charged particle analysis
 double ppAlignment = 2.8; //alignment systematic from pp 13 TeV analysis
 double PbPbAlignment = 2.8; //alignment systematic from pp 13 TeV analysis
 double ppLifetime = 0.3; //from 13 TeV analysis
@@ -493,7 +494,40 @@ float systematicsPP(double pt, double HLT=0,int stage=0)
 
 	sys+= ppTagAndProbe->GetBinContent(ppTagAndProbe->FindBin(pt))*
 		ppTagAndProbe->GetBinContent(ppTagAndProbe->FindBin(pt));
+	sys+= ppAccUnc->GetBinContent(ppAccUnc->FindBin(pt))*
+		ppAccUnc->GetBinContent(ppAccUnc->FindBin(pt));
 
+	return sqrt(sys);
+}
+
+float systematicsPP_Correlated(double pt, double HLT=0,int stage=0)
+{
+	if (!initialized) initialization();
+	double sys=0;
+	if (pt >= PtBins[1]) pt = PtBins[1]-0.1;
+
+	sys+= ppSignalExtraction->GetBinContent(ppSignalExtraction->FindBin(pt))* 
+		ppSignalExtraction->GetBinContent(ppSignalExtraction->FindBin(pt));
+	sys+=(ppTrackingEfficiency)*(ppTrackingEfficiency);
+	sys+=ppAlignment*ppAlignment;
+	sys+=ppLifetime*ppLifetime;
+	sys+= ppMesonSelection->GetBinContent(ppMesonSelection->FindBin(pt))* 
+		ppMesonSelection->GetBinContent(ppMesonSelection->FindBin(pt));
+
+	return sqrt(sys);
+}
+
+float systematicsPP_UnCorrelated(double pt, double HLT=0,int stage=0)
+{
+	if (!initialized) initialization();
+	double sys=0;
+	if (pt >= PtBins[1]) pt = PtBins[1]-0.1;
+
+	sys+=fPPPtShape->Eval(pt)*fPPPtShape->Eval(pt);
+	sys+= ppEff->GetBinError(ppEff->FindBin(pt))/ppEff->GetBinContent(ppEff->FindBin(pt))*100*
+		ppEff->GetBinError(ppEff->FindBin(pt))/ppEff->GetBinContent(ppEff->FindBin(pt))*100;
+	sys+= ppTagAndProbe->GetBinContent(ppTagAndProbe->FindBin(pt))*
+		ppTagAndProbe->GetBinContent(ppTagAndProbe->FindBin(pt));
 	sys+= ppAccUnc->GetBinContent(ppAccUnc->FindBin(pt))*
 		ppAccUnc->GetBinContent(ppAccUnc->FindBin(pt));
 
@@ -544,6 +578,44 @@ float systematicsPbPb(double pt, bool TAAhi = 1, double centL=0,double centH=100
 	sys+=fPbPbPtShape->Eval(pt)*fPbPbPtShape->Eval(pt);
 	sys+= PbPbSignalExtraction->GetBinContent(PbPbSignalExtraction->FindBin(pt))* 
 		PbPbSignalExtraction->GetBinContent(PbPbSignalExtraction->FindBin(pt));
+	sys+= PbPbTagAndProbe->GetBinContent(PbPbTagAndProbe->FindBin(pt))*
+		PbPbTagAndProbe->GetBinContent(PbPbTagAndProbe->FindBin(pt));
+	sys+= PbPbAccUnc->GetBinContent(PbPbAccUnc->FindBin(pt))*
+		PbPbAccUnc->GetBinContent(PbPbAccUnc->FindBin(pt));
+
+	return sqrt(sys);
+
+}
+
+float systematicsPbPb_Correlated(double pt, bool TAAhi = 1, double centL=0,double centH=100, double HLT=0)
+{
+	double sys=0;
+
+	// pp tracking eff uncertainty used for the moment
+	sys+=(PbPbTrackingEfficiency)*(PbPbTrackingEfficiency);
+	//sys+=PbPbNMBUncertainty*PbPbNMBUncertainty;
+	sys+=PbPbAlignment*PbPbAlignment;
+	sys+=PbPbLifetime*PbPbLifetime;
+
+	if(TAAhi == 1)
+		sys+=TAAUncertainty0to100HI*TAAUncertainty0to100HI;
+	if(TAAhi == 0)
+		sys+=TAAUncertainty0to100LO*TAAUncertainty0to100LO;
+	sys+= PbPbMesonSelection->GetBinContent(PbPbMesonSelection->FindBin(pt))* 
+		PbPbMesonSelection->GetBinContent(PbPbMesonSelection->FindBin(pt));
+	sys+= PbPbSignalExtraction->GetBinContent(PbPbSignalExtraction->FindBin(pt))* 
+		PbPbSignalExtraction->GetBinContent(PbPbSignalExtraction->FindBin(pt));
+	return sqrt(sys);
+
+}
+
+float systematicsPbPb_UnCorrelated(double pt, bool TAAhi = 1, double centL=0,double centH=100, double HLT=0)
+{
+	double sys=0;
+
+	sys+= PbPbEff->GetBinError(PbPbEff->FindBin(pt))/PbPbEff->GetBinContent(PbPbEff->FindBin(pt))*100*
+		PbPbEff->GetBinError(PbPbEff->FindBin(pt))/PbPbEff->GetBinContent(PbPbEff->FindBin(pt))*100;
+	sys+=fPbPbPtShape->Eval(pt)*fPbPbPtShape->Eval(pt);
 	sys+= PbPbTagAndProbe->GetBinContent(PbPbTagAndProbe->FindBin(pt))*
 		PbPbTagAndProbe->GetBinContent(PbPbTagAndProbe->FindBin(pt));
 	sys+= PbPbAccUnc->GetBinContent(PbPbAccUnc->FindBin(pt))*
