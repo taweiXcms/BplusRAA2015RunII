@@ -1,7 +1,7 @@
 void canvasRAAPbPb_0_100_ThmRAA()
 {
 //=========Macro generated from canvas: canvasRAA/canvasRAA
-//=========  (Mon Mar 20 22:09:46 2017) by ROOT version6.02/10
+//=========  (Mon Mar 27 18:17:56 2017) by ROOT version6.02/10
    TCanvas *canvasRAA = new TCanvas("canvasRAA", "canvasRAA",0,0,600,600);
    gStyle->SetOptStat(0);
    gStyle->SetOptTitle(0);
@@ -1986,7 +1986,14 @@ tex->SetNDC();
    
    grae->Draw("3 ");
    
-   Double_t gADSCFT1B5TeV_fx1002[20] = {
+   Double_t gADSCFT1B5TeV_fx1002[27] = {
+   0.5,
+   1.5,
+   2.5,
+   3.5,
+   4.5,
+   5.5,
+   6.5,
    7.5,
    8.5,
    9.5,
@@ -2007,7 +2014,14 @@ tex->SetNDC();
    40,
    46,
    46};
-   Double_t gADSCFT1B5TeV_fy1002[20] = {
+   Double_t gADSCFT1B5TeV_fy1002[27] = {
+   1.357147,
+   1.340687,
+   1.274363,
+   1.085829,
+   0.8597941,
+   0.6858066,
+   0.5783772,
    0.5234197,
    0.4891076,
    0.4739726,
@@ -2028,7 +2042,14 @@ tex->SetNDC();
    0.5872905,
    0.6247361,
    0.6247361};
-   Double_t gADSCFT1B5TeV_fex1002[20] = {
+   Double_t gADSCFT1B5TeV_fex1002[27] = {
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
    0,
    0,
    0,
@@ -2049,7 +2070,14 @@ tex->SetNDC();
    0,
    0,
    0};
-   Double_t gADSCFT1B5TeV_fey1002[20] = {
+   Double_t gADSCFT1B5TeV_fey1002[27] = {
+   0.0299586,
+   0.01937013,
+   0.07864443,
+   0.08206259,
+   0.02485926,
+   0.04108217,
+   0.07802381,
    0.09687251,
    0.101701,
    0.1048172,
@@ -2070,7 +2098,7 @@ tex->SetNDC();
    0.1238647,
    0.1016116,
    0.1016116};
-   gre = new TGraphErrors(20,gADSCFT1B5TeV_fx1002,gADSCFT1B5TeV_fy1002,gADSCFT1B5TeV_fex1002,gADSCFT1B5TeV_fey1002);
+   gre = new TGraphErrors(27,gADSCFT1B5TeV_fx1002,gADSCFT1B5TeV_fy1002,gADSCFT1B5TeV_fex1002,gADSCFT1B5TeV_fey1002);
    gre->SetName("gADSCFT1B5TeV");
    gre->SetTitle("Graph");
 
@@ -2083,9 +2111,9 @@ tex->SetNDC();
    gre->SetLineColor(ci);
    gre->SetMarkerStyle(20);
    
-   TH1F *Graph_gADSCFT1B5TeV1002 = new TH1F("Graph_gADSCFT1B5TeV1002","Graph",100,3.65,49.85);
-   Graph_gADSCFT1B5TeV1002->SetMinimum(0.3153079);
-   Graph_gADSCFT1B5TeV1002->SetMaximum(0.7637149);
+   TH1F *Graph_gADSCFT1B5TeV1002 = new TH1F("Graph_gADSCFT1B5TeV1002","Graph",100,0.45,50.55);
+   Graph_gADSCFT1B5TeV1002->SetMinimum(0.2492321);
+   Graph_gADSCFT1B5TeV1002->SetMaximum(1.490548);
    Graph_gADSCFT1B5TeV1002->SetDirectory(0);
    Graph_gADSCFT1B5TeV1002->SetStats(0);
 
@@ -2108,7 +2136,14 @@ tex->SetNDC();
    
    gre->Draw("4 ");
    
-   Double_t gADSCFT2B5TeV_fx1003[20] = {
+   Double_t gADSCFT2B5TeV_fx1003[27] = {
+   0.5,
+   1.5,
+   2.5,
+   3.5,
+   4.5,
+   5.5,
+   6.5,
    7.5,
    8.5,
    9.5,
@@ -2129,7 +2164,14 @@ tex->SetNDC();
    40,
    46,
    46};
-   Double_t gADSCFT2B5TeV_fy1003[20] = {
+   Double_t gADSCFT2B5TeV_fy1003[27] = {
+   1.395799,
+   1.385974,
+   1.32012,
+   1.12228,
+   0.8662233,
+   0.6559682,
+   0.5192408,
    0.443355,
    0.3978358,
    0.3721422,
@@ -2150,7 +2192,14 @@ tex->SetNDC();
    0.3312942,
    0.3462933,
    0.3462933};
-   Double_t gADSCFT2B5TeV_fex1003[20] = {
+   Double_t gADSCFT2B5TeV_fex1003[27] = {
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
    0,
    0,
    0,
@@ -2171,7 +2220,14 @@ tex->SetNDC();
    0,
    0,
    0};
-   Double_t gADSCFT2B5TeV_fey1003[20] = {
+   Double_t gADSCFT2B5TeV_fey1003[27] = {
+   0.06278206,
+   0.009953326,
+   0.06265996,
+   0.08996986,
+   0.04592497,
+   0.01938425,
+   0.05948852,
    0.07641602,
    0.08004882,
    0.07879527,
@@ -2192,7 +2248,7 @@ tex->SetNDC();
    0.07081753,
    0.05302455,
    0.05302455};
-   gre = new TGraphErrors(20,gADSCFT2B5TeV_fx1003,gADSCFT2B5TeV_fy1003,gADSCFT2B5TeV_fex1003,gADSCFT2B5TeV_fey1003);
+   gre = new TGraphErrors(27,gADSCFT2B5TeV_fx1003,gADSCFT2B5TeV_fy1003,gADSCFT2B5TeV_fex1003,gADSCFT2B5TeV_fey1003);
    gre->SetName("gADSCFT2B5TeV");
    gre->SetTitle("Graph");
 
@@ -2205,9 +2261,9 @@ tex->SetNDC();
    gre->SetLineColor(ci);
    gre->SetMarkerStyle(20);
    
-   TH1F *Graph_gADSCFT2B5TeV1003 = new TH1F("Graph_gADSCFT2B5TeV1003","Graph",100,3.65,49.85);
-   Graph_gADSCFT2B5TeV1003->SetMinimum(0.224939);
-   Graph_gADSCFT2B5TeV1003->SetMaximum(0.5465739);
+   TH1F *Graph_gADSCFT2B5TeV1003 = new TH1F("Graph_gADSCFT2B5TeV1003","Graph",100,0.45,50.55);
+   Graph_gADSCFT2B5TeV1003->SetMinimum(0.131058);
+   Graph_gADSCFT2B5TeV1003->SetMaximum(1.579265);
    Graph_gADSCFT2B5TeV1003->SetDirectory(0);
    Graph_gADSCFT2B5TeV1003->SetStats(0);
 

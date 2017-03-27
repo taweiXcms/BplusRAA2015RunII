@@ -100,7 +100,8 @@ void plotTheory()
   //
 
 //  ifstream getadscft1("theoryPrediction/theorypre/ADSCFT_20170310/RAA_5TeV_0080_B0_DiffusionConstant_band.dat");
-  ifstream getadscft1("theoryPrediction/theorypre/ADSCFT_20170318/RAA_5TeV_0080_B0_DiffusionConstant_band.dat");
+//  ifstream getadscft1("theoryPrediction/theorypre/ADSCFT_20170318/RAA_5TeV_0080_B0_DiffusionConstant_band.dat");
+  ifstream getadscft1("theoryPrediction/theorypre/ADSCFT_20170320/RAA_5TeV_0080_B0_DiffusionConstant_band.dat");
   if(!getadscft1.is_open()) cout<<"Opening the file fails: ADS/CFT DiffusionConstant"<<endl;
   nbin=0;
   while(!getadscft1.eof())
@@ -132,7 +133,8 @@ void plotTheory()
   gADSCFT1B5TeV->Draw("4 same");
 
 //  ifstream getadscft2("theoryPrediction/theorypre/ADSCFT_20170310/RAA_5TeV_0080_B0_DiffusionDynamic_band.dat");
-  ifstream getadscft2("theoryPrediction/theorypre/ADSCFT_20170318/RAA_5TeV_0080_B0_DiffusionDynamic_band.dat");
+//  ifstream getadscft2("theoryPrediction/theorypre/ADSCFT_20170318/RAA_5TeV_0080_B0_DiffusionDynamic_band.dat");
+  ifstream getadscft2("theoryPrediction/theorypre/ADSCFT_20170320/RAA_5TeV_0080_B0_DiffusionDynamic_band.dat");
   if(!getadscft2.is_open()) cout<<"Opening the file fails: ADS/CFT DiffusionDynamic"<<endl;
   nbin=0;
   while(!getadscft2.eof())
