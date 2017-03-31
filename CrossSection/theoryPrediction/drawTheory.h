@@ -13,7 +13,8 @@ void plotTheory()
 
   TGraph* gMagdalenaB5TeV = new TGraph("theoryPrediction/theorypre/Magdalena.dat");
   gMagdalenaB5TeV->SetName("gMagdalenaB5TeV");
-  gMagdalenaB5TeV->SetLineColor(kGreen+4);
+  //gMagdalenaB5TeV->SetLineColor(kGreen+4); //CWRv8
+  gMagdalenaB5TeV->SetLineColor(kRed-4);
   gMagdalenaB5TeV->SetLineWidth(3);
   gMagdalenaB5TeV->SetLineStyle(6);
   //gMagdalenaB5TeV->SetFillColor(kGreen+4);
@@ -82,8 +83,10 @@ void plotTheory()
   gCUJETB5TeV->SetLineWidth(1);
   gStyle->SetHatchesLineWidth(3);
   gCUJETB5TeV->SetLineColor(kRed-4);
-  gCUJETB5TeV->SetFillColor(kRed-4);
-  gCUJETB5TeV->SetFillColorAlpha(kRed-4, 0.5);
+  //gCUJETB5TeV->SetFillColor(kRed-4); //CWRv8
+  //gCUJETB5TeV->SetFillColorAlpha(kRed-4, 0.5); //CWRv8
+  gCUJETB5TeV->SetFillColor(kYellow+2);
+  gCUJETB5TeV->SetFillColorAlpha(kYellow+2, 0.5);
   gCUJETB5TeV->SetFillStyle(3344);
   gCUJETB5TeV->Draw("3 same");
   /*

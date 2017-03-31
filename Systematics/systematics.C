@@ -136,7 +136,8 @@ void initializationPbPbCent0100()
 	}
 
 	PbPbAccUnc = new TH1D("PbPbAccUnc","",AnaBins,AnaPtBins);
-	double AccUnc_PbPb[5] = {0.106659, 0.095249, 0.220865, 0.272690, 0.412991};
+	//double AccUnc_PbPb[5] = {0.106659, 0.095249, 0.220865, 0.272690, 0.412991};//wrong CWRv8 
+    double AccUnc_PbPb[5] = {0.716141, 1.015990, 0.971805, 1.216616, 1.596899};
 	for(int i = 0; i < AnaBins; i++){
 //		PbPbAccUnc->SetBinContent(i+1,0);//PAS
 		PbPbAccUnc->SetBinContent(i+1,AccUnc_PbPb[i]);//paper 20170314

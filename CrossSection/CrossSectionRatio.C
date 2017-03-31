@@ -173,7 +173,7 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
 	//texPrel->Draw();
 
 	TString text;
-	if (label=="PbPb") { text="350.68 #mub^{-1} (PbPb 5.02 TeV)";}
+	if (label=="PbPb") { text="351 #mub^{-1} (PbPb 5.02 TeV)";}
 	else {text="28.0 pb^{-1} (pp 5.02 TeV)";}
 	TLatex* texlumi = new TLatex(0.90,0.936,text.Data());
 	texlumi->SetNDC();
@@ -211,8 +211,8 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
 	texB->SetLineWidth(2);
 	texB->Draw();
 
-	//TLatex* texGlobal = new TLatex(0.53,0.59,Form("Global uncert. %.1f%s",normalizationUncertaintyForPP(),texper.Data()));
-	TLatex* texGlobal = new TLatex(0.53,0.59,Form("L_{pp} + B uncert. %.1f%s",normalizationUncertaintyForPP(),texper.Data()));
+	TLatex* texGlobal = new TLatex(0.53,0.59,Form("Global uncert. %.1f%s",normalizationUncertaintyForPP(),texper.Data()));
+	//TLatex* texGlobal = new TLatex(0.53,0.59,Form("L_{pp} + B uncert. %.1f%s",normalizationUncertaintyForPP(),texper.Data()));
 	texGlobal->SetNDC();
 	texGlobal->SetTextFont(42);
 	texGlobal->SetTextSize(0.05);

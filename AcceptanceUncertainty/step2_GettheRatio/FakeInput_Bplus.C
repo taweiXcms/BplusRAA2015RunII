@@ -21,7 +21,7 @@ double yBins[nBinsy+1] = {-2.4,-1.465,-0.465,0.535,1.470,2.4};
 double yCMBins[nBinsy+1] = {1.935,1.0,0.0,-1.0,-1.935,-2.865};
 
 // pp or PbPb
-bool ispp = 1;
+bool ispp = 0;
 string label;
 
 void FakeInput_Bplus(){
@@ -33,11 +33,11 @@ void FakeInput_Bplus(){
     TFile *foutDatay    = new TFile("../Inputfileforreweighting/hPtSpectrumBplusPP_Y.root","read");
     TFile *foutMCPt     = new TFile("../Inputfileforreweighting/MCstudiesPP.root","read");
     TFile *foutMCy      = new TFile("../Inputfileforreweighting/MCstudiesPP_Y.root","read");
-	if(!ispp){
-	    TFile *foutDataPt   = new TFile("../Inputfileforreweighting/hPtSpectrumBplusPbPb.root","read");
-	    TFile *foutDatay    = new TFile("../Inputfileforreweighting/hPtSpectrumBplusPbPb_Y.root","read");
-	    TFile *foutMCPt     = new TFile("../Inputfileforreweighting/MCstudiesPbPb.root","read");
-	    TFile *foutMCy      = new TFile("../Inputfileforreweighting/MCstudiesPbPb_Y.root","read");
+	if(ispp==0){
+	    foutDataPt   = new TFile("../Inputfileforreweighting/hPtSpectrumBplusPbPb.root","read");
+	    foutDatay    = new TFile("../Inputfileforreweighting/hPtSpectrumBplusPbPb_Y.root","read");
+	    foutMCPt     = new TFile("../Inputfileforreweighting/MCstudiesPbPb.root","read");
+	    foutMCy      = new TFile("../Inputfileforreweighting/MCstudiesPbPb_Y.root","read");
 	}
 
 // call the histogram of raw yied from each file

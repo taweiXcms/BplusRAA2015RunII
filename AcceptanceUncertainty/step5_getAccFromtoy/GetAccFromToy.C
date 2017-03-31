@@ -25,7 +25,7 @@ double yBins[nBinsy+1] = {0.0, 0.5, 1.0, 1.5, 2.4};
 double Ratylab[nBinsy];
 double RatErrylab[nBinsy];
 
-bool ispp = 1;
+bool ispp = 0;
 string label;
 bool ispt = 1;
 string var;

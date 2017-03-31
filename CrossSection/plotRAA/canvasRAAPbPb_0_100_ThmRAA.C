@@ -1,7 +1,7 @@
 void canvasRAAPbPb_0_100_ThmRAA()
 {
 //=========Macro generated from canvas: canvasRAA/canvasRAA
-//=========  (Mon Mar 27 18:17:56 2017) by ROOT version6.02/10
+//=========  (Fri Mar 31 18:51:32 2017) by ROOT version6.02/10
    TCanvas *canvasRAA = new TCanvas("canvasRAA", "canvasRAA",0,0,600,600);
    gStyle->SetOptStat(0);
    gStyle->SetOptTitle(0);
@@ -52,7 +52,7 @@ void canvasRAAPbPb_0_100_ThmRAA()
    box->SetFillColor(16);
    box->SetLineColor(16);
    box->Draw();
-   TLatex *   tex = new TLatex(0.13,0.936,"28.0 pb^{-1} (pp 5.02 TeV) + 350.68 #mub^{-1} (PbPb 5.02 TeV)");
+   TLatex *   tex = new TLatex(0.2,0.936,"28.0 pb^{-1} (pp 5.02 TeV) + 351 #mub^{-1} (PbPb 5.02 TeV)");
 tex->SetNDC();
    tex->SetTextFont(42);
    tex->SetTextSize(0.038);
@@ -191,7 +191,7 @@ tex->SetNDC();
    graph->SetTitle("theoryPrediction/theorypre/Magdalena.dat");
    graph->SetFillColor(1);
 
-   ci = TColor::GetColor("#003300");
+   ci = TColor::GetColor("#ff3333");
    graph->SetLineColor(ci);
    graph->SetLineStyle(6);
    graph->SetLineWidth(3);
@@ -1953,7 +1953,7 @@ tex->SetNDC();
    grae->SetTitle("Graph");
 
    ci = 926;
-   color = new TColor(ci, 1, 0.2, 0.2, " ", 0.5);
+   color = new TColor(ci, 0.6, 0.6, 0, " ", 0.5);
    grae->SetFillColor(ci);
    grae->SetFillStyle(3344);
 
@@ -2305,11 +2305,11 @@ tex->SetNDC();
    3.571429,
    7.142857};
    Double_t gNuclearModification_fely3002[5] = {
-   0.03772711,
-   0.03287635,
-   0.02815902,
-   0.03384599,
-   0.01801552};
+   0.03780653,
+   0.0331872,
+   0.02846552,
+   0.03462301,
+   0.01880119};
    Double_t gNuclearModification_fehx3002[5] = {
    1.071429,
    1.785714,
@@ -2317,11 +2317,11 @@ tex->SetNDC();
    3.571429,
    7.142857};
    Double_t gNuclearModification_fehy3002[5] = {
-   0.03772711,
-   0.03287635,
-   0.02815902,
-   0.03384599,
-   0.01801552};
+   0.03780653,
+   0.0331872,
+   0.02846552,
+   0.03462301,
+   0.01880119};
    grae = new TGraphAsymmErrors(5,gNuclearModification_fx3002,gNuclearModification_fy3002,gNuclearModification_felx3002,gNuclearModification_fehx3002,gNuclearModification_fely3002,gNuclearModification_fehy3002);
    grae->SetName("gNuclearModification");
    grae->SetTitle("Graph");
@@ -2338,8 +2338,8 @@ tex->SetNDC();
    grae->SetMarkerSize(1.2);
    
    TH1F *Graph_gNuclearModification3002 = new TH1F("Graph_gNuclearModification3002","Graph",100,3.457143,51.11429);
-   Graph_gNuclearModification3002->SetMinimum(0.2740389);
-   Graph_gNuclearModification3002->SetMaximum(0.6831168);
+   Graph_gNuclearModification3002->SetMinimum(0.2738738);
+   Graph_gNuclearModification3002->SetMaximum(0.6839795);
    Graph_gNuclearModification3002->SetDirectory(0);
    Graph_gNuclearModification3002->SetStats(0);
 
@@ -2526,7 +2526,7 @@ tex->SetNDC();
    entry->SetMarkerSize(1.2);
    entry->SetTextFont(42);
    entry->SetTextSize(0.038);
-   entry=leg->AddEntry("gNuclearModification_Cor","correlated syst. uncert.","f");
+   entry=leg->AddEntry("gNuclearModification_Cor","Correlated syst. uncert.","f");
 
    ci = 925;
    color = new TColor(ci, 1, 1, 1, " ", 0.01);
@@ -2540,7 +2540,7 @@ tex->SetNDC();
    entry->SetMarkerSize(1);
    entry->SetTextFont(42);
    entry->SetTextSize(0.03);
-   entry=leg->AddEntry("gNuclearModification","uncorrelated syst. uncert.","f");
+   entry=leg->AddEntry("gNuclearModification","Uncorrelated syst. uncert.","f");
 
    ci = 924;
    color = new TColor(ci, 0, 0.6, 1, " ", 0.5);
@@ -2552,7 +2552,7 @@ tex->SetNDC();
    entry->SetMarkerSize(1);
    entry->SetTextFont(42);
    entry->SetTextSize(0.03);
-   entry=leg->AddEntry("TBox","T_{AA} + L_{pp} uncert.","f");
+   entry=leg->AddEntry("TBox","Global uncert.","f");
    entry->SetFillColor(16);
    entry->SetFillStyle(1001);
    entry->SetLineColor(16);
@@ -2585,7 +2585,7 @@ tex->SetNDC();
    entry->SetTextSize(0.038);
    entry=leg->AddEntry("","Djordjevic","l");
 
-   ci = TColor::GetColor("#003300");
+   ci = TColor::GetColor("#ff3333");
    entry->SetLineColor(ci);
    entry->SetLineStyle(6);
    entry->SetLineWidth(4);
@@ -2597,7 +2597,7 @@ tex->SetNDC();
    entry=leg->AddEntry("","CUJET3.0","f");
 
    ci = 929;
-   color = new TColor(ci, 1, 0.2, 0.2, " ", 0.5);
+   color = new TColor(ci, 0.6, 0.6, 0, " ", 0.5);
    entry->SetFillColor(ci);
    entry->SetFillStyle(3344);
    entry->SetLineStyle(1);

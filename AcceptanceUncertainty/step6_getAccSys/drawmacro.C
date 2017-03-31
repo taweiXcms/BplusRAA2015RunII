@@ -21,16 +21,12 @@ double ybin[nBinsy+1] = {0.0, 0.5, 1.0, 1.5, 2.4};
 double Ratylab[nBinsy];
 double RatErrylab[nBinsy];
 
-bool ispp = 0;
+bool ispp = 1;
 string label;
-bool ispt = 1;
-string var;
 
 void drawmacro() {
 	if(ispp) label = "pp";
 	else label = "PbPb";
-	if(ispt) var = "pt";
-	else var = "y";
 
 	//gROOT->Macro("rootlogon.C+");
 	gStyle->SetCanvasDefW(800);

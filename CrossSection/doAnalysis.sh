@@ -7,15 +7,17 @@ CENTPbPbMAX=100
 DOANALYSISPP_FONLL=0
 DOANALYSISPP_FITNP=0
 DOANALYSISPP_FIT=0
+DOANALYSISPP_FITONSAVED=0
 DOANALYSISPP_MCSTUDY=0
 DOANALYSISPP_CROSS=0
 
 DOANALYSISPbPb_FONLL=0
 DOANALYSISPbPb_FITNP=0
 DOANALYSISPbPb_FIT=0
+DOANALYSISPbPb_FITONSAVED=1
 DOANALYSISPbPb_MCSTUDY=0
 DOANALYSISPbPb_CROSS=0
-DORAA=1
+DORAA=0
 
 #Rapidity RAA
 DOANALYSISPP_FIT_Y=0
@@ -91,6 +93,7 @@ RECOONLYPP=$CUTPP
 TRGPP="(HLT_HIL1DoubleMu0_v1)"
 TRGPPMC="(HLT_HIL1DoubleMu0ForPPRef_v1)"
 #TRGPPMC="(1)"
+OUTPUTFILEPPSAVEHIST="ROOTfiles/hPtSpectrumSaveHistBplusPP.root"
 OUTPUTFILEPP="ROOTfiles/hPtSpectrumBplusPP.root"
 PREFIXPP="ROOTfiles/hPtSpectrumBplusPP" #IF YOU CHANGE OUTPUTFILEPP, CHANGE PREFIX PP ACCORDINGLY
 OUTPUTFILEMCSTUDYPP="ROOTfiles/MCstudiesPP.root"
@@ -121,8 +124,14 @@ fi
 
 if [ $DOANALYSISPP_FIT -eq 1 ]; then      
 g++ fitB.C $(root-config --cflags --libs) -g -o fitB.exe 
-./fitB.exe 0 "$INPUTDATAPP"  "$INPUTMCPP"  "$TRGPP" "$CUTPP"   "$SELGENPP"   "$ISMCPP"   1   "$ISDOWEIGHTPP"   "$LABELPP"  "$OUTPUTFILEPP" "$NPFIT_PP" 0
+./fitB.exe 0 "$INPUTDATAPP"  "$INPUTMCPP"  "$TRGPP" "$CUTPP"   "$SELGENPP"   "$ISMCPP"   1   "$ISDOWEIGHTPP"   "$LABELPP"  "$OUTPUTFILEPPSAVEHIST" "$NPFIT_PP" 0
 rm fitB.exe
+fi 
+
+if [ $DOANALYSISPP_FITONSAVED -eq 1 ]; then      
+g++ fitOnSavedB.C $(root-config --cflags --libs) -g -o fitOnSavedB.exe 
+./fitOnSavedB.exe 0 "$OUTPUTFILEPPSAVEHIST"  "$INPUTMCPP"  "$TRGPP" "$CUTPP"   "$SELGENPP"   "$ISMCPP"   1   "$ISDOWEIGHTPP"   "$LABELPP"  "$OUTPUTFILEPP" "$NPFIT_PP" 0
+rm fitOnSavedB.exe
 fi 
 
 if [ $DOANALYSISPP_MCSTUDY -eq 1 ]; then      
@@ -173,6 +182,7 @@ BASECUTPbPb="pclusterCompatibilityFilter&&pprimaryVertexFilter&&phfCoincFilter3&
 TRGPbPb="(HLT_HIL1DoubleMu0_v1 || HLT_HIL1DoubleMu0_part1_v1 || HLT_HIL1DoubleMu0_part2_v1 || HLT_HIL1DoubleMu0_part3_v1)"
 TRGPbPbMC="(HLT_HIL1DoubleMu0_v1 || HLT_HIL1DoubleMu0_part1_v1 || HLT_HIL1DoubleMu0_part2_v1 || HLT_HIL1DoubleMu0_part3_v1)"
 #TRGPbPbMC="(1)"
+OUTPUTFILEPbPbSAVEHIST="ROOTfiles/hPtSpectrumSaveHistBplusPbPb.root"
 OUTPUTFILEPbPb="ROOTfiles/hPtSpectrumBplusPbPb.root"
 PREFIXPbPb="ROOTfiles/hPtSpectrumBplusPbPb" #IF YOU CHANGE OUTPUTFILEPbPb, CHANGE PREFIXPbPb ACCORDINGLY
 OUTPUTFILEMCSTUDYPbPb="ROOTfiles/MCstudiesPbPb.root"
@@ -197,8 +207,14 @@ fi
 
 if [ $DOANALYSISPbPb_FIT -eq 1 ]; then      
 g++ fitB.C $(root-config --cflags --libs) -g -o fitB.exe 
-./fitB.exe 1 "$INPUTDATAPbPb"  "$INPUTMCPbPb"  "$TRGPbPb" "$CUTPbPb"   "$SELGENPbPb"   "$ISMCPbPb"   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$OUTPUTFILEPbPb" "$NPFIT_PbPb" 0 "$CENTPbPbMIN" "$CENTPbPbMAX"
+./fitB.exe 1 "$INPUTDATAPbPb"  "$INPUTMCPbPb"  "$TRGPbPb" "$CUTPbPb"   "$SELGENPbPb"   "$ISMCPbPb"   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$OUTPUTFILEPbPbSAVEHIST" "$NPFIT_PbPb" 0 "$CENTPbPbMIN" "$CENTPbPbMAX"
 rm fitB.exe
+fi 
+
+if [ $DOANALYSISPbPb_FITONSAVED -eq 1 ]; then      
+g++ fitOnSavedB.C $(root-config --cflags --libs) -g -o fitOnSavedB.exe 
+./fitOnSavedB.exe 1 "$OUTPUTFILEPbPbSAVEHIST"  "$INPUTMCPbPb"  "$TRGPbPb" "$CUTPbPb"   "$SELGENPbPb"   "$ISMCPbPb"   1   "$ISDOWEIGHTPbPb"   "$LABELPbPb"  "$OUTPUTFILEPbPb" "$NPFIT_PbPb" 0 "$CENTPbPbMIN" "$CENTPbPbMAX"
+rm fitOnSavedB.exe
 fi 
 
 if [ $DOANALYSISPbPb_MCSTUDY -eq 1 ]; then      

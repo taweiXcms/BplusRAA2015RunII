@@ -11,7 +11,7 @@ double gaussianRandom(double average, double stdev);
 void getfit();
 
 // pp or PbPb
-bool ispp = 1;
+bool ispp = 0;
 string label;
 
 const int nBins = 5;

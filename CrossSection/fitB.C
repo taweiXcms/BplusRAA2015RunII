@@ -123,6 +123,11 @@ void fitB(int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp/ntB_
 	TH1D* hSigmaGaus2 = new TH1D("hSigmaGaus2","",_nBins,_ptBins); 
 	TF1 *totalmass;
 
+	TString outputf;
+	outputf = Form("%s",outputfile.Data());
+	TFile* outf = new TFile(outputf.Data(),"recreate");
+	outf->cd();
+
 	for(int i=0;i<_nBins;i++)
 	{
 		//TF1* f = fit(nt,ntMC,_ptBins[i],_ptBins[i+1],isMC,isPbPb, totalmass,centmin, centmax, NPpar);
@@ -187,11 +192,6 @@ void fitB(int usePbPb=0, TString inputdata="/data/wangj/Data2015/Bntuple/pp/ntB_
 	cPtSigma->SetLogy();
 	hPtSigma->Draw();
 
-	TString outputf;
-	outputf = Form("%s",outputfile.Data());
-
-	TFile* outf = new TFile(outputf.Data(),"recreate");
-	outf->cd();
 	hPt->Write();
 	hEff->Write();
 	hMean->Write();
@@ -365,11 +365,13 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 	h->SetStats(0);
 	h->GetXaxis()->SetNdivisions(-50205);
 	h->Draw("e");
+	Bkpi->SetRange(5.00,5.60);
 	Bkpi->Draw("same");
 	background->Draw("same");   
-	mass->SetRange(minhisto,maxhisto);
+	mass->SetRange(5.16,5.40);
 	mass->Draw("same");
 	f->Draw("same");
+	c->RedrawAxis();
 
 	Double_t yield = mass->Integral(minhisto,maxhisto)/binwidthmass;
 	Double_t yieldErr = mass->Integral(minhisto,maxhisto)/binwidthmass*mass->GetParError(0)/mass->GetParameter(0);
@@ -474,6 +476,8 @@ TF1 *fit(TTree *nt, TTree *ntMC, Double_t ptmin, Double_t ptmax, int isMC,bool i
 	h->GetFunction(Form("f%d",count))->Delete();
     t->Draw("same");
 	h->Draw("e same");
+	h->Write();
+	hMCSignal->Write();
 
 	//if(!isPbPb) c->SaveAs(Form("plotFits/BMass%s_%d.pdf",collisionsystem.Data(),count));
 	//else c->SaveAs(Form("plotFits/BMass%s_%.0f_%.0f_%d.pdf",collisionsystem.Data(),centMin,centMax,count));

@@ -180,8 +180,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 	texY->SetLineWidth(2);
 	//texY->Draw();
 
-	TLatex* texlumi = new TLatex(0.13,0.936,"28.0 pb^{-1} (pp 5.02 TeV) + 350.68 #mub^{-1} (PbPb 5.02 TeV)");
-	//TLatex* texlumi = new TLatex(0.13,0.936,"350.1 #mub^{-1} (5.02 TeV PbPb)");
+	TLatex* texlumi = new TLatex(0.20,0.936,"28.0 pb^{-1} (pp 5.02 TeV) + 351 #mub^{-1} (PbPb 5.02 TeV)");
 	texlumi->SetNDC();
 	//texlumi->SetTextAlign(31);
 	texlumi->SetTextFont(42);
@@ -240,8 +239,10 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 	//ent_Sigmapp->SetMarkerColor(1);
 	//ent_Sigmapp->SetTextSize(0.045);
 
-	TLatex* texSystnorm = new TLatex(0.23,0.70,"T_{AA} + lumi.");
-	if(drawDRAA) texSystnorm = new TLatex(0.22,0.70,"T_{AA} + lumi.");
+	//TLatex* texSystnorm = new TLatex(0.23,0.70,"T_{AA} + lumi.");
+	//if(drawDRAA) texSystnorm = new TLatex(0.22,0.70,"T_{AA} + lumi.");
+	TLatex* texSystnorm = new TLatex(0.23,0.70,"Global uncert.");
+	if(drawDRAA) texSystnorm = new TLatex(0.22,0.70,"Global uncert.");
 	texSystnorm->SetNDC();
 	texSystnorm->SetTextColor(1);
 	texSystnorm->SetTextFont(42);
@@ -315,13 +316,13 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		ent_B->SetMarkerColor(4);
 		ent_B->SetTextSize(0.038);//0.03
 
-		ent_uncCor = legendSigma->AddEntry(gNuclearModification_Cor,"correlated syst. uncert.","f");
+		ent_uncCor = legendSigma->AddEntry(gNuclearModification_Cor,"Correlated syst. uncert.","f");
 		ent_uncCor->SetTextFont(42);
 		ent_uncCor->SetLineColor(4);
 		ent_uncCor->SetMarkerColor(4);
 		ent_uncCor->SetTextSize(0.03);//0.03
 
-		ent_uncUncor = legendSigma->AddEntry(gNuclearModification,"uncorrelated syst. uncert.","f");
+		ent_uncUncor = legendSigma->AddEntry(gNuclearModification,"Uncorrelated syst. uncert.","f");
 		ent_uncUncor->SetTextFont(42);
 		ent_uncUncor->SetLineColor(4);
 		ent_uncUncor->SetMarkerColor(4);
@@ -331,7 +332,8 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		dummybox->SetFillColor(16);
 		dummybox->SetLineColor(16);
 		dummybox->SetLineWidth(0);
-		ent_unc = legendSigma->AddEntry(dummybox,"T_{AA} + L_{pp} uncert.","f");
+		//ent_unc = legendSigma->AddEntry(dummybox,"T_{AA} + L_{pp} uncert.","f");
+		ent_unc = legendSigma->AddEntry(dummybox,"Global uncert.","f");
 		ent_unc->SetTextFont(42);
 		ent_unc->SetTextSize(0.03);//0.03
 
@@ -413,17 +415,18 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		TGraphAsymmErrors* gThmDummy4 = new TGraphAsymmErrors();
 		TGraphAsymmErrors* gThmDummy5 = new TGraphAsymmErrors();
 		gThmDummy1->SetLineColor(kOrange+8);
-		gThmDummy2->SetLineColor(kGreen+4);
+		//gThmDummy2->SetLineColor(kGreen+4); //CWRv9
+		gThmDummy2->SetLineColor(kRed-4);
 		gThmDummy3->SetLineColor(0);
 		gThmDummy4->SetLineColor(0);
 		gThmDummy5->SetLineColor(0);
-		gThmDummy3->SetFillColorAlpha(kRed-4,0.5);
+		//gThmDummy3->SetFillColorAlpha(kRed-4,0.5); //CWRv8
+		gThmDummy3->SetFillColorAlpha(kYellow+2,0.5);
 		gThmDummy4->SetFillColorAlpha(kGreen-2,0.5);
 		gThmDummy5->SetFillColorAlpha(kViolet-8,0.5);
 		gThmDummy1->SetLineWidth(4.5);
 		gThmDummy2->SetLineWidth(4.5);
 		gThmDummy2->SetLineStyle(6);
-		//gThmDummy3->SetLineStyle(2);
 		gThmDummy3->SetFillStyle(3344);
 		gThmDummy4->SetFillStyle(3325);
 		gThmDummy5->SetFillStyle(3352);
