@@ -97,6 +97,7 @@ void fitOnSavedB(int usePbPb=0, TString inputhist="ROOTfiles/hPtSpectrumSaveHist
 		hMean->SetBinError(i+1,f->GetParError(1));  
 		double yield = f->Integral(minhisto,maxhisto)/binwidthmass;
 		double yieldErr = f->Integral(minhisto,maxhisto)/binwidthmass*f->GetParError(0)/f->GetParameter(0);
+		printf("yield: %f, yieldErr: %f\n", yield, yieldErr);
 		yieldErr = yieldErr*_ErrCor;
 		hPt->SetBinContent(i+1,yield/(_ptBins[i+1]-_ptBins[i]));
 		hPt->SetBinError(i+1,yieldErr/(_ptBins[i+1]-_ptBins[i]));
@@ -184,6 +185,16 @@ TF1 *fit(TFile *inf, Double_t ptmin, Double_t ptmax, int isMC,bool isPbPb,TF1* &
 	h->Fit(Form("f%d",count),"L q","",minhisto,maxhisto);
 	h->Fit(Form("f%d",count),"L q","",minhisto,maxhisto);
 	h->Fit(Form("f%d",count),"L m","",minhisto,maxhisto);
+	//accessing fir results
+	//https://root.cern.ch/root/html/ROOT__Fit__FitResult.html
+	//TFitResultPtr fr = h->Fit(Form("f%d",count),"L m s e","",minhisto,maxhisto);
+	//Int_t fitStatus = fr;
+	//printf("fit result status: %d\n", fitStatus);
+	//printf("Central val: %f\n", fr->GetParams()[0]);
+	//printf("HESSE err: %f (%.2f%)\n" , fr->GetErrors()[0], fr->GetErrors()[0]/fr->GetParams()[0]*100);
+	//printf("Minos err: %f (%.2f%), %f (%.2f%)\n", fr->LowerError(0), -fr->LowerError(0)/fr->GetParams()[0]*100, fr->UpperError(0), fr->UpperError(0)/fr->GetParams()[0]*100);
+	//printf("diff in %: (%.2f%), (%.2f%)\n", -fr->LowerError(0)/fr->GetParams()[0]*100-fr->GetErrors()[0]/fr->GetParams()[0]*100, fr->UpperError(0)/fr->GetParams()[0]*100-fr->GetErrors()[0]/fr->GetParams()[0]*100);
+	
 	if(weightdata != "1"){
 		//      h->Fit(Form("f%d",count),"q","",minhisto,maxhisto);
 		//      h->Fit(Form("f%d",count),"q","",minhisto,maxhisto);
@@ -296,7 +307,7 @@ TF1 *fit(TFile *inf, Double_t ptmin, Double_t ptmax, int isMC,bool isPbPb,TF1* &
 	texChi->SetTextSize(0.03);
 	texChi->SetTextFont(42);
 	//texChi->Draw();
-	printf("NDF: %d, chi: %f, prob: %f, %f\n", f->GetNDF(), f->GetChisquare(), f->GetProb(), TMath::Prob(f->GetChisquare(), f->GetNDF()));
+	printf("NDF: %d, chi: %f, prob: %f, recal: %f\n", f->GetNDF(), f->GetChisquare(), f->GetProb(), TMath::Prob(f->GetChisquare(), f->GetNDF()));
 	float _chi2 = 0;
 	for(int i = 0; i < 50; i++){
 		float _data = h->GetBinContent(i+1);
@@ -306,7 +317,7 @@ TF1 *fit(TFile *inf, Double_t ptmin, Double_t ptmax, int isMC,bool isPbPb,TF1* &
 		//printf("%f, %f, %f, %f\n", _data, _fit, _err, _chi);
 		_chi2 += _chi;
 	}
-	printf("self calculate: %f\n", _chi2);
+	printf("self cal chi2: %f\n", _chi2);
 
 	//TLatex* texCms = new TLatex(0.18,0.93, "#scale[1.25]{CMS} Preliminary");
 	//TLatex* texCms = new TLatex(0.18,0.93, "#scale[1.25]{CMS}");

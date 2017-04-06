@@ -1,7 +1,7 @@
 void canvasRAAPbPb_0_100_ThmRAA()
 {
 //=========Macro generated from canvas: canvasRAA/canvasRAA
-//=========  (Fri Mar 31 18:51:32 2017) by ROOT version6.02/10
+//=========  (Fri Apr  7 01:19:48 2017) by ROOT version6.02/10
    TCanvas *canvasRAA = new TCanvas("canvasRAA", "canvasRAA",0,0,600,600);
    gStyle->SetOptStat(0);
    gStyle->SetOptTitle(0);
@@ -2628,9 +2628,9 @@ tex->SetNDC();
    entry=leg->AddEntry("","D(p)","f");
 
    ci = 930;
-   color = new TColor(ci, 0.2, 0.6, 0.2, " ", 0.5);
+   color = new TColor(ci, 0.6, 0.4, 0.8, " ", 0.5);
    entry->SetFillColor(ci);
-   entry->SetFillStyle(3325);
+   entry->SetFillStyle(3352);
    entry->SetLineStyle(1);
    entry->SetLineWidth(1);
    entry->SetMarkerColor(1);
@@ -2641,9 +2641,9 @@ tex->SetNDC();
    entry=leg->AddEntry("","D = const","f");
 
    ci = 931;
-   color = new TColor(ci, 0.6, 0.4, 0.8, " ", 0.5);
+   color = new TColor(ci, 0.2, 0.6, 0.2, " ", 0.5);
    entry->SetFillColor(ci);
-   entry->SetFillStyle(3352);
+   entry->SetFillStyle(3325);
    entry->SetLineStyle(1);
    entry->SetLineWidth(1);
    entry->SetMarkerColor(1);

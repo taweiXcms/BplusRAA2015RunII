@@ -30,6 +30,7 @@
 #include <TStyle.h>
 #include <TProfile.h>
 #include <TEfficiency.h>
+#include <TFitResult.h>
 
 // Remove error
 void removeError(TH1F* h)

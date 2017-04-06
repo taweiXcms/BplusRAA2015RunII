@@ -1,0 +1,44 @@
+
+148356846*345.1/(7.213*3) = 2.366003e+09
+2.366003e+09*392.4/(70.*1e9) = 1.326314e+01
+
+HF1
+5.787100e+09
+HF2
+3.153359e+09
+
+3.153359e+09*392.4/(70.*1e9) = 1.767683e+01
+
+N_MB = 148356846
+lumi_MB_BrilCalc = 7.213*3
+lumi_dimuon_BrilCalc = 345.1
+TAA = 392.4/(70.*1e9)
+lumi_dimuon = 13.3
+lumi_dimuon_current = 15.17
+
+root [4] ntHlt->Draw("HLT_HIL1DoubleMu0_v1","(HLT_HIL1DoubleMu0_v1 || HLT_HIL1DoubleMu0_part1_v1 || HLT_HIL1DoubleMu0_part2_v1 || HLT_HIL1DoubleMu0_part3_v1)")
+(Long64_t) 42987046
+root [5] ntHlt->Draw("HLT_HIL1DoubleMu0_v1","(HLT_HIL1DoubleMu0_v1 || HLT_HIL1DoubleMu0_part1_v1 || HLT_HIL1DoubleMu0_part2_v1 || HLT_HIL1DoubleMu0_part3_v1) && HLT_HIL1DoubleMu10_v1_Prescl!=1")
+(Long64_t) 5534
+root [9] ntHlt->Draw("HLT_HIL1DoubleMu10_v1","HLT_HIL1DoubleMu10_v1")
+(Long64_t) 167624
+root [10] ntHlt->Draw("HLT_HIL1DoubleMu10_v1","HLT_HIL1DoubleMu10_v1&&(HLT_HIL1DoubleMu0_v1 || HLT_HIL1DoubleMu0_part1_v1 || HLT_HIL1DoubleMu0_part2_v1 || HLT_HIL1DoubleMu0_part3_v1)")
+(Long64_t) 162545
+
+root [26] ntHlt->Project("h","(HLT_HIL1DoubleMu0_v1 || HLT_HIL1DoubleMu0_part1_v1 || HLT_HIL1DoubleMu0_part2_v1 || HLT_HIL1DoubleMu0_part3_v1)")
+(Long64_t) 45029599
+root [27] h->GetBinContent(1)
+(Double_t) 2.042553e+06
+root [28] h->GetBinContent(2)
+(Double_t) 4.298705e+07
+
+root [30] ntHlt->Project("h","(HLT_HIL1DoubleMu0_v1 || HLT_HIL1DoubleMu0_part1_v1 || HLT_HIL1DoubleMu0_part2_v1 || HLT_HIL1DoubleMu0_part3_v1)","(HLT_HIL1DoubleMu0_v1*HLT_HIL1DoubleMu0_v1_Prescl + HLT_HIL1DoubleMu0_part1_v1*HLT_HIL1DoubleMu0_part1_v1_Prescl + HLT_HIL1DoubleMu0_part2_v1*HLT_HIL1DoubleMu0_part2_v1_Prescl + HLT_HIL1DoubleMu0_part3_v1*HLT_HIL1DoubleMu0_part3_v1_Prescl)")
+(Long64_t) 42987046
+root [31] h->GetBinContent(1)
+(Double_t) 0.000000e+00
+root [32] h->GetBinContent(2)
+(Double_t) 1.649426e+08
+=====================
+=====================
+=====================
+

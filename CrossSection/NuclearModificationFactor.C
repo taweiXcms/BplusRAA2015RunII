@@ -422,14 +422,14 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		gThmDummy5->SetLineColor(0);
 		//gThmDummy3->SetFillColorAlpha(kRed-4,0.5); //CWRv8
 		gThmDummy3->SetFillColorAlpha(kYellow+2,0.5);
-		gThmDummy4->SetFillColorAlpha(kGreen-2,0.5);
-		gThmDummy5->SetFillColorAlpha(kViolet-8,0.5);
+		gThmDummy4->SetFillColorAlpha(kViolet-8,0.5);
+		gThmDummy5->SetFillColorAlpha(kGreen-2,0.5);
 		gThmDummy1->SetLineWidth(4.5);
 		gThmDummy2->SetLineWidth(4.5);
 		gThmDummy2->SetLineStyle(6);
 		gThmDummy3->SetFillStyle(3344);
-		gThmDummy4->SetFillStyle(3325);
-		gThmDummy5->SetFillStyle(3352);
+		gThmDummy4->SetFillStyle(3352);
+		gThmDummy5->SetFillStyle(3325);
 		TLegendEntry *ent_thm1 = legendThm->AddEntry(gThmDummy1,"TAMU","l");
 		TLegendEntry *ent_thm2 = legendThm->AddEntry(gThmDummy2,"Djordjevic","l");
 		TLegendEntry *ent_thm3 = legendThm->AddEntry(gThmDummy3,"CUJET3.0","f");
