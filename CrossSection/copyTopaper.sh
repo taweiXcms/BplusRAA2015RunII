@@ -1,5 +1,5 @@
 cp plotCrossSection/canvasSigmaBplusRatiopp.pdf ~/public/MyText/HIN-16-011/papers/HIN-16-011/trunk/
-cp plotRAA/canvasRAAPbPb_0_100_ThmRAA.pdf  ~/public/MyText/HIN-16-011/papers/HIN-16-011/trunk/
+cp plotRAA/canvasRAAPbPb_0_100_SepUnc_ThmRAA.pdf ~/public/MyText/HIN-16-011/papers/HIN-16-011/trunk/canvasRAAPbPb_0_100_ThmRAA.pdf
 cp plotFitsOnSaved/data_pp_7_10.pdf ~/public/MyText/HIN-16-011/papers/HIN-16-011/trunk/
 cp plotFitsOnSaved/data_pp_10_15.pdf ~/public/MyText/HIN-16-011/papers/HIN-16-011/trunk/
 cp plotFitsOnSaved/data_pp_15_20.pdf ~/public/MyText/HIN-16-011/papers/HIN-16-011/trunk/

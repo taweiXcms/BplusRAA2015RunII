@@ -21,6 +21,8 @@ bool drawJpsi = 0;
 bool drawBRpA = 0;
 bool drawThm = 1;
 
+bool BSepSys = 0;
+
 void adjustLegend(TLegend* l);
 void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", TString inputPbPb="ROOTfiles/CrossSectionPbPb.root",TString label="PbPb",TString outputfile="RAAfile.root", Float_t centMin=0., Float_t centMax=100.)
 {
@@ -86,9 +88,10 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		yruncor[i] = hNuclearModification->GetBinContent(i+1)*systematic_uncor;
 	}
 
-	//TGraphAsymmErrors* gNuclearModification = new TGraphAsymmErrors(nBins,apt,yr,aptl,aptl,yrlow,yrhigh);
-	TGraphAsymmErrors* gNuclearModification = new TGraphAsymmErrors(nBins,apt,yr,haptl,haptl,yruncor,yruncor);
+	TGraphAsymmErrors* gNuclearModification = new TGraphAsymmErrors(nBins,apt,yr,aptl,aptl,yrlow,yrhigh);
 	gNuclearModification->SetName("gNuclearModification");
+	TGraphAsymmErrors* gNuclearModification_UnCor = new TGraphAsymmErrors(nBins,apt,yr,haptl,haptl,yruncor,yruncor);
+	gNuclearModification_UnCor->SetName("gNuclearModification_UnCor");
 	TGraphAsymmErrors* gNuclearModification_Cor = new TGraphAsymmErrors(nBins,apt,yr,aptl,aptl,yrcor,yrcor);
 	gNuclearModification_Cor->SetName("gNuclearModification_Cor");
 
@@ -123,13 +126,21 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 	line->SetLineWidth(2);
 	line->Draw();
 
-	gNuclearModification->SetFillColor(kAzure+7);//1
-	gNuclearModification->SetFillColorAlpha(kAzure+7, 0.5);//1
-	gNuclearModification->SetLineWidth(0);//3
+	gNuclearModification->SetFillColor(kAzure+7);
+	gNuclearModification->SetFillColorAlpha(kAzure+7, 0.5);
+	gNuclearModification->SetLineWidth(0);
 	gNuclearModification->SetMarkerSize(1.2);
 	gNuclearModification->SetMarkerStyle(21);
 	gNuclearModification->SetLineColor(0);
 	gNuclearModification->SetMarkerColor(kAzure-1);
+
+	gNuclearModification_UnCor->SetFillColor(kAzure+7);
+	gNuclearModification_UnCor->SetFillColorAlpha(kAzure+7, 0.5);
+	gNuclearModification_UnCor->SetLineWidth(0);
+	gNuclearModification_UnCor->SetMarkerSize(1.2);
+	gNuclearModification_UnCor->SetMarkerStyle(21);
+	gNuclearModification_UnCor->SetLineColor(0);
+	gNuclearModification_UnCor->SetMarkerColor(kAzure-1);
 
 	gNuclearModification_Cor->SetLineColor(1);
 	gNuclearModification_Cor->SetLineWidth(3);
@@ -137,15 +148,9 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 	gNuclearModification_Cor->SetFillColorAlpha(0, 0.01);
 
 	hNuclearModification->SetLineWidth(3);
-	//hNuclearModification->SetLineColor(kRed);
-	//hNuclearModification->SetMarkerColor(kRed);
-	//hNuclearModification->SetLineColor(kTeal+7);
-	//hNuclearModification->SetLineColor(kViolet+3);
-	//hNuclearModification->SetMarkerColor(kViolet+3);
 	hNuclearModification->SetLineColor(kAzure-1);
 	hNuclearModification->SetMarkerColor(kAzure-1);
 	hNuclearModification->SetMarkerStyle(21);
-	//hNuclearModification->SetMarkerStyle(33);
 	hNuclearModification->SetMarkerSize(1.2);
 
 	Float_t systnormhi = normalizationUncertaintyForRAA(1)*1.e-2;
@@ -161,7 +166,6 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		bSystnorm->SetLineColor(kAzure+7);
 		bSystnorm->SetFillColor(kAzure+7);
 		bSystnorm->SetFillColorAlpha(kAzure+7, 0.5);
-		//bSystnorm->SetFillStyle(3002);
 	}
 	if(drawB) bSystnorm->Draw();
 
@@ -172,7 +176,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 	tlatexeff2->SetTextSize(0.050);
 	//tlatexeff2->Draw();
 
-	TLatex * texY = new TLatex(0.41,0.53,"|y| < 2.4");//0.2612903,0.8425793
+	TLatex * texY = new TLatex(0.41,0.53,"|y| < 2.4");
 	texY->SetNDC();
 	texY->SetTextColor(1);
 	texY->SetTextFont(42);
@@ -182,18 +186,14 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 
 	TLatex* texlumi = new TLatex(0.20,0.936,"28.0 pb^{-1} (pp 5.02 TeV) + 351 #mub^{-1} (PbPb 5.02 TeV)");
 	texlumi->SetNDC();
-	//texlumi->SetTextAlign(31);
 	texlumi->SetTextFont(42);
 	texlumi->SetTextSize(0.038);
 	texlumi->SetLineWidth(2);
 	texlumi->Draw();
 
-	//TLatex* texB = new TLatex(0.89,0.85,"B^{+}");
 	TLatex* texB = new TLatex(0.81,0.21,"B^{+}");
 	texB->SetNDC();
-	//texB->SetTextFont(42);
 	texB->SetTextFont(62);
-	//texB->SetTextSize(0.07);
 	texB->SetTextSize(0.08);
 	texB->SetLineWidth(2);
 	texB->Draw();
@@ -206,7 +206,6 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 	texcms->SetLineWidth(2);
 	texcms->Draw();
 
-	//texY = new TLatex(0.16,0.80,"|y| < 2.4");
 	texY = new TLatex(0.81,0.16,"|y| < 2.4");
 	texY->SetNDC();
 	texY->SetTextFont(42);
@@ -239,8 +238,6 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 	//ent_Sigmapp->SetMarkerColor(1);
 	//ent_Sigmapp->SetTextSize(0.045);
 
-	//TLatex* texSystnorm = new TLatex(0.23,0.70,"T_{AA} + lumi.");
-	//if(drawDRAA) texSystnorm = new TLatex(0.22,0.70,"T_{AA} + lumi.");
 	TLatex* texSystnorm = new TLatex(0.23,0.70,"Global uncert.");
 	if(drawDRAA) texSystnorm = new TLatex(0.22,0.70,"Global uncert.");
 	texSystnorm->SetNDC();
@@ -264,12 +261,11 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		RpPb_Final_20161207();
 		TGraphAsymmErrors* gChHadDummy = new TGraphAsymmErrors();
 		gChHadDummy->SetFillColor(TColor::GetColor("#ffcc00"));
-		//gChHadDummy->SetMarkerColor(kRed);
 		TLegendEntry *ent_ChHad = legendSigma->AddEntry(gChHadDummy,"charged hadrons |y| < 1.0","pf");
 		ent_ChHad->SetTextFont(42);
 		ent_ChHad->SetLineColor(4);
 		ent_ChHad->SetMarkerColor(4);
-		ent_ChHad->SetTextSize(0.038);//0.03
+		ent_ChHad->SetTextSize(0.038);
 		systnorm = sqrt(0.089*0.089+0.023*0.023);
 		bSystnorm = new TBox(pti,1-systnorm,pti+TAABarWid*1,1+systnorm);
 		bSystnorm->SetLineColor(TColor::GetColor("#ffcc00"));
@@ -281,25 +277,20 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		TGraphAsymmErrors* gDNuclearModification = new TGraphAsymmErrors();
 		Draw_DRAA(canvasRAA, gDNuclearModification);
 		//canvasRAA_0_100_20161207(canvasRAA, gDNuclearModification);
-		//gDNuclearModification->SetFillColor(kYellow-9);
 		gDNuclearModification->SetFillColor(kGreen-9);
 		gDNuclearModification->SetFillColorAlpha(kGreen-9, 0.5);
 		gDNuclearModification->SetMarkerStyle(21);
 		gDNuclearModification->SetMarkerColor(kGreen+3);
-		//gDNuclearModification->SetFillStyle(3001);
 		TLegendEntry *ent_Dhighpt = legendSigma->AddEntry(gDNuclearModification,"D^{0} |y| < 1.0","pf");
 		ent_Dhighpt->SetTextFont(42);
 		ent_Dhighpt->SetMarkerColor(4);
-		ent_Dhighpt->SetTextSize(0.038);//0.03
+		ent_Dhighpt->SetTextSize(0.038);
 		systnormhi = normalizationUncertaintyForRAA(1)*1.e-2;
 		systnormlo = normalizationUncertaintyForRAA(0)*1.e-2;
 		bSystnorm = new TBox(pti+TAABarWid*1,1-systnormlo,pti+TAABarWid*2.1,1+systnormhi);
-		//bSystnorm->SetLineColor(kYellow-9);
-		//bSystnorm->SetFillColor(kYellow-9);
 		bSystnorm->SetLineColor(kGreen-9);
 		bSystnorm->SetFillColor(kGreen-9);
 		bSystnorm->SetFillColorAlpha(kGreen-9, 0.5);
-		//bSystnorm->SetFillStyle(3001);
 		bSystnorm->Draw();
 	}
 
@@ -307,35 +298,43 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 	TLegendEntry *ent_uncCor;
 	TLegendEntry *ent_uncUncor;
 	TLegendEntry *ent_unc;
+	TLegendEntry *ent_uncGlo;
 	if(drawB) {
-		//ent_B = legendSigma->AddEntry(gNuclearModification,"B^{+} |y| < 2.4","pf");
-		//ent_B = legendSigma->AddEntry(gNuclearModification,"Data","pf");
-		ent_B = legendSigma->AddEntry(gNuclearModification,"R_{AA}","pe");
+		ent_B = legendSigma->AddEntry(gNuclearModification_UnCor,"R_{AA}","pe");
 		ent_B->SetTextFont(42);
 		ent_B->SetLineColor(4);
 		ent_B->SetMarkerColor(4);
-		ent_B->SetTextSize(0.038);//0.03
+		ent_B->SetTextSize(0.038);
 
-		ent_uncCor = legendSigma->AddEntry(gNuclearModification_Cor,"Correlated syst. uncert.","f");
-		ent_uncCor->SetTextFont(42);
-		ent_uncCor->SetLineColor(4);
-		ent_uncCor->SetMarkerColor(4);
-		ent_uncCor->SetTextSize(0.03);//0.03
+		if(BSepSys){
+			ent_uncCor = legendSigma->AddEntry(gNuclearModification_Cor,"Correlated syst. uncert.","f");
+			ent_uncCor->SetTextFont(42);
+			ent_uncCor->SetLineColor(4);
+			ent_uncCor->SetMarkerColor(4);
+			ent_uncCor->SetTextSize(0.03);
 
-		ent_uncUncor = legendSigma->AddEntry(gNuclearModification,"Uncorrelated syst. uncert.","f");
-		ent_uncUncor->SetTextFont(42);
-		ent_uncUncor->SetLineColor(4);
-		ent_uncUncor->SetMarkerColor(4);
-		ent_uncUncor->SetTextSize(0.03);//0.03
+			ent_uncUncor = legendSigma->AddEntry(gNuclearModification_UnCor,"Uncorrelated syst. uncert.","f");
+			ent_uncUncor->SetTextFont(42);
+			ent_uncUncor->SetLineColor(4);
+			ent_uncUncor->SetMarkerColor(4);
+			ent_uncUncor->SetTextSize(0.03);
+		}
+		else{
+			ent_unc = legendSigma->AddEntry(gNuclearModification,"Syst. uncert.","f");
+			ent_unc->SetTextFont(42);
+			ent_unc->SetLineColor(4);
+			ent_unc->SetMarkerColor(4);
+			ent_unc->SetTextSize(0.03);
+		}
 
 		TBox* dummybox = new TBox();
 		dummybox->SetFillColor(16);
 		dummybox->SetLineColor(16);
 		dummybox->SetLineWidth(0);
-		//ent_unc = legendSigma->AddEntry(dummybox,"T_{AA} + L_{pp} uncert.","f");
-		ent_unc = legendSigma->AddEntry(dummybox,"Global uncert.","f");
-		ent_unc->SetTextFont(42);
-		ent_unc->SetTextSize(0.03);//0.03
+		//ent_uncGlo = legendSigma->AddEntry(dummybox,"T_{AA} + L_{pp} uncert.","f");
+		ent_uncGlo = legendSigma->AddEntry(dummybox,"Global uncert.","f");
+		ent_uncGlo->SetTextFont(42);
+		ent_uncGlo->SetTextSize(0.03);
 
 		//TMathText mt;
 		//mt.SetTextAlign(23);
@@ -355,40 +354,27 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		expBeautyCMS_20170201();
 		TGraphAsymmErrors* gChHadDummy = new TGraphAsymmErrors();
 		gChHadDummy->SetFillColor(925);
-		//gChHadDummy->SetMarkerColor(TColor::GetColor("#6600cc"));
-		//gChHadDummy->SetMarkerColor(kViolet+3);
 		gChHadDummy->SetMarkerColor(kGray+3);
 		gChHadDummy->SetMarkerStyle(34);
 		gChHadDummy->SetMarkerSize(1.5);
-		//gChHadDummy->SetFillColor(kViolet-9);
 		gChHadDummy->SetFillColor(kGray+2);
 		gChHadDummy->SetFillColorAlpha(kGray+2, 0.5);
-		//gChHadDummy->SetFillStyle(3001);
 		TLegendEntry *ent_ChHad = legendSigma->AddEntry(gChHadDummy,"nonprompt J/#psi 1.6 < |y| < 2.4 (2.76 TeV)","pf");
 		ent_ChHad->SetTextSize(0.029);
 		TGraphAsymmErrors* gChHadDummy2 = new TGraphAsymmErrors();
 		gChHadDummy2->SetFillColor(924);
-		//gChHadDummy2->SetMarkerColor( TColor::GetColor("#cc6600"));
-		//gChHadDummy2->SetMarkerColor(kViolet+3);
 		gChHadDummy2->SetMarkerColor(kGray+3);
 		gChHadDummy2->SetMarkerStyle(29);
 		gChHadDummy2->SetMarkerSize(1.5);
-		//gChHadDummy2->SetFillColor(kViolet-9);
 		gChHadDummy2->SetFillColor(kGray+2);
 		gChHadDummy2->SetFillColorAlpha(kGray+2, 0.5);
-		//gChHadDummy2->SetFillStyle(3001);
 		TLegendEntry *ent_ChHad2 = legendSigma->AddEntry(gChHadDummy2,"nonprompt J/#psi |y| < 2.4 (2.76 TeV)","pf");
 		ent_ChHad2->SetTextSize(0.029);
 		systnorm = 0.075;
-		//bSystnorm = new TBox(pti+TAABarWid*3.5,1-systnorm,pti+TAABarWid*5.,1+systnorm);
 		bSystnorm = new TBox(pti+TAABarWid*3.5,0.9249388,pti+TAABarWid*5.,1.075061);
-		//bSystnorm->SetLineColor(kViolet-9);
-		//bSystnorm->SetFillColor(kViolet-9);
-		//bSystnorm->SetFillColorAlpha(kViolet-9, 0.5);
 		bSystnorm->SetLineColor(kGray+2);
 		bSystnorm->SetFillColor(kGray+2);
 		bSystnorm->SetFillColorAlpha(kGray+2, 0.5);
-		//bSystnorm->SetFillStyle(3001);
 		bSystnorm->Draw();
 		texlumi = new TLatex(0.13,0.936,"350.68 #mub^{-1} (5.02 TeV PbPb)");
 		texlumi->SetNDC();
@@ -415,12 +401,10 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		TGraphAsymmErrors* gThmDummy4 = new TGraphAsymmErrors();
 		TGraphAsymmErrors* gThmDummy5 = new TGraphAsymmErrors();
 		gThmDummy1->SetLineColor(kOrange+8);
-		//gThmDummy2->SetLineColor(kGreen+4); //CWRv9
 		gThmDummy2->SetLineColor(kRed-4);
 		gThmDummy3->SetLineColor(0);
 		gThmDummy4->SetLineColor(0);
 		gThmDummy5->SetLineColor(0);
-		//gThmDummy3->SetFillColorAlpha(kRed-4,0.5); //CWRv8
 		gThmDummy3->SetFillColorAlpha(kYellow+2,0.5);
 		gThmDummy4->SetFillColorAlpha(kViolet-8,0.5);
 		gThmDummy5->SetFillColorAlpha(kGreen-2,0.5);
@@ -436,16 +420,20 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		legendAds->SetHeader("AdS/CFT HH");
 		TLegendEntry *ent_thm4 = legendAds->AddEntry(gThmDummy4,"D(p)","f");
 		TLegendEntry *ent_thm5 = legendAds->AddEntry(gThmDummy5,"D = const","f");
-		ent_thm1->SetTextSize(0.038);//0.03
-		ent_thm2->SetTextSize(0.038);//0.03
-		ent_thm3->SetTextSize(0.038);//0.03
-		ent_thm4->SetTextSize(0.038);//0.03
-		ent_thm5->SetTextSize(0.038);//0.03
+		ent_thm1->SetTextSize(0.038);
+		ent_thm2->SetTextSize(0.038);
+		ent_thm3->SetTextSize(0.038);
+		ent_thm4->SetTextSize(0.038);
+		ent_thm5->SetTextSize(0.038);
 	}
 
 	if(drawB){
-		gNuclearModification->Draw("5same");
-		gNuclearModification_Cor->Draw("5same");
+		if(BSepSys){
+			gNuclearModification_UnCor->Draw("5same");
+			gNuclearModification_Cor->Draw("5same");
+		}
+		else 
+			gNuclearModification->Draw("5same");
 		hNuclearModification->Draw("same");
 	}
 
@@ -475,6 +463,9 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 	canvasRAA->RedrawAxis();
 
 	TString AddOn = "";
+	if(BSepSys){
+		AddOn = AddOn += "_SepUnc";
+	}
 	if(!drawB){
 		AddOn = AddOn += "_NoB";
 	}
@@ -502,6 +493,8 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 	TFile *fRAA=new TFile(outputfile.Data(),"recreate");
 	fRAA->cd();
 	gNuclearModification->Write();
+	gNuclearModification_UnCor->Write();
+	gNuclearModification_Cor->Write();
 	hNuclearModification->Write();
 
 }
