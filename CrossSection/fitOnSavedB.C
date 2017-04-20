@@ -335,7 +335,7 @@ TF1 *fit(TFile *inf, Double_t ptmin, Double_t ptmax, int isMC,bool isPbPb,TF1* &
 	texcms->Draw();
 
     //TLatex* texB = new TLatex(0.81,0.30,"B^{+}");
-    TLatex* texB = new TLatex(0.22,0.73,"B^{+}+B^{-}");
+    TLatex* texB = new TLatex(0.22,0.73,"B^{#plus}+B^{#minus}");
     texB->SetNDC();
     texB->SetTextFont(42);
     texB->SetTextSize(0.07);

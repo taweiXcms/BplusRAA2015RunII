@@ -15,7 +15,7 @@ void plotTheory()
   gMagdalenaB5TeV->SetName("gMagdalenaB5TeV");
   //gMagdalenaB5TeV->SetLineColor(kGreen+4); //CWRv8
   gMagdalenaB5TeV->SetLineColor(kRed-4);
-  gMagdalenaB5TeV->SetLineWidth(3);
+  gMagdalenaB5TeV->SetLineWidth(8);
   gMagdalenaB5TeV->SetLineStyle(6);
   //gMagdalenaB5TeV->SetFillColor(kGreen+4);
   //gMagdalenaB5TeV->SetFillStyle(3004);
@@ -24,12 +24,14 @@ void plotTheory()
 
   //
 
-  ifstream getdata("theoryPrediction/theorypre/TAMUminbiasB.txt");
+//  ifstream getdata("theoryPrediction/theorypre/TAMUminbiasB.txt");
+  ifstream getdata("theoryPrediction/theorypre/TAMUminbiasB_20170419.txt");
   if(!getdata.is_open()) cout<<"Opening the file fails: TAMU"<<endl;
   nbin=0;
   while(!getdata.eof())
     {
       getdata>>aCx[nbin]>>aCyh[nbin]>>aCyl[nbin];
+      if(aCx[nbin] != 0 && aCyh[nbin] != 0)
       nbin++;
     }
   Float_t* aTAMUB5TeVx = new Float_t[nbin];
@@ -50,7 +52,9 @@ void plotTheory()
   gTAMUB5TeV->SetLineColor(kOrange+8);
   gTAMUB5TeV->SetFillColor(kOrange+8);
   gTAMUB5TeV->SetFillStyle(1001);
-  gTAMUB5TeV->Draw("4 same");
+  gTAMUB5TeV->Draw("3 same");
+//  gTAMUB5TeV->Draw("4 same");
+//  gTAMUB5TeV->Draw("pe same");
 
   //
   ifstream countlines("theoryPrediction/theorypre/CUJET_5.02TeV_B0_RAA_0-100.dat");
