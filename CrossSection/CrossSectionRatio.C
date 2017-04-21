@@ -219,7 +219,7 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
 	texGlobal->SetTextFont(42);
 	texGlobal->SetTextSize(0.05*tpadr);
 	texGlobal->SetLineWidth(2);
-	texGlobal->Draw();
+	if(!addpbpb) texGlobal->Draw();
 
 	TLegend* leg_CS = new TLegend(0.52,1-(1-0.70)*tpadr,0.85,1-(1-0.80)*tpadr);
 	leg_CS->SetBorderSize(0);
@@ -251,6 +251,24 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
 	    leg_CS->AddEntry(gaeBplusReference,"FONLL pp ref.","f");//PAS
 	    leg_CS->Draw("same");
 	    hemptySigma->GetYaxis()->SetTitle("#frac{d#sigma}{dp_{T}} ( pb GeV^{-1}c)");
+		texGlobal = new TLatex(0.53,0.594,Form("Global uncert."));
+		TLatex* texGlobal_pp = new TLatex(0.53,0.55,Form("pp: %.1f%s",normalizationUncertaintyForPP(),texper.Data()));
+		TLatex* texGlobal_PbPb = new TLatex(0.53,0.50,Form("PbPb: #plus%.1f, #minus%.1f%s",normalizationUncertaintyForPbPb(1),normalizationUncertaintyForPbPb(0),texper.Data()));
+	    texGlobal->SetNDC();
+	    texGlobal->SetTextFont(42);
+	    texGlobal->SetTextSize(0.05*tpadr);
+	    texGlobal->SetLineWidth(2);
+	    texGlobal->Draw();
+	    texGlobal_pp->SetNDC();
+	    texGlobal_pp->SetTextFont(42);
+	    texGlobal_pp->SetTextSize(0.05*tpadr);
+	    texGlobal_pp->SetLineWidth(2);
+	    texGlobal_pp->Draw();
+	    texGlobal_PbPb->SetNDC();
+	    texGlobal_PbPb->SetTextFont(42);
+	    texGlobal_PbPb->SetTextSize(0.05*tpadr);
+	    texGlobal_PbPb->SetLineWidth(2);
+	    texGlobal_PbPb->Draw();
 	}
 
 	cSigma->cd();
@@ -292,6 +310,10 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
 		gaeRatioCrossFONLLunity->Draw("5same");
 		gaeRatioCrossFONLLstat->Draw("epsame");
 		gaeRatioCrossFONLLsyst->Draw("5same");
+	}
+
+    if(addpbpb){
+	    hemptyRatio->GetYaxis()->SetTitle("pp / FONLL");
 	}
 
 	TString _postfix = "";
