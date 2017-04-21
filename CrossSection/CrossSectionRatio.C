@@ -3,8 +3,9 @@
 #include "TLegendEntry.h"
 #include "../Systematics/systematics.C"
 float tpadr = 0.7;
+bool addpbpb = 0;
 
-void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5TeV_y1.root", TString input="ROOTfiles/hPtSpectrumBplusPP.root", TString efficiency="test.root",TString outputplot="myplot.root",int usePbPb=1,TString label="PbPb",int doDataCor = 0,double lumi=1.,Float_t centMin=0., Float_t centMax=100.)
+void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5TeV_y1.root", TString input="ROOTfiles/hPtSpectrumBplusPP.root", TString efficiency="test.root",TString outputplot="myplot.root",int usePbPb=1,TString label="PbPb",int doDataCor = 0,double lumi=1.,Float_t centMin=0.,Float_t centMax=100.)
 {
 	gStyle->SetOptTitle(0);
 	gStyle->SetOptStat(0);
@@ -229,6 +230,29 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
 	if(!isPbPb) leg_CS->AddEntry(gaeBplusReference,"FONLL","f");//paper
 	leg_CS->Draw("same");
 
+	if(addpbpb){
+	    TFile* filepbpb = new TFile("ROOTfiles/CrossSectionPbPb.root");
+	    TGraphAsymmErrors* gaeCrossSyst_PbPb = (TGraphAsymmErrors*)filepbpb->Get("gaeCrossSyst");
+		gaeCrossSyst_PbPb->SetLineColor(2);
+		gaeCrossSyst_PbPb->Draw("5same");
+	    TH1F* hPtSigma_PbPb = (TH1F*)filepbpb->Get("hPtSigma");
+	    hPtSigma_PbPb->SetLineColor(2);
+	    hPtSigma_PbPb->SetLineWidth(2);
+	    hPtSigma_PbPb->SetMarkerColor(2);
+	    hPtSigma_PbPb->SetMarkerStyle(21);
+	    hPtSigma_PbPb->SetMarkerSize(1.2*tpadr);
+		hPtSigma_PbPb->Draw("epsame");
+	    leg_CS = new TLegend(0.52,1-(1-0.70)*tpadr,0.85,1-(1-0.85)*tpadr);
+	    leg_CS->SetBorderSize(0);
+	    leg_CS->SetFillStyle(0);
+	    leg_CS->SetTextSize(0.05*tpadr);
+	    leg_CS->AddEntry(hPtSigma,"Data pp","pf");
+	    leg_CS->AddEntry(hPtSigma_PbPb,"Data PbPb","pf");
+	    leg_CS->AddEntry(gaeBplusReference,"FONLL pp ref.","f");//PAS
+	    leg_CS->Draw("same");
+	    hemptySigma->GetYaxis()->SetTitle("#frac{d#sigma}{dp_{T}} ( pb GeV^{-1}c)");
+	}
+
 	cSigma->cd();
 	TPad* pRatio = new TPad("pRatio","",0.,0.,1.,tpadpos);
 	pRatio->SetLeftMargin(0.1451613);
@@ -271,7 +295,8 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
 	}
 
 	TString _postfix = "";
-	if(doDataCor==1) _postfix = "_EFFCOR";
+	if(doDataCor==1) _postfix += "_EFFCOR";
+	if(addpbpb) _postfix += "_AddPbPb";
 	if(!isPbPb) cSigma->SaveAs(Form("plotCrossSection/canvasSigmaBplusRatio%s%s.pdf",label.Data(),_postfix.Data()));
 	else cSigma->SaveAs(Form("plotCrossSection/canvasSigmaBplusRatio%s_%.0f_%.0f%s.pdf",label.Data(),centMin,centMax,_postfix.Data()));
 	if(!isPbPb) cSigma->SaveAs(Form("plotCrossSection/canvasSigmaBplusRatio%s%s.png",label.Data(),_postfix.Data()));
