@@ -87,6 +87,9 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		yrcor[i] = hNuclearModification->GetBinContent(i+1)*systematic_cor;
 		yruncor[i] = hNuclearModification->GetBinContent(i+1)*systematic_uncor;
 	}
+printf("%f %f %f %f %f\n",yrlow[0],yrlow[1],yrlow[2],yrlow[3],yrlow[4]);
+printf("%f %f %f %f %f\n",yrcor[0],yrcor[1],yrcor[2],yrcor[3],yrcor[4]);
+printf("%f %f %f %f %f\n",yruncor[0],yruncor[1],yruncor[2],yruncor[3],yruncor[4]);
 
 	TGraphAsymmErrors* gNuclearModification = new TGraphAsymmErrors(nBins,apt,yr,aptl,aptl,yrlow,yrhigh);
 	gNuclearModification->SetName("gNuclearModification");
@@ -155,6 +158,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 
 	Float_t systnormhi = normalizationUncertaintyForRAA(1)*1.e-2;
 	Float_t systnormlo = normalizationUncertaintyForRAA(0)*1.e-2;
+	printf("Global uncertainty: hi = %f, low = %f\n",systnormhi, systnormlo);
 	Float_t systnorm;
 	TBox* bSystnorm = new TBox(pti,1-systnormlo,pti+TAABarWid*1,1+systnormhi);
 	//cout<<systnorm<<endl;
@@ -167,7 +171,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		bSystnorm->SetFillColor(kAzure+7);
 		bSystnorm->SetFillColorAlpha(kAzure+7, 0.5);
 	}
-	if(drawB) bSystnorm->Draw();
+	//if(drawB) bSystnorm->Draw(); //Draw at the very end to avoid being covered by other stuff
 
 	TLatex * tlatexeff2=new TLatex(0.40,0.595,"Centrality 0-100%");
 	tlatexeff2->SetNDC();
@@ -432,6 +436,8 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		ent_thm5->SetTextSize(0.038);
 	}
 
+	legendSigma->Draw();
+
 	if(drawB){
 		if(BSepSys){
 			gNuclearModification_UnCor->Draw("5same");
@@ -440,6 +446,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		else 
 			gNuclearModification->Draw("5same");
 		hNuclearModification->Draw("same");
+    	bSystnorm->Draw();
 	}
 
 	//DrawPoints at the very last again
@@ -457,7 +464,6 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		hNuclearModification->Draw("same p");
 	}
 
-	legendSigma->Draw();
 	if(drawThm) {
 		legendThm->Draw();
 		//legendAds->Draw();

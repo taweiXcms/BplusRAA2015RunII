@@ -10,53 +10,7 @@ Float_t cCx[n],cCy[n],cCye[n],cDummy[n];
 using namespace std;
 void plotTheory()
 {
-
-  TGraph* gMagdalenaB5TeV = new TGraph("theoryPrediction/theorypre/Magdalena.dat");
-  gMagdalenaB5TeV->SetName("gMagdalenaB5TeV");
-  //gMagdalenaB5TeV->SetLineColor(kGreen+4); //CWRv8
-  gMagdalenaB5TeV->SetLineColor(kRed-4);
-  gMagdalenaB5TeV->SetLineWidth(8);
-  gMagdalenaB5TeV->SetLineStyle(6);
-  //gMagdalenaB5TeV->SetFillColor(kGreen+4);
-  //gMagdalenaB5TeV->SetFillStyle(3004);
-  //gMagdalenaB5TeV->Draw("f same");
-  gMagdalenaB5TeV->Draw("c same");
-
-  //
-
-//  ifstream getdata("theoryPrediction/theorypre/TAMUminbiasB.txt");
-  ifstream getdata("theoryPrediction/theorypre/TAMUminbiasB_20170419.txt");
-  if(!getdata.is_open()) cout<<"Opening the file fails: TAMU"<<endl;
-  nbin=0;
-  while(!getdata.eof())
-    {
-      getdata>>aCx[nbin]>>aCyh[nbin]>>aCyl[nbin];
-      if(aCx[nbin] != 0 && aCyh[nbin] != 0)
-      nbin++;
-    }
-  Float_t* aTAMUB5TeVx = new Float_t[nbin];
-  Float_t* aTAMUB5TeVxe = new Float_t[nbin];
-  Float_t* aTAMUB5TeVy = new Float_t[nbin];
-  Float_t* aTAMUB5TeVye = new Float_t[nbin];
-  for(int i=0;i<nbin;i++)
-    {
-      aTAMUB5TeVx[i] = aCx[i];
-      aTAMUB5TeVxe[i] = 0;
-      aTAMUB5TeVy[i] = (aCyh[i]+aCyl[i])/2.;
-      aTAMUB5TeVye[i] = abs(aCyh[i]-aCyl[i])/2.;
-    }
-  TGraphErrors* gTAMUB5TeV = new TGraphErrors(nbin, aTAMUB5TeVx, aTAMUB5TeVy, aTAMUB5TeVxe, aTAMUB5TeVye);
-  gTAMUB5TeV->SetName("gTAMUB5TeV");
-  //gTAMUB5TeV->SetLineColor(kViolet-6);
-  //gTAMUB5TeV->SetFillColor(kViolet-6);
-  gTAMUB5TeV->SetLineColor(kOrange+8);
-  gTAMUB5TeV->SetFillColor(kOrange+8);
-  gTAMUB5TeV->SetFillStyle(1001);
-  gTAMUB5TeV->Draw("3 same");
-//  gTAMUB5TeV->Draw("4 same");
-//  gTAMUB5TeV->Draw("pe same");
-
-  //
+  // CUJET
   ifstream countlines("theoryPrediction/theorypre/CUJET_5.02TeV_B0_RAA_0-100.dat");
   int counter=0;
   while(!countlines.eof())
@@ -106,8 +60,9 @@ void plotTheory()
   */
   //
 
-//  ifstream getadscft1("theoryPrediction/theorypre/ADSCFT_20170310/RAA_5TeV_0080_B0_DiffusionConstant_band.dat");
-//  ifstream getadscft1("theoryPrediction/theorypre/ADSCFT_20170318/RAA_5TeV_0080_B0_DiffusionConstant_band.dat");
+  // AdS/CFT Constant
+  //ifstream getadscft1("theoryPrediction/theorypre/ADSCFT_20170310/RAA_5TeV_0080_B0_DiffusionConstant_band.dat");
+  //ifstream getadscft1("theoryPrediction/theorypre/ADSCFT_20170318/RAA_5TeV_0080_B0_DiffusionConstant_band.dat");
   ifstream getadscft1("theoryPrediction/theorypre/ADSCFT_20170320/RAA_5TeV_0080_B0_DiffusionConstant_band.dat");
   if(!getadscft1.is_open()) cout<<"Opening the file fails: ADS/CFT DiffusionConstant"<<endl;
   nbin=0;
@@ -139,8 +94,9 @@ void plotTheory()
   gADSCFT1B5TeV->SetFillStyle(3325);
   gADSCFT1B5TeV->Draw("4 same");
 
-//  ifstream getadscft2("theoryPrediction/theorypre/ADSCFT_20170310/RAA_5TeV_0080_B0_DiffusionDynamic_band.dat");
-//  ifstream getadscft2("theoryPrediction/theorypre/ADSCFT_20170318/RAA_5TeV_0080_B0_DiffusionDynamic_band.dat");
+  // AdS/CFT Dynamic
+  //ifstream getadscft2("theoryPrediction/theorypre/ADSCFT_20170310/RAA_5TeV_0080_B0_DiffusionDynamic_band.dat");
+  //ifstream getadscft2("theoryPrediction/theorypre/ADSCFT_20170318/RAA_5TeV_0080_B0_DiffusionDynamic_band.dat");
   ifstream getadscft2("theoryPrediction/theorypre/ADSCFT_20170320/RAA_5TeV_0080_B0_DiffusionDynamic_band.dat");
   if(!getadscft2.is_open()) cout<<"Opening the file fails: ADS/CFT DiffusionDynamic"<<endl;
   nbin=0;
@@ -171,5 +127,50 @@ void plotTheory()
   gADSCFT2B5TeV->SetFillColorAlpha(kViolet-8,0.5);
   gADSCFT2B5TeV->SetFillStyle(3352);
   gADSCFT2B5TeV->Draw("4 same");
+
+  // Magdalena
+  TGraph* gMagdalenaB5TeV = new TGraph("theoryPrediction/theorypre/Magdalena.dat");
+  gMagdalenaB5TeV->SetName("gMagdalenaB5TeV");
+  //gMagdalenaB5TeV->SetLineColor(kGreen+4); //CWRv8
+  gMagdalenaB5TeV->SetLineColor(kRed-4);
+  gMagdalenaB5TeV->SetLineWidth(8);
+  gMagdalenaB5TeV->SetLineStyle(6);
+  //gMagdalenaB5TeV->SetFillColor(kGreen+4);
+  //gMagdalenaB5TeV->SetFillStyle(3004);
+  //gMagdalenaB5TeV->Draw("f same");
+  gMagdalenaB5TeV->Draw("c same");
+
+  // TAMU
+  //ifstream getdata("theoryPrediction/theorypre/TAMUminbiasB.txt");
+  ifstream getdata("theoryPrediction/theorypre/TAMUminbiasB_20170419.txt");
+  if(!getdata.is_open()) cout<<"Opening the file fails: TAMU"<<endl;
+  nbin=0;
+  while(!getdata.eof())
+    {
+      getdata>>aCx[nbin]>>aCyh[nbin]>>aCyl[nbin];
+      if(aCx[nbin] != 0 && aCyh[nbin] != 0)
+      nbin++;
+    }
+  Float_t* aTAMUB5TeVx = new Float_t[nbin];
+  Float_t* aTAMUB5TeVxe = new Float_t[nbin];
+  Float_t* aTAMUB5TeVy = new Float_t[nbin];
+  Float_t* aTAMUB5TeVye = new Float_t[nbin];
+  for(int i=0;i<nbin;i++)
+    {
+      aTAMUB5TeVx[i] = aCx[i];
+      aTAMUB5TeVxe[i] = 0;
+      aTAMUB5TeVy[i] = (aCyh[i]+aCyl[i])/2.;
+      aTAMUB5TeVye[i] = abs(aCyh[i]-aCyl[i])/2.;
+    }
+  TGraphErrors* gTAMUB5TeV = new TGraphErrors(nbin, aTAMUB5TeVx, aTAMUB5TeVy, aTAMUB5TeVxe, aTAMUB5TeVye);
+  gTAMUB5TeV->SetName("gTAMUB5TeV");
+  //gTAMUB5TeV->SetLineColor(kViolet-6);
+  //gTAMUB5TeV->SetFillColor(kViolet-6);
+  gTAMUB5TeV->SetLineColor(kOrange+8);
+  gTAMUB5TeV->SetFillColor(kOrange+8);
+  gTAMUB5TeV->SetFillStyle(1001);
+  gTAMUB5TeV->Draw("3 same");
+  //gTAMUB5TeV->Draw("4 same");
+  //gTAMUB5TeV->Draw("pe same");
 
 }
