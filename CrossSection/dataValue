@@ -1,0 +1,139 @@
+pp xsec:
+central value =
+2606494,
+744298.6,
+196975.9,
+46489.87,
+5342.301
+
+stat error =
+167077.5,
+29079.39,
+9029.711,
+2439.138,
+495.0301
+
+sys error =
+234401,
+59381.62,
+15208.98,
+3533.588,
+401.8008
+
+fonll central value =
+2072970,
+657899.4,
+180053,
+42783.27,
+5127.144
+
+fonll unc low error =
+507555.7,
+151098.6,
+37247.09,
+7837.314,
+785.8247
+
+fonll unc high error = 
+823867.9,
+235570.7,
+54725.67,
+10791.12,
+984.8425
+
+ratio fonll central =
+1,1,1,1,1
+
+ratio fonll low eorror =
+0.2448448,
+0.2296682,
+0.2068673,
+0.1831864,
+0.1532675
+
+ratio fonll high error =
+0.3974337,
+0.3580648,
+0.303942,
+0.2522276,
+0.192084};
+
+ratio central value =
+1.257372,
+1.131326,
+1.093988,
+1.086637,
+1.041964};
+
+ratio stat error =
+0.08059815,
+0.04420036,
+0.05015029,
+0.05701149,
+0.09655085
+
+ratio sys error =
+0.113075,
+0.09025941,
+0.08446946,
+0.08259276,
+0.07836737
+
+PbPb xsec:
+Central value = 
+901471,
+333450.7,
+86710.51,
+28599.68,
+1862.627
+
+stat error =
+277358.5,
+53877.41,
+14243.08,
+4001.448,
+572.9858
+
+sys error = 
+150869.2,
+50865.51,
+12967.97,
+4197.181,
+272.467
+
+RAA:
+
+Central value = 
+0.3458558,
+0.4480066,
+0.4402087,
+0.615181,
+0.3486562
+
+Statistical error = 
+0.1086955,
+0.07447295,
+0.07507186,
+0.09192405,
+0.1120147
+
+Systematic error = 
+0.06570926,
+0.07712284,
+0.07409171,
+0.1016717,
+0.05734825
+
+Correlated sys.
+0.053744 0.069617 0.068405 0.095595 0.054179
+
+Uncorrelated sys.
+0.037807 0.033187 0.028466 0.034623 0.018801
+
+Global systematic error low =  0.0413884
+Global systematic error high =  0.045662
+
+Except for global systematic error above which is asymmetry and should be understood as "percentage error" of the mean value, 
+all other errors are symmetry and representing the "absolute value", not percentage of the central value. 
+
+
