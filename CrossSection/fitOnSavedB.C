@@ -371,14 +371,22 @@ TF1 *fit(TFile *inf, Double_t ptmin, Double_t ptmax, int isMC,bool isPbPb,TF1* &
 	//else c->SaveAs(Form("plotFitsOnSaved/BMass%s_%.0f_%.0f_%d.pdf",collisionsystem.Data(),centMin,centMax,count));
 	TString _postfix = "";
 	if(weightdata!="1") _postfix = "_EFFCOR";
-	if(isPbPb && isMC==0) 
+	if(isPbPb && isMC==0){
 		c->SaveAs(Form("plotFitsOnSaved/data_PbPb_%.0f_%.0f%s.pdf",ptmin,ptmax,_postfix.Data()));
-	else if(isPbPb && isMC==1) 
+		c->SaveAs(Form("plotFitsOnSaved/data_PbPb_%.0f_%.0f%s.C",ptmin,ptmax,_postfix.Data()));
+	}
+	else if(isPbPb && isMC==1){
 		c->SaveAs(Form("plotFitsOnSaved/mc_PbPb_%.0f_%.0f%s.pdf",ptmin,ptmax,_postfix.Data()));
-	else if(!isPbPb && isMC==0) 
+		c->SaveAs(Form("plotFitsOnSaved/mc_PbPb_%.0f_%.0f%s.C",ptmin,ptmax,_postfix.Data()));
+	}
+	else if(!isPbPb && isMC==0){
 		c->SaveAs(Form("plotFitsOnSaved/data_pp_%.0f_%.0f%s.pdf",ptmin,ptmax,_postfix.Data()));
-	else 
+		c->SaveAs(Form("plotFitsOnSaved/data_pp_%.0f_%.0f%s.C",ptmin,ptmax,_postfix.Data()));
+	}
+	else{
 		c->SaveAs(Form("plotFitsOnSaved/mc_pp_%.0f_%.0f%s.pdf",ptmin,ptmax,_postfix.Data()));
+		c->SaveAs(Form("plotFitsOnSaved/mc_pp_%.0f_%.0f%s.C",ptmin,ptmax,_postfix.Data()));
+	}
 
 	return mass;
 }

@@ -1,0 +1,211 @@
+independent_variables:
+- header: {name: 'MASS (GeV/C^2)'}
+  values:
+  - {value:  5.01 }
+  - {value:  5.03 }
+  - {value:  5.05 }
+  - {value:  5.07 }
+  - {value:  5.09 }
+  - {value:  5.11 }
+  - {value:  5.13 }
+  - {value:  5.15 }
+  - {value:  5.17 }
+  - {value:  5.19 }
+  - {value:  5.21 }
+  - {value:  5.23 }
+  - {value:  5.25 }
+  - {value:  5.27 }
+  - {value:  5.29 }
+  - {value:  5.31 }
+  - {value:  5.33 }
+  - {value:  5.35 }
+  - {value:  5.37 }
+  - {value:  5.39 }
+  - {value:  5.41 }
+  - {value:  5.43 }
+  - {value:  5.45 }
+  - {value:  5.47 }
+  - {value:  5.49 }
+  - {value:  5.51 }
+  - {value:  5.53 }
+  - {value:  5.55 }
+  - {value:  5.57 }
+  - {value:  5.59 }
+  - {value:  5.61 }
+  - {value:  5.63 }
+  - {value:  5.65 }
+  - {value:  5.67 }
+  - {value:  5.69 }
+  - {value:  5.71 }
+  - {value:  5.73 }
+  - {value:  5.75 }
+  - {value:  5.77 }
+  - {value:  5.79 }
+  - {value:  5.81 }
+  - {value:  5.83 }
+  - {value:  5.85 }
+  - {value:  5.87 }
+  - {value:  5.89 }
+  - {value:  5.91 }
+  - {value:  5.93 }
+  - {value:  5.95 }
+  - {value:  5.97 }
+  - {value:  5.99 }
+dependent_variables:
+- header: {name: ENTRIES}
+  qualifiers:
+  - {name: RE, value: PB PB --> B --> J/PSI (MU+ MU-) + K}
+  - {name: SQRT(S_NN), units: GeV, value: 5020}
+  - {name: PT(B), units: GeV/C, value: '10.0 ~ 15.0'}
+  - {name: '|RAPIDITY(B)|', value: '< 2.4'}
+  values:
+  - value:  7
+    errors:
+    - {symerror: 2.64575131106 , label: stat}
+  - value:  7
+    errors:
+    - {symerror: 2.64575131106 , label: stat}
+  - value:  7
+    errors:
+    - {symerror: 2.64575131106 , label: stat}
+  - value:  6
+    errors:
+    - {symerror: 2.44948974278 , label: stat}
+  - value:  12
+    errors:
+    - {symerror: 3.46410161514 , label: stat}
+  - value:  10
+    errors:
+    - {symerror: 3.16227766017 , label: stat}
+  - value:  18
+    errors:
+    - {symerror: 4.24264068712 , label: stat}
+  - value:  7
+    errors:
+    - {symerror: 2.64575131106 , label: stat}
+  - value:  6
+    errors:
+    - {symerror: 2.44948974278 , label: stat}
+  - value:  4
+    errors:
+    - {symerror: 2.0 , label: stat}
+  - value:  11
+    errors:
+    - {symerror: 3.31662479036 , label: stat}
+  - value:  6
+    errors:
+    - {symerror: 2.44948974278 , label: stat}
+  - value:  20
+    errors:
+    - {symerror: 4.472135955 , label: stat}
+  - value:  31
+    errors:
+    - {symerror: 5.56776436283 , label: stat}
+  - value:  24
+    errors:
+    - {symerror: 4.89897948557 , label: stat}
+  - value:  5
+    errors:
+    - {symerror: 2.2360679775 , label: stat}
+  - value:  12
+    errors:
+    - {symerror: 3.46410161514 , label: stat}
+  - value:  6
+    errors:
+    - {symerror: 2.44948974278 , label: stat}
+  - value:  8
+    errors:
+    - {symerror: 2.82842712475 , label: stat}
+  - value:  4
+    errors:
+    - {symerror: 2.0 , label: stat}
+  - value:  5
+    errors:
+    - {symerror: 2.2360679775 , label: stat}
+  - value:  3
+    errors:
+    - {symerror: 1.73205080757 , label: stat}
+  - value:  4
+    errors:
+    - {symerror: 2.0 , label: stat}
+  - value:  7
+    errors:
+    - {symerror: 2.64575131106 , label: stat}
+  - value:  8
+    errors:
+    - {symerror: 2.82842712475 , label: stat}
+  - value:  8
+    errors:
+    - {symerror: 2.82842712475 , label: stat}
+  - value:  3
+    errors:
+    - {symerror: 1.73205080757 , label: stat}
+  - value:  5
+    errors:
+    - {symerror: 2.2360679775 , label: stat}
+  - value:  2
+    errors:
+    - {symerror: 1.41421356237 , label: stat}
+  - value:  4
+    errors:
+    - {symerror: 2.0 , label: stat}
+  - value:  5
+    errors:
+    - {symerror: 2.2360679775 , label: stat}
+  - value:  8
+    errors:
+    - {symerror: 2.82842712475 , label: stat}
+  - value:  3
+    errors:
+    - {symerror: 1.73205080757 , label: stat}
+  - value:  7
+    errors:
+    - {symerror: 2.64575131106 , label: stat}
+  - value:  7
+    errors:
+    - {symerror: 2.64575131106 , label: stat}
+  - value:  3
+    errors:
+    - {symerror: 1.73205080757 , label: stat}
+  - value:  7
+    errors:
+    - {symerror: 2.64575131106 , label: stat}
+  - value:  5
+    errors:
+    - {symerror: 2.2360679775 , label: stat}
+  - value:  11
+    errors:
+    - {symerror: 3.31662479036 , label: stat}
+  - value:  3
+    errors:
+    - {symerror: 1.73205080757 , label: stat}
+  - value:  5
+    errors:
+    - {symerror: 2.2360679775 , label: stat}
+  - value:  2
+    errors:
+    - {symerror: 1.41421356237 , label: stat}
+  - value:  5
+    errors:
+    - {symerror: 2.2360679775 , label: stat}
+  - value:  2
+    errors:
+    - {symerror: 1.41421356237 , label: stat}
+  - value:  3
+    errors:
+    - {symerror: 1.73205080757 , label: stat}
+  - value:  8
+    errors:
+    - {symerror: 2.82842712475 , label: stat}
+  - value:  2
+    errors:
+    - {symerror: 1.41421356237 , label: stat}
+  - value:  4
+    errors:
+    - {symerror: 2.0 , label: stat}
+  - value:  2
+    errors:
+    - {symerror: 1.41421356237 , label: stat}
+  - value:  2
+    errors:
+    - {symerror: 1.41421356237 , label: stat}

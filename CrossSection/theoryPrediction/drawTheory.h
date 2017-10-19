@@ -7,8 +7,9 @@ Float_t bCx[n],bCy[n],bCye[n],bDummy[n];
 Int_t nbin=0;
 Float_t temp;
 Float_t cCx[n],cCy[n],cCye[n],cDummy[n];
+Float_t dCx[n],dCy[n],dCyl[n],dCyh[n];
 using namespace std;
-void plotTheory()
+void plotTheory(bool addpostPRL = false)
 {
   // CUJET
   ifstream countlines("theoryPrediction/theorypre/CUJET_5.02TeV_B0_RAA_0-100.dat");
@@ -172,5 +173,38 @@ void plotTheory()
   gTAMUB5TeV->Draw("3 same");
   //gTAMUB5TeV->Draw("4 same");
   //gTAMUB5TeV->Draw("pe same");
+  
+  if(addpostPRL){
+    ifstream polmodel("theoryPrediction/theorypre/Pol_20170921.txt");
+    if(!polmodel.is_open()) cout<<"Opening the file fails: Pol's Model"<<endl;
+    nbin=0;
+    while(!polmodel.eof())
+      {
+        polmodel>>dCx[nbin]>>dCyh[nbin]>>dCyl[nbin];
+        nbin++;
+      }
+    dCx[nbin-1] = dCx[nbin-2];
+    dCyl[nbin-1] = dCyl[nbin-2];
+    dCyh[nbin-1] = dCyh[nbin-2];
+    Float_t* aPOLMODEL1B5TeVx = new Float_t[nbin];
+    Float_t* aPOLMODEL1B5TeVxe = new Float_t[nbin];
+    Float_t* aPOLMODEL1B5TeVy = new Float_t[nbin];
+    Float_t* aPOLMODEL1B5TeVye = new Float_t[nbin];
+    for(int i=0;i<nbin;i++)
+      {
+        aPOLMODEL1B5TeVx[i] = dCx[i];
+        aPOLMODEL1B5TeVxe[i] = 0;
+        aPOLMODEL1B5TeVy[i] = fabs(dCyh[i]+dCyl[i])/2;
+        aPOLMODEL1B5TeVye[i] = fabs(dCyh[i]-dCyl[i])/2;
+      }
+    TGraphErrors* gPOLMODEL1B5TeV = new TGraphErrors(nbin, aPOLMODEL1B5TeVx, aPOLMODEL1B5TeVy, aPOLMODEL1B5TeVxe, aPOLMODEL1B5TeVye);
+    gPOLMODEL1B5TeV->SetName("gPOLMODEL1B5TeV");
+    gPOLMODEL1B5TeV->SetLineColor(kPink+9);
+    gPOLMODEL1B5TeV->SetFillColor(kPink+9);
+    gPOLMODEL1B5TeV->SetFillColorAlpha(kPink+9,0.5);
+    gPOLMODEL1B5TeV->SetFillStyle(3306);
+    gPOLMODEL1B5TeV->Draw("4 same");
+      
+  }
 
 }

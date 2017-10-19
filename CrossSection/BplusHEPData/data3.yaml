@@ -1,0 +1,37 @@
+independent_variables:
+- header: {name: 'PT (GeV)'}
+  values:
+  - {value: 8.5}
+  - {value: 12.5}
+  - {value: 17.5}
+  - {value: 25}
+  - {value: 40}
+dependent_variables:
+- header: {name: '$\frac{d \sigma}{dp_{T}}$ (Pb/(GeV/C))'}
+  qualifiers:
+  - {name: RE, value: P P --> B --> J/PSI (MU+ MU-) + K}
+  - {name: SQRT(S_NN), units: GeV, value: 5020}
+  - {name: PT(B), units: GeV/C, value: '7.5 ~ 50.0'}
+  - {name: '|RAPIDITY(B)|', value: '< 2.4'}
+  - {name: 'GLOBAL UNCERTAINTY', value: '3.8%'}
+  values:
+  - value: 2606494
+    errors:
+    - {symerror: 167077.5, label: stat}
+    - {symerror: 234401, label: 'sys'}
+  - value: 744298.6
+    errors:
+    - {symerror: 29079.39, label: stat}
+    - {symerror: 59381.62, label: 'sys'}
+  - value: 196975.9
+    errors:
+    - {symerror: 9029.711, label: stat}
+    - {symerror: 15208.98, label: 'sys'}
+  - value: 46489.87
+    errors:
+    - {symerror: 2439.138, label: stat}
+    - {symerror: 3533.588, label: 'sys'}
+  - value: 5342.301
+    errors:
+    - {symerror: 495.0301, label: stat}
+    - {symerror: 401.8008, label: 'sys'}

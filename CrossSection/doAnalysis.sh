@@ -7,17 +7,18 @@ CENTPbPbMAX=100
 DOANALYSISPP_FONLL=0
 DOANALYSISPP_FITNP=0
 DOANALYSISPP_FIT=0
-DOANALYSISPP_FITONSAVED=0
+DOANALYSISPP_FITONSAVED=1
 DOANALYSISPP_MCSTUDY=0
-DOANALYSISPP_CROSS=1
+DOANALYSISPP_CROSS=0
 
 DOANALYSISPbPb_FONLL=0
 DOANALYSISPbPb_FITNP=0
 DOANALYSISPbPb_FIT=0
-DOANALYSISPbPb_FITONSAVED=0
+DOANALYSISPbPb_FITONSAVED=1
 DOANALYSISPbPb_MCSTUDY=0
-DOANALYSISPbPb_CROSS=1
+DOANALYSISPbPb_CROSS=0
 DORAA=0
+DORAA_POSTPRL=0
 
 #Rapidity RAA
 DOANALYSISPP_FIT_Y=0
@@ -233,6 +234,12 @@ if [ $DORAA -eq 1 ]; then
 g++ NuclearModificationFactor.C $(root-config --cflags --libs) -g -o NuclearModificationFactor.exe
 ./NuclearModificationFactor.exe "$OUTPUTFILEPlotPP" "$OUTPUTFILEPlotPbPb"  "$LABELPbPb" "$OUTPUTFILERAA" "$CENTPbPbMIN" "$CENTPbPbMAX"
 rm NuclearModificationFactor.exe
+fi
+
+if [ $DORAA_POSTPRL -eq 1 ]; then
+g++ NuclearModificationFactor_postPRL.C $(root-config --cflags --libs) -g -o NuclearModificationFactor_postPRL.exe
+./NuclearModificationFactor_postPRL.exe "$OUTPUTFILEPlotPP" "$OUTPUTFILEPlotPbPb"  "$LABELPbPb" "$OUTPUTFILERAA" "$CENTPbPbMIN" "$CENTPbPbMAX"
+rm NuclearModificationFactor_postPRL.exe
 fi
 
 
