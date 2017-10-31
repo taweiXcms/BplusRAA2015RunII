@@ -2,62 +2,37 @@ additional_resources: []
 comment: ''
 ---
 name: "Table 1"
-location: Data of Fig. 1 left panel
-description: B meson mass spectrum in pp for B in 10 ~ 15 GeV/c^2
+location: Data of Fig. 2 left panel
+description: B meson production cross section in pp
 keywords:
-  - {name: reactions, values: [P P --> B --> J/PSI (MU+ MU-) + K]}
-  - {name: observables, values: [ ENTRIES ]}
-  - {name: cmenergies, values: [5020.0]} # centre-of-mass energy in GeV
+  - {name: observables, values: [ '$\frac{d \sigma}{dp_{T}}$' ]}
+  - {name: cmenergies, values: [5020 GeV]} # centre-of-mass energy in GeV
   - {name: phrases, values: []}
 data_file: data1.yaml
 data_license: {description: null, name: null, url: null}
 additional_resources: []
 ---
 name: "Table 2"
-location: Data of Fig. 1 right panel
-description: B meson mass spectrum in PbPb for B in 10 ~ 15 GeV/c^2
+location: Data of Fig. 2 right panel
+description: B meson production cross section scaled by $\rm{T_{AA}}$ in PbPb
 keywords:
-  - {name: reactions, values: [PB PB --> B --> J/PSI (MU+ MU-) + K]}
-  - {name: observables, values: [ ENTRIES ]}
-  - {name: cmenergies, values: [5020.0]} # centre-of-mass energy in GeV
+  - {name: observables, values: [ '$\frac{1}{T_{AA}}\frac{d \sigma}{dp_{T}}$' ]}
+  - {name: cmenergies, values: [5020 GeV]} # centre-of-mass energy in GeV
+  - {name: centralty, values: [0 ~ 100%]}
   - {name: phrases, values: []}
 data_file: data2.yaml
 data_license: {description: null, name: null, url: null}
 additional_resources: []
 ---
 name: "Table 3"
-location: Data of Fig. 2 left panel
-description: B meson production cross section in pp
-keywords:
-  - {name: reactions, values: [P P --> B --> J/PSI (MU+ MU-) + K]}
-  - {name: observables, values: [ '$\frac{d \sigma}{dp_{T}}$' ]}
-  - {name: cmenergies, values: [5020.0]} # centre-of-mass energy in GeV
-  - {name: phrases, values: []}
-data_file: data3.yaml
-data_license: {description: null, name: null, url: null}
-additional_resources: []
----
-name: "Table 4"
-location: Data of Fig. 2 right panel
-description: Scaled B meson production cross section in PbPb
-keywords:
-  - {name: reactions, values: [PB PB --> B --> J/PSI (MU+ MU-) + K]}
-  - {name: observables, values: [ '$\frac{d \sigma}{dp_{T}}$' ]}
-  - {name: cmenergies, values: [5020.0]} # centre-of-mass energy in GeV
-  - {name: phrases, values: []}
-data_file: data4.yaml
-data_license: {description: null, name: null, url: null}
-additional_resources: []
----
-name: "Table 5"
 location: Data of Fig. 3 
 description: B meson nuclear modification factor in PbPb
 keywords:
-  - {name: reactions, values: [PB PB (P P) --> B --> J/PSI (MU+ MU-) + K]}
   - {name: observables, values: [ '$\rm{R_{AA}}$' ]}
-  - {name: cmenergies, values: [5020.0]} # centre-of-mass energy in GeV
+  - {name: cmenergies, values: [5020 GeV]} # centre-of-mass energy in GeV
+  - {name: centralty, values: [0 ~ 100%]}
   - {name: phrases, values: []}
-data_file: data5.yaml
+data_file: data3.yaml
 data_license: {description: null, name: null, url: null}
 additional_resources: []
 ---
