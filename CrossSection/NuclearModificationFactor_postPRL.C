@@ -203,11 +203,11 @@ printf("%f %f %f %f %f\n",yruncor[0],yruncor[1],yruncor[2],yruncor[3],yruncor[4]
 	texB->SetLineWidth(2);
 	texB->Draw();
 
-	TLatex* texcms = new TLatex(0.16,0.90,"CMS");
+	TLatex* texcms = new TLatex(0.15,0.90,"CMS");
 	texcms->SetNDC();
 	texcms->SetTextAlign(13);
 	texcms->SetTextFont(62);//61
-	texcms->SetTextSize(0.06);
+	texcms->SetTextSize(0.05);
 	texcms->SetLineWidth(2);
 	texcms->Draw();
 
@@ -218,13 +218,14 @@ printf("%f %f %f %f %f\n",yruncor[0],yruncor[1],yruncor[2],yruncor[3],yruncor[4]
 	texY->SetLineWidth(2);
 	texY->Draw();
 
-	TLatex* texpre = new TLatex(0.15,0.84,"Preliminary");
+	//TLatex* texpre = new TLatex(0.15,0.84,"Preliminary");
+	TLatex* texpre = new TLatex(0.265,0.895,"Supplementary");
 	texpre->SetNDC();
 	texpre->SetTextAlign(13);
 	texpre->SetTextFont(52);
-	texpre->SetTextSize(0.05);
+	texpre->SetTextSize(0.04);
 	texpre->SetLineWidth(2);
-	//texpre->Draw();
+	texpre->Draw();
 
     TLegend *legendSigma=new TLegend(0.6036242,0.7474695,0.942953,0.8457592,"");
 	if(drawDRAA)legendSigma=new TLegend(0.3936242,0.6574695,0.812953,0.9157592,"");

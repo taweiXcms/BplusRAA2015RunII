@@ -1,7 +1,7 @@
 void canvasRAAPbPb_0_100_SepUnc_ThmRAA()
 {
 //=========Macro generated from canvas: canvasRAA/canvasRAA
-//=========  (Wed Oct  4 23:35:27 2017) by ROOT version6.02/13
+//=========  (Wed Jan 10 15:37:44 2018) by ROOT version6.02/13
    TCanvas *canvasRAA = new TCanvas("canvasRAA", "canvasRAA",0,0,600,600);
    gStyle->SetOptStat(0);
    gStyle->SetOptTitle(0);
@@ -59,15 +59,21 @@ tex->SetNDC();
    tex->SetTextSize(0.08);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(0.16,0.9,"CMS");
+      tex = new TLatex(0.15,0.9,"CMS");
 tex->SetNDC();
    tex->SetTextAlign(13);
-   tex->SetTextSize(0.06);
    tex->SetLineWidth(2);
    tex->Draw();
       tex = new TLatex(0.81,0.16,"|y| < 2.4");
 tex->SetNDC();
    tex->SetTextFont(42);
+   tex->SetTextSize(0.04);
+   tex->SetLineWidth(2);
+   tex->Draw();
+      tex = new TLatex(0.265,0.895,"Supplementary");
+tex->SetNDC();
+   tex->SetTextAlign(13);
+   tex->SetTextFont(52);
    tex->SetTextSize(0.04);
    tex->SetLineWidth(2);
    tex->Draw();

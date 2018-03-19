@@ -19,9 +19,9 @@ bool drawDRAA = 0;
 bool drawJpsi = 0;
 
 bool drawBRpA = 0;
-bool drawThm = 1;
+bool drawThm = 0;
 
-bool BSepSys = 1;
+bool BSepSys = 0;
 
 void adjustLegend(TLegend* l);
 void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", TString inputPbPb="ROOTfiles/CrossSectionPbPb.root",TString label="PbPb",TString outputfile="RAAfile.root", Float_t centMin=0., Float_t centMax=100.)

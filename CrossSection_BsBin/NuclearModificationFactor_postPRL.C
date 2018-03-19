@@ -1,7 +1,7 @@
 #include "uti.h"
 #include "parameters.h"
 #include "TLegendEntry.h"
-#include "../Systematics/systematics.C"
+#include "systematics.C"
 #include "theoryPrediction/drawTheory.h"
 #include "B_RpA/DrawBRpAFONLL.h"
 #include "B_RpA/DrawBRpA.h"
@@ -21,7 +21,7 @@ bool drawJpsi = 0;
 bool drawBRpA = 0;
 bool drawThm = 1;
 
-bool BSepSys = 1;
+bool BSepSys = 0;
 
 void adjustLegend(TLegend* l);
 void NuclearModificationFactor_postPRL(TString inputPP="ROOTfiles/CrossSectionPP.root", TString inputPbPb="ROOTfiles/CrossSectionPbPb.root",TString label="PbPb",TString outputfile="RAAfile.root", Float_t centMin=0., Float_t centMax=100.)
@@ -87,9 +87,9 @@ void NuclearModificationFactor_postPRL(TString inputPP="ROOTfiles/CrossSectionPP
 		yrcor[i] = hNuclearModification->GetBinContent(i+1)*systematic_cor;
 		yruncor[i] = hNuclearModification->GetBinContent(i+1)*systematic_uncor;
 	}
-printf("%f %f %f %f %f\n",yrlow[0],yrlow[1],yrlow[2],yrlow[3],yrlow[4]);
-printf("%f %f %f %f %f\n",yrcor[0],yrcor[1],yrcor[2],yrcor[3],yrcor[4]);
-printf("%f %f %f %f %f\n",yruncor[0],yruncor[1],yruncor[2],yruncor[3],yruncor[4]);
+printf("%f\n",yrlow[0]);
+printf("%f\n",yrcor[0]);
+printf("%f\n",yruncor[0]);
 
 	TGraphAsymmErrors* gNuclearModification = new TGraphAsymmErrors(nBins,apt,yr,aptl,aptl,yrlow,yrhigh);
 	gNuclearModification->SetName("gNuclearModification");
