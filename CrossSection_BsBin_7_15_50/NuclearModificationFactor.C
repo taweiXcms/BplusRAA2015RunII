@@ -87,9 +87,14 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		yrcor[i] = hNuclearModification->GetBinContent(i+1)*systematic_cor;
 		yruncor[i] = hNuclearModification->GetBinContent(i+1)*systematic_uncor;
 	}
+printf("%f\n",yr[0]);
 printf("%f\n",yrlow[0]);
 printf("%f\n",yrcor[0]);
 printf("%f\n",yruncor[0]);
+printf("%f\n",yr[1]);
+printf("%f\n",yrlow[1]);
+printf("%f\n",yrcor[1]);
+printf("%f\n",yruncor[1]);
 
 	TGraphAsymmErrors* gNuclearModification = new TGraphAsymmErrors(nBins,apt,yr,aptl,aptl,yrlow,yrhigh);
 	gNuclearModification->SetName("gNuclearModification");

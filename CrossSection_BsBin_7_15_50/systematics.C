@@ -11,9 +11,9 @@
 // Yen-Jie: systematics table for B meson
 // Unit: In percentage
 const int nPtBins=1;
-double PtBins[nPtBins+1] = {15.,50.};//add a margin so that "FindBin" can work at the bin end
-const int AnaBins=1;
-double AnaPtBins[AnaBins+1] = {15.,50.};
+double PtBins[nPtBins+1] = {7.,50.};//add a margin so that "FindBin" can work at the bin end
+const int AnaBins=2;
+double AnaPtBins[AnaBins+1] = {7.,15.,50.};
 
 const int nCentBins=4;
 double CentBins[nCentBins+1] = {0.,10.,30.,50.,100.};
