@@ -1,7 +1,7 @@
 void canvasRAAPbPb_0_100_ThmRAA()
 {
 //=========Macro generated from canvas: canvasRAA/canvasRAA
-//=========  (Thu Dec 14 08:27:02 2017) by ROOT version6.02/13
+//=========  (Tue Apr 17 01:06:48 2018) by ROOT version6.02/13
    TCanvas *canvasRAA = new TCanvas("canvasRAA", "canvasRAA",0,0,600,600);
    gStyle->SetOptStat(0);
    gStyle->SetOptTitle(0);
@@ -1843,19 +1843,25 @@ tex->SetNDC();
    entry->SetTextSize(0.03);
    leg->Draw();
    
-   Double_t gNuclearModification_fx3002[1] = {
+   Double_t gNuclearModification_fx3002[2] = {
+   11,
    32.5};
-   Double_t gNuclearModification_fy3002[1] = {
-   0.4881361};
-   Double_t gNuclearModification_felx3002[1] = {
+   Double_t gNuclearModification_fy3002[2] = {
+   0.4206465,
+   0.4949401};
+   Double_t gNuclearModification_felx3002[2] = {
+   4,
    17.5};
-   Double_t gNuclearModification_fely3002[1] = {
-   0.06569459};
-   Double_t gNuclearModification_fehx3002[1] = {
+   Double_t gNuclearModification_fely3002[2] = {
+   0.01774761,
+   0.06651363};
+   Double_t gNuclearModification_fehx3002[2] = {
+   4,
    17.5};
-   Double_t gNuclearModification_fehy3002[1] = {
-   0.06569459};
-   grae = new TGraphAsymmErrors(1,gNuclearModification_fx3002,gNuclearModification_fy3002,gNuclearModification_felx3002,gNuclearModification_fehx3002,gNuclearModification_fely3002,gNuclearModification_fehy3002);
+   Double_t gNuclearModification_fehy3002[2] = {
+   0.01774761,
+   0.06651363};
+   grae = new TGraphAsymmErrors(2,gNuclearModification_fx3002,gNuclearModification_fy3002,gNuclearModification_felx3002,gNuclearModification_fehx3002,gNuclearModification_fely3002,gNuclearModification_fehy3002);
    grae->SetName("gNuclearModification");
    grae->SetTitle("Graph");
 
@@ -1870,9 +1876,9 @@ tex->SetNDC();
    grae->SetMarkerStyle(21);
    grae->SetMarkerSize(1.2);
    
-   TH1F *Graph_gNuclearModification3002 = new TH1F("Graph_gNuclearModification3002","Graph",100,11.5,53.5);
-   Graph_gNuclearModification3002->SetMinimum(0.4093026);
-   Graph_gNuclearModification3002->SetMaximum(0.5669696);
+   TH1F *Graph_gNuclearModification3002 = new TH1F("Graph_gNuclearModification3002","Graph",100,2.7,54.3);
+   Graph_gNuclearModification3002->SetMinimum(0.3870434);
+   Graph_gNuclearModification3002->SetMaximum(0.5773092);
    Graph_gNuclearModification3002->SetDirectory(0);
    Graph_gNuclearModification3002->SetStats(0);
 
@@ -1894,12 +1900,14 @@ tex->SetNDC();
    grae->SetHistogram(Graph_gNuclearModification3002);
    
    grae->Draw("5");
-   Double_t xAxis1[2] = {15, 50}; 
+   Double_t xAxis1[3] = {7, 15, 50}; 
    
-   TH1D *hNuclearModification2 = new TH1D("hNuclearModification2","",1, xAxis1);
-   hNuclearModification2->SetBinContent(1,0.4881361);
-   hNuclearModification2->SetBinError(1,0.05165771);
-   hNuclearModification2->SetEntries(89.29179);
+   TH1D *hNuclearModification2 = new TH1D("hNuclearModification2","",2, xAxis1);
+   hNuclearModification2->SetBinContent(1,0.4206465);
+   hNuclearModification2->SetBinContent(2,0.4949401);
+   hNuclearModification2->SetBinError(1,0.06155959);
+   hNuclearModification2->SetBinError(2,0.05250418);
+   hNuclearModification2->SetEntries(128.0575);
 
    ci = TColor::GetColor("#0033cc");
    hNuclearModification2->SetLineColor(ci);
@@ -1928,12 +1936,14 @@ tex->SetNDC();
    box->SetFillColor(16);
    box->SetLineColor(16);
    box->Draw();
-   Double_t xAxis2[2] = {15, 50}; 
+   Double_t xAxis2[3] = {7, 15, 50}; 
    
-   TH1D *hNuclearModification3 = new TH1D("hNuclearModification3","",1, xAxis2);
-   hNuclearModification3->SetBinContent(1,0.4881361);
-   hNuclearModification3->SetBinError(1,0.05165771);
-   hNuclearModification3->SetEntries(89.29179);
+   TH1D *hNuclearModification3 = new TH1D("hNuclearModification3","",2, xAxis2);
+   hNuclearModification3->SetBinContent(1,0.4206465);
+   hNuclearModification3->SetBinContent(2,0.4949401);
+   hNuclearModification3->SetBinError(1,0.06155959);
+   hNuclearModification3->SetBinError(2,0.05250418);
+   hNuclearModification3->SetEntries(128.0575);
 
    ci = TColor::GetColor("#0033cc");
    hNuclearModification3->SetLineColor(ci);

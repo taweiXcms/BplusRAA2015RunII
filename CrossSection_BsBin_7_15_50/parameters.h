@@ -1,5 +1,5 @@
-const int nBins=1;
-double ptBins[nBins+1] = {15,50};
+const int nBins=2;
+double ptBins[nBins+1] = {7,15,50};
 
 const int nBinsInc=1;
 double ptBinsInc[nBinsInc+1] = {7.,50.};

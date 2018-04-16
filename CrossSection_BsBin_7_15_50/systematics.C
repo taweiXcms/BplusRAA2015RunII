@@ -109,7 +109,8 @@ void initializationPP()
 	}
 
 	ppAccUnc = new TH1D("ppAccUnc","",AnaBins,AnaPtBins);
-	double AccUnc_pp[5] = {0.111370, 0.100721, 0.248762, 0.292358, 0.411680};
+//	double AccUnc_pp[5] = {0.111370, 0.100721, 0.248762, 0.292358, 0.411680};
+  		  double AccUnc_pp[5] = {0, 0, 0, 0, 0};//assumming cancel when taking Bs/B+ ratio
 	for(int i = 0; i < AnaBins; i++){
 		ppAccUnc->SetBinContent(i+1,AccUnc_pp[i]);//paper
 	}
@@ -134,7 +135,8 @@ void initializationPbPbCent0100()
 	}
 
 	PbPbAccUnc = new TH1D("PbPbAccUnc","",AnaBins,AnaPtBins);
-    double AccUnc_PbPb[5] = {0.716141, 1.015990, 0.971805, 1.216616, 1.596899};
+//    double AccUnc_PbPb[5] = {0.716141, 1.015990, 0.971805, 1.216616, 1.596899};
+  		  double AccUnc_PbPb[5] = {0, 0, 0, 0, 0};//assumming cancel when taking Bs/B+ ratio
 	for(int i = 0; i < AnaBins; i++){
 		PbPbAccUnc->SetBinContent(i+1,AccUnc_PbPb[i]);//paper 20170314
 	}

@@ -122,8 +122,10 @@ void MCefficiency(int isPbPb=0,TString inputmc="/data/wangj/MC2015/Dntuple/pp/re
   ntGen->Project("hPtGenAccWeighted","Gpt",TCut(weighpthat)*TCut(weightGpt)*TCut(weightHiBin)*(TCut(selmcgenacceptance.Data())));
   ////// tag & probe scaling factor
   for(int i = 0; i < 5; i++){printf("%.2f, ", hPtMC->GetBinContent(i+1));}printf("\n");//check entries
-  double sf_pp[5] = {227977.02/207901.56, 632864.53/606712.42, 408808.07/399583.96, 275911.15/272909.48, 85362.85/85846.52, };
-  double sf_pbpb[5] = {64266.93/59877.61, 189085.92/187577.36, 156249.18/158435.51, 138502.42/141744.96, 53617.98/55196.42, };
+//  double sf_pp[5] = {227977.02/207901.56, 632864.53/606712.42, 408808.07/399583.96, 275911.15/272909.48, 85362.85/85846.52, };
+//  double sf_pbpb[5] = {64266.93/59877.61, 189085.92/187577.36, 156249.18/158435.51, 138502.42/141744.96, 53617.98/55196.42, };
+  double sf_pp[2] = {860841.55/814613.98, 770082.07/758339.96, };
+  double sf_pbpb[2] = {253352.86/247454.96, 348369.58/355376.89, };
   for(int i = 0; i < 5; i++){
     if(label == "pp"){
       hPtMC->SetBinContent(i+1, hPtMC->GetBinContent(i+1)*sf_pp[i]);
