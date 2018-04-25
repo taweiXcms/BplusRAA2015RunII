@@ -1,7 +1,7 @@
 #include "uti.h"
 #include "parameters.h"
 #include "TLegendEntry.h"
-#include "../Systematics/systematics.C"
+#include "systematics.C"
 #include "theoryPrediction/drawTheory.h"
 #include "B_RpA/DrawBRpAFONLL.h"
 #include "B_RpA/DrawBRpA.h"
@@ -19,7 +19,7 @@ bool drawDRAA = 0;
 bool drawJpsi = 0;
 
 bool drawBRpA = 0;
-bool drawThm = 0;
+bool drawThm = 1;
 
 bool BSepSys = 0;
 

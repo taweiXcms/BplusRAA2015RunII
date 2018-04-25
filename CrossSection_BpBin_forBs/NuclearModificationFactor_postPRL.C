@@ -1,7 +1,7 @@
 #include "uti.h"
 #include "parameters.h"
 #include "TLegendEntry.h"
-#include "../Systematics/systematics.C"
+#include "systematics.C"
 #include "theoryPrediction/drawTheory.h"
 #include "B_RpA/DrawBRpAFONLL.h"
 #include "B_RpA/DrawBRpA.h"
@@ -19,12 +19,12 @@ bool drawDRAA = 0;
 bool drawJpsi = 0;
 
 bool drawBRpA = 0;
-bool drawThm = 0;
+bool drawThm = 1;
 
 bool BSepSys = 0;
 
 void adjustLegend(TLegend* l);
-void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", TString inputPbPb="ROOTfiles/CrossSectionPbPb.root",TString label="PbPb",TString outputfile="RAAfile.root", Float_t centMin=0., Float_t centMax=100.)
+void NuclearModificationFactor_postPRL(TString inputPP="ROOTfiles/CrossSectionPP.root", TString inputPbPb="ROOTfiles/CrossSectionPbPb.root",TString label="PbPb",TString outputfile="RAAfile.root", Float_t centMin=0., Float_t centMax=100.)
 {
 	float TAABarWid = 0.35;
 	float pti = ptBins[0]-2.;
@@ -86,18 +86,10 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		yrhigh[i] =hNuclearModification->GetBinContent(i+1)*systematic;
 		yrcor[i] = hNuclearModification->GetBinContent(i+1)*systematic_cor;
 		yruncor[i] = hNuclearModification->GetBinContent(i+1)*systematic_uncor;
-
-        double raamean = hNuclearModification->GetBinContent(i+1);
-        printf("RAA mean: %f \n", raamean);
-        printf("Stat: %f %f(%)\n", hNuclearModification->GetBinError(i+1), hNuclearModification->GetBinError(i+1)/raamean);
-        printf("Sys tot: %f %f(%)\n",yrlow[i], yrlow[i]/raamean);
-        printf("Sys corr: %f %f(%)\n",yrcor[i], yrcor[i]/raamean);
-        printf("Sys uncorr: %f %f(%)\n",yruncor[i], yruncor[i]/raamean);
-        double totsyst = sqrt( pow(hNuclearModification->GetBinError(i+1)/raamean,2) + pow(yrlow[0]/raamean,2) );
-        printf("Tot uncert: %f(%)\n", totsyst);
-        double nsigma = (1-raamean)/(raamean*totsyst);
-        printf("N sigma: %f\n", nsigma);
 	}
+printf("%f\n",yrlow[0]);
+printf("%f\n",yrcor[0]);
+printf("%f\n",yruncor[0]);
 
 	TGraphAsymmErrors* gNuclearModification = new TGraphAsymmErrors(nBins,apt,yr,aptl,aptl,yrlow,yrhigh);
 	gNuclearModification->SetName("gNuclearModification");
@@ -408,32 +400,37 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 	if(drawThm){
 		adjustLegend(legendThm);
 		adjustLegend(legendAds);
-		plotTheory();
+		plotTheory(true);
 		TGraphAsymmErrors* gThmDummy1 = new TGraphAsymmErrors();
 		TGraphAsymmErrors* gThmDummy2 = new TGraphAsymmErrors();
 		TGraphAsymmErrors* gThmDummy3 = new TGraphAsymmErrors();
 		TGraphAsymmErrors* gThmDummy4 = new TGraphAsymmErrors();
 		TGraphAsymmErrors* gThmDummy5 = new TGraphAsymmErrors();
+		TGraphAsymmErrors* gThmDummy6 = new TGraphAsymmErrors();
 		gThmDummy1->SetLineColor(kOrange+8);
 		gThmDummy2->SetLineColor(kRed-4);
 		gThmDummy3->SetLineColor(0);
 		gThmDummy4->SetLineColor(0);
 		gThmDummy5->SetLineColor(0);
+		gThmDummy6->SetLineColor(0);
 		gThmDummy3->SetFillColorAlpha(kYellow+2,0.5);
 		gThmDummy4->SetFillColorAlpha(kViolet-8,0.5);
 		gThmDummy5->SetFillColorAlpha(kGreen-2,0.5);
+		gThmDummy6->SetFillColorAlpha(kPink+9,0.5);
 		gThmDummy1->SetLineWidth(8.);
 		gThmDummy2->SetLineWidth(8.);
 		gThmDummy2->SetLineStyle(6);
 		gThmDummy3->SetFillStyle(3344);
 		gThmDummy4->SetFillStyle(3352);
 		gThmDummy5->SetFillStyle(3325);
+		gThmDummy6->SetFillStyle(3306);
 		TLegendEntry *ent_thm1 = legendThm->AddEntry(gThmDummy1,"TAMU","l");
 		TLegendEntry *ent_thm2 = legendThm->AddEntry(gThmDummy2,"Djordjevic","l");
 		TLegendEntry *ent_thm3 = legendThm->AddEntry(gThmDummy3,"CUJET3.0","f");
 		TLegendEntry *ent_thm4 = legendThm->AddEntry(gThmDummy4,"AdS/CFT HH D(p)","f");
 		//TLegendEntry *ent_thm5 = legendThm->AddEntry(gThmDummy5,"AdS/CFT HH D = const","f");
 		TLegendEntry *ent_thm5 = legendThm->AddEntry(gThmDummy5,"AdS/CFT HH D=const","f");
+		TLegendEntry *ent_thm6 = legendThm->AddEntry(gThmDummy6,"SUBATECH","f");
 		//legendAds->SetHeader("AdS/CFT HH");
 		//TLegendEntry *ent_thm4 = legendAds->AddEntry(gThmDummy4,"D(p)","f");
 		//TLegendEntry *ent_thm5 = legendAds->AddEntry(gThmDummy5,"D = const","f");
@@ -442,6 +439,7 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 		ent_thm3->SetTextSize(0.038);
 		ent_thm4->SetTextSize(0.038);
 		ent_thm5->SetTextSize(0.038);
+		ent_thm6->SetTextSize(0.038);
 	}
 
 	legendSigma->Draw();
@@ -505,10 +503,10 @@ void NuclearModificationFactor(TString inputPP="ROOTfiles/CrossSectionPP.root", 
 	}
 
 
-	canvasRAA->SaveAs(Form("plotRAA/canvasRAA%s_%.0f_%.0f%s.pdf",label.Data(),centMin,centMax,AddOn.Data()));
-	canvasRAA->SaveAs(Form("plotRAA/canvasRAA%s_%.0f_%.0f%s.png",label.Data(),centMin,centMax,AddOn.Data()));
-	canvasRAA->SaveAs(Form("plotRAA/canvasRAA%s_%.0f_%.0f%s.eps",label.Data(),centMin,centMax,AddOn.Data()));
-	canvasRAA->SaveAs(Form("plotRAA/canvasRAA%s_%.0f_%.0f%s.C",label.Data(),centMin,centMax,AddOn.Data()));
+	canvasRAA->SaveAs(Form("plotRAA_postPRL/canvasRAA%s_%.0f_%.0f%s.pdf",label.Data(),centMin,centMax,AddOn.Data()));
+	canvasRAA->SaveAs(Form("plotRAA_postPRL/canvasRAA%s_%.0f_%.0f%s.png",label.Data(),centMin,centMax,AddOn.Data()));
+	canvasRAA->SaveAs(Form("plotRAA_postPRL/canvasRAA%s_%.0f_%.0f%s.eps",label.Data(),centMin,centMax,AddOn.Data()));
+	canvasRAA->SaveAs(Form("plotRAA_postPRL/canvasRAA%s_%.0f_%.0f%s.C",label.Data(),centMin,centMax,AddOn.Data()));
 	TFile *fRAA=new TFile(outputfile.Data(),"recreate");
 	fRAA->cd();
 	gNuclearModification->Write();
@@ -523,7 +521,7 @@ int main(int argc, char *argv[])
 {
 	if(argc==7)
 	{
-		NuclearModificationFactor(argv[1], argv[2], argv[3], argv[4], atof(argv[5]), atof(argv[6]));
+		NuclearModificationFactor_postPRL(argv[1], argv[2], argv[3], argv[4], atof(argv[5]), atof(argv[6]));
 		return 0;
 	}
 	else

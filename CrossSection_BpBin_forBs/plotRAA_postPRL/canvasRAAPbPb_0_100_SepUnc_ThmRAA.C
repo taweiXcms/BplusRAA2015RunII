@@ -1,7 +1,7 @@
-void canvasRAAPbPb_0_100_ThmRAA()
+void canvasRAAPbPb_0_100_SepUnc_ThmRAA()
 {
 //=========Macro generated from canvas: canvasRAA/canvasRAA
-//=========  (Wed Apr 25 03:56:18 2018) by ROOT version6.02/13
+//=========  (Wed Dec 13 19:37:41 2017) by ROOT version6.02/13
    TCanvas *canvasRAA = new TCanvas("canvasRAA", "canvasRAA",0,0,600,600);
    gStyle->SetOptStat(0);
    gStyle->SetOptTitle(0);
@@ -1802,6 +1802,160 @@ tex->SetNDC();
    
    gre->Draw("3 ");
    
+   Double_t gPOLMODEL1B5TeV_fx1004[28] = {
+   0.25,
+   0.75,
+   1.25,
+   1.75,
+   2.25,
+   2.75,
+   3.25,
+   3.75,
+   4.25,
+   4.75,
+   5.25,
+   5.75,
+   6.25,
+   6.75,
+   7.25,
+   7.75,
+   9,
+   11,
+   13,
+   15,
+   17,
+   19,
+   22.5,
+   27.5,
+   32.5,
+   37.5,
+   45,
+   45};
+   Double_t gPOLMODEL1B5TeV_fy1004[28] = {
+   1.248225,
+   1.25931,
+   1.263295,
+   1.27388,
+   1.26349,
+   1.23065,
+   1.18298,
+   1.11977,
+   1.049525,
+   0.9773195,
+   0.90062,
+   0.838865,
+   0.7788195,
+   0.7246215,
+   0.6851,
+   0.645884,
+   0.5904815,
+   0.527964,
+   0.4990125,
+   0.47737,
+   0.4729085,
+   0.465378,
+   0.4575645,
+   0.4631975,
+   0.4916885,
+   0.493586,
+   0.505034,
+   0.505034};
+   Double_t gPOLMODEL1B5TeV_fex1004[28] = {
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0};
+   Double_t gPOLMODEL1B5TeV_fey1004[28] = {
+   0.03940499,
+   0.03899002,
+   0.04787499,
+   0.05028999,
+   0.05144,
+   0.04931003,
+   0.04231995,
+   0.02118999,
+   0.003244996,
+   0.0188565,
+   0.03013101,
+   0.048287,
+   0.05784953,
+   0.06994548,
+   0.07731602,
+   0.08041099,
+   0.08525148,
+   0.08173001,
+   0.0719395,
+   0.06044801,
+   0.05962551,
+   0.04795401,
+   0.0407445,
+   0.02379349,
+   0.008283496,
+   0.008189008,
+   0.01152699,
+   0.01152699};
+   gre = new TGraphErrors(28,gPOLMODEL1B5TeV_fx1004,gPOLMODEL1B5TeV_fy1004,gPOLMODEL1B5TeV_fex1004,gPOLMODEL1B5TeV_fey1004);
+   gre->SetName("gPOLMODEL1B5TeV");
+   gre->SetTitle("Graph");
+
+   ci = 930;
+   color = new TColor(ci, 1, 0.2, 0.8, " ", 0.5);
+   gre->SetFillColor(ci);
+   gre->SetFillStyle(3306);
+
+   ci = TColor::GetColor("#ff33cc");
+   gre->SetLineColor(ci);
+   gre->SetMarkerStyle(20);
+   
+   TH1F *Graph_gPOLMODEL1B5TeV1004 = new TH1F("Graph_gPOLMODEL1B5TeV1004","Graph",100,0.225,49.475);
+   Graph_gPOLMODEL1B5TeV1004->SetMinimum(0.3221943);
+   Graph_gPOLMODEL1B5TeV1004->SetMaximum(1.415259);
+   Graph_gPOLMODEL1B5TeV1004->SetDirectory(0);
+   Graph_gPOLMODEL1B5TeV1004->SetStats(0);
+
+   ci = TColor::GetColor("#000099");
+   Graph_gPOLMODEL1B5TeV1004->SetLineColor(ci);
+   Graph_gPOLMODEL1B5TeV1004->SetMarkerStyle(20);
+   Graph_gPOLMODEL1B5TeV1004->GetXaxis()->SetLabelFont(42);
+   Graph_gPOLMODEL1B5TeV1004->GetXaxis()->SetLabelSize(0.035);
+   Graph_gPOLMODEL1B5TeV1004->GetXaxis()->SetTitleSize(0.035);
+   Graph_gPOLMODEL1B5TeV1004->GetXaxis()->SetTitleFont(42);
+   Graph_gPOLMODEL1B5TeV1004->GetYaxis()->SetLabelFont(42);
+   Graph_gPOLMODEL1B5TeV1004->GetYaxis()->SetLabelSize(0.035);
+   Graph_gPOLMODEL1B5TeV1004->GetYaxis()->SetTitleSize(0.035);
+   Graph_gPOLMODEL1B5TeV1004->GetYaxis()->SetTitleFont(42);
+   Graph_gPOLMODEL1B5TeV1004->GetZaxis()->SetLabelFont(42);
+   Graph_gPOLMODEL1B5TeV1004->GetZaxis()->SetLabelSize(0.035);
+   Graph_gPOLMODEL1B5TeV1004->GetZaxis()->SetTitleSize(0.035);
+   Graph_gPOLMODEL1B5TeV1004->GetZaxis()->SetTitleFont(42);
+   gre->SetHistogram(Graph_gPOLMODEL1B5TeV1004);
+   
+   gre->Draw("4 ");
+   
    TLegend *leg = new TLegend(0.135,0.65,0.49,0.85,NULL,"brNDC");
    leg->SetBorderSize(0);
    leg->SetTextSize(0.04);
@@ -1819,9 +1973,23 @@ tex->SetNDC();
    entry->SetMarkerSize(1.2);
    entry->SetTextFont(42);
    entry->SetTextSize(0.038);
-   entry=leg->AddEntry("gNuclearModification","Syst. uncert.","f");
+   entry=leg->AddEntry("gNuclearModification_Cor","Correlated syst. uncert.","f");
 
-   ci = 924;
+   ci = 926;
+   color = new TColor(ci, 1, 1, 1, " ", 0.01);
+   entry->SetFillColor(ci);
+   entry->SetFillStyle(1001);
+   entry->SetLineColor(1);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(3);
+   entry->SetMarkerColor(4);
+   entry->SetMarkerStyle(21);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   entry->SetTextSize(0.03);
+   entry=leg->AddEntry("gNuclearModification_UnCor","Uncorrelated syst. uncert.","f");
+
+   ci = 925;
    color = new TColor(ci, 0, 0.6, 1, " ", 0.5);
    entry->SetFillColor(ci);
    entry->SetFillStyle(1001);
@@ -1843,23 +2011,23 @@ tex->SetNDC();
    entry->SetTextSize(0.03);
    leg->Draw();
    
-   Double_t gNuclearModification_fx3002[1] = {
+   Double_t gNuclearModification_UnCor_fx3002[1] = {
    32.5};
-   Double_t gNuclearModification_fy3002[1] = {
+   Double_t gNuclearModification_UnCor_fy3002[1] = {
    0.4881361};
-   Double_t gNuclearModification_felx3002[1] = {
-   17.5};
-   Double_t gNuclearModification_fely3002[1] = {
-   0.06569459};
-   Double_t gNuclearModification_fehx3002[1] = {
-   17.5};
-   Double_t gNuclearModification_fehy3002[1] = {
-   0.06569459};
-   grae = new TGraphAsymmErrors(1,gNuclearModification_fx3002,gNuclearModification_fy3002,gNuclearModification_felx3002,gNuclearModification_fehx3002,gNuclearModification_fely3002,gNuclearModification_fehy3002);
-   grae->SetName("gNuclearModification");
+   Double_t gNuclearModification_UnCor_felx3002[1] = {
+   12.5};
+   Double_t gNuclearModification_UnCor_fely3002[1] = {
+   0.02632068};
+   Double_t gNuclearModification_UnCor_fehx3002[1] = {
+   12.5};
+   Double_t gNuclearModification_UnCor_fehy3002[1] = {
+   0.02632068};
+   grae = new TGraphAsymmErrors(1,gNuclearModification_UnCor_fx3002,gNuclearModification_UnCor_fy3002,gNuclearModification_UnCor_felx3002,gNuclearModification_UnCor_fehx3002,gNuclearModification_UnCor_fely3002,gNuclearModification_UnCor_fehy3002);
+   grae->SetName("gNuclearModification_UnCor");
    grae->SetTitle("Graph");
 
-   ci = 924;
+   ci = 925;
    color = new TColor(ci, 0, 0.6, 1, " ", 0.5);
    grae->SetFillColor(ci);
    grae->SetLineColor(0);
@@ -1870,28 +2038,75 @@ tex->SetNDC();
    grae->SetMarkerStyle(21);
    grae->SetMarkerSize(1.2);
    
-   TH1F *Graph_gNuclearModification3002 = new TH1F("Graph_gNuclearModification3002","Graph",100,11.5,53.5);
-   Graph_gNuclearModification3002->SetMinimum(0.4093026);
-   Graph_gNuclearModification3002->SetMaximum(0.5669696);
-   Graph_gNuclearModification3002->SetDirectory(0);
-   Graph_gNuclearModification3002->SetStats(0);
+   TH1F *Graph_gNuclearModification_UnCor3002 = new TH1F("Graph_gNuclearModification_UnCor3002","Graph",100,17.5,47.5);
+   Graph_gNuclearModification_UnCor3002->SetMinimum(0.4565513);
+   Graph_gNuclearModification_UnCor3002->SetMaximum(0.5197209);
+   Graph_gNuclearModification_UnCor3002->SetDirectory(0);
+   Graph_gNuclearModification_UnCor3002->SetStats(0);
 
    ci = TColor::GetColor("#000099");
-   Graph_gNuclearModification3002->SetLineColor(ci);
-   Graph_gNuclearModification3002->SetMarkerStyle(20);
-   Graph_gNuclearModification3002->GetXaxis()->SetLabelFont(42);
-   Graph_gNuclearModification3002->GetXaxis()->SetLabelSize(0.035);
-   Graph_gNuclearModification3002->GetXaxis()->SetTitleSize(0.035);
-   Graph_gNuclearModification3002->GetXaxis()->SetTitleFont(42);
-   Graph_gNuclearModification3002->GetYaxis()->SetLabelFont(42);
-   Graph_gNuclearModification3002->GetYaxis()->SetLabelSize(0.035);
-   Graph_gNuclearModification3002->GetYaxis()->SetTitleSize(0.035);
-   Graph_gNuclearModification3002->GetYaxis()->SetTitleFont(42);
-   Graph_gNuclearModification3002->GetZaxis()->SetLabelFont(42);
-   Graph_gNuclearModification3002->GetZaxis()->SetLabelSize(0.035);
-   Graph_gNuclearModification3002->GetZaxis()->SetTitleSize(0.035);
-   Graph_gNuclearModification3002->GetZaxis()->SetTitleFont(42);
-   grae->SetHistogram(Graph_gNuclearModification3002);
+   Graph_gNuclearModification_UnCor3002->SetLineColor(ci);
+   Graph_gNuclearModification_UnCor3002->SetMarkerStyle(20);
+   Graph_gNuclearModification_UnCor3002->GetXaxis()->SetLabelFont(42);
+   Graph_gNuclearModification_UnCor3002->GetXaxis()->SetLabelSize(0.035);
+   Graph_gNuclearModification_UnCor3002->GetXaxis()->SetTitleSize(0.035);
+   Graph_gNuclearModification_UnCor3002->GetXaxis()->SetTitleFont(42);
+   Graph_gNuclearModification_UnCor3002->GetYaxis()->SetLabelFont(42);
+   Graph_gNuclearModification_UnCor3002->GetYaxis()->SetLabelSize(0.035);
+   Graph_gNuclearModification_UnCor3002->GetYaxis()->SetTitleSize(0.035);
+   Graph_gNuclearModification_UnCor3002->GetYaxis()->SetTitleFont(42);
+   Graph_gNuclearModification_UnCor3002->GetZaxis()->SetLabelFont(42);
+   Graph_gNuclearModification_UnCor3002->GetZaxis()->SetLabelSize(0.035);
+   Graph_gNuclearModification_UnCor3002->GetZaxis()->SetTitleSize(0.035);
+   Graph_gNuclearModification_UnCor3002->GetZaxis()->SetTitleFont(42);
+   grae->SetHistogram(Graph_gNuclearModification_UnCor3002);
+   
+   grae->Draw("5");
+   
+   Double_t gNuclearModification_Cor_fx3003[1] = {
+   32.5};
+   Double_t gNuclearModification_Cor_fy3003[1] = {
+   0.4881361};
+   Double_t gNuclearModification_Cor_felx3003[1] = {
+   17.5};
+   Double_t gNuclearModification_Cor_fely3003[1] = {
+   0.07585296};
+   Double_t gNuclearModification_Cor_fehx3003[1] = {
+   17.5};
+   Double_t gNuclearModification_Cor_fehy3003[1] = {
+   0.07585296};
+   grae = new TGraphAsymmErrors(1,gNuclearModification_Cor_fx3003,gNuclearModification_Cor_fy3003,gNuclearModification_Cor_felx3003,gNuclearModification_Cor_fehx3003,gNuclearModification_Cor_fely3003,gNuclearModification_Cor_fehy3003);
+   grae->SetName("gNuclearModification_Cor");
+   grae->SetTitle("Graph");
+
+   ci = 926;
+   color = new TColor(ci, 1, 1, 1, " ", 0.01);
+   grae->SetFillColor(ci);
+   grae->SetLineWidth(3);
+   grae->SetMarkerStyle(20);
+   
+   TH1F *Graph_gNuclearModification_Cor3003 = new TH1F("Graph_gNuclearModification_Cor3003","Graph",100,11.5,53.5);
+   Graph_gNuclearModification_Cor3003->SetMinimum(0.3971126);
+   Graph_gNuclearModification_Cor3003->SetMaximum(0.5791597);
+   Graph_gNuclearModification_Cor3003->SetDirectory(0);
+   Graph_gNuclearModification_Cor3003->SetStats(0);
+
+   ci = TColor::GetColor("#000099");
+   Graph_gNuclearModification_Cor3003->SetLineColor(ci);
+   Graph_gNuclearModification_Cor3003->SetMarkerStyle(20);
+   Graph_gNuclearModification_Cor3003->GetXaxis()->SetLabelFont(42);
+   Graph_gNuclearModification_Cor3003->GetXaxis()->SetLabelSize(0.035);
+   Graph_gNuclearModification_Cor3003->GetXaxis()->SetTitleSize(0.035);
+   Graph_gNuclearModification_Cor3003->GetXaxis()->SetTitleFont(42);
+   Graph_gNuclearModification_Cor3003->GetYaxis()->SetLabelFont(42);
+   Graph_gNuclearModification_Cor3003->GetYaxis()->SetLabelSize(0.035);
+   Graph_gNuclearModification_Cor3003->GetYaxis()->SetTitleSize(0.035);
+   Graph_gNuclearModification_Cor3003->GetYaxis()->SetTitleFont(42);
+   Graph_gNuclearModification_Cor3003->GetZaxis()->SetLabelFont(42);
+   Graph_gNuclearModification_Cor3003->GetZaxis()->SetLabelSize(0.035);
+   Graph_gNuclearModification_Cor3003->GetZaxis()->SetTitleSize(0.035);
+   Graph_gNuclearModification_Cor3003->GetZaxis()->SetTitleFont(42);
+   grae->SetHistogram(Graph_gNuclearModification_Cor3003);
    
    grae->Draw("5");
    Double_t xAxis1[2] = {15, 50}; 
@@ -1991,7 +2206,7 @@ tex->SetNDC();
    entry->SetTextSize(0.038);
    entry=leg->AddEntry("","CUJET3.0","f");
 
-   ci = 930;
+   ci = 931;
    color = new TColor(ci, 0.6, 0.6, 0, " ", 0.5);
    entry->SetFillColor(ci);
    entry->SetFillStyle(3344);
@@ -2004,7 +2219,7 @@ tex->SetNDC();
    entry->SetTextSize(0.038);
    entry=leg->AddEntry("","AdS/CFT HH D(p)","f");
 
-   ci = 931;
+   ci = 932;
    color = new TColor(ci, 0.6, 0.4, 0.8, " ", 0.5);
    entry->SetFillColor(ci);
    entry->SetFillStyle(3352);
@@ -2017,10 +2232,23 @@ tex->SetNDC();
    entry->SetTextSize(0.038);
    entry=leg->AddEntry("","AdS/CFT HH D=const","f");
 
-   ci = 932;
+   ci = 933;
    color = new TColor(ci, 0.2, 0.6, 0.2, " ", 0.5);
    entry->SetFillColor(ci);
    entry->SetFillStyle(3325);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(1);
+   entry->SetMarkerColor(1);
+   entry->SetMarkerStyle(21);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   entry->SetTextSize(0.038);
+   entry=leg->AddEntry("","SUBATECH","f");
+
+   ci = 934;
+   color = new TColor(ci, 1, 0.2, 0.8, " ", 0.5);
+   entry->SetFillColor(ci);
+   entry->SetFillStyle(3306);
    entry->SetLineStyle(1);
    entry->SetLineWidth(1);
    entry->SetMarkerColor(1);
