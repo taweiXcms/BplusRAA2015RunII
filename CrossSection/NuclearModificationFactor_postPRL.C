@@ -14,12 +14,13 @@
 #include "NonPromptJpsi/nonPrompt_276raa_20170201.h"
 
 bool drawB = 1;
-bool drawChHad = 0;
-bool drawDRAA = 0;
-bool drawJpsi = 0;
+
+bool drawDRAA = 1;
+bool drawChHad = drawDRAA;
+bool drawJpsi = drawDRAA;
 
 bool drawBRpA = 0;
-bool drawThm = 1;
+bool drawThm = 0;
 
 bool BSepSys = 1;
 
@@ -27,8 +28,8 @@ void adjustLegend(TLegend* l);
 void NuclearModificationFactor_postPRL(TString inputPP="ROOTfiles/CrossSectionPP.root", TString inputPbPb="ROOTfiles/CrossSectionPbPb.root",TString label="PbPb",TString outputfile="RAAfile.root", Float_t centMin=0., Float_t centMax=100.)
 {
 	float TAABarWid = 0.35;
-	float pti = ptBins[0]-2.;
-	float pte = ptBins[nBins]+5.;
+	float pti = 5;
+	float pte = 110.;
 	if(drawDRAA){
 		pti = 0.5;
 		pte = 600.;
@@ -220,6 +221,7 @@ printf("%f %f %f %f %f\n",yruncor[0],yruncor[1],yruncor[2],yruncor[3],yruncor[4]
 
 	//TLatex* texpre = new TLatex(0.15,0.84,"Preliminary");
 	TLatex* texpre = new TLatex(0.265,0.895,"Supplementary");
+	if(drawDRAA) texpre = new TLatex(0.15,0.845,"Supplementary");
 	texpre->SetNDC();
 	texpre->SetTextAlign(13);
 	texpre->SetTextFont(52);
@@ -227,9 +229,8 @@ printf("%f %f %f %f %f\n",yruncor[0],yruncor[1],yruncor[2],yruncor[3],yruncor[4]
 	texpre->SetLineWidth(2);
 	texpre->Draw();
 
-    TLegend *legendSigma=new TLegend(0.6036242,0.7474695,0.942953,0.8457592,"");
+    TLegend *legendSigma=new TLegend(0.135,0.65,0.49,0.85,"");
 	if(drawDRAA)legendSigma=new TLegend(0.3936242,0.6574695,0.812953,0.9157592,"");
-	if(drawThm)legendSigma=new TLegend(0.135,0.65,0.49,0.85,"");
 	adjustLegend(legendSigma);
 
 	//TLegendEntry *ent_SigmaPP=legendSigma->AddEntry(hNuclearModification,"R_{AA} stat. unc.","pf");
@@ -387,7 +388,7 @@ printf("%f %f %f %f %f\n",yruncor[0],yruncor[1],yruncor[2],yruncor[3],yruncor[4]
 		texlumi->SetTextFont(42);
 		texlumi->SetTextSize(0.038);
 		texlumi->SetLineWidth(2);
-		texlumi->Draw();
+		//texlumi->Draw();
 	}
 
 	if(drawBRpA){
