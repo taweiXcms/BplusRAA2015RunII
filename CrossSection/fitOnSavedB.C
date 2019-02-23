@@ -265,6 +265,7 @@ TF1 *fit(TFile *inf, Double_t ptmin, Double_t ptmax, int isMC,bool isPbPb,TF1* &
 
 	Double_t yield = mass->Integral(minhisto,maxhisto)/binwidthmass;
 	Double_t yieldErr = mass->Integral(minhisto,maxhisto)/binwidthmass*mass->GetParError(0)/mass->GetParameter(0);
+	printf("yield (err): %f (%f)\n", yield, yieldErr);
 
     TLegend *leg = new TLegend(0.525,0.46,0.85,0.75,NULL,"brNDC");//paper
 	leg->SetBorderSize(0);
